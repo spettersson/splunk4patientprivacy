@@ -13,7 +13,7 @@ sökning 2:
           | stats latest(_time) as senast_kontakt count by personaL_ID, patient_ID
           | fields personal_ID, patient_ID, senast_kontakt
          ]
-| stats max(senaste_interaktionen) as senast_kontakt by personal_ID, patient_ID
+| stats max(senast_kontakt) as senast_kontakt by personal_ID, patient_ID
 | fields personal_ID, patient_ID, senast_kontakt
 | outputlookup kontakthistorik
 sökning 3:
