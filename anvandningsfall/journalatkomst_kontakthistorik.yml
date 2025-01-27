@@ -1,11 +1,16 @@
-sökning: 
+syfte: Detta användarfall syftar till att identifiera anställda som har haft kontakt med en patient, men som inte haft någon tidigare kontakt med samma patient under de senaste 6 månaderna.
+implementering: Detta användarfall bygger på en samling av 'knowledge objects'
+sökning 1: 
 | inputlookup kontakthistorik
 | append [
-          `pdl_indexes` `pdl_sourcetypes` `pdl_sources` earliest=-1h@h latest=@h
+          `pdl_indexes` `pdl_sourcetypes` `pdl_sources` earliest=-1d@d latest=@d
           | stats latest(_time) as senast_kontakt count by personaL_ID, patient_ID
           | fields personal_ID, patient_ID, senast_kontakt
          ]
 | stats max(senaste_interaktionen) as senast_kontakt by personal_ID, patient_ID
 | fields personal_ID, patient_ID, senast_kontakt
 | outputlookup kontakthistorik
-implementering: 
+sökning 2:
+`pdl_indexes` `pdl_sourcetypes` `pdl_sources` earliest=-1h@h latest=@h
+
+sökning 3: 
