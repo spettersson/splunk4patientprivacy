@@ -18,6 +18,6 @@ sökning 2:
 | outputlookup kontakthistorik
 sökning 3:
 `pdl_indexes` `pdl_sourcetypes` `pdl_sources` earliest=-1h@h latest=@h ...
-observera: detta användarefall är community-baserade. 
+observera: detta användarefall är community-baserat
 
 
