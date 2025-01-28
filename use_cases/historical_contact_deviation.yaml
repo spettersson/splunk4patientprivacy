@@ -43,7 +43,7 @@ search 2:
                     | table staff_ID, patient_ID, last_contact
                    ]
           | stats max(last_contact) as last_contact by staff_ID, patient_ID
-          | fields staff_ID, patient_ID, last_contact
+          | table staff_ID, patient_ID, last_contact
           | outputlookup baseline_historical_contact
 - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
 - cron schedule: 0 0 * * * (scheduled to run every day of the week at midnight).
