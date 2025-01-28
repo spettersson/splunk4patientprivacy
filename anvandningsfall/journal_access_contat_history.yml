@@ -43,7 +43,7 @@ search 3:
           | eval drilldown_search =  '`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID=$staff_ID$ patient_ID=$patient_ID$ earliest=$info_min_time$ latest=$info_max_time$'
           | fields title, description, drilldown_search, staff_ID, patient_ID
           | collect index=anomaly
-- cron schedule: */10 * * * * (scheduled to run every 10th minute every day of the week).
+- cron schedule: */10 * * * * (scheduled to run every 10th minute every hour of the week).
 
 
 
