@@ -1,4 +1,4 @@
-name: contact history anomaly
+name: historical contact anomaly
 purpose: this use case aims to identify employees who recently have had contact with a patient but have not had any prior contact with the same patient in the last 6 months. 
 prerequisites: 
 - indexes: anomaly (explanation: an index where identified anomalies are stored as events)
@@ -44,15 +44,15 @@ search 2:
 - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
 - cron schedule: 0 0 * * * (scheduled to run every day of the week at midnight).
 search 3:
-- description: identifies employees who have had contact with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every match, an anomaly is triggered and stored in the anomaly index for further correlation and analytics.
+- description: identifies employees who have had contact with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every single match, an anomaly is triggered and stored in the anomaly index for further correlation and analytics.
 - search:
           `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
-          | stats count values(activity_type) as activity_type by staff_ID, patient_ID
+          | stats count by staff_ID, patient_ID
           | lookup contact_history staff_ID patient_ID
           | eval time_since_last_contact = now() - last_contact
           | eval anomaly = if(isnull(last_contact) OR time_since_last_contact >= 14515200 , "1", "0")
           | where anomaly = "1"
-          | eval title = "Contact history anomaly"
+          | eval title = "Historical contact anomaly"
           | eval description = ""
           | eval drilldown_search =  "`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID=$staff_ID$ patient_ID=$patient_ID$ earliest=$info_min_time$ latest=$info_max_time$"
           | eval risk_score = "20" 
