@@ -1,9 +1,9 @@
-purpose: this use case aims to identify employees who have had contact with a patient but have not had any prior contact with the same patient in the last 6 months.
-components: This use case leverages a collection of 'knowledge objects' (https://docs.splunk.com/Splexicon:Knowledgeobject), specifically 3 macros, 1 lookup, and 3 searches. 
+purpose: this use case aims to identify employees who have had contact with a patient but have not had any prior contact with the same patient in the last 6 months. 
 requirements: 
 - macros: pda_indexes, pda_sourcetypes, pda_sources
 - fields: staff_ID, patient_ID
 - lookups: contact_history
+- searches: search 1, search 2, search 3
 how_to_implemenet:
 - create an index called 'anomaly' 
 - create a KVstore lookup called 'contact_history', which should include the fields 'staff_ID', 'patient_ID', and 'last_contact'.
