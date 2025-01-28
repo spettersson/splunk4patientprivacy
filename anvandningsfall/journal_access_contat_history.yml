@@ -40,8 +40,9 @@ search 3:
           '`pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
           | stats count by staff_ID, patient_ID
           | lookup contact_history staff_ID patient_ID
-          | eval no_history = if(isnull(last_contact), '1', '0')
-          | where no_history = '1'
+          | eval time_diff = now() - last_contact
+          | eval anomaly = if(isnull(last_contact) OR time_diff >= 14515200 , '1', '0')
+          | where anomaly = '1'
           | eval title = ''
           | eval description = ''
           | eval drilldown_search =  '`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID=$staff_ID$ patient_ID=$patient_ID$ earliest=$info_min_time$ latest=$info_max_time$'
