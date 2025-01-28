@@ -9,8 +9,6 @@ prerequisites:
           pda_indexes (explanation: references the indexes where patient privacy act associated logs and events are stored)
           pda_sourcetypes (explanation: references the sourcetypes assigned to patient privacy act associated logs and events)
           pda_sources (explanation: references the sources assigned to patient privacy act associated logs and events)
-- tag: 
-          journal (explanaition
 - fields: 
           staff_ID (explanation: the unique identifier for the employee)
           patient_ID (explanation: the unique identifier for the patient)
@@ -27,7 +25,7 @@ how_to_implement (note: everything is case sensitive):
 search 1: 
 - description: establishes a baseline of historical contact for the past 6 months.
 - search: 
-          tag=journal earliest=-6mon
+          `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-6mon
           | fields _time, staff_ID, patient_ID
           | stats latest(_time) as last_contact count by staff_ID, patient_ID
           | table staff_ID, patient_ID, last_contact
@@ -39,7 +37,7 @@ search 2:
 - search:
           | inputlookup baseline_historical_contact
           | append [
-                    tag=journal earliest=-1d@d latest=@d
+                    `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-1d@d latest=@d
                     | fields _time, staff_ID, patient_ID
                     | stats latest(_time) as last_contact count by staff_ID, patient_ID
                     | table staff_ID, patient_ID, last_contact
@@ -52,7 +50,7 @@ search 2:
 search 3:
 - description: identifies employees who have had contact with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every single match, an anomaly is triggered and stored in the anomaly index for further correlation and analytics.
 - search:
-          tag=journal earliest=-12min@min latest=-2min@min
+          `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
           | fields _time, staff_ID, patient_ID
           | stats count by staff_ID, patient_ID
           | lookup baseline_historical_contact staff_ID patient_ID
