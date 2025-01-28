@@ -18,6 +18,7 @@ search 1:
           | stats latest(_time) as last_contact count by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
           | outputlookup contact_history'
+- time range picker:
 - cron schedule: N/A (run only once, that is, ad-hoc).
 search 2: 
 - description: incrementally updates the contact history daily.
@@ -31,6 +32,7 @@ search 2:
           | stats max(last_contact) as last_contact by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
           | outputlookup contact_history'
+- time range picker: 
 - cron schedule: 0 0 * * * (scheduled to run every day of the week at midnight).
 search 3:
 - description: identifies employees with no prior patient contact and triggers an anomaly for every single match.  
@@ -45,6 +47,7 @@ search 3:
           | eval drilldown_search =  '`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID=$staff_ID$ patient_ID=$patient_ID$ earliest=$info_min_time$ latest=$info_max_time$'
           | fields title, description, drilldown_search, staff_ID, patient_ID
           | collect index=anomaly'
+- time range picker: 
 - cron schedule: */10 * * * * (scheduled to run every 10th minute every hour of the week).
 
 
