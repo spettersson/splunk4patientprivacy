@@ -34,7 +34,7 @@ search 1:
 search 2: 
 - description: incrementally updates the contact history daily.
 - search:
-          | inputlookup baseline_contact_history
+          | inputlookup baseline_historical_contact
           | append [
                     tag=journal earliest=-1d@d latest=@d
                     | stats latest(_time) as last_contact count by staff_ID, patient_ID
