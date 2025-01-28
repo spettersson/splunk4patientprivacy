@@ -32,7 +32,7 @@ search 1:
 - time range picker: the time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
 - cron schedule: N/A (run only once in the search bar).
 search 2: 
-- description: incrementally updates the contact history daily.
+- description: incrementally updates the historical contact daily.
 - search:
           | inputlookup contact_history
           | append [
