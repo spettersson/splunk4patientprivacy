@@ -4,7 +4,7 @@ prerequisites:
 - indexes: 
           anomaly (explanation: an index where identified anomalies are stored as events)
 - lookups: 
-          contact_history (explanation: a lookup file that stores information about when employees and patients last have had contact)
+          baseline_contact_history (explanation: a lookup file that stores information about when employees and patients last have had contact)
 - macros: 
           pda_indexes (explanation: references the indexes where patient privacy act associated logs and events are stored)
           pda_sourcetypes (explanation: references the sourcetypes assigned to patient privacy act associated logs and events)
@@ -18,7 +18,7 @@ prerequisites:
           search 3
 how_to_implement:
           1. create an index called 'anomaly'.
-          2. create a KVstore lookup called 'contact_history', which should include the fields 'staff_ID', 'patient_ID', and 'last_contact'.
+          2. create a KVstore lookup called 'baseline_contact_history', which should include the fields 'staff_ID', 'patient_ID', and 'last_contact'.
           3. create the field extractions for 'staff_ID' and 'patient_ID'.
           4. create the macros 'pda_indexes', 'pda_sourcetypes', and 'pda_sources'. Have them refer to the indexes, sourcetypes and sources that are used by the logs and events that fall under the Patient Data Act - this ensures that when the macros are referenced in a search, Splunk will retreive the right data. 
           5. create 'search 1', followed by 'search 2', followed by 'search 3'.
@@ -28,13 +28,13 @@ search 1:
           `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-6mon
           | stats latest(_time) as last_contact count by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
-          | outputlookup contact_history
+          | outputlookup baseline_contact_history
 - time range picker: the time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
 - cron schedule: N/A (run only once in the search bar).
 search 2: 
 - description: incrementally updates the contact history daily.
 - search:
-          | inputlookup contact_history
+          | inputlookup baseline_contact_history
           | append [
                     `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-1d@d latest=@d
                     | stats latest(_time) as last_contact count by staff_ID, patient_ID
@@ -42,7 +42,7 @@ search 2:
                    ]
           | stats max(last_contact) as last_contact by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
-          | outputlookup contact_history
+          | outputlookup baseline_contact_history
 - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
 - cron schedule: 0 0 * * * (scheduled to run every day of the week at midnight).
 search 3:
@@ -50,7 +50,7 @@ search 3:
 - search:
           `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
           | stats count by staff_ID, patient_ID
-          | lookup contact_history staff_ID patient_ID
+          | lookup baseline_contact_history staff_ID patient_ID
           | eval time_since_last_contact = now() - last_contact
           | eval anomaly = if(isnull(last_contact) OR time_since_last_contact >= 14515200 , "1", "0")
           | where anomaly = "1"
