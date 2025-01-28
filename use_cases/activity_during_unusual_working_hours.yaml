@@ -1,5 +1,5 @@
 name: activity during unusual working hours
-purpose: this use case aims to identify employees that have journal activity during working hours that are unusual based on historical patterns.
+purpose: this use case aims to identify employees that have activity during working hours that are unusual based on historical patterns.
 prerequisites: 
 - indexes: 
           anomaly_collection (explanation: an index where identified anomalies are stored as events)
