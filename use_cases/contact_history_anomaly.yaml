@@ -55,8 +55,8 @@ search 3:
           | eval title = ""
           | eval description = ""
           | eval drilldown_search =  "`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID=$staff_ID$ patient_ID=$patient_ID$ earliest=$info_min_time$ latest=$info_max_time$"
-          | eval risk_score = "20"
+          | eval risk_score = "20" 
           | fields title, description, drilldown_search, risk_score, staff_ID, patient_ID, event_count, event_type
           | collect index=anomaly'
 - time range picker: the time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
-- cron schedule: */10 * * * * (scheduled to run every 10th minute every hour of the week).
+- cron schedule: */10 * * * * (scheduled to run every 10th minute of every hour, 24/7, across all days of the week).
