@@ -3,7 +3,7 @@ prerequisites:
 - indexes: anomaly
 - lookups: contact_history
 - macros: pda_indexes, pda_sourcetypes, pda_sources
-- fields: staff_ID, patient_ID
+- fields: staff_ID, patient_ID, activity_type
 - searches: search 1, search 2, search 3
 how_to_implemenet:
 - create an index called 'anomaly'.
@@ -38,7 +38,7 @@ search 3:
 - description: identifies employees who have had contact with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every match, an anomaly is triggered and stored in the anomaly index for further correlation and analytics.
 - search:
           '`pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
-          | stats count by staff_ID, patient_ID
+          | stats count values(activity_type) as activity_type by staff_ID, patient_ID
           | lookup contact_history staff_ID patient_ID
           | eval time_diff = now() - last_contact
           | eval anomaly = if(isnull(last_contact) OR time_diff >= 14515200 , "1", "0")
