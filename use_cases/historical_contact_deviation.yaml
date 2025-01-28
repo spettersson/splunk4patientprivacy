@@ -9,6 +9,8 @@ prerequisites:
           pda_indexes (explanation: references the indexes where patient privacy act associated logs and events are stored)
           pda_sourcetypes (explanation: references the sourcetypes assigned to patient privacy act associated logs and events)
           pda_sources (explanation: references the sources assigned to patient privacy act associated logs and events)
+- tag: 
+          journal (explanaition
 - fields: 
           staff_ID (explanation: the unique identifier for the employee)
           patient_ID (explanation: the unique identifier for the patient)
@@ -26,8 +28,9 @@ search 1:
 - description: establishes a baseline of historical contact for the past 6 months.
 - search: 
           tag=journal earliest=-6mon
+          | fields _time, staff_ID, patient_ID
           | stats latest(_time) as last_contact count by staff_ID, patient_ID
-          | fields staff_ID, patient_ID, last_contact
+          | table staff_ID, patient_ID, last_contact
           | outputlookup baseline_contact_history
 - time range picker: the time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
 - cron schedule: N/A (run only once in the search bar).
@@ -37,8 +40,9 @@ search 2:
           | inputlookup baseline_historical_contact
           | append [
                     tag=journal earliest=-1d@d latest=@d
+                    | fields _time, staff_ID, patient_ID
                     | stats latest(_time) as last_contact count by staff_ID, patient_ID
-                    | fields staff_ID, patient_ID, last_contact
+                    | table staff_ID, patient_ID, last_contact
                    ]
           | stats max(last_contact) as last_contact by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
@@ -49,8 +53,9 @@ search 3:
 - description: identifies employees who have had contact with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every single match, an anomaly is triggered and stored in the anomaly index for further correlation and analytics.
 - search:
           tag=journal earliest=-12min@min latest=-2min@min
+          | fields _time, staff_ID, patient_ID
           | stats count by staff_ID, patient_ID
-          | lookup baseline_contact_history staff_ID patient_ID
+          | lookup baseline_historical_contact staff_ID patient_ID
           | eval time_since_last_contact = now() - last_contact
           | eval anomaly = if(isnull(last_contact) OR time_since_last_contact >= 14515200 , "1", "0")
           | where anomaly = "1"
@@ -60,6 +65,6 @@ search 3:
           | eval drilldown_search="`pda_indexes` `pda_sourcetypes` `pda_sources` Staff_ID=" . Staff_ID . " Patient_ID=" . Patient_ID . " earliest=" . info_min_time . " latest=" . info_max_time
           | eval risk_score = "20" 
           | fields title, description, drilldown_search, risk_score, staff_ID, patient_ID
-          | collect index=anomaly addinfo=false
+          | collect index=anomaly_collection addinfo=false
 - time range picker: the time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
 - cron schedule: */10 * * * * (scheduled to run every 10th minute of every hour, 24/7, across all days of the week).
