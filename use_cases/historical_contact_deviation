@@ -1,4 +1,4 @@
-name: historical contact anomaly
+name: historical contact deviation
 purpose: this use case aims to identify employees who recently have had contact with a patient but have not had any prior contact with the same patient in the last 6 months. 
 prerequisites: 
 - indexes: 
@@ -54,7 +54,7 @@ search 3:
           | eval time_since_last_contact = now() - last_contact
           | eval anomaly = if(isnull(last_contact) OR time_since_last_contact >= 14515200 , "1", "0")
           | where anomaly = "1"
-          | eval title = "Historical contact anomaly"
+          | eval title = "Historical contact deviation"
           | eval description = ""
           | addinfo
           | eval drilldown_search="`pda_indexes` `pda_sourcetypes` `pda_sources` Staff_ID=" . Staff_ID . " Patient_ID=" . Patient_ID . " earliest=" . info_min_time . " latest=" . info_max_time
