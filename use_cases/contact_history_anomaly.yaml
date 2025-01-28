@@ -27,7 +27,7 @@ search 1:
           | stats latest(_time) as last_contact count by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
           | outputlookup contact_history'
-- time range picker:  the time range for search 1 is explicitly defined within the search using the earliest optios (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
+- time range picker: the time range for search 1 is explicitly defined within the search using the earliest optios (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
 - cron schedule: N/A (run only once in the search bar).
 search 2: 
 - description: incrementally updates the contact history daily.
