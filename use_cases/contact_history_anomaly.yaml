@@ -15,11 +15,11 @@ prerequisites:
           search 2
           search 3
 how_to_implement:
-- create an index called 'anomaly'.
-- create a KVstore lookup called 'contact_history', which should include the fields 'staff_ID', 'patient_ID', and 'last_contact'.
-- create the field extractions for 'staff_ID' and 'patient_ID'.
-- create the macros 'pda_indexes', 'pda_sourcetypes', and 'pda_sources'. Have them refer to the indexes, sourcetypes and sources that are used by the logs and events that fall under the Patient Data Act - this will ensure that when the macros are referenced in a search, Splunk will retreive the right data. 
-- create 'search 1', followed by 'search 2', followed by 'search 3'.
+          1. create an index called 'anomaly'.
+          2. create a KVstore lookup called 'contact_history', which should include the fields 'staff_ID', 'patient_ID', and 'last_contact'.
+          3. create the field extractions for 'staff_ID' and 'patient_ID'.
+          4. create the macros 'pda_indexes', 'pda_sourcetypes', and 'pda_sources'. Have them refer to the indexes, sourcetypes and sources that are used by the logs and events that fall under the Patient Data Act - this will ensure that when the macros are referenced in a search, Splunk will retreive the right data. 
+          5. create 'search 1', followed by 'search 2', followed by 'search 3'.
 search 1: 
 - description: establishes a baseline of contact history for the past 6 months.
 - search: 
