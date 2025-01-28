@@ -1,8 +1,10 @@
 name: historical contact anomaly
 purpose: this use case aims to identify employees who recently have had contact with a patient but have not had any prior contact with the same patient in the last 6 months. 
 prerequisites: 
-- indexes: anomaly (explanation: an index where identified anomalies are stored as events)
-- lookups: contact_history (explanation: a lookup file that stores information about when employees and patients last have had contact)
+- indexes: 
+          anomaly (explanation: an index where identified anomalies are stored as events)
+- lookups: 
+          contact_history (explanation: a lookup file that stores information about when employees and patients last have had contact)
 - macros: 
           pda_indexes (explanation: references the indexes where patient privacy act associated logs and events are stored)
           pda_sourcetypes (explanation: references the sourcetypes assigned to patient privacy act associated logs and events)
