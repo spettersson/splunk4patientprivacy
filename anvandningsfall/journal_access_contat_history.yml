@@ -1,8 +1,9 @@
 purpose: this use case aims to identify employees who have had contact with a patient but have not had any prior contact with the same patient in the last 6 months. 
 requirements: 
+- indexes: anomaly
+- lookups: contact_history
 - macros: pda_indexes, pda_sourcetypes, pda_sources
 - fields: staff_ID, patient_ID
-- lookups: contact_history
 - searches: search 1, search 2, search 3
 how_to_implemenet:
 - create an index called 'anomaly' 
