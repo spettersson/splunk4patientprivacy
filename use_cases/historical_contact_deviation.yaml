@@ -31,7 +31,7 @@ search 1:
           | fields _time, staff_ID, patient_ID
           | stats latest(_time) as last_contact count by staff_ID, patient_ID
           | table staff_ID, patient_ID, last_contact
-          | outputlookup baseline_contact_history
+          | outputlookup baseline_historical_contact
 - time range picker: the time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
 - cron schedule: N/A (run only once in the search bar).
 search 2: 
@@ -46,7 +46,7 @@ search 2:
                    ]
           | stats max(last_contact) as last_contact by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
-          | outputlookup baseline_contact_history
+          | outputlookup baseline_historical_contact
 - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
 - cron schedule: 0 0 * * * (scheduled to run every day of the week at midnight).
 search 3:
