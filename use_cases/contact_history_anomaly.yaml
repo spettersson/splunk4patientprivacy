@@ -23,16 +23,16 @@ how_to_implement:
 search 1: 
 - description: establishes a baseline of contact history for the past 6 months.
 - search: 
-          '`pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-6mon
+          `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-6mon
           | stats latest(_time) as last_contact count by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
-          | outputlookup contact_history'
+          | outputlookup contact_history
 - time range picker: the time range for search 1 is explicitly defined within the search using the earliest optios (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
 - cron schedule: N/A (run only once in the search bar).
 search 2: 
 - description: incrementally updates the contact history daily.
 - search:
-          '| inputlookup contact_history
+          | inputlookup contact_history
           | append [
                     `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-1d@d latest=@d
                     | stats latest(_time) as last_contact count by staff_ID, patient_ID
@@ -40,13 +40,13 @@ search 2:
                    ]
           | stats max(last_contact) as last_contact by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_contact
-          | outputlookup contact_history'
+          | outputlookup contact_history
 - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
 - cron schedule: 0 0 * * * (scheduled to run every day of the week at midnight).
 search 3:
 - description: identifies employees who have had contact with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every match, an anomaly is triggered and stored in the anomaly index for further correlation and analytics.
 - search:
-          '`pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
+          `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
           | stats count values(activity_type) as activity_type by staff_ID, patient_ID
           | lookup contact_history staff_ID patient_ID
           | eval time_since_last_contact = now() - last_contact
@@ -57,6 +57,6 @@ search 3:
           | eval drilldown_search =  "`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID=$staff_ID$ patient_ID=$patient_ID$ earliest=$info_min_time$ latest=$info_max_time$"
           | eval risk_score = "20" 
           | fields title, description, drilldown_search, risk_score, staff_ID, patient_ID, event_count, event_type
-          | collect index=anomaly'
+          | collect index=anomaly
 - time range picker: the time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
 - cron schedule: */10 * * * * (scheduled to run every 10th minute of every hour, 24/7, across all days of the week).
