@@ -19,7 +19,7 @@ search 1:
           | fields staff_ID, patient_ID, last_contact
           | outputlookup contact_history'
 - time range picker:
-- cron schedule: N/A (run only once, that is, ad-hoc).
+- cron schedule: N/A (run only once in the search bar).
 search 2: 
 - description: incrementally updates the contact history daily.
 - search:
