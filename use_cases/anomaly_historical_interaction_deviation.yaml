@@ -2,6 +2,8 @@ name: historical interaction deviation
 type: anomaly-triggering
 purpose: this use case aims to identify employees who recently interacted with a patient without having any prior history of interaction in the last 6 months. 
 prerequisites: 
+- datasources: 
+
 - indexes: 
           anomaly_collection (explanation: an index where identified anomalies are stored as events)
 - lookups: 
