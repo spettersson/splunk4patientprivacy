@@ -1,6 +1,6 @@
 name: unusual working hours
 type: anomaly-triggering
-purpose: this use case aims to identify employees that interact with journals during working hours that are unusual based on historical patterns.
+purpose: this use case aims to identify employees that interact with journals during working hours that are unusual based on historical behaviour.
 prerequisites: 
 - indexes: 
 - lookups: 
