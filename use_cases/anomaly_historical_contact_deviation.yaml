@@ -43,8 +43,6 @@ search 2:
                     | table staff_ID, patient_ID, last_contact
                    ]
           | stats max(last_contact) as last_contact by staff_ID, patient_ID
-          | eval 6_month_ago = now() - 14515200
-          | where last_contact >= 6_month_ago
           | table staff_ID, patient_ID, last_contact
           | outputlookup baseline_historical_contact
 - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
@@ -57,7 +55,7 @@ search 3:
           | stats count by staff_ID, patient_ID
           | lookup baseline_historical_contact staff_ID patient_ID
           | eval time_since_last_contact = now() - last_contact
-          | eval anomaly = if(isnull(last_contact), "1", "0")
+          | eval anomaly = if(isnull(last_contact) OR time_since_last_contact >= 14515200 , "1", "0")
           | where anomaly = "1"
           | eval title = "Historical contact deviation"
           | eval description = ""
