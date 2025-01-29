@@ -2,8 +2,8 @@ name: acceptable risk violated
 type: incident-triggering
 prerequisites: 
 - indexes: 
-          anomaly_collection
-          incident_collection 
+          anomaly_collection (explanation: an index where identified anomalies are stored as events)
+          incident_collection (explanation: an index where identified incidents are stored as events)
 - lookups: 
 - macros: 
           pda_indexes (explanation: references the indexes where patient privacy act associated logs and events are stored)
