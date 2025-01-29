@@ -16,7 +16,7 @@ prerequisites:
           search 1
           search 2
           search 3
-how_to_implement (note: everything is case sensitive, and the steps below should be executed in a sequential order):
+how_to_implement (note: everything is case sensitive, and the steps 1-5 should be executed in a sequential order):
           1. create an index called 'anomaly_collection'.
           2. create a KVstore lookup called 'baseline_historical_interaction', which should include the fields 'staff_ID', 'patient_ID', and 'last_interaction'.
           3. create the field extractions and field aliases for 'staff_ID' and 'patient_ID'. 
