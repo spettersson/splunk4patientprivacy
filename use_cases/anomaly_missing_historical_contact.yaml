@@ -1,4 +1,4 @@
-name: historical contact deviation
+name: missing historical contact
 purpose: this use case aims to identify employees who recently have had contact with a patient but have not had any prior contact with the same patient in the last 6 months. 
 prerequisites: 
 - indexes: 
