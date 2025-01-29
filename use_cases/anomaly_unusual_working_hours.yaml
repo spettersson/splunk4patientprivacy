@@ -1,4 +1,5 @@
 name: unusual working hours
+type: anomaly-triggering
 purpose: this use case aims to identify employees that have activity during working hours that are unusual based on historical patterns.
 prerequisites: 
 - indexes: 
