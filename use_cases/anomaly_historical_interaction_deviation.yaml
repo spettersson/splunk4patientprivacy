@@ -60,7 +60,7 @@ search 3:
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_interaction) AS last_interaction 
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_interaction) AS baseline_last_interaction 
           | eval title = "Missing historical interaction"
-          | eval description = "Employee ID ".staff_ID." started interacting with Patient ID ".patient_ID." on ".last_interaction.". The last recorded interaction prior to that was on ".baseline_historical_interaction."."
+          | eval description = "Employee ID ".staff_ID." started interacting with Patient ID ".patient_ID." on ".last_interaction.". The last recorded interaction prior to that was on ".baseline_last_interaction."."
           | addinfo
           | eval drilldown_search="`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID=" . staff_ID . " patient_ID=" . patient_ID . " earliest=" . info_min_time . " latest=" . info_max_time
           | eval risk_score = "20" ```this should be a value ranging from 0 and 100 - please adjust so it aligns with the perceived risk of this type of anomaly```
