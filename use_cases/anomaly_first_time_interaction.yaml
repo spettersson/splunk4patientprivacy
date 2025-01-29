@@ -1,4 +1,4 @@
-name: historical interaction deviation
+name: first time interaction
 type: anomaly-triggering
 purpose: this use case aims to identify employees who recently interacted with a patient without having any prior history of interaction in the last 6 months. 
 prerequisites: 
