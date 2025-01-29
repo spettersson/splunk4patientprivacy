@@ -56,7 +56,7 @@ search 3:
           | stats count earliest(_time) as last_interaction by staff_ID, patient_ID
           | lookup baseline_historical_interaction staff_ID patient_ID OUTPUT last_interaction AS baseline_last_interaction
           | eval time_since_last_interaction = now() - baseline_last_interaction
-          | eval anomaly = if(isnull(last_interaction) OR time_since_last_interaction >= 14515200 , "1", "0")
+          | eval anomaly = if(isnull(baseline_last_interaction) OR time_since_last_interaction >= 14515200 , "1", "0")
           | where anomaly = "1"
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_interaction) AS last_interaction 
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_interaction) AS baseline_last_interaction 
