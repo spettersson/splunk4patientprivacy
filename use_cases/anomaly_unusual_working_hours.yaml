@@ -4,7 +4,7 @@ prerequisites:
 - indexes: 
           anomaly_collection (explanation: an index where identified anomalies are stored as events)
 - lookups: 
-          baseline_contact_history (explanation: a lookup file that stores information about when employees and patients last have had contact)
+          baseline_working_hours (explanation: a lookup file that stores information about when employees and patients last have had contact)
 - macros: 
           pda_indexes (explanation: references the indexes where patient privacy act associated logs and events are stored)
           pda_sourcetypes (explanation: references the sourcetypes assigned to patient privacy act associated logs and events)
