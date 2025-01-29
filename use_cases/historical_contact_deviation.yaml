@@ -10,13 +10,13 @@ prerequisites:
           pda_sourcetypes (explanation: references the sourcetypes assigned to patient privacy act associated logs and events)
           pda_sources (explanation: references the sources assigned to patient privacy act associated logs and events)
 - fields: 
-          staff_ID (explanation: the unique identifier for the employee)
-          patient_ID (explanation: the unique identifier for the patient)
+          staff_ID (explanation: a unique identifier for the employee)
+          patient_ID (explanation: a unique identifier for the patient)
 - searches: 
           search 1
           search 2
           search 3
-how_to_implement (note: everything is case sensitive):
+how_to_implement (note: everything is case sensitive, and the steps should be done in a sequential order):
           1. create an index called 'anomaly_collection'.
           2. create a KVstore lookup called 'baseline_historical_contact', which should include the fields 'staff_ID', 'patient_ID', and 'last_contact'.
           3. create the field extractions and field aliases for 'staff_ID' and 'patient_ID'. 
@@ -43,6 +43,8 @@ search 2:
                     | table staff_ID, patient_ID, last_contact
                    ]
           | stats max(last_contact) as last_contact by staff_ID, patient_ID
+          | eval 6_month_ago = now() - 14515200
+          | where last_contact >= 6_month_ago
           | table staff_ID, patient_ID, last_contact
           | outputlookup baseline_historical_contact
 - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
@@ -55,13 +57,13 @@ search 3:
           | stats count by staff_ID, patient_ID
           | lookup baseline_historical_contact staff_ID patient_ID
           | eval time_since_last_contact = now() - last_contact
-          | eval anomaly = if(isnull(last_contact) OR time_since_last_contact >= 14515200 , "1", "0")
+          | eval anomaly = if(isnull(last_contact), "1", "0")
           | where anomaly = "1"
           | eval title = "Historical contact deviation"
           | eval description = ""
           | addinfo
           | eval drilldown_search="`pda_indexes` `pda_sourcetypes` `pda_sources` Staff_ID=" . Staff_ID . " Patient_ID=" . Patient_ID . " earliest=" . info_min_time . " latest=" . info_max_time
-          | eval risk_score = "20" ```this should be a value ranging from 0 and 100 - please adjust so it aligns with your perceived risk of this type of anomaly```
+          | eval risk_score = "20" ```this should be a value ranging from 0 and 100 - please adjust so it aligns with the perceived risk of this type of anomaly```
           | fields title, description, drilldown_search, risk_score, staff_ID, patient_ID
           | collect index=anomaly_collection addinfo=false
 - time range picker: the time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
