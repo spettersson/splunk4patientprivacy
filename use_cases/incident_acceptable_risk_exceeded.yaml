@@ -26,8 +26,7 @@ search 1:
           | eventstats sum(risk_score) by staff_ID
           | stats sum(risk_score) values(drilldown_search) by staff_ID
           | addinfo
-          | eval incident_ID_hash_seed = description.info_search_time
-          | eval incident_ID = md5(incident_ID_hash_seed)
+          | eval incident_ID = md5(description.info_search_time)
           | collect index=incident_collection addinfo=false
 - time range picker: 
 - cron schedule: 
