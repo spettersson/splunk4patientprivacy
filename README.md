@@ -4,14 +4,14 @@ This repository was created to help organizations quickly get started with **Spl
 ## 📌 What You'll Find Here
 
 ### 🔍 Use Cases
-This repo contains **detections** to identify potential privacy violations:
+This repo contains **use cases** that work together to surface incidents that potenially could indicate a violation of patient privacy.
 
 #### **1️⃣ Anomaly-Triggering**
-- Designed to **identify anomalies** based on searching and correlating logs/events.
-- Helps to surface behaviour that 
+- Designed to **identify unusual behaviour** based on searching and correlating logs/events and trigger anomalies.
+- Helps to surface behaviour that is unusual, but alone does not indicate a violation of patient privacy.
 
 #### **2️⃣ Incident-Triggering**
-- Designed to **correlate anomalies into group them into incidents**.
+- Designed to **correlate and group anomalies together and trigger incidents**.
 - Helps generate **actionable alerts** when multiple anomalies indicate a breach or policy violation.
 
 ### 📊 Dashboards
