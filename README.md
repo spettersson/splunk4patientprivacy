@@ -1,5 +1,5 @@
 
-This repository was created to help organizations quickly get started with **Splunk Enterprise/Cloud** to enhance **patient privacy protection**.
+This repository was created to help organizations quickly get started with **Splunk Enterprise/Cloud** to protect **patient privacy**.
 
 ## 📌 What You'll Find Here
 
