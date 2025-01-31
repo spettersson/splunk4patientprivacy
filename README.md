@@ -11,7 +11,7 @@ This repo contains **detections** to identify potential privacy violations:
 - Helps detect unusual activity that could indicate potential privacy concerns.
 
 #### **2️⃣ Incident-Triggering Detections**
-- Designed to **correlate anomalies into incidents**.
+- Designed to **group anomalies into incidents**.
 - Helps generate **actionable alerts** when multiple anomalies indicate a breach or policy violation.
 
 ### 📊 Dashboards
