@@ -1,4 +1,4 @@
-name: acceptable risk violated
+name: acceptable risk exceeded
 type: incident-triggering
 prerequisites: 
 - indexes: 
@@ -7,7 +7,12 @@ prerequisites:
 - lookups: 
 - macros: 
 - fields: 
-          because the event that are written to index=anomaly_collect
+          title
+          description
+          staff_ID
+          patient_ID
+          risk_score
+          drilldown_search
 - searches: 
           search 1
 how_to_implement:
@@ -16,5 +21,8 @@ how_to_implement:
 search 1: 
 - description: 
 - search: 
+          index=anomaly_collection earliest=-24h
+          | eventstats sum(risk_score) by staff_ID
+          | stats sum(risk_score) values(drilldown_search) by staff_ID
 - time range picker: 
 - cron schedule: 
