@@ -1,11 +1,21 @@
-# Patient Privacy
 
-This repo was brought to life to help organisations quickly get started using Splunk Enterprise/Cloud to protect patient privacy.
+This repository was created to help organizations quickly get started with **Splunk Enterprise/Cloud** to enhance **patient privacy protection**.
 
-What you find here is:
-- detections
-  anomaly-triggering: designed to identity anomalies based on logs/events
-  incident-triggering: designed to identify incidents based on anomalies
-dashboards
+## 📌 What You'll Find Here
+
+### 🔍 Detections
+This repo contains **detections** to identify potential privacy violations:
+
+#### **1️⃣ Anomaly-Triggering Detections**
+- Designed to **identify anomalies** based on logs/events.
+- Helps detect unusual activity that could indicate potential privacy concerns.
+
+#### **2️⃣ Incident-Triggering Detections**
+- Designed to **correlate anomalies into incidents**.
+- Helps generate **actionable alerts** when multiple anomalies indicate a breach or policy violation.
+
+### 📊 Dashboards
+- Prebuilt **Splunk dashboards** for visualizing anomalies and incidents.
+- Helps security and compliance teams **investigate** potential privacy violations.
 
 
