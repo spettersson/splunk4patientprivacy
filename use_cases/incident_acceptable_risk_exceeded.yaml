@@ -13,7 +13,8 @@ prerequisites:
           staff_ID
           patient_ID
           risk_score
-          drilldown_search
+          use_case_ID
+          anomaly_ID
 - searches: 
           search 1
 how_to_implement:
