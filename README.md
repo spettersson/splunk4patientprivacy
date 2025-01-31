@@ -11,7 +11,7 @@ This repo contains **use cases** that work together to surface incidents that po
 - Helps to surface behaviour that is unusual but may not alone indicate a violation of patient privacy.
 
 #### Incident-Triggering
-- Designed to **correlate and group anomalies together and trigger incidents**.
+- Designed to **correlate and group anomalies together** and trigger incidents.
 - Helps generate **actionable alerts** when multiple anomalies indicate a breach or policy violation.
 
 ### 📊 Dashboards
