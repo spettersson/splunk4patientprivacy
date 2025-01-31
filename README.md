@@ -7,11 +7,11 @@ This repository was created to help organizations quickly get started with **Spl
 This repo contains **detections** to identify potential privacy violations:
 
 #### **1️⃣ Anomaly-Triggering Use Cases**
-- Designed to **identify anomalies** based on logs/events.
+- Designed to **identify anomalies** based on searching and correlating logs/events.
 - Helps detect unusual activity that could indicate potential privacy concerns.
 
 #### **2️⃣ Incident-Triggering Use Cases**
-- Designed to **group anomalies into incidents**.
+- Designed to **correlate anomalies into group them into incidents**.
 - Helps generate **actionable alerts** when multiple anomalies indicate a breach or policy violation.
 
 ### 📊 Dashboards
