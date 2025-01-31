@@ -69,7 +69,9 @@ search 3:
           | eval description = "Employee ID ".staff_ID." started interacting with Patient ID ".patient_ID." on ".last_interaction.". The last recorded interaction prior to that was on ".baseline_last_interaction."."
           | eval use_case_ID="UC1"
           | eval risk_score = "20" ```this should be a value ranging from 0 and 100 - make sure to adjust according to the perceived risk of this type of anomaly```
-          | fields use_case_ID, title, description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_interaction, baseline_last_interaction
+          | addinfo
+          | eval anomaly_ID = md5(description.info_search_time)
+          | fields use_case_ID, anomaly_ID, title, description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_interaction, baseline_last_interaction, info_search_time, info_min_time, info_max_time
           | collect index=anomaly_collection 
 - time range picker: the time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
 - cron schedule: */10 * * * * (scheduled to run every 10th minute of every hour, 24/7, across all days of the week).
