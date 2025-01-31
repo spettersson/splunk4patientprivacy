@@ -1,5 +1,6 @@
 name: acceptable risk exceeded
 type: incident-triggering
+purpose: 
 prerequisites: 
 - indexes: 
           anomaly_collection (explanation: an index where identified anomalies are stored as events)
