@@ -1,6 +1,6 @@
 name: first time interaction
 type: anomaly-triggering
-use_case_ID: UC1
+use_case_ID: uc1
 purpose: this use case aims to identify employees who recently interacted with a patient without having any prior history of interaction in the last 6 months. 
 prerequisites: 
 - data_sources: 
