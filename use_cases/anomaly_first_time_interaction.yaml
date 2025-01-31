@@ -3,7 +3,7 @@ type: anomaly-triggering
 purpose: this use case aims to identify employees who recently interacted with a patient without having any prior history of interaction in the last 6 months. 
 prerequisites: 
 - datasources: 
-          Any data source that includes information about interactions between employees and patients. 
+          any data source that includes information about interactions between employees and patients. 
 - indexes: 
           anomaly_collection (explanation: an index where identified anomalies are stored as events)
 - lookups: 
