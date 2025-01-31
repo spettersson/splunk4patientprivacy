@@ -9,9 +9,9 @@ prerequisites:
 - lookups: 
           baseline_historical_interaction (explanation: a lookup file that stores information about when employees and patients last have interacted)
 - macros: 
-          pda_indexes (explanation: references the indexes where patient privacy act associated logs and events are stored)
-          pda_sourcetypes (explanation: references the sourcetypes assigned to patient privacy act associated logs and events)
-          pda_sources (explanation: references the sources assigned to patient privacy act associated logs and events)
+          pda_indexes (explanation: references the indexes where patient data act associated logs and events are stored)
+          pda_sourcetypes (explanation: references the sourcetypes assigned to patient data act associated logs and events)
+          pda_sources (explanation: references the sources assigned to patient data act associated logs and events)
 - fields: 
           staff_ID (explanation: a unique identifier for the employee)
           patient_ID (explanation: a unique identifier for the patient)
