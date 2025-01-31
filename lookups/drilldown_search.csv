@@ -1,5 +1,5 @@
 use_case_ID, drilldown_search
-"UC1","`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID="$staff_ID$. patient_ID= $patient_ID$  earliest=$earliest$ latest=$latest$"
+"UC1","`pda_indexes` `pda_sourcetypes` `pda_sources` staff_ID="$staff_ID$. patient_ID="$patient_ID$" earliest=$earliest$ latest=$latest$"
 "UC2",
 "UC3",
 "UC4",
