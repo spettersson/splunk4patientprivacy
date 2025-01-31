@@ -18,13 +18,14 @@ prerequisites:
           search 1
 how_to_implement:
           1. create an index called 'anomaly_collection' and 'incident_collection'. 
-          5. create 'search 1' as a report and then schedule it according to the instructions below. 
+          5. create 'search 1' as a report and then schedule it according to the instructions. 
 search 1: 
 - description: 
 - search: 
           index=anomaly_collection earliest=-24h
-          | eventstats sum(risk_score) by staff_ID
-          | stats sum(risk_score) values(drilldown_search) by staff_ID
+          | stats sum(risk_score) as risk_score list(drilldown_search) as drilldown_search list(patient_ID) as patient_ID by staff_ID
+          | eval drilldown_search = mvjoin(drilldown_search,",")
+          | eval drilldown_search = mvjoin(",")
           | addinfo
           | eval incident_ID = md5(description.info_search_time)
           | collect index=incident_collection addinfo=false
