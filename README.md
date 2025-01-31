@@ -4,7 +4,8 @@ This repo was brought to life to help organisations quickly get started using Sp
 
 What you find here is:
 - detections
--- anomaly-triggering: designed to identity anomalies
+  anomaly-triggering: designed to identity anomalies based on logs/events
+  incident-triggering: designed to identify incidents based on anomalies
 dashboards
 
 
