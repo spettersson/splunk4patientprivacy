@@ -9,8 +9,6 @@ prerequisites:
 - lookups: 
 - macros: 
 - fields: 
-          title
-          description
           staff_ID
           patient_ID
           risk_score
@@ -32,7 +30,7 @@ search 1:
           | eval incident_title = ""
           | eval incident_description = ""
           | addinfo
-          | eval incident_ID = md5(description.info_search_time)
+          | eval incident_ID = md5(incident_description.info_search_time)
           | fields incident_ID, incident_title, incident_description, staff_ID, patient_ID, distinct_anomalies, total_anomalies, anomaly_ID, info_search_time, info_min_time, info_max_time
           | collect index=incident_collection addinfo=false
 - time range picker: 
