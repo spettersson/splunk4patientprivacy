@@ -16,6 +16,6 @@ This repo contains **use cases** that work together to surface incidents that po
 
 ### 📊 Dashboards
 - Prebuilt **Splunk dashboards** for visualizing anomalies and incidents.
-- Helps security and compliance teams **investigate** potential privacy violations.
+- Helps organisations **investigate** potential privacy violations.
 
 
