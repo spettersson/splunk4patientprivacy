@@ -25,6 +25,9 @@ search 1:
           index=anomaly_collection earliest=-24h
           | eventstats sum(risk_score) by staff_ID
           | stats sum(risk_score) values(drilldown_search) by staff_ID
-          | collect index=incident_collection 
+          | addinfo
+          | eval incident_ID_hash_seed = description.info_search_time
+          | eval incident_ID = md5(incident_ID_hash_seed)
+          | collect index=incident_collection addinfo=false
 - time range picker: 
 - cron schedule: 
