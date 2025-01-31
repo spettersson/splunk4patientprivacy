@@ -23,9 +23,11 @@ search 1:
 - description: 
 - search: 
           index=anomaly_collection earliest=-24h
-          | stats sum(risk_score) as risk_score list(drilldown_search) as drilldown_search list(patient_ID) as patient_ID by staff_ID
-          | eval drilldown_search = mvjoin(drilldown_search,",")
-          | eval drilldown_search = mvjoin(",")
+          | stats sum(risk_score) as risk_score list(use_case_ID) as use_case_ID list(info_min_time) as earliest_trp list(info_max_time) as latest_trp list(patient_ID) as patient_ID by staff_ID
+          | eval earliest_trp = mvjoin(earliest_trp, ",")
+          | eval latest_trp = mvjoin(latest_trp, ",")
+          | eval use_case_ID = mvjoin(use_case_ID, ",")
+          | eval patient_ID = mvjoin(patient_ID, ",")
           | addinfo
           | eval incident_ID = md5(description.info_search_time)
           | collect index=incident_collection addinfo=false
