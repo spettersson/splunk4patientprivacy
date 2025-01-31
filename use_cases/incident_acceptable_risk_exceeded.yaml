@@ -28,6 +28,7 @@ search 1:
           | stats sum(risk_score) as risk_score dc(use_case_ID) as distinct_anomalies count as total_anomalies values(anomaly_ID) as anomaly_ID values(patient_ID) as patient_ID by staff_ID
           | eval anomaly_ID = mvjoin(anomaly_ID,",")
           | eval anomaly_ID = mvjoin(patient_ID,",")
+          | eval use_case_ID = "uc2"
           | eval incident_title = ""
           | eval incident_description = ""
           | addinfo
