@@ -8,7 +8,7 @@ This repo contains **detections** to identify potential privacy violations:
 
 #### **1️⃣ Anomaly-Triggering**
 - Designed to **identify anomalies** based on searching and correlating logs/events.
-- Helps detect unusual activity that could indicate potential privacy concerns.
+- Helps to surface behaviour that 
 
 #### **2️⃣ Incident-Triggering**
 - Designed to **correlate anomalies into group them into incidents**.
