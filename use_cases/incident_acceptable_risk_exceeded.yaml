@@ -23,13 +23,14 @@ search 1:
 - description: 
 - search: 
           index=anomaly_collection earliest=-24h
-          | stats sum(risk_score) as risk_score list(use_case_ID) as use_case_ID list(info_min_time) as earliest_trp list(info_max_time) as latest_trp list(patient_ID) as patient_ID by staff_ID
-          | eval earliest_trp = mvjoin(earliest_trp, ",")
-          | eval latest_trp = mvjoin(latest_trp, ",")
-          | eval use_case_ID = mvjoin(use_case_ID, ",")
-          | eval patient_ID = mvjoin(patient_ID, ",")
+          | stats sum(risk_score) as risk_score dc(use_case_ID) as distinct_anomalies count as total_anomalies values(anomaly_ID) as anomaly_ID values(patient_ID) as patient_ID by staff_ID
+          | eval anomaly_ID = mvjoin(anomaly_ID,",")
+          | eval anomaly_ID = mvjoin(patient_ID,",")
+          | eval incident_title = ""
+          | eval incident_description = ""
           | addinfo
           | eval incident_ID = md5(description.info_search_time)
+          | fields incident_ID, incident_title, incident_description, staff_ID, patient_ID, distinct_anomalies, total_anomalies, anomaly_ID
           | collect index=incident_collection addinfo=false
 - time range picker: 
 - cron schedule: 
