@@ -4,7 +4,7 @@ This repository was brought to life to help organizations quickly get started wi
 ## 📌 What You'll Find Here
 
 ### 🔍 Use Cases
-This repo contains **use cases** that work together to surface incidents that potentially could indicate a violation of patient privacy. The use cases fall into two different categories:
+This repo contains **use cases** that work together to surface incidents that potentially could indicate a violation of patient privacy. The use cases fall into the following two categories:
 
 #### **Anomaly-Triggering**
 - Identifies **unusual behavior** by searching and correlating logs/events to trigger anomalies.
