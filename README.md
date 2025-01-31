@@ -8,7 +8,7 @@ This repo contains **use cases** that work together to surface incidents that po
 
 #### **1️⃣ Anomaly-Triggering**
 - Designed to **identify unusual behaviour** based on searching and correlating logs/events and trigger anomalies.
-- Helps to surface behaviour that is unusual, but alone does not indicate a violation of patient privacy.
+- Helps to surface behaviour that is unusual but may not alone clearly indicate a violation of patient privacy.
 
 #### **2️⃣ Incident-Triggering**
 - Designed to **correlate and group anomalies together and trigger incidents**.
