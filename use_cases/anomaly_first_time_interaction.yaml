@@ -30,7 +30,7 @@ search 1:
 - search: 
           `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-6mon
           | fields _time, staff_ID, patient_ID
-          | stats latest(_time) as last_interaction count by staff_ID, patient_ID
+          | stats latest(_time) as last_interaction by staff_ID, patient_ID
           | table staff_ID, patient_ID, last_interaction
           | outputlookup baseline_historical_interaction
 - time range picker: the time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
@@ -42,7 +42,7 @@ search 2:
           | append [
                     `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-1d@d latest=@d
                     | fields _time, staff_ID, patient_ID
-                    | stats latest(_time) as last_interaction count by staff_ID, patient_ID
+                    | stats latest(_time) as last_interaction by staff_ID, patient_ID
                     | table staff_ID, patient_ID, last_interaction
                    ]
           | stats max(last_interaction) as last_interaction by staff_ID, patient_ID
