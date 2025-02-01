@@ -57,7 +57,7 @@ search 3:
 - description: identifies employees who have interacted with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every single match, an anomaly is triggered and stored in the anomaly_collection index as an event for further correlation and analytics.
 - search:
           `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
-          | fields _time, staff_ID, patient_ID
+          | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
           | stats earliest(_time) as last_interaction by staff_ID, patient_ID
           | lookup baseline_historical_interaction staff_ID patient_ID OUTPUT last_interaction AS baseline_last_interaction
           | eval time_since_last_interaction = now() - baseline_last_interaction
