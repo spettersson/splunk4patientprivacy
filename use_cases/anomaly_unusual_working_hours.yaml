@@ -3,12 +3,16 @@ type: anomaly-triggering
 purpose: this use case aims to identify employees that interact with patients during working hours that are unusual based on historical behaviour.
 prerequisites: 
 - indexes: 
+          anomaly_collection
 - lookups: 
+          baseline_working_hours
 - macros: 
           pda_indexes (explanation: references the indexes where patient privacy act associated logs and events are stored)
           pda_sourcetypes (explanation: references the sourcetypes assigned to patient privacy act associated logs and events)
           pda_sources (explanation: references the sources assigned to patient privacy act associated logs and events)
 - fields: 
+          staff_ID
+          patient_ID
 - searches: 
           search 1
 how_to_implement:
