@@ -24,7 +24,7 @@ prerequisites:
           search 3
 how_to_implement (note: everything is case sensitive, and the steps 1-5 should be executed in a sequential order):
           1. create an index called 'anomaly_collection'.
-          2. import the lookup 'baseline_historical_interaction' (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
+          2. import the lookup 'baseline_historical_interaction' (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv). Make use of the Splunk app 'Splunk App for Lookup File Editing' (https://splunkbase.splunk.com/app/1724).
           3. create the field extractions and field aliases for staff_ID and patient_ID, ensuring that each data source has a unique extraction to prevent field name collisions. For example, if dealing with Cambio COSMIC logs, extract the field as cosmic_staff_ID and then create a field alias (cosmic_staff_ID AS staff_ID) to normalize it. This approach allows multiple data sources to maintain unique field extractions while enabling searches using a common field name (staff_ID).
           4. create the macros 'pda_indexes', 'pda_sourcetypes', and 'pda_sources'. Have them refer to the indexes, sourcetypes and sources that are used by the logs and events that fall under the Patient Data Act - this ensures that when the macros are referenced in a search, Splunk will retreive the right data. 
           5. create 'search 1', followed by 'search 2', followed by 'search 3'.
