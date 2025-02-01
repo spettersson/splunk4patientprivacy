@@ -1,6 +1,6 @@
 name: first time activity
 type: anomaly-triggering
-use_case_ID: uc1
+use_case_ID: uc1000000
 purpose: this use case aims to identify employees who recently interacted with a patient without having any prior history of activity in the last 6 months. 
 prerequisites: 
 - data_sources: 
@@ -67,7 +67,7 @@ search 3:
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_activity) AS baseline_last_activity 
           | eval title = "First time activity"
           | eval description = "Employee ID ".staff_ID." started interacting with Patient ID ".patient_ID." on ".last_activity.". The last recorded activity prior to that was on ".baseline_last_activity."."
-          | eval use_case_ID="UC1"
+          | eval use_case_ID="uc1000000"
           | eval risk_score = "20" ```this should be a value ranging from 0 and 100 - make sure to adjust according to the perceived risk of this type of anomaly```
           | addinfo
           | eval anomaly_ID = md5(description.info_search_time)
