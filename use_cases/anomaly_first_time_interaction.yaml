@@ -58,7 +58,7 @@ search 3:
 - search:
           `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
           | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
-          | stats earliest(_time) as last_interaction by staff_ID, patient_ID
+          | stats earliest(_time) as last_interaction values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID by staff_ID, patient_ID
           | lookup baseline_historical_interaction staff_ID patient_ID OUTPUT last_interaction AS baseline_last_interaction
           | eval time_since_last_interaction = now() - baseline_last_interaction
           | eval anomaly = if(isnull(baseline_last_interaction) OR time_since_last_interaction >= 14515200 , "1", "0")
