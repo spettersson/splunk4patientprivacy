@@ -1,18 +1,18 @@
-name: first time interaction
+name: first time activity
 type: anomaly-triggering
 use_case_ID: uc1
-purpose: this use case aims to identify employees who recently interacted with a patient without having any prior history of interaction in the last 6 months. 
+purpose: this use case aims to identify employees who recently interacted with a patient without having any prior history of activity in the last 6 months. 
 prerequisites: 
 - data_sources: 
-          any data source that includes information about interactions between employees and patients. 
+          any data source that records journal-related activities between employees and patients.
 - indexes: 
           anomaly_collection (explanation: an index where identified anomalies are stored as events)
 - lookups: 
-          baseline_historical_interaction (explanation: a lookup file that stores information about when employees and patients last have interacted)
+          baseline_historical_activity (explanation: a lookup file that stores information about the last recorded activity between employees and patients)
 - macros: 
-          pda_indexes (explanation: references the indexes where patient data act associated logs and events are stored)
-          pda_sourcetypes (explanation: references the sourcetypes assigned to patient data act associated logs and events)
-          pda_sources (explanation: references the sources assigned to patient data act associated logs and events)
+          pda_indexes (explanation: references the indexes that store logs and events related to journal-related activities between employees and patients)
+          pda_sourcetypes (explanation: references the sourcetype metadata assigned to logs and events related to journal-related activities between employees and patients)
+          pda_sources (explanation: references the source metadata assigned to logs and events related to journal-related activities between employees and patients)
 - fields: 
           staff_ID (explanation: a unique identifier for the employee)
           patient_ID (explanation: a unique identifier for the patient)
@@ -24,33 +24,33 @@ prerequisites:
           search 3
 how_to_implement (note: everything is case sensitive, and the steps 1-5 should be executed in a sequential order):
           1. create an index called 'anomaly_collection'.
-          2. import the lookup 'baseline_historical_interaction' (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv). Make use of the Splunk app 'Splunk App for Lookup File Editing' (https://splunkbase.splunk.com/app/1724).
+          2. import the lookup 'baseline_historical_activity' (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv). Make use of the Splunk app 'Splunk App for Lookup File Editing' (https://splunkbase.splunk.com/app/1724).
           3. create the field extractions and field aliases for staff_ID and patient_ID, ensuring that each data source has a unique extraction to prevent field name collisions. For example, if dealing with Cambio COSMIC logs, extract the field as cosmic_staff_ID and then create a field alias (cosmic_staff_ID AS staff_ID) to normalize it. This approach allows multiple data sources to maintain unique field extractions while enabling searches using a common field name (staff_ID).
           4. create the macros 'pda_indexes', 'pda_sourcetypes', and 'pda_sources'. Have them refer to the indexes, sourcetypes and sources that are used by the logs and events that fall under the Patient Data Act - this ensures that when the macros are referenced in a search, Splunk will retreive the right data. 
           5. create 'search 1', followed by 'search 2', followed by 'search 3'.
 search 1: 
-- description: establishes a baseline of historical interaction for the past 6 months.
+- description: establishes a baseline of historical activity for the past 6 months.
 - search: 
           `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-6mon
           | fields _time, staff_ID, patient_ID
-          | stats latest(_time) as last_interaction by staff_ID, patient_ID
-          | table staff_ID, patient_ID, last_interaction
-          | outputlookup baseline_historical_interaction
+          | stats latest(_time) as last_activity by staff_ID, patient_ID
+          | table staff_ID, patient_ID, last_activity
+          | outputlookup baseline_historical_activity
 - time range picker: the time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
 - cron schedule: N/A (run only once in the search bar).
 search 2: 
-- description: incrementally updates the historical interaction on a daily basis.
+- description: incrementally updates the historical activity on a daily basis.
 - search:
-          | inputlookup baseline_historical_interaction
+          | inputlookup baseline_historical_activity
           | append [
                     `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-1d@d latest=@d
                     | fields _time, staff_ID, patient_ID
-                    | stats latest(_time) as last_interaction by staff_ID, patient_ID
-                    | table staff_ID, patient_ID, last_interaction
+                    | stats latest(_time) as last_activity by staff_ID, patient_ID
+                    | table staff_ID, patient_ID, last_activity
                    ]
-          | stats max(last_interaction) as last_interaction by staff_ID, patient_ID
-          | table staff_ID, patient_ID, last_interaction
-          | outputlookup baseline_historical_interaction
+          | stats max(last_activity) as last_activity by staff_ID, patient_ID
+          | table staff_ID, patient_ID, last_activity
+          | outputlookup baseline_historical_activity
 - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
 - cron schedule: 0 0 * * * (scheduled to run every day of the week at midnight).
 search 3:
@@ -58,20 +58,20 @@ search 3:
 - search:
           `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-12min@min latest=-2min@min
           | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
-          | stats earliest(_time) as last_interaction values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID by staff_ID, patient_ID
-          | lookup baseline_historical_interaction staff_ID patient_ID OUTPUT last_interaction AS baseline_last_interaction
-          | eval time_since_last_interaction = now() - baseline_last_interaction
-          | eval anomaly = if(isnull(baseline_last_interaction) OR time_since_last_interaction >= 14515200 , "1", "0")
+          | stats earliest(_time) as last_activity values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID by staff_ID, patient_ID
+          | lookup baseline_historical_activity staff_ID patient_ID OUTPUT last_activity AS baseline_last_activity
+          | eval time_since_last_activity = now() - baseline_last_activity
+          | eval anomaly = if(isnull(baseline_last_activity) OR time_since_last_activity >= 14515200 , "1", "0")
           | where anomaly = "1"
-          | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_interaction) AS last_interaction 
-          | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_interaction) AS baseline_last_interaction 
-          | eval title = "First time interaction"
-          | eval description = "Employee ID ".staff_ID." started interacting with Patient ID ".patient_ID." on ".last_interaction.". The last recorded interaction prior to that was on ".baseline_last_interaction."."
+          | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_activity) AS last_activity 
+          | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_activity) AS baseline_last_activity 
+          | eval title = "First time activity"
+          | eval description = "Employee ID ".staff_ID." started interacting with Patient ID ".patient_ID." on ".last_activity.". The last recorded activity prior to that was on ".baseline_last_activity."."
           | eval use_case_ID="UC1"
           | eval risk_score = "20" ```this should be a value ranging from 0 and 100 - make sure to adjust according to the perceived risk of this type of anomaly```
           | addinfo
           | eval anomaly_ID = md5(description.info_search_time)
-          | fields use_case_ID, anomaly_ID, title, description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_interaction, baseline_last_interaction, info_search_time, info_min_time, info_max_time
+          | fields use_case_ID, anomaly_ID, title, description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_activity, baseline_last_activity, info_search_time, info_min_time, info_max_time
           | collect index=anomaly_collection addinfo=false
 - time range picker: the time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
 - cron schedule: */10 * * * * (scheduled to run every 10th minute of every hour, 24/7, across all days of the week).
