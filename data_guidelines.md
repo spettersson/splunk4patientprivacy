@@ -4,10 +4,11 @@
 
 **Event type**
 
+An event type serves the mean to categorize events within a data source, making it easier to filter and retrieve relevant events in searches. 
 
-- Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
-- Instead of referencing multiple event types (that fall within the same category) one by one in a search, a single common denominator
-  (the tag 'journal') can be referenced instead to efficiently retrieve all relevant events.
+
+Instead of referencing multiple event types (that fall within the same category) one by one in a search, a common denominator
+  (a tag) can be referenced instead to efficiently retrieve all relevant events.
 - Event types can be created via:
     - Splunk Web: Settings > Event Types > New Event Type
       - If you create an event type in Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag.
