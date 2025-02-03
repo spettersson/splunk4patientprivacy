@@ -25,7 +25,7 @@ prerequisites:
 
 how_to_implement:
   1. eventtypes:
-      - Each data source must have a unique event type, and all event types must reference the tag 'journal'.
+      - Each data source must have a unique event type, and all event types must reference the tag 'journal'. For more information about how to set this up, see 
       - Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
       - Instead of referencing multiple event types (that fall within the same category) one by one in a search, a single common denominator
         (the tag 'journal') can be referenced instead to efficiently retrieve all relevant events.
@@ -101,7 +101,8 @@ search_3:
   search: 
     tag=journal earliest=-12min@min latest=-2min@min
     | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
-    | stats earliest(_time) as last_activity values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID by staff_ID, patient_ID
+    | stats earliest(_time) as last_activity values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID 
+    by staff_ID, patient_ID
     | lookup baseline_historical_activity staff_ID patient_ID OUTPUT last_activity AS baseline_last_activity
     | eval time_since_last_activity = now() - baseline_last_activity
     | eval anomaly = if(isnull(baseline_last_activity) OR time_since_last_activity >= 14515200 , "1", "0")
