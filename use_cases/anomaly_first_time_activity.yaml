@@ -25,7 +25,7 @@ prerequisites:
 
 how_to_implement:
   1. eventtypes:
-      - Create a unique event type for all data sources, with all event types referencing the tag 'journal'. 
+      - Create an unique event type for each individual data source, with all event types referencing the tag 'journal'. 
         Please check the data guidelines for more detailed information about event types, which can be found here
         https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines).
 
