@@ -1,10 +1,10 @@
 name: first time activity
 type: anomaly-triggering
-use_case_ID: uc1
 purpose: this use case aims to identify employees who recently engaged in activity related to a patient without having any prior history of activity in the last 6 months.
+use_case_ID: uc1
 prerequisites: 
 - tags:
-          journalactivity
+          journal
 - data_sources: 
           any data source that records journal-related activities between employees and patients.
 - indexes: 
@@ -33,7 +33,7 @@ how_to_implement (note: everything is case sensitive, and the steps 1-5 should b
 search 1: 
 - description: establishes a baseline of historical activity for the past 6 months.
 - search: 
-          tag=journalactivity earliest=-6mon
+          tag=journal earliest=-6mon
           | fields _time, staff_ID, patient_ID
           | stats latest(_time) as last_activity by staff_ID, patient_ID
           | table staff_ID, patient_ID, last_activity
@@ -45,7 +45,7 @@ search 2:
 - search:
           | inputlookup baseline_historical_activity
           | append [
-                    `pda_indexes` `pda_sourcetypes` `pda_sources` earliest=-1d@d latest=@d
+                    tag=journal earliest=-1d@d latest=@d
                     | fields _time, staff_ID, patient_ID
                     | stats latest(_time) as last_activity by staff_ID, patient_ID
                     | table staff_ID, patient_ID, last_activity
