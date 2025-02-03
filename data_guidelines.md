@@ -4,7 +4,7 @@
 
 **Event type**
 
-An event type serves the mean to categorize events within a data source, making it easier to filter and retrieve relevant events in searches. 
+An event type serves the mean to categorize events within a data source, making it easier to filter and retrieve relevant events in searches. You simply define what field::value pairs and search terms that an event type should reference to narrow down the events to your liking, then you reference only that event type in a search and run it. Most likely, you will have multiple event types that include the same category of data, then instead of having to reference each and every event type one by one in the same you can have the event types tagged with the sametag, so then you can reference only that tag in a search (e.g. tag=journal) to retrieve all indexed events that hold records of journal activity despite data source.
 
 
 Instead of referencing multiple event types (that fall within the same category) one by one in a search, a common denominator
