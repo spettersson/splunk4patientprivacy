@@ -40,7 +40,7 @@ how_to_implement:
 
   4. fields:
       - Create the fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
-      - Ensure that each data source has a unique field extraction, but use field aliases to standardize field names and prevent collisions.
+      - Ensure that each data source has unique field extractions to avoid collision and use field aliases to standardize field names.
       - Please check the data guidelines for more detailed information about fields, which can be found here https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.
 
   5. searches:
