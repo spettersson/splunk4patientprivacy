@@ -41,18 +41,20 @@ how_to_implement:
                     - This approach allows multiple data sources to maintain unique field extractions while enabling searches using a common field name (`staff_ID`).
           5. search: Create 'search 1', followed by 'search 2', followed by 'search 3'.
 search 1: 
-- description: establishes a baseline of historical activity for the past 6 months.
-- search: 
-          tag=journal earliest=-6mon
-          | fields _time, staff_ID, patient_ID
-          | stats latest(_time) as last_activity by staff_ID, patient_ID
-          | table staff_ID, patient_ID, last_activity
-          | outputlookup baseline_historical_activity
-- time range picker: the time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
-- cron schedule: N/A (run only once in the search bar).
+          - Title: 
+          - Description: establishes a baseline of historical activity for the past 6 months.
+          - Search: 
+                    tag=journal earliest=-6mon
+                    | fields _time, staff_ID, patient_ID
+                    | stats latest(_time) as last_activity by staff_ID, patient_ID
+                    | table staff_ID, patient_ID, last_activity
+                    | outputlookup baseline_historical_activity
+          - Time Range Picker: the time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
+          - cron schedule: N/A (run only once in the search bar).
 search 2: 
-          - description: incrementally updates the historical activity on a daily basis.
-          - search:
+          - Title: Historical activity updates
+          - Description: Incrementally updates the historical activity on a daily basis.
+          - Search:
                     | inputlookup baseline_historical_activity
                     | append [
                               tag=journal earliest=-1d@d latest=@d
@@ -63,11 +65,13 @@ search 2:
                     | stats max(last_activity) as last_activity by staff_ID, patient_ID
                     | table staff_ID, patient_ID, last_activity
                     | outputlookup baseline_historical_activity
-          - time range picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
-          - cron schedule: 0 0 * * * (scheduled to run every day of the week at midnight).
+          - Time Range Picker: the time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
+          - Schedule:
+                    Cron Expression: 0 0 * * * (scheduled to run every day of the week at midnight).
 search 3:
-          - description: identifies employees who have interacted with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every single match, an anomaly is triggered and stored in the anomaly_collection index as an event for further correlation and analytics.
-          - search:
+          - Title: 
+          - Description: identifies employees who have interacted with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every single match, an anomaly is triggered and stored in the anomaly_collection index as an event for further correlation and analytics.
+          - Search:
                     tag=journal earliest=-12min@min latest=-2min@min
                     | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
                     | stats earliest(_time) as last_activity values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID by staff_ID, patient_ID
@@ -85,6 +89,8 @@ search 3:
                     | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time)
                     | fields use_case_ID, anomaly_ID, anomaly_title, anomaly_description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_activity, baseline_last_activity, info_search_time, info_min_time, info_max_time
                     | collect index=anomaly_collection addinfo=false
-          - time range picker: the time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
-          - cron schedule: */10 * * * * (scheduled to run every 10th minute of every hour, 24/7, across all days of the week).
+          - Earliest Time: N/A. The time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
+          - Latest Time:  N/A. The time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
+          - Schedule: 
+                    Cron Expression: */10 * * * * (scheduled to run every 10th minute of every hour, 24/7, across all days of the week).
 
