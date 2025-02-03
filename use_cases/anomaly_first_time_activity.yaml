@@ -5,23 +5,23 @@ purpose: >
   without having any prior history of activity in the last 6 months.
 use_case_ID: 'uc1'
 prerequisites:
-  - data_sources: 
-      - Events from any journal system that records activities between employees and patients.
-  - tags:
-      - journal (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
-  - indexes: 
-      - anomaly_collection (explanation: An index where identified anomalies are stored as events.)
-  - lookups: 
-      - baseline_historical_activity (explanation: A lookup file that stores the last recorded activity between employees and patients.)
-  - fields: 
-      - staff_ID (explanation: A unique identifier for the employee.)
-      - patient_ID (explanation: A unique identifier for the patient.)
-      - care_provider_ID (explanation: A unique identifier for the care provider.)
-      - care_unit_ID (explanation: A unique identifier for the care unit at the care provider.)
-  - searches: 
-      - search 1
-      - search 2
-      - search 3
+- data_sources: 
+    Events from any journal system that records activities between employees and patients.
+- tags:
+    journal (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
+- indexes: 
+    anomaly_collection (explanation: An index where identified anomalies are stored as events.)
+- lookups: 
+    baseline_historical_activity (explanation: A lookup file that stores the last recorded activity between employees and patients.)
+- fields: 
+    staff_ID (explanation: A unique identifier for the employee.)
+    patient_ID (explanation: A unique identifier for the patient.)
+    care_provider_ID (explanation: A unique identifier for the care provider.)
+    care_unit_ID (explanation: A unique identifier for the care unit at the care provider.)
+- searches: 
+    search 1
+    search 2
+    search 3
 
 how_to_implement:
   1. eventtypes:
@@ -44,7 +44,6 @@ how_to_implement:
       - Create an index named 'anomaly_collection'.
       - Make sure that the retention is aligned with your requirements/needs. 
       
-
   3. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
       - Import the lookup baseline_historical_activity.csv (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
@@ -56,7 +55,7 @@ how_to_implement:
           - If working with Cambio COSMIC events, extract the field as cosmic_staff_ID and create an alias: cosmic_staff_ID AS staff_ID.
 
   5. searches:
-      - Execute search 1, followed by search 2, followed by search 3.
+      - Create and enable 'search 1', followed by 'search 2', followed by 'search 3'.
 
 search_1:
   title: Historical activity baseline
