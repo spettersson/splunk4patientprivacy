@@ -3,14 +3,12 @@ type: Anomaly-triggering
 purpose: > 
   This use case identifies employees who recently engaged in activity related to a patient 
   without having any prior history of activity in the last 6 months.
-
 use_case_ID: 'uc1'
-
 prerequisites:
   - data_sources: 
       - Events from any journal system that records activities between employees and patients.
   - tags:
-      - journal (explanation: a tag that references all events, despite data source, that falls into the category of journal)
+      - journal (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
   - indexes: 
       - anomaly_collection (explanation: An index where identified anomalies are stored as events.)
   - lookups: 
@@ -26,38 +24,38 @@ prerequisites:
       - search 3
 
 how_to_implement:
-  1. eventtype:
+  1. eventtypes:
       - Each data source must have a unique event type, and all event types must reference the tag 'journal'.
       - Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
-      - Instead of referencing all event types one by one in a search, the common denominator (the tag 'journal') is referenced to efficiently retrieve all relevant events.
+      - Instead of referencing multiple event types (that fall within the same category) one by one in a search, a single common denominator (the tag 'journal') can be referenced instead to efficiently retrieve all relevant events.
       - Event types can be created via:
           - Splunk Web: Settings > Event Types > New Event Type
-          - Configuration files: eventtypes.conf and tags.conf
-      - Important:
-          - If you create an event type in Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag.
-          - If you define event types in configuration files that references a tag, you must manually define that tag in tags.conf.
-      - The eventtype(s) needs three pieces of information:
+            - If you create an event type in Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag.
+          - Configuration files: eventtypes.conf and tags.conf.
+            - If you define event types in configuration files that references a tag, you must manually define that tag in tags.conf.
+      - Each eventtype needs three pieces of information:
           - A unique name
           - A search string that identifies the relevant events from the specific journal system.
-              - The search should reference the `index`, `host`, `source`, and `sourcetype` fields with their appropriate values.
+              - The search should reference the index, host, source, and sourcetype fields with their appropriate values.
               - Depending on the journal system, additional field-value pairs and search terms may be required to ensure precise event categorization.
-              - The search must be **designed carefully** to capture only the intended events while avoiding unrelated data.
-          - A reference to the tag 'journal'
+          - A reference to the tag 'journal'.
 
-  2. index:
-      - Create an index named anomaly_collection.
+  2. indexes:
+      - Create an index named 'anomaly_collection'.
+      - Make sure that the retention is aligned with your requirements/needs. 
+      
 
-  3. lookup:
+  3. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
       - Import the lookup baseline_historical_activity.csv (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
 
-  4. field:
+  4. fields:
       - Create the fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
       - Ensure that each data source has a unique field extraction, but use field aliases to standardize field names and prevent collisions.
       - Example:
           - If working with Cambio COSMIC events, extract the field as cosmic_staff_ID and create an alias: cosmic_staff_ID AS staff_ID.
 
-  5. search:
+  5. searches:
       - Execute search 1, followed by search 2, followed by search 3.
 
 search_1:
