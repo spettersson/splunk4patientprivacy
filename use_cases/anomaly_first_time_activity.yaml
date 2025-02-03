@@ -31,7 +31,7 @@ how_to_implement:
 
   2. indexes:
       - Create an index named 'anomaly_collection'.
-      - Make sure that the retention is aligned with your requirements/needs. 
+      - Make sure that the retention for this index is aligned with your requirements/needs. 
       
   3. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
