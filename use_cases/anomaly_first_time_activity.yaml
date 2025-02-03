@@ -36,9 +36,8 @@ how_to_implement:
                     - Import the lookup 'baseline_historical_activity' (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
           4. field: 
                     - Create the fields 'staff_ID', 'patient_ID', 'care_provider_ID' and 'care_unit_ID'.  
-                    - Ensure that each data source has a unique extraction to prevent field name collisions.  
-                    - Example: If working with **Cambio COSMIC events**, extract the field as `cosmic_staff_ID`, then create a field alias (`cosmic_staff_ID AS staff_ID`) to ensure consistency with the expected field names for this use case.  
-                    - This approach allows multiple data sources to maintain unique field extractions while enabling searches using a common field name (`staff_ID`).
+                    - Ensure that each data source has a unique field extraction, but use field aliases to standardize field names and prevent collisions.  
+                    - Example: If working with **Cambio COSMIC events**, extract the field as `cosmic_staff_ID`, then create a field alias (`cosmic_staff_ID AS staff_ID`).  
           5. search: Create 'search 1', followed by 'search 2', followed by 'search 3'.
 search 1: 
           - Title: 
