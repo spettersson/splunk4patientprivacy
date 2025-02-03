@@ -12,9 +12,9 @@ For the use cases in this repository, each data source related to patient privac
 
 Event types can be created via:
 - Splunk Web: Settings > Event Types > New Event Type
-  - If you create an event type in Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
+  - If you create an event type via Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
 - Configuration files: eventtypes.conf and tags.conf.
-  - If you define event types in configuration files that references a tag that does not already exist, you must manually define that tag in tags.conf.
+  - If you define an event type via configuration file that references a tag that does not already exist, you must manually define that tag in tags.conf.
         
 Each eventtype needs three pieces of information:
 - A unique name
