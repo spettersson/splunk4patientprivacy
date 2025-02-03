@@ -1,100 +1,121 @@
 name: First time activity
 type: Anomaly-triggering
-purpose: This use case aims to identify employees who recently engaged in activity related to a patient without having any prior history of activity in the last 6 months.
+purpose: >
+  This use case identifies employees who recently engaged in activity related to a patient 
+  without having any prior history of activity in the last 6 months.
+
 use_case_ID: 'uc1'
-prerequisites: 
-          - data_sources: 
-                    Events from any journal system that records activities between employees and patients.
-          - tags:
-                    'journal'
-          - indexes: 
-                    'anomaly_collection' (explanation: an index where identified anomalies are stored as events)
-          - lookups: 
-                    'baseline_historical_activity' (explanation: a lookup file that stores information about the last recorded activity between employees and patients)
-          - fields: 
-                    'staff_ID' (explanation: a unique identifier for the employee)
-                    'patient_ID' (explanation: a unique identifier for the patient)
-                    'care_provider_ID' (explanation: a unique identifier for the care provider)
-                    'care_unit_ID' (explanation: a unique identifier for care unit at the care provider)
-          - searches: 
-                    'search 1'
-                    'search 2'
-                    'search 3'
+
+prerequisites:
+  - data_sources: 
+      - Events from any journal system that records activities between employees and patients.
+  - tags:
+      - journal
+  - indexes: 
+      - anomaly_collection (explanation: An index where identified anomalies are stored as events.)
+  - lookups: 
+      - baseline_historical_activity (explanation: A lookup file that stores the last recorded activity between employees and patients.)
+  - fields: 
+      - staff_ID (explanation: A unique identifier for the employee.)
+      - patient_ID (explanation: A unique identifier for the patient.)
+      - care_provider_ID (explanation: A unique identifier for the care provider.)
+      - care_unit_ID (explanation: A unique identifier for the care unit at the care provider.)
+  - searches: 
+      - search 1
+      - search 2
+      - search 3
+
 how_to_implement:
-          1. eventtype: 
-                    - Each data source must have a unique event type, and all event types must reference the tag 'journal'. 
-                    - Event types help categorize events within a data source, making it easier to filter and retrieve relevant events in searches. Instead of referencing multiple event types individually, you can assign a common tag and use it in searches to efficiently retrieve all events that fall within a certain category.
-                    - Event types can be created via Splunk Web (Settings > Event Type > New Event Type) and configuration files ('eventtypes.conf'/'tags.conf').
+  1. eventtype:
+      - Each data source must have a unique event type, and all event types must reference the tag 'journal'.
+      - Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
+      - Instead of referencing multiple event types individually, assign a common tag and use it in searches to efficiently retrieve all relevant events.
+      - Event types can be created via:
+          - Splunk Web: **Settings > Event Types > New Event Type**
+          - Configuration files: **`eventtypes.conf`** and **`tags.conf`**
+      - Important:
+          - If you create an event type in **Splunk Web** and reference a tag that does not already exist, Splunk automatically creates that tag.
+          - If you define event types in **configuration files**, you must manually define the tag in `tags.conf`.
+      - Example:
+          - **Name**: `<Unique event type name>`
+          - **Search string**: Best practice is to reference the `index`, `host`, `source`, and `sourcetype` fields with their values. Additional field-value pairs may be needed for refined categorization.
+          - **Tag(s)**: `journal`
 
-                              If you create a new event type in Splunk Web and reference a tag that do not already exist, Splunk will automatically create that tag. If you work with configuration files, then the tags that you reference in 'eventtypes.conf' needs to be defined in 'tags.conf'.
-                    - Exa
-                    Name: <the event type name must be unique.>
-                    Search string: <best practice is to reference the index, host, source, and sourcetype fields with their respective values. Additionally, it may be necessary to include data source specific field::value pairs and search terms to narrow down the events to the desired categorisation>
-                    Tag(s): journal
-          
-          2. index: 
-                    - Create an index called 'anomaly_collection'.
-          3. lookup: 
-                    - Download and install the Splunk app 'Splunk App for Lookup File Editing' (https://splunkbase.splunk.com/app/1724).
-                    - Import the lookup 'baseline_historical_activity' (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
-          4. field: 
-                    - Create the fields 'staff_ID', 'patient_ID', 'care_provider_ID' and 'care_unit_ID'.  
-                    - Ensure that each data source has a unique field extraction, but use field aliases to standardize field names and prevent collisions.  
-                    - Example: If working with **Cambio COSMIC events**, extract the field as `cosmic_staff_ID`, then create a field alias (`cosmic_staff_ID AS staff_ID`).  
-          5. search: Create 'search 1', followed by 'search 2', followed by 'search 3'.
-search 1: 
-          - Title: Historical activity baseline
-          - Description: establishes a baseline of historical activity for the past 6 months.
-          - Search: 
-                    tag=journal earliest=-6mon latest=now
-                    | fields _time, staff_ID, patient_ID
-                    | stats latest(_time) as last_activity by staff_ID, patient_ID
-                    | table staff_ID, patient_ID, last_activity
-                    | outputlookup baseline_historical_activity
-          - Earliest Time: Leave empty. The time range for 'search 1' is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
-          - Latest Time: Leave empty. The time range for 'search 1' is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
-          - Schedule: N/A. 'search 1' should only run once in the search bar and it is important that this is done prior to creating and turning on 'search 2' and 'search 3'. 
-search 2: 
-          - Title: Historical activity updates
-          - Description: Incrementally updates the historical activity on a daily basis.
-          - Search:
-                    | inputlookup baseline_historical_activity
-                    | append [
-                              tag=journal earliest=-1d@d latest=@d
-                              | fields _time, staff_ID, patient_ID
-                              | stats latest(_time) as last_activity by staff_ID, patient_ID
-                              | table staff_ID, patient_ID, last_activity
-                             ]
-                    | stats max(last_activity) as last_activity by staff_ID, patient_ID
-                    | table staff_ID, patient_ID, last_activity
-                    | outputlookup baseline_historical_activity
-          - Earliest Time: Leave empty - The time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
-          - Latest Time: Leave empty - The time range for search 2 is explicitly defined in the search using the earliest and latest options (earliest=-1d@d and latest=@d). By default, the search processes data from the entire previous day (midnight to midnight).
-          - Schedule:
-                    Cron Expression: 0 0 * * * (scheduled to run every day of the week at midnight).
-search 3:
-          - Title: 
-          - Description: identifies employees who have interacted with a patient within the past 10-minute window (accounting for a 2-minute latency) but have not had any prior contact with the same patient in the last 6 months. For every single match, an anomaly is triggered and stored in the anomaly_collection index as an event for further correlation and analytics.
-          - Search:
-                    tag=journal earliest=-12min@min latest=-2min@min
-                    | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
-                    | stats earliest(_time) as last_activity values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID by staff_ID, patient_ID
-                    | lookup baseline_historical_activity staff_ID patient_ID OUTPUT last_activity AS baseline_last_activity
-                    | eval time_since_last_activity = now() - baseline_last_activity
-                    | eval anomaly = if(isnull(baseline_last_activity) OR time_since_last_activity >= 14515200 , "1", "0")
-                    | where anomaly = "1"
-                    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_activity) AS last_activity 
-                    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_activity) AS baseline_last_activity 
-                    | eval anomaly_title = "First time activity"
-                    | eval anomaly_description = "Employee ID ".staff_ID." engaged in activity related to Patient ID ".patient_ID." on ".last_activity.". The last recorded activity prior to that was on ".baseline_last_activity."."
-                    | eval use_case_ID="uc1"
-                    | eval risk_score = "20" ```this should be a value ranging from 0 and 100 - make sure to adjust according to the perceived risk of this type of anomaly```
-                    | addinfo
-                    | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time)
-                    | fields use_case_ID, anomaly_ID, anomaly_title, anomaly_description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_activity, baseline_last_activity, info_search_time, info_min_time, info_max_time
-                    | collect index=anomaly_collection addinfo=false
-          - Earliest Time: Leave empty. The time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
-          - Latest Time:  Leave empty. The time range for search 3 is explicitly defined within the search using the earliest and latest options (earliest=-12min@min and latest=-2min@min). By default, the search processes data from 12 minutes ago up to 2 minutes ago (with the possiblity to adjust to specific needs/requirements), ensuring a consistent 10-minute window that accounts for potential data latency.
-          - Schedule: 
-                    Cron Expression: */10 * * * * (scheduled to run every 10th minute of every hour, 24/7, across all days of the week).
+  2. index:
+      - Create an index named `anomaly_collection`.
 
+  3. lookup:
+      - Download and install **[Splunk App for Lookup File Editing](https://splunkbase.splunk.com/app/1724)**.
+      - Import the lookup **[baseline_historical_activity.csv](https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv)**.
+
+  4. field:
+      - Create the fields: `staff_ID`, `patient_ID`, `care_provider_ID`, `care_unit_ID`.
+      - Ensure that each data source has a **unique field extraction**, but use **field aliases** to standardize field names and prevent collisions.
+      - Example:
+          - If working with **Cambio COSMIC events**, extract the field as `cosmic_staff_ID` and create an alias: `cosmic_staff_ID AS staff_ID`.
+
+  5. search:
+      - Execute **search 1**, followed by **search 2**, followed by **search 3**.
+
+search_1:
+  title: Historical activity baseline
+  description: >
+    Establishes a baseline of historical activity for the past 6 months.
+  search: |
+    tag=journal earliest=-6mon latest=now
+    | fields _time, staff_ID, patient_ID
+    | stats latest(_time) as last_activity by staff_ID, patient_ID
+    | table staff_ID, patient_ID, last_activity
+    | outputlookup baseline_historical_activity
+  earliest_time: Leave empty (defined in search: earliest=-6mon).
+  latest_time: Leave empty (defined in search: latest=now).
+  schedule: N/A (Run manually before enabling search 2 and search 3).
+
+search_2:
+  title: Historical activity updates
+  description: >
+    Incrementally updates the historical activity lookup on a daily basis.
+  search: |
+    | inputlookup baseline_historical_activity
+    | append [
+        tag=journal earliest=-1d@d latest=@d
+        | fields _time, staff_ID, patient_ID
+        | stats latest(_time) as last_activity by staff_ID, patient_ID
+        | table staff_ID, patient_ID, last_activity
+      ]
+    | stats max(last_activity) as last_activity by staff_ID, patient_ID
+    | table staff_ID, patient_ID, last_activity
+    | outputlookup baseline_historical_activity
+  earliest_time: Leave empty (defined in search: earliest=-1d@d).
+  latest_time: Leave empty (defined in search: latest=@d).
+  schedule: 
+    cron_expression: "0 0 * * *"  # Runs daily at midnight.
+
+search_3:
+  title: First-time activity detection
+  description: >
+    Identifies employees who interacted with a patient within the past 10-minute window 
+    (accounting for a 2-minute latency) but had no prior activity with that patient in the last 6 months. 
+    If matched, an anomaly is triggered and stored in the `anomaly_collection` index.
+  search: |
+    tag=journal earliest=-12min@min latest=-2min@min
+    | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
+    | stats earliest(_time) as last_activity values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID by staff_ID, patient_ID
+    | lookup baseline_historical_activity staff_ID patient_ID OUTPUT last_activity AS baseline_last_activity
+    | eval time_since_last_activity = now() - baseline_last_activity
+    | eval anomaly = if(isnull(baseline_last_activity) OR time_since_last_activity >= 14515200 , "1", "0")
+    | where anomaly = "1"
+    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_activity) AS last_activity 
+    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_activity) AS baseline_last_activity 
+    | eval anomaly_title = "First time activity"
+    | eval anomaly_description = "Employee ID ".staff_ID." engaged in activity related to Patient ID ".patient_ID." on ".last_activity.". The last recorded activity prior to that was on ".baseline_last_activity."."
+    | eval use_case_ID="uc1"
+    | eval risk_score = "20"  # Adjust the risk score (scale: 0-100) based on anomaly severity.
+    | addinfo
+    | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time)
+    | fields use_case_ID, anomaly_ID, anomaly_title, anomaly_description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_activity, baseline_last_activity, info_search_time, info_min_time, info_max_time
+    | collect index=anomaly_collection addinfo=false
+  earliest_time: Leave empty (defined in search: earliest=-12min@min).
+  latest_time: Leave empty (defined in search: latest=-2min@min).
+  schedule: 
+    cron_expression: "*/10 * * * *"  # Runs every 10 minutes, 24/7.
