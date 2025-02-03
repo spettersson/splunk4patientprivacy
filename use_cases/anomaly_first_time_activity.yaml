@@ -1,6 +1,6 @@
 name: First time activity
 type: Anomaly-triggering
-purpose: >
+purpose: 
   This use case identifies employees who recently engaged in activity related to a patient 
   without having any prior history of activity in the last 6 months.
 
