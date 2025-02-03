@@ -10,7 +10,7 @@ When multiple event types relate to the same category (e.g., logs from different
 
 For the use cases in this repository, each data source related to patient privacy is expected to have its own unique event type. Additionally, all event types should reference the tag 'journal' for full compatibility.  
 
-Event types can be created:
+Event types can be created via:
 - Splunk Web: Settings > Event Types > New Event Type
   - If you create an event type via Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
 - Configuration files: eventtypes.conf and tags.conf.
