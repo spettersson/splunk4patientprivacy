@@ -23,7 +23,7 @@ prerequisites:
 how_to_implement:
           1. eventtype: 
                     - Each data source must have a unique event type, and all event types must reference the tag 'journal'. 
-                    - Event types are used to categorize events within a data source, allowing them to be easily referenced in searches to retrieve only the relevant events for a specific use case. Since multiple event types can be associated with the same category of data, you can reference the associated tag (instead of all individual event types one by one) in search to retrieve all relevant events efficiently.
+                    - Event types help categorize events within a data source, making it easier to filter and retrieve relevant events in searches. Instead of referencing multiple event types individually, you can assign a common tag and use it in searches to efficiently retrieve all events that fall within a certain category.
                     - Event types can be created via Splunk Web (Settings > Event Type > New Event Type) and configuration files ('eventtypes.conf'/'tags.conf').
 
                               If you create a new event type in Splunk Web and reference a tag that do not already exist, Splunk will automatically create that tag. If you work with configuration files, then the tags that you reference in 'eventtypes.conf' needs to be defined in 'tags.conf'.
