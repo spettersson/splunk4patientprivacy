@@ -25,21 +25,9 @@ prerequisites:
 
 how_to_implement:
   1. eventtypes:
-      - Each data source must have a unique event type, and all event types must reference the tag 'journal'. For more information about how to set this up, see 
-      - Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
-      - Instead of referencing multiple event types (that fall within the same category) one by one in a search, a single common denominator
-        (the tag 'journal') can be referenced instead to efficiently retrieve all relevant events.
-      - Event types can be created via:
-          - Splunk Web: Settings > Event Types > New Event Type
-            - If you create an event type in Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag.
-          - Configuration files: eventtypes.conf and tags.conf.
-            - If you define event types in configuration files that references a tag, you must manually define that tag in tags.conf.
-      - Each eventtype needs three pieces of information:
-          - A unique name
-          - A search string that identifies the relevant events from the specific journal system.
-              - The search should reference the index, host, source, and sourcetype fields with their appropriate values.
-              - Depending on the journal system, additional field-value pairs and search terms may be required to ensure precise event categorization.
-          - A reference to the tag 'journal'.
+      - Each data source must have a unique event type, and all event types must reference the tag 'journal'. 
+        For more information about how to set this up, please see the data guidelines 
+        (https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines).
 
   2. indexes:
       - Create an index named 'anomaly_collection'.
