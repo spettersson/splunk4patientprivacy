@@ -10,7 +10,7 @@ prerequisites:
   - data_sources: 
       - Events from any journal system that records activities between employees and patients.
   - tags:
-      - journal
+      - journal (explanation: a tag that references all events, despite data source, that falls into the category of journal)
   - indexes: 
       - anomaly_collection (explanation: An index where identified anomalies are stored as events.)
   - lookups: 
@@ -29,17 +29,20 @@ how_to_implement:
   1. eventtype:
       - Each data source must have a unique event type, and all event types must reference the tag 'journal'.
       - Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
-      - Instead of referencing multiple event types individually, assign a common tag and use it in searches to efficiently retrieve all relevant events.
+      - Instead of referencing all event types one by one in a search, the common denominator (the tag 'journal') is referenced to efficiently retrieve all relevant events.
       - Event types can be created via:
           - Splunk Web: Settings > Event Types > New Event Type
           - Configuration files: eventtypes.conf and tags.conf
       - Important:
-          - If you create an event type in **Splunk Web** and reference a tag that does not already exist, Splunk automatically creates that tag.
-          - If you define event types in configuration files, you must manually define the tag in tags.conf.
-      - Example:
-          - Name: <Unique event type name>
-          - Search string: <Best practice is to reference the index, host, source, and sourcetype fields with their values. Additional field-value pairs may be needed for refined categorization.>
-          - Tag(s): journal
+          - If you create an event type in Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag.
+          - If you define event types in configuration files that references a tag, you must manually define that tag in tags.conf.
+      - The eventtype(s) needs three pieces of information:
+          - A unique name
+          - A search string that identifies the relevant events from the specific journal system.
+              - The search should reference the `index`, `host`, `source`, and `sourcetype` fields with their appropriate values.
+              - Depending on the journal system, additional field-value pairs and search terms may be required to ensure precise event categorization.
+              - The search must be **designed carefully** to capture only the intended events while avoiding unrelated data.
+          - A reference to the tag 'journal'
 
   2. index:
       - Create an index named anomaly_collection.
