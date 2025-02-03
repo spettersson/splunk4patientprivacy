@@ -14,10 +14,10 @@ prerequisites:
 - lookups: 
     baseline_historical_activity (explanation: A lookup file that stores the last recorded activity between employees and patients.)
 - fields: 
-    staff_ID (explanation: A unique identifier for the employee.)
-    patient_ID (explanation: A unique identifier for the patient.)
-    care_provider_ID (explanation: A unique identifier for the care provider.)
-    care_unit_ID (explanation: A unique identifier for the care unit at the care provider.)
+    staff_ID (a unique identifier for the employee.)
+    patient_ID (a unique identifier for the patient.)
+    care_provider_ID (a unique identifier for the care provider.)
+    care_unit_ID (a unique identifier for the care unit at the care provider.)
 - searches: 
     search 1
     search 2
