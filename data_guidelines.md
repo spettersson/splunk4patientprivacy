@@ -20,7 +20,7 @@ Each eventtype needs three pieces of information:
 - A unique name
 - A search string that identifies the relevant events from the specific journal system.
     - The search should reference the index, host, source, and sourcetype fields with their appropriate values.
-    - Depending on the journal system, additional field-value pairs and search terms may be required to ensure precise event categorization.
+    - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
 - A reference to the tag 'journal'.
 
 **fields**
