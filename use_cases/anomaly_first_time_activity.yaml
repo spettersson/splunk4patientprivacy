@@ -35,7 +35,8 @@ how_to_implement:
       
   3. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
-      - Import the lookup baseline_historical_activity.csv (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
+      - Import the lookup baseline_historical_activity.csv 
+        (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
 
   4. fields:
       - Create the fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
