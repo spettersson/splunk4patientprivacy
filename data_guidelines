@@ -12,3 +12,7 @@
               - The search should reference the index, host, source, and sourcetype fields with their appropriate values.
               - Depending on the journal system, additional field-value pairs and search terms may be required to ensure precise event categorization.
           - A reference to the tag 'journal'.
+
+
+      - Example:
+          - If working with Cambio COSMIC events, extract the field as cosmic_staff_ID and create an alias: cosmic_staff_ID AS staff_ID.
