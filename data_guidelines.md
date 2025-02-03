@@ -8,7 +8,7 @@ An event type is a saved search that categorizes events within a data source, el
 
 When multiple event types relate to the same category (e.g., logs from different journal systems tracking similar activities), you can assign them a common tag (e.g., tag=journal). This allows you to retrieve all relevant events in a single search (tag=journal) without manually specifying each event type.
 
-For the use cases in this repository, each data source related to patient privacy is expected to have its own unique event type. Additionally, all event types should reference the tag 'journal' for compatibility.  
+For the use cases in this repository, each data source related to patient privacy is expected to have its own unique event type. Additionally, all event types should reference the tag 'journal' for full compatibility.  
 
 - Event types can be created via:
     - Splunk Web: Settings > Event Types > New Event Type
