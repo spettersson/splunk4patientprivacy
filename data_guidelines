@@ -1,4 +1,9 @@
-      - Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
+
+
+**Event types**
+
+
+- Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
       - Instead of referencing multiple event types (that fall within the same category) one by one in a search, a single common denominator
         (the tag 'journal') can be referenced instead to efficiently retrieve all relevant events.
       - Event types can be created via:
