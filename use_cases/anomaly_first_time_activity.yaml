@@ -1,6 +1,6 @@
 name: First time activity
 type: Anomaly-triggering
-purpose: 
+purpose: > 
   This use case identifies employees who recently engaged in activity related to a patient 
   without having any prior history of activity in the last 6 months.
 
@@ -31,37 +31,37 @@ how_to_implement:
       - Event types categorize events within a data source, making it easier to filter and retrieve relevant events in searches.
       - Instead of referencing multiple event types individually, assign a common tag and use it in searches to efficiently retrieve all relevant events.
       - Event types can be created via:
-          - Splunk Web: **Settings > Event Types > New Event Type**
-          - Configuration files: **`eventtypes.conf`** and **`tags.conf`**
+          - Splunk Web: Settings > Event Types > New Event Type
+          - Configuration files: eventtypes.conf and tags.conf
       - Important:
           - If you create an event type in **Splunk Web** and reference a tag that does not already exist, Splunk automatically creates that tag.
-          - If you define event types in **configuration files**, you must manually define the tag in `tags.conf`.
+          - If you define event types in configuration files, you must manually define the tag in tags.conf.
       - Example:
-          - **Name**: `<Unique event type name>`
-          - **Search string**: Best practice is to reference the `index`, `host`, `source`, and `sourcetype` fields with their values. Additional field-value pairs may be needed for refined categorization.
-          - **Tag(s)**: `journal`
+          - Name: <Unique event type name>
+          - Search string: <Best practice is to reference the index, host, source, and sourcetype fields with their values. Additional field-value pairs may be needed for refined categorization.>
+          - Tag(s): journal
 
   2. index:
-      - Create an index named `anomaly_collection`.
+      - Create an index named anomaly_collection.
 
   3. lookup:
-      - Download and install **[Splunk App for Lookup File Editing](https://splunkbase.splunk.com/app/1724)**.
-      - Import the lookup **[baseline_historical_activity.csv](https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv)**.
+      - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
+      - Import the lookup baseline_historical_activity.csv (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
 
   4. field:
-      - Create the fields: `staff_ID`, `patient_ID`, `care_provider_ID`, `care_unit_ID`.
-      - Ensure that each data source has a **unique field extraction**, but use **field aliases** to standardize field names and prevent collisions.
+      - Create the fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
+      - Ensure that each data source has a unique field extraction, but use field aliases to standardize field names and prevent collisions.
       - Example:
-          - If working with **Cambio COSMIC events**, extract the field as `cosmic_staff_ID` and create an alias: `cosmic_staff_ID AS staff_ID`.
+          - If working with Cambio COSMIC events, extract the field as cosmic_staff_ID and create an alias: cosmic_staff_ID AS staff_ID.
 
   5. search:
-      - Execute **search 1**, followed by **search 2**, followed by **search 3**.
+      - Execute search 1, followed by search 2, followed by search 3.
 
 search_1:
   title: Historical activity baseline
   description: >
     Establishes a baseline of historical activity for the past 6 months.
-  search: |
+  search: 
     tag=journal earliest=-6mon latest=now
     | fields _time, staff_ID, patient_ID
     | stats latest(_time) as last_activity by staff_ID, patient_ID
@@ -75,7 +75,7 @@ search_2:
   title: Historical activity updates
   description: >
     Incrementally updates the historical activity lookup on a daily basis.
-  search: |
+  search: 
     | inputlookup baseline_historical_activity
     | append [
         tag=journal earliest=-1d@d latest=@d
@@ -96,8 +96,8 @@ search_3:
   description: >
     Identifies employees who interacted with a patient within the past 10-minute window 
     (accounting for a 2-minute latency) but had no prior activity with that patient in the last 6 months. 
-    If matched, an anomaly is triggered and stored in the `anomaly_collection` index.
-  search: |
+    If matched, an anomaly is triggered and stored in the anomaly_collection index.
+  search: 
     tag=journal earliest=-12min@min latest=-2min@min
     | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
     | stats earliest(_time) as last_activity values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID by staff_ID, patient_ID
