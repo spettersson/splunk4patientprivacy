@@ -51,9 +51,9 @@ search 1:
                     | stats latest(_time) as last_activity by staff_ID, patient_ID
                     | table staff_ID, patient_ID, last_activity
                     | outputlookup baseline_historical_activity
-          - Earliest Time: Leave empty. The time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
-          - Latest Time: Leave empty. The time range for search 1 is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
-          - Schedule: NULL (run only once in the search bar).
+          - Earliest Time: Leave empty. The time range for 'search 1' is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
+          - Latest Time: Leave empty. The time range for 'search 1' is explicitly defined within the search using the earliest option (earliest=-6mon). By default, the search processes data from current time to 6 month ago (with the possiblity to adjust to specific needs/requirements).
+          - Schedule: N/A. 'search 1' should only run once in the search bar and it is important that this is done prior to creating and turning on 'search 2' and 'search 3'. 
 search 2: 
           - Title: Historical activity updates
           - Description: Incrementally updates the historical activity on a daily basis.
