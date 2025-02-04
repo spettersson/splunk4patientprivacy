@@ -3,7 +3,7 @@ This repository was brought to life to help organizations quickly (without relyi
 
 ## 📌 What You'll Find Here
 
-### Data Guidelines
+### Data Guide
 bla bla bla 
 
 ### 🔍 Use Cases
