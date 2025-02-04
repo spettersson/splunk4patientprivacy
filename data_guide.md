@@ -9,7 +9,7 @@
 
 <img src="images/eventtypes_v1.4.png" alt="eventtypes" style="width:40%;"/>
 
-An event type is a saved search that categorizes events within e.g. a journal system. By defining field-value pairs and search terms, you can identify specific types of journal events and reference them by name (e.g., eventtype=cosmic_journalaccess), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
+An event type is a saved search that categorizes events within e.g. a journal system. By defining field-value pairs and search terms, you can identify specific types of journal events and reference them by name (e.g., eventtype=journal_audit_cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
 
 When multiple event types relate to the same category (e.g., logs from different journal systems tracking journal access), you can assign them a common tag. This allows you to retrieve all relevant journal events in a single search by referencing a tag (e.g., tag=journalaccess), without manually specifying each event type.
 
