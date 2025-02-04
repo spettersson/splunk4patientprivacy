@@ -15,9 +15,9 @@ When multiple event types relate to the same category (for example, events from 
 
 For the use cases in this repository, each journal system in your environment is expected to have its own two unique event types that targets two different event categories:
 - journal_access_\<journalSystemName\>
-- journal_activity_<journalSystemName>
+- journal_activity_\<journalSystemName\>
 
-Event types can be created in two ways:
+Event types can be created in the two ways presented below. What path you take depends on you liking, some people prefer doing it via the UI and others do not.
 - Splunk Web (recommended): Settings > Event Types > New Event Type
   - If you create an event type via Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
   - Adjust permissions to ensure that the appropriate roles in Splunk have read and/or write access to event types.
@@ -28,8 +28,9 @@ Event types can be created in two ways:
 Each event type needs three pieces of information:
 - A unique **name**
 - A **search string** that identifies the relevant events from the specific journal system.
-  - It's best practice to reference the index, host, source, and sourcetype fields associated with the specific journal system. These fields are mandatory across all events in Splunk and provides important metadata about where it originated, what kind of data it contains, and what index it is located in.
+  - It's best practice to reference the index, host, source, and sourcetype fields associated with the specific journal system if possible. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
   - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
+  - Example: index=journal_cosmic sourcetype=cosmic source=cosmic_accesslog staff_ID=* patient_ID=* 
 - A reference to the **tag** 'journalaccess'.
 
 
