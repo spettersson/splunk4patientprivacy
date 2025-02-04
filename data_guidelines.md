@@ -25,8 +25,8 @@ Event types can be created in two ways:
 Each eventtype needs three pieces of information:
 - A unique name
 - A search string that identifies the relevant events from the specific journal system.
-            - The search should reference the index, host, source, and sourcetype fields with their appropriate values. These are mandatory fields across all       data sources in Splunk and provides essential metadata about where the data source originated from and how/where it is stored in Splunk.              Including them ensures efficient event retrieval, allowing Splunk to quickly filter, identify, and present relevant search results.
-      - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
+  - It's best practice to reference the index, host, source, and sourcetype field:values associated with the journal system in question. These are mandatory fields across all events in Splunk and provides important metadata about where it originated, what kind of data it contains, and what index it is located in.
+  - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
 - A reference to the tag 'journalaccess'.
 
 
