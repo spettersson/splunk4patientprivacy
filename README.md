@@ -11,7 +11,7 @@ This repo contains **use cases** that work together to surface incidents that po
 
 #### **Anomaly-Triggering**
 - Identifies **unusual behavior** by searching and correlating logs/events to trigger anomalies.
-- Surfaces activity that may be abnormal but does not, on its own, indicate a privacy violation.
+- Surfaces activity that may be abnormal but does not, on its own, clearly indicate a privacy violation.
 
 #### **Incident-Triggering**
 - Correlates and **groups anomalies together** to trigger incidents.
