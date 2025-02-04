@@ -22,10 +22,10 @@ Event types can be created in two ways:
   - If you define an event type in eventtypes.conf that references a tag that does not already exist, you must manually define that tag in tags.conf.
   - Adjust permissions to ensure that the appropriate roles in Splunk have read and/or write access to event types.
         
-Each eventtype needs three pieces of information:
+Each event type needs three pieces of information:
 - A unique name
 - A search string that identifies the relevant events from the specific journal system.
-  - It's best practice to reference the index, host, source, and sourcetype fields associated with the journal system in question. These fields are mandatory across all events in Splunk and provides important metadata about where it originated, what kind of data it contains, and what index it is located in.
+  - It's best practice to reference the index, host, source, and sourcetype fields associated with the specific journal system. These fields are mandatory across all events in Splunk and provides important metadata about where it originated, what kind of data it contains, and what index it is located in.
   - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
 - A reference to the tag 'journalaccess'.
 
