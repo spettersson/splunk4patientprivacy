@@ -3,6 +3,9 @@ This repository was brought to life to help organizations quickly (without relyi
 
 ## 📌 What You'll Find Here
 
+### Data Guidelines
+bla bla bla 
+
 ### 🔍 Use Cases
 This repo contains **use cases** that work together to surface incidents that potentially could indicate a violation of patient privacy. The use cases fall into the following two categories:
 
