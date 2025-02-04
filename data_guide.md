@@ -14,7 +14,7 @@ An event type is a saved search that categorizes events within e.g. a journal sy
 When multiple event types relate to the same category (for example, events from different journal systems that track who has viewed whose journal), you can assign them a common tag. This allows you to retrieve all relevant journal events in a single search by referencing a tag (for example, tag=journal_access), without manually specifying each event type.
 
 For the use cases in this repository, each journal system in your environment is expected to have its own two unique event types that targets two different event categories:
-- journal_access_<journalSystemName>
+- journal_access_\<journalSystemName\>
 - journal_activity_<journalSystemName>
 
 Event types can be created in two ways:
