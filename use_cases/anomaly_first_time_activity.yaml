@@ -8,7 +8,7 @@ prerequisites:
 - data_sources: 
     Events from any journal system that records activities between employees and patients.
 - tags:
-    journal (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
+    journalaccess (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
 - indexes: 
     anomaly_collection (explanation: An index where identified anomalies are stored as events.)
 - lookups: 
@@ -24,25 +24,26 @@ prerequisites:
     search_3
 
 how_to_implement:
-  1. eventtypes:
-      - Create an unique event type for each individual data source, with all event types referencing the tag 'journal'. 
-        Please check the 'Event types' section in the data guidelines for more detailed information, which can be found here
-        https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md).
 
-  2. indexes:
-      - Create an index named 'anomaly_collection'.
-      - Make sure that the retention for this index is aligned with your requirements/needs. 
-      
-  3. lookups:
-      - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
-      - Import the lookup baseline_historical_activity.csv 
-        (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
-
-  4. fields:
+  1. fields:
       - Create the fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
       - Ensure that each data source has unique field extractions to avoid collision and use field aliases to standardize field names.
       - Please check the data guidelines for more detailed information about fields, which can be found here https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.
 
+  2. eventtypes:
+      - Create an unique event type for each individual data source, with all event types referencing the tag 'journal'. 
+        Please check the 'Event types' section in the data guidelines for more detailed information, which can be found here
+        https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md).
+
+  3. indexes:
+      - Create an index named 'anomaly_collection'.
+      - Make sure that the retention for this index is aligned with your requirements/needs. 
+      
+  4. lookups:
+      - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
+      - Import the lookup baseline_historical_activity.csv 
+        (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
+        
   5. searches:
       - Create and enable 'search_1', followed by 'search_2', followed by 'search_3'.
 
