@@ -1,5 +1,6 @@
 
-**fields**
+**Fields**
+
 
       - Example:
           - If working with Cambio COSMIC events, extract the field as cosmic_staff_ID and create an alias: cosmic_staff_ID AS staff_ID.
