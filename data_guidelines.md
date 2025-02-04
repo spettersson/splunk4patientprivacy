@@ -4,14 +4,13 @@
       - Example:
           - If working with Cambio COSMIC events, extract the field as cosmic_staff_ID and create an alias: cosmic_staff_ID AS staff_ID.
 
+**Event types**
 
-**Event type**
+An event type is a saved search that categorizes events within a journal system, eliminating the need to repeatedly write complex queries. By defining field-value pairs and search terms, you can identify specific types of journal events and reference them by name (e.g., eventtype=cosmic_journalaccess), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated as journal system data evolves.
 
-An event type is a saved search that categorizes events within a data source, eliminating the need to repeatedly write complex queries. By defining field-value pairs and search terms, you can identify specific types of events and reference them by name (e.g., eventtype=cosmic_journal), simplifying searches and ensuring consistency. Because of Splunk uses schema-on-read, event types can easily be modified and updated over time.
+When multiple event types relate to the same category (e.g., logs from different electronic journal systems tracking patient interactions), you can assign them a common tag. This allows you to retrieve all relevant journal events in a single search by referencing the tag (e.g., tag=journalaccess), without manually specifying each event type.
 
-When multiple event types relate to the same category (e.g., logs from different journal systems tracking similar activities), you can assign them a common tag. This allows you to retrieve all relevant events in a single search by simply referencing a tag (e.g., tag=journal) without manually specifying each event type.
-
-For the use cases in this repository, each data source related to patient privacy is expected to have its own unique event type. Additionally, all event types should reference the tag 'journal' for compatibility.  
+For the use cases in this repository, each journal system in your environment related to patient privacy is expected to have its own unique event type. Additionally, all event types should reference the tag journal to ensure unified searchability across different journal data sources.
 
 Event types can be created in two ways:
 - Splunk Web (recommended): Settings > Event Types > New Event Type
@@ -26,6 +25,6 @@ Each eventtype needs three pieces of information:
 - A search string that identifies the relevant events from the specific journal system.
     - The search should reference the index, host, source, and sourcetype fields with their appropriate values. These are index-time fields that are  mandatory fields across all data sources in Splunk and provides metadata about where the data source originated from and where it is stored in Splunk.
     - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
-- A reference to the tag 'journal'.
+- A reference to the tag 'journalaccess'.
 
 
