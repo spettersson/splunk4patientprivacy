@@ -30,14 +30,14 @@ how_to_implement:
       - Please check the 'Fields' section in data guidelines for more detailed information about how to set this up, which can be found here 
         https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md.
 
-  2. eventtypes:
-      - Make sure each individual data source has its own unique event type, with all event types referencing the tag 'journal'. 
+  2. event types:
+      - Make sure each individual data source has its own unique event type, with all event types referencing the tag 'journalaccess'. 
         Please check the 'Event types' section in the data guidelines for more detailed information about how to set this up, which can be found here
         https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md).
 
   3. indexes:
-      - Create an index named 'anomaly_collection'.
-      - Make sure that the retention for this index is aligned with your requirements/needs. 
+      - Make sure that an index with the name 'anomaly_collection' exist.
+      - The retention for this index should be configured according to your requirements/needs. 
       
   4. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
@@ -49,8 +49,7 @@ how_to_implement:
 
 search_1:
   title: Historical activity baseline
-  description: >
-    Establishes a baseline of historical activity for the past 6 months.
+  description: Establishes a baseline of historical activity for the past 6 months.
   search: 
     tag=journal earliest=-6mon latest=now
     | fields _time, staff_ID, patient_ID
@@ -63,8 +62,7 @@ search_1:
 
 search_2:
   title: Historical activity updates
-  description: >
-    Incrementally updates the historical activity lookup on a daily basis.
+  description: Incrementally updates the historical activity lookup on a daily basis.
   search: 
     | inputlookup baseline_historical_activity
     | append [
@@ -109,4 +107,4 @@ search_3:
   earliest_time: Leave empty (defined in search: earliest=-12min@min).
   latest_time: Leave empty (defined in search: latest=-2min@min).
   schedule: 
-    cron_expression: "*/10 * * * *"  # Runs every 10 minutes, 24/7.
+    cron_expression: "*/10 * * * *" # Runs every 10 minutes, 24/7.
