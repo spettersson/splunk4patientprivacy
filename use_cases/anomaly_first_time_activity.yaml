@@ -6,7 +6,7 @@ description:
 use_case_ID: 'uc1'
 prerequisites:
 - data_sources: 
-    Events from any journal system that records activities between employees and patients.
+    Events from any journal system that records access to patient journals.
 - tags:
     journalaccess (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
 - indexes: 
@@ -26,12 +26,12 @@ prerequisites:
 how_to_implement:
 
   1. fields:
-      - Make sure each individual data source has the following fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
+      - Make sure each individual journal system has the following fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
       - Please check the 'Fields' section in data guidelines for more detailed information about how to set this up, which can be found here 
         https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md.
 
   2. event types:
-      - Make sure each individual data source has its own unique event type, with all event types referencing the tag 'journalaccess'. 
+      - Make sure each individual journal system has its own unique event type, with all event types referencing the tag 'journalaccess'. 
         Please check the 'Event types' section in the data guidelines for more detailed information about how to set this up, which can be found here
         https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md).
 
@@ -81,10 +81,9 @@ search_2:
 
 search_3:
   title: First-time activity detection
-  description: >
-    Identifies employees who interacted with a patient within the past 10-minute window 
+  description: Identifies employees who interacted with a patient within the past 10-minute window 
     (accounting for a 2-minute latency) but had no prior activity with that patient in the last 6 months. 
-    If matched, an anomaly is triggered and stored in the anomaly_collection index.
+    If matched, an anomaly is triggered and stored as an event in the anomaly_collection index.
   search: 
     tag=journal earliest=-12min@min latest=-2min@min
     | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
