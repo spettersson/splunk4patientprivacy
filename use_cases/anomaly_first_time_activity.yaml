@@ -28,7 +28,7 @@ how_to_implement:
   1. fields:
       - Make sure each individual data source has the following fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
       - Please check the 'Fields' section in data guidelines for more detailed information about how to set this up, which can be found here 
-        https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.
+        https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md.
 
   2. eventtypes:
       - Make sure each individual data source has its own unique event type, with all event types referencing the tag 'journal'. 
