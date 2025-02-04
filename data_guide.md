@@ -9,11 +9,13 @@
 
 <img src="images/eventtypes_v1.5.png" alt="eventtypes" style="width:60%;"/>
 
-An event type is a saved search that categorizes events within e.g. a journal system. By defining field-value pairs and search terms, you can identify specific types of journal events and reference them by name (e.g., eventtype=journal_access_cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
+An event type is a saved search that categorizes events within e.g. a journal system. By defining field-value pairs and search terms, you can identify specific types of journal events and reference them by name (for example, eventtype=journal_access_cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
 
-When multiple event types relate to the same category (e.g., logs from different journal systems tracking journal access), you can assign them a common tag. This allows you to retrieve all relevant journal events in a single search by referencing a tag (e.g., tag=journal_access), without manually specifying each event type.
+When multiple event types relate to the same category (for example, events from different journal systems that track who has viewed whose journal), you can assign them a common tag. This allows you to retrieve all relevant journal events in a single search by referencing a tag (for example, tag=journal_access), without manually specifying each event type.
 
-For the use cases in this repository, each journal system in your environment is expected to have its own unique event type. Additionally, all event types should reference the tag 'journalaccess' for full compatibility.
+For the use cases in this repository, each journal system in your environment is expected to have its own two unique event types that targets two different event categories:
+- journal_access_<journalSystemName>
+- journal_activity_<journalSystemName>
 
 Event types can be created in two ways:
 - Splunk Web (recommended): Settings > Event Types > New Event Type
