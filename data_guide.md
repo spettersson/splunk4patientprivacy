@@ -4,7 +4,7 @@ Splunk can collect, index, search, correlate, and visualize logs from any system
 
 When onboarding logs from a new system, it is crucial to provide Splunk with the right instructions (configurations) so that it can correctly interpret and index the logs as **individual events**—where each log record becomes an event representing something that happened at a specific point in time.  
 
-Since different systems (or even different data streams within the same system) may have different log formats, Splunk must handle them accordingly. To achieve this, Splunk assigns each data format a unique sourcetype. From an indexing point of view, the sourcetype instructs how to separate individual events within the raw data and how ti
+Since different systems (or even different data streams within the same system) may have different log formats, Splunk must handle them accordingly. To achieve this, Splunk assigns each data format a unique sourcetype. From an indexing point of view, the sourcetype instructs how to separate...
 
 
 The sourcetype defines the necessary configurations for proper event parsing and indexing and later becomes invaluable when filtering data in your searches.
