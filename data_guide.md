@@ -1,3 +1,6 @@
+**Data sources**
+This repository is designed to handle data coming from any source that include create, read, update, delete, and export activities associated to patient journals.
+
 
 **Fields**
 
