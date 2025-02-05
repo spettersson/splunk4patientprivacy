@@ -1,6 +1,13 @@
-## **Data sources**
+## **Event formatting**
 
-This repository is developed to handle events coming from any system that include **create**, **read**, **update**, **delete**, and **export** activities associated to patient journals. It is important to note that it is not, in any way, limited to specific systems or vendors.
+This repository is developed to handle events coming from any system that include **create**, **read**, **update**, **delete**, and **export** activities related to patient journals. It is important to note that it is not, in any way, limited to specific systems or vendors.
+
+When onboarding events from a new system into Splunk, it is important to provide Splunk with instructions for how to correctly format the events. The list of possible configurations grows long, but what you should consider is what is commonly known as the magic 8:
+
+LINE_BREAKING = <regular_expression; default: >
+SHOULD_MERGE = <true | false; default: false>
+
+
 
 
 
