@@ -1,16 +1,12 @@
-**Data sources**
+## **Data sources**
 
-This repository is designed to handle events coming from any system that include **create**, **read**, **update**, **delete**, and **export** activities associated to patient journals.
+This repository is designed to handle events coming from any system that include **create**, **read**, **update**, **delete**, and **export** activities associated to patient journals. It is not, in any way, limited to specific systems or vendors.
 
 
-**Fields**
+## **Fields**
 
-In order to 
 
-      - Example:
-          - If working with Cambio COSMIC events, extract the field as cosmic_staff_ID and create an alias: cosmic_staff_ID AS staff_ID.
-
-**Event types**
+## **Event types**
 
 <img src="images/eventtypes_v1.6.png" alt="eventtypes" style="width:60%;"/>
 
@@ -20,29 +16,20 @@ Since your organization likely has multiple systems that hold events that fall i
 
 For the use cases in this repository, each system is expected to have **one unique event type** (that is, journal_activity_$systemName$). This event type must include events that records create/read/update/delete activities associated to patient journals. 
 
-An event type can be created either through the Splunk UI (AKA Splunk Web) or Splunk configuration files - which approach you use depends on your preferences. The following is a step by step guide for how to create an event type in Splunk UI:
+An event type can be created either through the Splunk UI (AKA Splunk Web) or Splunk configuration files - which approach you use depends on your preferences. The following is a step by step guide for how to create an event type in Splunk UI.
+
 1. Navigate to **Settings > Event Types**
 2. Click on **New Event Type**
 3. In the **Name** field, enter a name for the event type.
-  - This name should follow this naming standard: journal_activity_$systemName$. Replace $systemName$ with the name of the system that the event type is associad with.
-  - example: journal_activity_cosmic
-4. In the **Search string** field, enter the field::value pairs and search terms that captures the desired events from the system in question.
-  - It's best practice to reference the index, host, source, and sourcetype fields associated with the specific journal system if possible. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
-  - Depending on the system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
-  - example: index=cosmic sourcetype=cosmic source IN ("F_IX_ACCESSLOG.txt", "F_IX_ACTIVITYLOG.txt") activity_type=*
-
-5. In the Tag(s) field, enter a tag.
-    -
+   - This name should follow this naming standard: journal_activity_$systemName$ (replace $systemName$ with the system).
+   - example: journal_activity_cosmic
+4. In the **Search string** field, enter the field::value pairs and search terms that captures the desired group of events from the system.
+   - It's best practice to reference the index, host, source, and sourcetype fields associated with the system. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
+   - Depending on the system, additional field-value pairs and search terms may be necessary to narrow down the events to the desired group of events.
+   - example: index=cosmic sourcetype=cosmic source IN ("F_IX_ACCESSLOG.txt", "F_IX_ACTIVITYLOG.txt") activity_type=*
+5. In the **Tag(s)** field, enter the tag 'journal_activity'
     - If you create an event type via Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
     - Adjust permissions to ensure that the appropriate roles in Splunk have read and/or write access to event types.
         
-Each event type needs three pieces of information:
-- A unique **name**
-- A **search string** that identifies the relevant events from the specific journal system.
-  - It's best practice to reference the index, host, source, and sourcetype fields associated with the specific journal system if possible. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
-  - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
-  - Example: index=cosmic sourcetype=cosmic source=F_IX_ACCESSLOG staff_ID=* patient_ID=* 
-- A reference to a **tag**
-  - Example: journal_access
 
 
