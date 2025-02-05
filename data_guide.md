@@ -1,4 +1,4 @@
-## **Event formatting**
+## **Data sources**
 
 Splunk can handle data coming from any system from any vendor that include **create**, **read**, **update**, **delete**, and **export** activities related to patient journals.
 
