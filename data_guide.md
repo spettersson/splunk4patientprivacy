@@ -9,7 +9,7 @@ This repository is designed to handle events coming from any system that include
 ## **Event types**
 
 <p align="center">
-  <img src="images/eventtypes_v1.8.png" alt="eventtypes" style="width:70%;">
+  <img src="images/eventtypes_v1.8.png" alt="eventtypes" style="width:80%;">
 </p>
 
 Event types categorize events from systems that interact with patient journals. By defining field-value pairs and search terms, you can identify a group of events and save the result as an event type which then can be references in a search (for example, eventtype=journal_activity_cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
