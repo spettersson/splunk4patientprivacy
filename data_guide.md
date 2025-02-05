@@ -8,7 +8,7 @@ A sourcetype includes configurations that fall into two main categories: event l
 
 Event line breaking
 
-Splunk needs to know what separates one event from another (that is, event boundaries) so we don't end up with for example one and a half log records in a single event (will make filtering and correlation difficult). 
+These configurations tells Splunk how to separate one event from another so we don't end up with for example one and a half log records in a single event, which will make filtering and correlation difficult. 
 
 Splunk stores the incoming data as events, where each event is a record of something that happend at a specific point of time - thus, Splunk needs information about how it should break the data into events before indexing (for example, we don't want one and a half log record within the same event). How this is done depends on if we are dealing with single line or multi line events - for single line events, you simply set the LINE_BREAKING key
 
