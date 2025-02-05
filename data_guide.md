@@ -1,6 +1,6 @@
 ## **Data sources**
 
-This repository is designed to handle events coming from any system that include **create**, **read**, **update**, **delete**, and **export** activities associated to patient journals. It is not, in any way, limited to specific systems or vendors.
+This repository is designed to handle events coming from any system that include **create**, **read**, **update**, **delete**, and **export** activities associated to patient journals. It is also important to note that Splunk is not, in any way, limited to specific systems or vendors.
 
 
 ## **Fields**
