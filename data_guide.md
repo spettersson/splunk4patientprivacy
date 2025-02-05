@@ -1,10 +1,10 @@
 ## **Event formatting**
 
-Splunk can handle events coming from any system from any vendor that include **create**, **read**, **update**, **delete**, and **export** activities related to patient journals.
+Splunk can handle data coming from any system from any vendor that include **create**, **read**, **update**, **delete**, and **export** activities related to patient journals.
 
-When onboarding events from a new system, it is important to provide Splunk with the right instructions (configurations) so that it can understand the format of the data and turn it into events. Since different systems, or sometimes even different data streams from the same system, may have different formats, 
+When onboarding data from a new system, it is important to provide Splunk with the right instructions (that is, configurations) so that it can understand the format of the data and correctly index the data as individual events (where each event can tell us about something that happend at a specific point of time). Since data from different systems (sometimes even different data streams from the same system) may have different formats, Splunk needs to treat them differently and it does so by assigning them a unique source**type** that includes the configuration that Splunk needs.
 
-The configurations needed fall into two main categories: event line breaking and timestamp extraction.
+A sourcetype includes configurations that fall into two main categories: event line breaking and timestamp extraction.
 
 Event line breaking
 
