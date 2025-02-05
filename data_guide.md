@@ -14,7 +14,7 @@ In order to
 
 <img src="images/eventtypes_v1.6.png" alt="eventtypes" style="width:60%;"/>
 
-Event types allow for categorization of events coming from systems that handle patient journals. By defining field-value pairs and search terms, you can identify a group of events and save it as an event type which then can be references in a search (for example, eventtype=journal_activity_cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
+Event types allow for categorization of events coming from systems that deal with patient journals. By defining field-value pairs and search terms, you can identify a group of events and save it as an event type which then can be references in a search (for example, eventtype=journal_activity_cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
 
 Since your organization likely has multiple systems that hold events that fall into to the same category, you will ultimately end up with multple event types. In such cases, you can assign them a common tag. This allows you to retrieve all desired events in a single search by simply referencing a tag (for example, tag=journal_activity), without manually specifying each event type.
 
