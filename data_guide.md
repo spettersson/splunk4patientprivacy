@@ -15,7 +15,9 @@ When multiple event types relate to the same category (for example, events from 
 
 For the use cases in this repository, each journal system is expected to have **two unique event types** that targets different event categories:
 - journal_access_\<journalSystemName\>
+  - this category include events that records employees accessing patient journals.
 - journal_activity_\<journalSystemName\>
+  - this category include events that records create/read/update/delete acitivities from employees in the journal system.
 
 Event types can be created in the two ways presented below. Which you choose depends on your preferences.
 - Splunk Web (recommended): Settings > Event Types > New Event Type
@@ -30,7 +32,7 @@ Each event type needs three pieces of information:
 - A **search string** that identifies the relevant events from the specific journal system.
   - It's best practice to reference the index, host, source, and sourcetype fields associated with the specific journal system if possible. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
   - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
-  - Example: index=journal_cosmic sourcetype=cosmic source=cosmic_accesslog staff_ID=* patient_ID=* 
+  - Example: index=journal_cosmic sourcetype=cosmic source=IX_ACCESSLOG staff_ID=* patient_ID=* 
 - A reference to the **tag** 'journalaccess'.
 
 
