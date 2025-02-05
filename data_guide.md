@@ -32,7 +32,7 @@ Each event type needs three pieces of information:
 - A **search string** that identifies the relevant events from the specific journal system.
   - It's best practice to reference the index, host, source, and sourcetype fields associated with the specific journal system if possible. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
   - Depending on the journal system, additional field-value pairs and search terms to narrow down the events to the desired event categorization.
-  - Example: index=journal_cosmic sourcetype=cosmic source=FIX_ACCESSLOG.log staff_ID=* patient_ID=* 
+  - Example: index=journal_cosmic sourcetype=cosmic source=F_IX_ACCESSLOG.log staff_ID=* patient_ID=* 
 - A reference to the **tag** 'journalaccess'.
 
 
