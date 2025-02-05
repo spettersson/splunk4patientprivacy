@@ -30,7 +30,7 @@ An event type can be created either through the Splunk UI (AKA Splunk Web) or Sp
 5. In the **Tag(s)** field, enter the tag 'journal_activity'
     - When creating an event type via Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
 
-Maek sure to adjust permissions to ensure that the appropriate roles in Splunk have read and/or write access to the right event types.
+Make sure to adjust permissions to ensure that the appropriate roles in Splunk have read and/or write access to the right event types.
         
 
 
