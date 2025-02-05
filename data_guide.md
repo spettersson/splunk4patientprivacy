@@ -1,11 +1,29 @@
 ## **Event formatting**
 
-This repository is developed to handle events coming from any system that include **create**, **read**, **update**, **delete**, and **export** activities related to patient journals. It is important to note that it is not, in any way, limited to specific systems or vendors.
+Splunk can handle events coming from any system from any vendor that include **create**, **read**, **update**, **delete**, and **export** activities related to patient journals.
 
-When onboarding events from a new system into Splunk, it is important to provide Splunk with instructions for how to correctly format the events. The list of possible configurations grows long, but what you should consider is what is commonly known as the magic 8:
+When onboarding events from a new system, it is important to provide Splunk with the right instructions (configurations) so that it can understand the format of the data and turn it into events. Since different systems, or sometimes even different data streams from the same system, may have different formats, 
 
-LINE_BREAKING = <regular_expression; default: >
-SHOULD_MERGE = <true | false; default: false>
+The configurations needed fall into two main categories: event line breaking and timestamp extraction.
+
+Event line breaking
+
+Splunk stores the incoming data as events, where each event is a record of something that happend at a specific point of time - thus, Splunk needs information about how it should break the data into events before indexing (for example, we don't want one and a half log record within the same event). How this is done depends on if we are dealing with single line or multi line events - for single line events, you simply set the LINE_BREAKING key
+
+LINE_BREAKING = <regular_expression>
+- Specifies how raw text is browing into events
+- Default: ([\r\n])
+
+SHOULD_MERGE = <true | false>
+- Specifies if Splunk should merge lines into multi-line events
+- Default: false
+
+  Timestamp extraction
+
+
+
+  
+ 
 
 
 
