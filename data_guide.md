@@ -1,9 +1,11 @@
 **Data sources**
-This repository is designed to handle data coming from any source that include create, read, update, delete, and export activities associated to patient journals.
+
+This repository is designed to handle events coming from any system that include **create**, **read**, **update**, **delete**, and **export** activities associated to patient journals.
 
 
 **Fields**
 
+In order to 
 
       - Example:
           - If working with Cambio COSMIC events, extract the field as cosmic_staff_ID and create an alias: cosmic_staff_ID AS staff_ID.
@@ -12,15 +14,12 @@ This repository is designed to handle data coming from any source that include c
 
 <img src="images/eventtypes_v1.6.png" alt="eventtypes" style="width:60%;"/>
 
-Event types allows for categorization of events in a journal system. By defining field-value pairs and search terms, you can identify specific
-types of journal events and save it as an event type which then can be references in a search (for example, eventtype=journal_access_cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
+Event types allow for categorization of events coming from systems that handle patient journals. By defining field-value pairs and search terms, you can identify a group of events and save it as an event type which then can be references in a search (for example, eventtype=journal_activity_cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
 
-When multiple event types relate to the same category (for example, events from different journal systems that track who has viewed whose journal), you can assign them a common tag. This allows you to retrieve all relevant journal events in a single search by referencing a tag (for example, tag=journal_access), without manually specifying each event type.
+Since your organization likely has multiple systems that hold events that fall into to the same category, you will ultimately end up with multple event types. In such cases, you can assign them a common tag. This allows you to retrieve all desired events in a single search by simply referencing a tag (for example, tag=journal_activity), without manually specifying each event type.
 
-For the use cases in this repository, each journal system is expected to have **two unique event types** that targets different event categories:
-- journal_access_\<journalSystemName\>
-  - this category include events that records employees accessing patient journals.
-- journal_activity_\<journalSystemName\>
+For the use cases in this repository, each system is expected to have **one unique event type** that groups events that provide information about create, read, update, delete, and export activities associated to patient journals:
+- journal_activity_\<systemName\>
   - this category include events that records create/read/update/delete acitivities from employees in the journal system.
 
 Event types can be created either through Splunk Web and Splunk configuration files. Which you choose depends on your preferences. Down below 
