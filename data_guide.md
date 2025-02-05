@@ -1,26 +1,41 @@
-## **Data sources**
+## **Data Sources**  
 
-Splunk can handle data coming from any system from any vendor that include **create**, **read**, **update**, **delete**, and **export** activities related to patient journals.
+Splunk can collect, index, search, correlate, and visualize data from any system or vendor that records **create**, **read**, **update**, **delete**, and **export** activities related to patient journals.  
 
-When onboarding data from a new system, it is important to provide Splunk with the right instructions (that is, configurations) so that it can understand the format of the data and correctly index the data as individual events (where each event can tell us about something that happend at a specific point of time). Since data from different systems (sometimes even different data streams from the same system) may have different formats, Splunk needs to treat them differently and it does so by assigning them a unique source**type** that includes the configuration that Splunk needs.
+When onboarding data from a new system, it is crucial to provide Splunk with the right instructions (configurations) so that it can correctly interpret and index the data as **individual events**—where each event represents something that happened at a specific point in time.  
 
-A sourcetype includes configurations that fall into two main categories: event line breaking and timestamp extraction.
+Since different systems (or even different data streams within the same system) may have different log formats, Splunk must handle them differently. To achieve this, Splunk assigns each data format a unique **sourcetype**. The **sourcetype** defines the required configurations for proper **event parsing and indexing**.  
 
-Event line breaking
+### **Sourcetype Configurations**  
 
-These configurations tells Splunk how to separate one event from another so we don't end up with for example one and a half log records in a single event, which will make filtering and correlation difficult. 
+A sourcetype consists of two key categories of configurations:  
 
-Splunk stores the incoming data as events, where each event is a record of something that happend at a specific point of time - thus, Splunk needs information about how it should break the data into events before indexing (for example, we don't want one and a half log record within the same event). How this is done depends on if we are dealing with single line or multi line events - for single line events, you simply set the LINE_BREAKING key
+### **1. Event Line Breaking Configurations**  
+These configurations determine how Splunk separates individual events within raw log data. If configured incorrectly, Splunk may group unrelated log entries into a single event or split a single event into multiple fragments, making searches and correlation difficult.  
 
-LINE_BREAKING = <regular_expression>
-- Specifies how raw text is browing into events
-- Default: ([\r\n])
+```ini
+[<sourceTypeName>]
+LINE_BREAKER = <regular_expression>   # Defines how raw text is broken into separate events.
+SHOULD_LINEMERGE = <true|false>       # If true, Splunk attempts to merge lines into multi-line events. 
+```
 
-SHOULD_MERGE = <true | false>
-- Specifies if Splunk should merge lines into multi-line events
-- Default: false
+- **`LINE_BREAKER`**: A regular expression that tells Splunk where one event ends, and the next begins.
+- **`SHOULD_LINEMERGE`**: When `true`, Splunk will try to combine multiple lines into a single event if they appear to be related (e.g., stack traces). When `false`, Splunk will strictly follow `LINE_BREAKER`.
 
-  Timestamp extraction
+### **2. Timestamp Assignment Configurations**  
+These configurations define how Splunk **extracts and interprets timestamps** from events, ensuring they are assigned the correct time for indexing.  
+
+```ini
+TIME_PREFIX = <regular_expression>     # Defines where the timestamp is located in the raw event.
+TIME_FORMAT = <strptime-style format>  # Defines the timestamp format so Splunk can parse it correctly.
+TZ = <timezone identifier>             # Specifies the time zone of the log source.
+```
+
+- **`TIME_PREFIX`**: A regular expression that tells Splunk where to look for the timestamp in an event.
+- **`TIME_FORMAT`**: A format string (following `strptime` syntax) that defines how Splunk should interpret the timestamp.
+- **`TZ`**: Specifies the time zone of the system that generated the logs, ensuring proper time alignment in searches.
+
+---
 
 
 
