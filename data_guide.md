@@ -6,21 +6,18 @@ When onboarding logs from a new system, it is crucial to provide Splunk with pro
 
 However, log formats vary significantly between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a unique source**type**, which can later be referenced in searches to efficiently filter log sources.
 
----
 
 ### **What is a Sourcetype?**
 
-A sourcetype is a group of configurations that tells Splunk how to correctly parse and index a specific log source. It mainly defines:
+A sourcetype is a set of configurations that tells Splunk how to correctly parse and index a specific log source. It mainly defines:
 - How logs are separated into individual events (event line-breaking rules).
 - How timestamps are identified and extracted (so events are placed in the correct time order).
 - How field extractions work (so logs become structured and searchable).
 
----
-
 ### **Create Your Own Sourcetype(s)**
 
 #### **1. Study the Log Format**
-The first step is to understand the structure of your logs. Pay attention to:
+The first step is to understand the structure of your logs, specifically:
 
 ✅ **Structured vs. Unstructured**: Is the log format JSON, XML, CSV, or free-text (.log, .txt)?  
 ✅ **Single-Line vs. Multi-Line**: Does each event fit on a single line, or does it span multiple lines?  
@@ -43,7 +40,7 @@ For multi-line logs, you need to set `SHOULD_LINEMERGE = true` and take addition
 
 A key of a sourcetype is to apply [timestamp assignment configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) which control how Splunk identifies, extracts and assigns timestamps to events. Proper timestamp assignment ensures accurate event filtering and correlation, and correct enforcement of retention policies.
 
-**Example:**
+Example:
 ```ini
 TIME_PREFIX = ^  # The timestamp starts at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # ISO 8601 format with microseconds.
@@ -52,13 +49,15 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 
 #### **4. Create the Sourcetype(s)**
 
-The process for how a sourcetype is created depends on if you are running Splunk Enterprise or Splunk Cloud.
+The process for how to create a sourcetype depends on if you are running Splunk Cloud or Splunk Enterprise, architecture design, and how the method used to get the log source from its origin to Splunk.
 
-For Splunk Enterpise, create the sourcetype(s) via "Splunk Add-On Builder". A step by step guide can be found [here](https://docs.splunk.com/Documentation/AddonBuilder/latest/UserGuide/Overview).
+In genereal:
 
-For Splunk Cloud, create the sourcetype(s) directly in the Splunk Web. A step by step guide can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/9.3.2408/Data/Managesourcetypes#Add_Source_Type:~:text=in%20Metrics.-,Add%20a%20source%20type,-To%20create%20a).
+For Splunk Cloud and Splunk Enterprise [(single server deployment)](https://docs.splunk.com/Documentation/SVA/current/Architectures/S1#:~:text=Read%20more...-,Single%20Server%20Deployment%20(S1),-The%20following%20diagram), create the sourcetype(s) directly in the Splunk Web. Make sure to store all sourcetypes in custom Splunk app by selecting it as the App Context.
 
----
+For Splunk Enterprise [()]()e, create the sourcetype(s) via "Splunk Add-On Builder". A step by step guide can be found [here](https://docs.splunk.com/Documentation/AddonBuilder/latest/UserGuide/Overview).
+
+A step by step guide can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/9.3.2408/Data/Managesourcetypes#Add_Source_Type:~:text=in%20Metrics.-,Add%20a%20source%20type,-To%20create%20a).
 
 #### **5. Validate and Test Sourcetypes**
 
