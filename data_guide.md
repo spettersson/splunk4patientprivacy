@@ -87,7 +87,7 @@ $SPLUNK_HOME/bin/splunk new app TA-patient-privacy
 mkdir -p $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/
 nano $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/props.conf
 ```
-Add the following a stanza for each unique sourcetype inside `props.conf`. 
+Add a stanza for each unique sourcetype inside `props.conf`. 
 
 Example:
 ```ini
