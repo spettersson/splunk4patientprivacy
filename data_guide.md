@@ -17,7 +17,7 @@ A sourcetype is a group of configurations that tells Splunk how to correctly par
 
 ---
 
-### **Create Your Own Sourcetype in Splunk**
+### **Create Your Own Sourcetype(s)**
 
 #### **1. Study the Log Format**
 The first step is to understand the structure of your logs. Pay attention to:
@@ -31,7 +31,7 @@ The first step is to understand the structure of your logs. Pay attention to:
 
 #### **2. Understand How to Configure Event Line-Breaking**
 
-A key role of a sourcetype is to apply event line-breaking configurations which control how Splunk recognizes the start and end of each event. This prevents issues like ending up with multiple log records in a single event or a single log record split into multiple events.
+A key role of a sourcetype is to apply [event line-breaking configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) which control how Splunk determines the start and end of each event. This prevents issues like ending up with multiple log records in a single event or a single log record split into multiple events.
 
 Example Configuration:
 ```ini
@@ -44,7 +44,7 @@ For multi-line logs, you need to set `SHOULD_LINEMERGE = true` and take addition
 
 #### **3. Understand How to Configure Timestamp Assignment**
 
-A key of a sourcetype is to apply timestamp assignment configurations which control how Splunk identifies, extracts and assigns timestamps to events. Proper timestamp assignment ensures accurate event filtering and correlation, and correct enforcement of retention policies.
+A key of a sourcetype is to apply [timestamp assignment configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) which control how Splunk identifies, extracts and assigns timestamps to events. Proper timestamp assignment ensures accurate event filtering and correlation, and correct enforcement of retention policies.
 
 **Example Configuration:**
 ```ini
@@ -55,30 +55,9 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 
 ---
 
-#### **4. Create and Implement the Sourcetype in `props.conf`**
+#### **4. Create the Sourcetype(s)
 
-The behaviour of Splunk is steered by configurations in a number of different files, where each file serves a specific purpose. For determining how Splunk should parse and index logs, the configuration file props.conf plays a central role as it is where you create the sourcetype.
-
-
-##### **Where to Place `props.conf`?**
-As explained in the Splunk Docs: ["a Splunk Enterprise installation can have multiple versions of a configuration file located across several directories. For example, you might have the same configuration file with different settings located in each of the default, local, and app directories. Splunk Enterprise uses a layering scheme and rules to evaluate overlapping configurations and prioritize them."](https://docs.splunk.com/Documentation/Splunk/9.4.0/Admin/Configurationfiledirectories#:~:text=A%20Splunk%20Enterprise,and%20prioritize%20them.)
-
-
-
-
-✅ **Best Practice**: Store `props.conf` inside a custom app in `$SPLUNK_HOME/etc/apps/your_custom_app/local/props.conf`.  
-❌ **Avoid**: Placing sourcetype definitions in `$SPLUNK_HOME/etc/system/local/props.conf` because system-wide changes may be harder to maintain and could be overwritten during upgrades.  
-
-##### **Example `props.conf` Stanza in an App:**
-```ini
-[mySourceTypeName]
-SHOULD_LINEMERGE = false
-LINE_BREAKER = (\n)
-TIME_PREFIX = ^ 
-TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ
-MAX_TIMESTAMP_LOOKAHEAD = 27
-```
-This ensures **clean event separation, accurate timestamps, and scalable sourcetype management**.
+The process for how a sourcetype is created depending on if you are running Splunk Enterprise or Splunk Cloud.
 
 ---
 
