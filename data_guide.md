@@ -75,7 +75,7 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
   - Click **Apply**
 
 ##### **For Splunk Enterprise (Distributed Deployment)**
-If you are running a **distributed Splunk deployment**, sourcetypes must be configured on the Cluster Manager to ensure that all sourcetypes are pushed out from a central point to all indexers in the belonging to the cluster.
+If you are running a **distributed Splunk deployment**, sourcetypes created in an Splunk app located on the Cluster Manager. This ensures that all sourcetypes are pushed out from a central point to all peer nodes belonging to the cluster.
 
 Run the following commands:
 ```bash
