@@ -26,12 +26,10 @@ By correctly assigning a **sourcetype** to a log source, Splunk knows how to pro
 
 The first step is to understand the structure of your logs, specifically:
 
-- ❓ **Structured vs. Unstructured**: Is the log format JSON, XML, CSV, or free-text (.log, .txt)
-- ❓ **Single-Line vs. Multi-Line**: Does each event fit on a single line, or does it span multiple lines
+- ❓ **Structured vs. Unstructured**: JSON, XML, CSV, or free-text (.log, .txt)
+- ❓ **Single-Line vs. Multi-Line**: Whether indiviual log records are made up of a single line or if they span multiple lines
 - ❓ **Event Delimiter**: How do you know where a new log record starts? (e.g., `\n` for new lines, timestamps, or a specific keyword)
 - ❓ **Timestamp Format**: What format does the timestamp use? (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`)
-
----
 
 #### **2. Event Line-Breaking**
 
@@ -44,8 +42,6 @@ SHOULD_LINEMERGE = false  # Single-line logs do not need merging.
 ```
 
 For **multi-line logs**, `SHOULD_LINEMERGE = true` (and other configurations) may be required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
-
----
 
 #### **3. Timestamp Assignment**
 
@@ -61,27 +57,25 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 ✅ **Accurate event filtering and correlation**  
 ✅ **Correct retention policy enforcement**  
 
----
-
 #### **4. Create the Sourcetype(s)**
 
 ##### **For Splunk Cloud and Splunk Enterprise (Single Server Deployment)**
 - Create a new Splunk app where the sourcetype(s) should be located
   - Navigate to **Apps → Manage Apps** in Splunk Web
   - Click on **Create App**
-  - In the field **Name**, enter TA-patient-privacy
-  - In the field **Folder Name**, enter TA-patient-privacy
+  - In the field **Name**, enter 'TA-patient-privacy'
+  - In the field **Folder Name**, enter 'TA-patient-privacy'
 - Create the sourcetype(s)
   - Navigate to **Settings → Source Types** in Splunk Web
   - Click **New Source Type**.
-  - In the **Name** field, enter the name \<systemName\>_\<logSource\>
-  - In the **Destination App**, select the app TA-patient-privacy
-  - Define configrations for event line-breaking
+  - In the **Name** field, enter the name \<systemName\>_\<logSource\> (remember that the name has to be unique)
+  - In the **Destination App**, select the app 'TA-patient-privacy'
+  - Define configurations for event line-breaking
   - Define configurations for timestamp assigment (do it in the **Advanced** section)
   - Click **Apply**
 
 ##### **For Splunk Enterprise (Distributed Deployment)**
-If you are running a **distributed Splunk deployment**, sourcetypes must be configured on the **Cluster Manager or Heavy Forwarders**.
+If you are running a **distributed Splunk deployment**, sourcetypes must be configured on the Cluster Manager to ensure that all sourcetypes are pushed out from a central point to all indexers in the belonging to the cluster.
 
 Run the following commands:
 ```bash
