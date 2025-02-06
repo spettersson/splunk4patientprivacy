@@ -63,17 +63,14 @@ For Splunk Cloud, create sourcetype directly in the Splunk Web. A step by step g
 
 #### **5. Validate and Test Sourcetypes**
 
-After creating the sourcetype, always **test it before deploying it to production**. One way to do this is to use the "Add Data" feature in Splunk Web.
+After creating the sourcetype, always **test it before deploying it to production**. One way to check that logs are successfuly parsed into events, use the "Add Data" feature in Splunk Web.
 
-Navigate to "Settings" > "Add Data"
-Click on "Upload"
-Click on "Select File"
-
-
-✅ **Use the Add Data feature** in Splunk Web to preview how logs are parsed.  
-✅ **Check event breaking** by running sample searches (`index=my_index sourcetype=my_custom_sourcetype`).  
-✅ **Verify timestamps** by ensuring events appear in the correct order.  
-✅ **Monitor performance** and adjust configurations if needed.  
+1. Navigate to "Settings" > "Add Data"
+2. Click on "Upload" and select a sample log file
+3. Click on "Select File"
+4. Select a sourcetype
+5. Validate event line-breaking
+6. Validate timestamp
 
 ---
 
