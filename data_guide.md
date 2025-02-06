@@ -1,6 +1,6 @@
 ## **Get Logs In**
 
-Splunk can collect, index, search, correlate, and visualize logs from any system or vendor that records activities such as **create, read, update, delete, and export** related to patient journals.
+Splunk can collect, index, search, correlate, and visualize logs from any system or vendor that records activities such as **create, read, update, delete, and export** activities related to patient journals.
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs **between the moment logs are received by Splunk and when they are written to disk**. Once on disk, each log record should be stored as a **single event**, where each event represents something that happened at a specific point in time.
 
