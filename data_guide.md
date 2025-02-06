@@ -33,39 +33,42 @@ The first step is to understand the structure of your logs. Pay attention to:
 
 A key role of a sourcetype is to apply [event line-breaking configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) which control how Splunk determines the start and end of each event. This prevents issues like ending up with multiple log records in a single event or a single log record split into multiple events.
 
-Example Configuration:
+Example:
 ```ini
 LINE_BREAKER = (\n+)  # One or more newline characters are expected before the start of a new event.
 SHOULD_LINEMERGE = false  # This is a single-line log, so merging is unnecessary.
 ```
 For multi-line logs, you need to set `SHOULD_LINEMERGE = true` and take additional configurations into consideration which are explained in [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
 
----
-
 #### **3. Understand How to Configure Timestamp Assignment**
 
 A key of a sourcetype is to apply [timestamp assignment configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) which control how Splunk identifies, extracts and assigns timestamps to events. Proper timestamp assignment ensures accurate event filtering and correlation, and correct enforcement of retention policies.
 
-**Example Configuration:**
+**Example:**
 ```ini
 TIME_PREFIX = ^  # The timestamp starts at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # ISO 8601 format with microseconds.
 MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 ```
 
+#### **4. Create the Sourcetype(s)**
+
+The process for how a sourcetype is created depends on if you are running Splunk Enterprise or Splunk Cloud.
+
+For Splunk Enterpise, create the sourcetype(s) via "Splunk Add-On Builder". A step by step guide can be found [here](https://docs.splunk.com/Documentation/AddonBuilder/latest/UserGuide/Overview).
+
+For Splunk Cloud, create sourcetype directly in the Splunk Web. A step by step guide can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/9.3.2408/Data/Managesourcetypes#Add_Source_Type:~:text=in%20Metrics.-,Add%20a%20source%20type,-To%20create%20a).
+
 ---
 
-#### **4. Create the Sourcetype(s)
+#### **5. Validate and Test Sourcetypes**
 
-The process for how a sourcetype is created depending on if you are running Splunk Enterprise or Splunk Cloud.
+After creating the sourcetype, always **test it before deploying it to production**. One way to do this is to use the "Add Data" feature in Splunk Web.
 
----
+Navigate to "Settings" > "Add Data"
+Click on "Upload"
+Click on "Select File"
 
-#### **5. Validate and Test the Configuration**
-
-After defining the sourcetype, always **test it before deploying it to production**:
-
-Nav
 
 ✅ **Use the Add Data feature** in Splunk Web to preview how logs are parsed.  
 ✅ **Check event breaking** by running sample searches (`index=my_index sourcetype=my_custom_sourcetype`).  
