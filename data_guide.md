@@ -33,7 +33,7 @@ The first step is to understand the structure of your logs, specifically:
 
 ---
 
-#### **2. Configure Proper Event Line-Breaking**
+#### **2. Event Line-Breaking**
 
 A key function of a sourcetype is to apply [event line-breaking configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) which control how Splunk determines the start and end of each event. This prevents issues such as multiple log records merged into a single event or a single log record split into multiple events.  
 
@@ -47,7 +47,7 @@ For **multi-line logs**, `SHOULD_LINEMERGE = true` may be required. See [Splunk 
 
 ---
 
-#### **3. Configure Proper Timestamp Assignment**
+#### **3. Timestamp Assignment**
 
 A key function of a sourcetype is to apply [timestamp assignment configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) which control how Splunk identifies, extracts, and assigns timestamps to events.
 
@@ -66,16 +66,24 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 #### **4. Create the Sourcetype(s)**
 
 ##### **For Splunk Cloud and Splunk Enterprise (Single Server Deployment)**
-- Navigate to **Settings → Source Types** in Splunk Web.
-- Click **Create New Source Type**.
-- **Best practice:** First, create a **custom Splunk app** under **Apps → Manage Apps → Create App**, then assign the sourcetype to that app.
+- Create a new Splunk app where the sourcetype(s) should be located
+  - Navigate to **Apps → Manage Apps**
+  - Click on **Create App**
+  - In the field **Name**, enter TA-patient-privacy
+  - In the field **Folder Name**, enter TA-patient-privacy
+- Create the sourcetype(s)
+  - Navigate to **Settings → Source Types**
+  - Click **New Source Type**.
+  - Define configrations for event line-breaking
+  - Define configurations for timestamp assigment
+  - Click **Apply**
 
 ##### **For Splunk Enterprise (Distributed Deployment)**
-If you are running a **distributed Splunk deployment**, sourcetypes must be configured on the **Cluster Manager (for Indexers) or Heavy Forwarders**, NOT on the Search Head.
+If you are running a **distributed Splunk deployment**, sourcetypes must be configured on the **Cluster Manager or Heavy Forwarders**.
 
 Run the following commands:
 ```bash
-$SPLUNK_HOME/bin/splunk new app TA_patient_privacy
+$SPLUNK_HOME/bin/splunk new app TA-patient-privacy
 mkdir -p $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/
 nano $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/props.conf
 ```
