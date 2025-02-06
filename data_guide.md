@@ -113,8 +113,8 @@ cp -r $SPLUNK_HOME/etc/apps/TA_patient_privacy/ $SPLUNK_HOME/etc/deployment-apps
 After creating the sourcetype, always **test it before deploying it to production**. One way to check that logs are successfully parsed into events is by using the **"Add Data"** feature in Splunk Web.
 
 1. Navigate to **Settings → Add Data**
-2. Click **Upload** and select a sample log file
-3. Click **Select File**
+2. Click **Upload**
+3. Click **Select File** and select a sample log file
 4. Select a sourcetype
 5. Validate **event line-breaking**
 6. Validate **timestamp extraction**
