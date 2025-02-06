@@ -43,7 +43,7 @@ LINE_BREAKER = (\n+)  # One or more newline characters separate events.
 SHOULD_LINEMERGE = false  # Single-line logs do not need merging.
 ```
 
-For **multi-line logs**, `SHOULD_LINEMERGE = true` may be required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
+For **multi-line logs**, `SHOULD_LINEMERGE = true` (and other configurations) may be required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
 
 ---
 
@@ -74,7 +74,8 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 - Create the sourcetype(s)
   - Navigate to **Settings → Source Types** in Splunk Web
   - Click **New Source Type**.
-  - In the **Name** field, enter the name <systemName>_<logSource>
+  - In the **Name** field, enter the name \<systemName\>_\<logSource\>
+  - In the **Destination App**, select the app TA-patient-privacy
   - Define configrations for event line-breaking
   - Define configurations for timestamp assigment (do it in the **Advanced** section)
   - Click **Apply**
@@ -118,7 +119,7 @@ After creating the sourcetype, always **test it before deploying it to productio
 5. Validate **event line-breaking**
 6. Validate **timestamp extraction**
 
-✅ **If logs are not parsing correctly, adjust `props.conf` and retest.**
+✅ **If logs are not parsing correctly, adjust the sourcetype and retest.**
 
 ---
 
