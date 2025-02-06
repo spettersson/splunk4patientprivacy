@@ -1,28 +1,26 @@
 ## **Get Logs In**
 
-Splunk can collect, index, search, correlate, and visualize logs from any system or vendor that records **create, read, update, delete, and export** activities related to patient journals.
+Splunk can collect, index, search, correlate, and visualize logs from any system or vendor that records for example create, read, update, delete, and export activities related to patient journals.
 
-When onboarding logs from a new system, it is crucial to provide Splunk with **proper configurations** to ensure that logs are correctly parsed and indexed. Each log record should be processed as an **individual event**, where each event represents something that happened at a specific point in time.
+When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. Each log record should be processed as an individual event, where each event represents something that happened at a specific point in time.
 
-However, **log formats vary significantly** between systems—or even between different sources within the same system. To handle this diversity, **Splunk assigns each log format a unique sourcetype**, which can later be referenced in searches to efficiently filter log sources.
+However, log formats vary significantly between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a unique source**type**, which can later be referenced in searches to efficiently filter log sources.
 
 ---
 
 ### **What is a Sourcetype?**
 
-A **sourcetype** is a group of configurations that tells Splunk **how to correctly parse and index a specific log source**. It mainly defines:
-- **How logs are separated into individual events** (event line-breaking rules).
-- **How timestamps are identified and extracted** (so events are placed in the correct time order).
-- **How field extractions work** (so logs become structured and searchable).
-
-Defining the **correct sourcetype** is critical to ensure log integrity and efficient search performance.
+A sourcetype is a group of configurations that tells Splunk how to correctly parse and index a specific log source. It mainly defines:
+- How logs are separated into individual events (event line-breaking rules).
+- How timestamps are identified and extracted (so events are placed in the correct time order).
+- How field extractions work (so logs become structured and searchable).
 
 ---
 
-### **How to Create a Custom Sourcetype in Splunk**
+### **Create Your Own Sourcetype in Splunk**
 
 #### **1. Study the Log Format**
-Before defining a sourcetype, you need to understand the structure of your logs. Pay attention to:
+The first step is to understand the structure of your logs. Pay attention to:
 
 ✅ **Structured vs. Unstructured**: Is the log format JSON, XML, CSV, or free-text (.log, .txt)?  
 ✅ **Single-Line vs. Multi-Line**: Does each event fit on a single line, or does it span multiple lines?  
@@ -31,44 +29,49 @@ Before defining a sourcetype, you need to understand the structure of your logs.
 
 ---
 
-#### **2. Define Configurations for Event Line-Breaking**
+#### **2. Understand How to Configure Event Line-Breaking**
 
-This configuration controls how Splunk **recognizes the start and end of each event**, preventing issues like **multiple log records in a single event** or **a single log record split into multiple events**.
+A key role of a sourcetype is to apply event line-breaking configurations which control how Splunk recognizes the start and end of each event. This prevents issues like ending up with multiple log records in a single event or a single log record split into multiple events.
 
-**Example Configuration:**
+Example Configuration:
 ```ini
-LINE_BREAKER = (\n)  # Each new event starts after a newline character.
+LINE_BREAKER = (\n+)  # One or more newline characters are expected before the start of a new event.
 SHOULD_LINEMERGE = false  # This is a single-line log, so merging is unnecessary.
 ```
-For **multi-line logs**, you need to set `SHOULD_LINEMERGE = true` and take additional configurations into consideration which are explained in [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
+For multi-line logs, you need to set `SHOULD_LINEMERGE = true` and take additional configurations into consideration which are explained in [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
 
 ---
 
-#### **3. Define Configurations for Timestamp Assignment**
+#### **3. Understand How to Configure Timestamp Assignment**
 
-Timestamp configuration controls **how Splunk extracts and assigns timestamps** to events. Proper timestamp extraction ensures accurate time-based filtering, event correlation, and correct retention policies.
+A key of a sourcetype is to apply timestamp assignment configurations which control how Splunk identifies, extracts and assigns timestamps to events. Proper timestamp assignment ensures accurate event filtering and correlation, and correct enforcement of retention policies.
 
 **Example Configuration:**
 ```ini
-TIME_PREFIX = ^  # The timestamp is at the beginning of each log record.
+TIME_PREFIX = ^  # The timestamp starts at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # ISO 8601 format with microseconds.
 MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 ```
-If timestamps are missing or incorrect, Splunk may **assign incorrect times** based on ingestion time, which can cause problems in searches.
 
 ---
 
-#### **4. Define the Sourcetype in `props.conf`**
+#### **4. Create and Implement the Sourcetype in `props.conf`**
 
-Splunk uses **props.conf** to define how a sourcetype behaves. Instead of modifying system-wide settings, **best practice** is to place custom sourcetype configurations in a **Splunk app folder** rather than in the system-level configuration.
+The behaviour of Splunk is steered by configurations in a number of different files, where each file serves a specific purpose. For determining how Splunk should parse and index logs, the configuration file props.conf plays a central role as it is where you create the sourcetype.
+
 
 ##### **Where to Place `props.conf`?**
+As explained in the Splunk Docs: ["a Splunk Enterprise installation can have multiple versions of a configuration file located across several directories. For example, you might have the same configuration file with different settings located in each of the default, local, and app directories. Splunk Enterprise uses a layering scheme and rules to evaluate overlapping configurations and prioritize them."](https://docs.splunk.com/Documentation/Splunk/9.4.0/Admin/Configurationfiledirectories#:~:text=A%20Splunk%20Enterprise,and%20prioritize%20them.)
+
+
+
+
 ✅ **Best Practice**: Store `props.conf` inside a custom app in `$SPLUNK_HOME/etc/apps/your_custom_app/local/props.conf`.  
 ❌ **Avoid**: Placing sourcetype definitions in `$SPLUNK_HOME/etc/system/local/props.conf` because system-wide changes may be harder to maintain and could be overwritten during upgrades.  
 
 ##### **Example `props.conf` Stanza in an App:**
 ```ini
-[my_custom_sourcetype]
+[mySourceTypeName]
 SHOULD_LINEMERGE = false
 LINE_BREAKER = (\n)
 TIME_PREFIX = ^ 
@@ -83,23 +86,14 @@ This ensures **clean event separation, accurate timestamps, and scalable sourcet
 
 After defining the sourcetype, always **test it before deploying it to production**:
 
+Nav
+
 ✅ **Use the Add Data feature** in Splunk Web to preview how logs are parsed.  
 ✅ **Check event breaking** by running sample searches (`index=my_index sourcetype=my_custom_sourcetype`).  
 ✅ **Verify timestamps** by ensuring events appear in the correct order.  
 ✅ **Monitor performance** and adjust configurations if needed.  
 
 ---
-
-### **Final Thoughts**
-
-Defining a **proper sourcetype** is essential to ensure accurate log processing in Splunk. By:
-- **Studying log formats carefully**,  
-- **Configuring event breaking and timestamps correctly**, and  
-- **Storing `props.conf` in an app folder**,  
-
-you create a **scalable, maintainable logging solution** that allows for **efficient searches, faster correlation, and better observability**.
-
-Would you like help with field extractions or advanced parsing techniques next? 🚀
 
 
 
