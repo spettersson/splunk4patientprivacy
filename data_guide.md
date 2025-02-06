@@ -40,7 +40,7 @@ This configuration controls how Splunk **recognizes the start and end of each ev
 LINE_BREAKER = (\n)  # Each new event starts after a newline character.
 SHOULD_LINEMERGE = false  # This is a single-line log, so merging is unnecessary.
 ```
-For **multi-line logs**, you need to set `BREAK_ONLY_BEFORE = true` and consider the following configurations explain in [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
+For **multi-line logs**, you need to set `SHOULD_LINEMERGE = true` and take additional configurations into consideration which are explained in [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
 
 ---
 
