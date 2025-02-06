@@ -2,7 +2,7 @@
 
 Splunk can collect, index, search, correlate, and visualize logs from any system or vendor that records activities such as **create, read, update, delete, and export** activities related to patient journals.
 
-When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs **between the moment logs are received by Splunk and when they are written to disk**. Once on disk, each log record should be stored as a **single event**, where each event represents something that happened at a specific point in time.
+When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs **between the moment logs are received by Splunk and when they are written to disk**. Once on disk, each individual log record should be reflected as a **single event**, where each event represents something that happened at a specific point in time.
 
 However, **log formats vary significantly** between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a **unique sourcetype**, allowing index-time processing to be tailored accordingly.
 
@@ -109,12 +109,14 @@ After creating the sourcetype, always **test it before deploying it to productio
 
 ❗ **If logs are not parsing correctly, adjust the sourcetype and repeat the test.**
 
+### **Assign the Right Log Source to the Right Sourcetype**
+
+How a sourcetype is assigned depends on how the log source is collected, which depends on how the system allows logs to be captured. In many cases, the system can write logs to a set of text files in an as is format. 
+
+for the log source in question. Typically if you have a system
+
 ---
 ---
-
-
-
-
 
 
 ## **Fields**
