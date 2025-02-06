@@ -2,27 +2,28 @@
 
 Splunk can collect, index, search, correlate, and visualize logs from any system or vendor that records for example create, read, update, delete, and export activities related to patient journals.
 
-When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. Each log record should be processed as an individual event, where each event represents something that happened at a specific point in time.
+When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. The work done before logs are indexed is referred to as index-time processing. Each log record becomes a single event in Splunk, where each event represents something that happened at a specific point in time.
 
-However, log formats vary significantly between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a unique source**type**, which can later be referenced in searches to efficiently filter log sources.
-
+However, log formats can vary significantly between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a unique sourcetype, allowing index-time processing to be tailored accordingly.
 
 ### **What is a Sourcetype?**
 
-A sourcetype is a set of configurations that tells Splunk how to correctly parse and index a specific log source. It mainly defines:
+A sourcetype is a set of configurations that tells Splunk how to perform index-time processing. It mainly defines:
 - How logs are separated into individual events (event line-breaking rules).
 - How timestamps are identified and extracted (so events are placed in the correct time order).
 - How field extractions work (so logs become structured and searchable).
+
+By assigning the right log source with the log source, Splunk knows how to properly index the logs.
 
 ### **Create Your Own Sourcetype(s)**
 
 #### **1. Study the Log Format**
 The first step is to understand the structure of your logs, specifically:
 
-✅ **Structured vs. Unstructured**: Is the log format JSON, XML, CSV, or free-text (.log, .txt)?  
-✅ **Single-Line vs. Multi-Line**: Does each event fit on a single line, or does it span multiple lines?  
-✅ **Event Delimiter**: How do you know where a new log record starts? (e.g., `\n` for new lines, timestamps, or a specific keyword).  
-✅ **Timestamp Format**: What format does the timestamp use? (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`).  
+❓ **Structured vs. Unstructured**: Is the log format JSON, XML, CSV, or free-text (.log, .txt)?  
+❓ **Single-Line vs. Multi-Line**: Does each event fit on a single line, or does it span multiple lines?  
+❓ **Event Delimiter**: How do you know where a new log record starts? (e.g., `\n` for new lines, timestamps, or a specific keyword).  
+❓ **Timestamp Format**: What format does the timestamp use? (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`).  
 
 
 #### **2. Understand How to Configure Event Line-Breaking**
@@ -49,15 +50,38 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 
 #### **4. Create the Sourcetype(s)**
 
-The process for how to create a sourcetype depends on if you are running Splunk Cloud or Splunk Enterprise, architecture design, and how the method used to get the log source from its origin to Splunk.
+The process for defining a **sourcetype** depends on whether you are using **Splunk Cloud or Splunk Enterprise**, your **architecture design**, and **how logs are ingested** into Splunk.
 
-In genereal:
+In general:
 
-For Splunk Cloud and Splunk Enterprise [(single server deployment)](https://docs.splunk.com/Documentation/SVA/current/Architectures/S1#:~:text=Read%20more...-,Single%20Server%20Deployment%20(S1),-The%20following%20diagram), create the sourcetype(s) directly in the Splunk Web. Make sure to store all sourcetypes in custom Splunk app by selecting it as the App Context.
+- For Splunk Cloud and Splunk Enterprise (single server deployment):
+  You can create the sourcetype directly via **Splunk Web** when onboarding data.
+  - Navigate to **Settings → Source Types** and define your sourcetype.
+  - **Best practice:** Store all sourcetypes within a **custom Splunk app** by selecting the appropriate **App Context** when creating them.
 
-For Splunk Enterprise [()]()e, create the sourcetype(s) via "Splunk Add-On Builder". A step by step guide can be found [here](https://docs.splunk.com/Documentation/AddonBuilder/latest/UserGuide/Overview).
+  Reference: [Single Server Deployment](https://docs.splunk.com/Documentation/SVA/current/Architectures/S1#:~:text=Read%20more...-,Single%20Server%20Deployment%20(S1),-The%20following%20diagram)
 
-A step by step guide can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/9.3.2408/Data/Managesourcetypes#Add_Source_Type:~:text=in%20Metrics.-,Add%20a%20source%20type,-To%20create%20a).
+- **For Splunk Enterprise (distributed deployment):**  
+  If you are running a **distributed Splunk deployment**, sourcetypes related to **index-time processing (event breaking, timestamping, field extractions at indexing)** must be configured on the **Indexers or Heavy Forwarders**, NOT on the Search Head.
+
+  - The **best practice** is to create a **custom Splunk app** that contains `props.conf` (and `transforms.conf` if needed) and deploy it to **Indexers or Heavy Forwarders**.
+  - You can also use **Splunk Add-On Builder** to create add-ons for modular inputs and CIM compliance, but it is **not required** for defining sourcetypes.
+
+  Reference: [Distributed Deployment Guide](https://docs.splunk.com/Documentation/SVA/current/Architectures/C1C11e)
+
+For a detailed **step-by-step guide** on defining sourcetypes in Splunk Cloud and Enterprise, see:  
+[How to Add a Sourcetype](https://docs.splunk.com/Documentation/SplunkCloud/9.3.2408/Data/Managesourcetypes#Add_Source_Type:~:text=in%20Metrics.-,Add%20a%20source%20type,-To%20create%20a)
+
+---
+
+### **Key Takeaways:**
+✅ **Splunk Web** can be used for sourcetypes in **Splunk Cloud and single-server deployments**.
+✅ **Index-time configurations (`props.conf`) must be placed on Indexers or Heavy Forwarders** in distributed setups.
+✅ **Splunk Add-On Builder is optional**, primarily for creating modular inputs and CIM compliance.
+✅ **Use a custom Splunk app to manage sourcetypes efficiently.**
+
+Would you like a sample `props.conf` configuration for defining sourcetypes in a distributed deployment? 🚀
+
 
 #### **5. Validate and Test Sourcetypes**
 
