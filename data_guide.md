@@ -27,7 +27,6 @@ The first step is to understand the structure of your logs. Pay attention to:
 ✅ **Event Delimiter**: How do you know where a new log record starts? (e.g., `\n` for new lines, timestamps, or a specific keyword).  
 ✅ **Timestamp Format**: What format does the timestamp use? (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`).  
 
----
 
 #### **2. Understand How to Configure Event Line-Breaking**
 
@@ -65,9 +64,9 @@ For Splunk Cloud, create the sourcetype(s) directly in the Splunk Web. A step by
 
 After creating the sourcetype, always **test it before deploying it to production**. One way to check that logs are successfuly parsed into events, use the "Add Data" feature in Splunk Web.
 
-1. Navigate to "Settings" > "Add Data"
-2. Click on "Upload" and select a sample log file
-3. Click on "Select File"
+1. Navigate to **Settings" > "Add Data**
+2. Click on **Upload** and select a sample log file
+3. Click on **Select File**
 4. Select a sourcetype
 5. Validate event line-breaking
 6. Validate timestamp
