@@ -6,8 +6,6 @@ When onboarding logs from a new system, it is crucial to provide Splunk with pro
 
 However, **log formats vary significantly** between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a **unique sourcetype**, allowing index-time processing to be tailored accordingly.
 
----
-
 ### **What is a Sourcetype?**
 
 A **sourcetype** is a set of configurations that tells Splunk how to perform **index-time processing**. It mainly defines:
@@ -18,8 +16,6 @@ A **sourcetype** is a set of configurations that tells Splunk how to perform **i
 
 By correctly assigning a **sourcetype** to a log source, Splunk knows how to properly process and index the logs.
 
----
-
 ### **Create Your Own Sourcetype(s)**
 
 #### **1. Study the Log Format**
@@ -28,8 +24,8 @@ The first step is to understand the structure of your logs, specifically:
 
 - ❓ **Structured vs. Unstructured**: JSON, XML, CSV, or free-text (.log, .txt)
 - ❓ **Single-Line vs. Multi-Line**: Whether indiviual log records are made up of a single line or if they span multiple lines
-- ❓ **Event Delimiter**: How do you know where a new log record starts? (e.g., `\n` for new lines, timestamps, or a specific keyword)
-- ❓ **Timestamp Format**: What format does the timestamp use? (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`)
+- ❓ **Event Delimiter**: Defines when a new log record starts (e.g., `\n` for new lines, timestamps, or a specific keyword)
+- ❓ **Timestamp Format**: The timestamp format in the log records that indicate when the log record was created (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`)
 
 #### **2. Event Line-Breaking**
 
@@ -75,7 +71,7 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
   - Click **Apply**
 
 ##### **For Splunk Enterprise (Distributed Deployment)**
-If you are running a **distributed Splunk deployment**, sourcetypes created in an Splunk app located on the Cluster Manager. This ensures that all sourcetypes are pushed out from a central point to all peer nodes belonging to the cluster.
+If you are running a **distributed Splunk deployment**, sourcetypes must be created in a Splunk app located on the Cluster Manager. This ensures that all sourcetypes are pushed out from a central point to all peer nodes belonging to the cluster.
 
 Run the following commands:
 ```bash
@@ -100,8 +96,6 @@ Then, deploy the app:
 cp -r $SPLUNK_HOME/etc/apps/TA_patient_privacy/ $SPLUNK_HOME/etc/deployment-apps/
 ```
 
----
-
 #### **5. Validate and Test Sourcetypes**
 
 After creating the sourcetype, always **test it before deploying it to production**. One way to check that logs are successfully parsed into events is by using the **"Add Data"** feature in Splunk Web.
@@ -113,8 +107,9 @@ After creating the sourcetype, always **test it before deploying it to productio
 5. Validate **event line-breaking**
 6. Validate **timestamp extraction**
 
-✅ **If logs are not parsing correctly, adjust the sourcetype and retest.**
+❗ **If logs are not parsing correctly, adjust the sourcetype and repeat the test.**
 
+---
 ---
 
 
