@@ -1,5 +1,5 @@
 
-This repository was brought to life to help organizations get started with using **Splunk Enterprise** to protect **patient privacy**. The idea is to get as close as possible to a copy-and-paste approach, allowing you to select and deploy the most relevant content based on your specific needs and requirements.
+This repository was brought to life to help organizations get started with using **Splunk Enterprise/Splunk Cloud** to protect **patient privacy**. The idea is to get as close as possible to a copy-and-paste approach, allowing you to select and deploy the most relevant content based on your specific needs and requirements.
 
 ## 📌 What You'll Find Here
 
