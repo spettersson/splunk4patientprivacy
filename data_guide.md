@@ -35,7 +35,7 @@ The first step is to understand the structure of your logs, specifically:
 
 #### **2. Event Line-Breaking**
 
-A key function of a sourcetype is to apply [event line-breaking configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) which control how Splunk determines the start and end of each event. This prevents issues such as multiple log records merged into a single event or a single log record split into multiple events.  
+A key function of a sourcetype is to apply [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk determines the start and end of each event. This prevents issues such as multiple log records merged into a single event or a single log record split into multiple events.  
 
 Example (single-line logs separated by a newline):  
 ```ini
@@ -49,7 +49,7 @@ For **multi-line logs**, `SHOULD_LINEMERGE = true` may be required. See [Splunk 
 
 #### **3. Timestamp Assignment**
 
-A key function of a sourcetype is to apply [timestamp assignment configurations](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) which control how Splunk identifies, extracts, and assigns timestamps to events.
+A key function of a sourcetype is to apply [timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns timestamps to events.
 
 Example:
 ```ini
@@ -67,15 +67,16 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 
 ##### **For Splunk Cloud and Splunk Enterprise (Single Server Deployment)**
 - Create a new Splunk app where the sourcetype(s) should be located
-  - Navigate to **Apps → Manage Apps**
+  - Navigate to **Apps → Manage Apps** in Splunk Web
   - Click on **Create App**
   - In the field **Name**, enter TA-patient-privacy
   - In the field **Folder Name**, enter TA-patient-privacy
 - Create the sourcetype(s)
-  - Navigate to **Settings → Source Types**
+  - Navigate to **Settings → Source Types** in Splunk Web
   - Click **New Source Type**.
+  - In the **Name** field, enter the name <systemName>_<logSource>
   - Define configrations for event line-breaking
-  - Define configurations for timestamp assigment
+  - Define configurations for timestamp assigment (do it in the **Advanced** section)
   - Click **Apply**
 
 ##### **For Splunk Enterprise (Distributed Deployment)**
