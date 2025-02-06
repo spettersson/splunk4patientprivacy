@@ -57,7 +57,7 @@ The process for how a sourcetype is created depends on if you are running Splunk
 
 For Splunk Enterpise, create the sourcetype(s) via "Splunk Add-On Builder". A step by step guide can be found [here](https://docs.splunk.com/Documentation/AddonBuilder/latest/UserGuide/Overview).
 
-For Splunk Cloud, create sourcetype directly in the Splunk Web. A step by step guide can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/9.3.2408/Data/Managesourcetypes#Add_Source_Type:~:text=in%20Metrics.-,Add%20a%20source%20type,-To%20create%20a).
+For Splunk Cloud, create the sourcetype(s) directly in the Splunk Web. A step by step guide can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/9.3.2408/Data/Managesourcetypes#Add_Source_Type:~:text=in%20Metrics.-,Add%20a%20source%20type,-To%20create%20a).
 
 ---
 
