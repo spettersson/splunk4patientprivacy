@@ -1,10 +1,10 @@
-## **Get Logs In**
+## **Onboarding logs**
 
 Splunk can collect, index, search, correlate, and visualize logs from any system that records activities such as **create, read, update, delete, and export** activities related to patient journals.
 
-When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs **between the moment that Splunk initiates parsing of the logs until they finally are written to disk**. Finally on disk, each individual log record should be reflected as a **single event**, where each event represents something that happened at a specific point in time.
+When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk. Finally on disk, each individual log record should be reflected as a **single event**, where each event represents something that happened at a specific point in time.
 
-However, **log formats can vary significantly** between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a **unique sourcetype**, allowing index-time processing to be tailored accordingly.
+To handle this diversity of different log formats, Splunk assigns each log format an unique **sourcetype**, allowing index-time processing to be tailored accordingly.
 
 Rule of thumb: 
 - Two log sources from the same system with different formats → Assign each log source an unique sourcetype
@@ -13,26 +13,28 @@ Rule of thumb:
 
 ### **What is a Sourcetype?**
 
-A **sourcetype** is a set of configurations that tells Splunk how to perform **index-time processing**. It mainly defines:
+A sourcetype instructs Splunk how to perform index-time processing, specifically be determining:
 
-- **How logs are separated into individual events** (event line-breaking rules).
-- **How timestamps are identified and extracted** (so events are placed in the correct time order).
-- **How field extractions work** (so logs become structured and searchable). See the **Fields** section in the Data Guide for more information about field extractions.
+- **How logs are separated into individual events** 
+- **How the timestamp is identified and extracted from individual event** 
+
+For example, if the journal system Millenium writes different logs to two separate log files (each file can then be considered a log source) and each file follows their own timestamp format, then  
 
 ### **Create Your Sourcetype(s)**
 
 #### **1. Study the Log Format**
 
-The first step is to understand the structure of each individual log source, specifically:
+The first step is to understand the format of each individual log source, specifically:
 
-- ❓ **Structured vs. Unstructured**: JSON, XML, CSV, syslog, or free-text
-- ❓ **Single-Line vs. Multi-Line**: Whether each indiviual log record are made up of a single line or multiple lines
-- ❓ **Log Delimiter**: Defines the start of a new log record (e.g., `\n` for new lines, timestamps, or a specific keyword)
-- ❓ **Timestamp Format**: The format of the timestamp in the log records that indicate when the log record was created (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`).
+- ❓ **Structured or Unstructured**
+- ❓ **Single-Line or Multi-Line**
+- ❓ **What signifies the start of a new log record**
+- ❓ **Timestamp format**
+
 
 #### **2. Event Line-Breaking**
 
-A key function of a sourcetype is to apply [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk determines event boundaries (that is, the start and end of an event). This prevents issues such as multiple log records merged into a single event or a single log record split into multiple events.  
+The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk separates each individual log record into a single event. This prevents issues such as multiple log records being merged into a single event or a single log record split into multiple events.  
 
 Example (unstructured single-line logs separated by a single \n character):  
 ```ini
@@ -43,7 +45,7 @@ For **multi-line logs**, specific configurations are required. See [Splunk Docs]
 
 #### **3. Timestamp Assignment**
 
-A key function of a sourcetype is to apply [timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns timestamps to events.
+The sourcetype applies [timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns timestamps to events.
 
 Example (unstructured single-line logs with timestamps in ISO 8601 format, including microseconds):
 ```ini
@@ -52,12 +54,9 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # ISO 8601 format with microseconds.
 MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 ```
 
-✅ **Accurate event filtering and correlation**  
-✅ **Correct retention policy enforcement**  
-
 #### **4. Create the Sourcetype(s)**
 
-##### **For Splunk Cloud and Splunk Enterprise (Single Server Deployment)**
+##### **For Splunk Cloud and Splunk Enterprise ([Single Server Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
 - Create a Splunk app where the sourcetype(s) should be located
   - Navigate to **Apps → Manage Apps** in Splunk Web
   - Click on **Create App**
@@ -72,7 +71,7 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
   - Click on **Advanced** and define timestamp assignment
   - Click **Save**
 
-##### **For Splunk Enterprise (Distributed Deployment)**
+##### **For Splunk Enterprise ([Distributed Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=To%20support%20larger,across%20the%20data.))**
 If you are running a **distributed Splunk deployment**, sourcetypes must be created in a Splunk app located on the Manager Node in the indexer cluster. This ensures that all sourcetypes can be created, managed and deployed from a central point to all peer nodes belonging to the cluster.
 
 Run the following commands to create a Splunk app, then create the local/ directory inside the app, and finally create a props.conf configuration file in that directory:
@@ -118,11 +117,11 @@ How a sourcetype is assigned depends on how the log source(s) is collected, whic
 | **API** (REST API polling) | [Splunk Heavy Forwarder (HF)](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Deployaheavyforwarder) | **Splunk Enterprise/Cloud** | 
 | **Database tables**  | [Splunk Heavy Forwarder (HF)](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Deployaheavyforwarder) | **Splunk Enterprise/Cloud** | 
 
-A common scenario is that the system writes the logs to text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
+A likely scenario is that the system you want to collect logs from supports writing logs different text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
 
 On each individual Splunk UF, there should exist a configuration file called [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf) that instructs what log source(s) to collect and how. 
 
-In inputs.conf, you define a monitor stanza that instructs the Splunk Universal Forwarder (UF) where to collect logs from—whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source and the index where the data should be stored (this information will be carried over to Splunk Enterprise/Cloud). As a rule of thumb, if different log sources require distinct sourcetypes or indexes, each should have its own dedicated monitor stanza.
+In inputs.conf, you define a monitor stanza that instructs the Splunk UF where to collect logs from—whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source and the index where the data should be stored (this information will be carried over to Splunk Enterprise/Cloud). As a rule of thumb, if different log sources require distinct sourcetypes or indexes, each should have its own dedicated monitor stanza.
 
 Example monitor stanza:
 ```ini
