@@ -16,7 +16,7 @@ Rule of thumb:
 A sourcetype instructs Splunk how to perform index-time processing, specifically be determining:
 
 - **How logs are separated into individual events** 
-- **How the timestamp is identified and extracted from individual event** 
+- **How the timestamp is identified and extracted from each individual event** 
 
 ### **Create Your Sourcetype(s)**
 
