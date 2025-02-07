@@ -18,8 +18,6 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 - **How logs are separated into individual events** 
 - **How the timestamp is identified and extracted from individual event** 
 
-For example, if the journal system Millenium writes different logs to two separate log files (each file can then be considered a log source) and each file follows their own timestamp format, then  
-
 ### **Create Your Sourcetype(s)**
 
 #### **1. Study the Log Format**
@@ -30,7 +28,6 @@ The first step is to understand the format of each individual log source, specif
 - ❓ **Single-Line or Multi-Line**
 - ❓ **What signifies the start of a new log record**
 - ❓ **Timestamp format**
-
 
 #### **2. Event Line-Breaking**
 
