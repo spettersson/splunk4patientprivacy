@@ -50,7 +50,7 @@ The sourcetype applies [timestamp assignment](https://docs.splunk.com/Documentat
 Example (unstructured single-line logs with timestamps in ISO 8601 format, including microseconds):
 ```ini
 TIME_PREFIX = ^  # The timestamp starts directly at the beginning of each log record.
-TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # ISO 8601 format with microseconds.
+TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  #ISO 8601 format with microseconds.
 MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 ```
 
