@@ -14,18 +14,16 @@ A **sourcetype** is a set of configurations that tells Splunk how to perform **i
 - **How timestamps are identified and extracted** (so events are placed in the correct time order).
 - **How field extractions work** (so logs become structured and searchable).
 
-By correctly assigning a **sourcetype** to a log source, Splunk knows how to properly process and index the logs.
-
 ### **Create Your Own Sourcetype(s)**
 
 #### **1. Study the Log Format**
 
 The first step is to understand the structure of your logs, specifically:
 
-- ❓ **Structured vs. Unstructured**: JSON, XML, CSV, or free-text (.log, .txt)
-- ❓ **Single-Line vs. Multi-Line**: Whether indiviual log records are made up of a single line or if they span multiple lines
-- ❓ **Event Delimiter**: Defines when a new log record starts (e.g., `\n` for new lines, timestamps, or a specific keyword)
-- ❓ **Timestamp Format**: The timestamp format in the log records that indicate when the log record was created (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`)
+- ❓ **Structured vs. Unstructured**: JSON, XML, CSV, syslog, or free-text
+- ❓ **Single-Line vs. Multi-Line**: Whether each indiviual log record are made up of a single line or multiple lines
+- ❓ **Event Delimiter**: Defines the start of a new log record (e.g., `\n` for new lines, timestamps, or a specific keyword)
+- ❓ **Timestamp Format**: The format of the timestamp in the log records that indicate when the log record was created (e.g., `2025-01-01T00:00:00.000000Z`, `2023-01-01 00:00:00.000`).
 
 #### **2. Event Line-Breaking**
 
@@ -34,10 +32,9 @@ A key function of a sourcetype is to apply [event line-breaking](https://docs.sp
 Example (single-line logs separated by a newline):  
 ```ini
 LINE_BREAKER = (\n+)  # One or more newline characters separate events.
-SHOULD_LINEMERGE = false  # Single-line logs do not need merging.
 ```
 
-For **multi-line logs**, `SHOULD_LINEMERGE = true` (and other configurations) may be required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
+For **multi-line logs**, specific configurations are required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
 
 #### **3. Timestamp Assignment**
 
