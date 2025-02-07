@@ -38,7 +38,10 @@ Example (unstructured single-line logs separated by a single \n character):
 LINE_BREAKER = (\n+)  # Ensures each log record is treated as a separate event by splitting at newlines.
 ```
 
-For **multi-line logs**, specific configurations are required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
+A full list of general configurations for event line-breaking can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.).
+
+
+For multi-line logs, more advanced configurations typically apply which can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
 
 #### **3. Timestamp Assignment**
 
