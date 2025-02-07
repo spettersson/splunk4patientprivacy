@@ -4,7 +4,12 @@ Splunk can collect, index, search, correlate, and visualize logs from any system
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs **between the moment that Splunk initiates parsing of the logs until they finally are written to disk**. Finally on disk, each individual log record should be reflected as a **single event**, where each event represents something that happened at a specific point in time.
 
-However, **log formats vary significantly** between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a **unique sourcetype**, allowing index-time processing to be tailored accordingly.
+However, **log formats can vary significantly** between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a **unique sourcetype**, allowing index-time processing to be tailored accordingly.
+
+Rule of thumb: 
+- Two log sources from the same system with different formats --> Assign each log source an unique sourcetype
+- Two log sources from the same system have the same format --> Assign both log sources the same sourcetype
+- Two log sources from different systems have the same format --> Assign each log source an unique sourcetype
 
 ### **What is a Sourcetype?**
 
@@ -14,11 +19,11 @@ A **sourcetype** is a set of configurations that tells Splunk how to perform **i
 - **How timestamps are identified and extracted** (so events are placed in the correct time order).
 - **How field extractions work** (so logs become structured and searchable). See the **Fields** section in the Data Guide for more information about field extractions.
 
-### **Create Your Own Sourcetype(s)**
+### **Create Your Sourcetype(s)**
 
 #### **1. Study the Log Format**
 
-The first step is to understand the structure of your logs, specifically:
+The first step is to understand the structure of each individual log source, specifically:
 
 - ❓ **Structured vs. Unstructured**: JSON, XML, CSV, syslog, or free-text
 - ❓ **Single-Line vs. Multi-Line**: Whether each indiviual log record are made up of a single line or multiple lines
@@ -108,16 +113,16 @@ How a sourcetype is assigned depends on how the log source(s) is collected, whic
 
 | **Access Type**   | **Collection Method**                               | **Destination**                |
 |----------------------|------------------------------------------------|---------------------------------|
-| **Text files** (`.log`, `.txt`, `.csv`, `.json`, `.xml`) | **Splunk Universal Forwarder (UF)** | **Splunk Enterprise/Cloud** | 
-| **API** (HTTP event forwarding) | **Splunk HTTP Event Collector (HEC)** | **Splunk Enterprise/Cloud** | 
-| **API** (REST API polling) | **Heavy Forwarder (HF)** | **Splunk Enterprise/Cloud** | 
-| **Database tables**  | **Splunk Heavy Forwarder (HF)** | **Splunk Enterprise/Cloud** | 
+| **Text files** (`.log`, `.txt`, `.csv`, `.json`, `.xml`) | [Splunk Universal Forwarder (UF)](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) | **Splunk Enterprise/Cloud** | 
+| **API** (HTTP event forwarding) | [Splunk HTTP Event Collector (HEC)](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector) | **Splunk Enterprise/Cloud** | 
+| **API** (REST API polling) | [Splunk Heavy Forwarder (HF)](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Deployaheavyforwarder) | **Splunk Enterprise/Cloud** | 
+| **Database tables**  | [Splunk Heavy Forwarder (HF)](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Deployaheavyforwarder) | **Splunk Enterprise/Cloud** | 
 
 A common scenario is that the system writes the logs to text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
 
 On each individual Splunk UF, there should exist a configuration file called [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf) that instructs what log source(s) to collect and how. 
 
-In inputs.conf, you define a monitor stanza that instructs the Splunk Universal Forwarder (UF) where to collect logs from—whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source and the index where the data should be stored. As a rule of thumb, if different log sources require distinct sourcetypes or indexes, each should have its own dedicated monitor stanza.
+In inputs.conf, you define a monitor stanza that instructs the Splunk Universal Forwarder (UF) where to collect logs from—whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source and the index where the data should be stored (this information will be carried over to Splunk Enterprise/Cloud). As a rule of thumb, if different log sources require distinct sourcetypes or indexes, each should have its own dedicated monitor stanza.
 
 Example monitor stanza:
 ```ini
