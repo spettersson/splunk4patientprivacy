@@ -7,9 +7,9 @@ When onboarding logs from a new system, it is crucial to provide Splunk with pro
 However, **log formats can vary significantly** between systems—or even between different sources within the same system. To handle this diversity, Splunk assigns each log format a **unique sourcetype**, allowing index-time processing to be tailored accordingly.
 
 Rule of thumb: 
-- Two log sources from the same system with different formats --> Assign each log source an unique sourcetype
-- Two log sources from the same system have the same format --> Assign both log sources the same sourcetype
-- Two log sources from different systems have the same format --> Assign each log source an unique sourcetype
+- Two log sources from the same system with different formats → Assign each log source an unique sourcetype
+- Two log sources from the same system have the same format → Assign both log sources the same sourcetype
+- Two log sources from different systems have the same format → Assign each log source an unique sourcetype
 
 ### **What is a Sourcetype?**
 
