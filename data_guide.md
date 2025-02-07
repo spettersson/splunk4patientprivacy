@@ -27,11 +27,11 @@ The first step is to understand the structure of your logs, specifically:
 
 #### **2. Event Line-Breaking**
 
-A key function of a sourcetype is to apply [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk determines the start and end of each event. This prevents issues such as multiple log records merged into a single event or a single log record split into multiple events.  
+A key function of a sourcetype is to apply [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk determines event boundaries (that is, the start and end of an event). This prevents issues such as multiple log records merged into a single event or a single log record split into multiple events.  
 
-Example (single-line logs separated by a newline):  
+Example (unstructured single-line logs separated by a single \n character):  
 ```ini
-LINE_BREAKER = (\n+)  # One or more newline characters separate events.
+LINE_BREAKER = (\n)  # One or more newline characters separate events.
 ```
 
 For **multi-line logs**, specific configurations are required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
@@ -40,7 +40,7 @@ For **multi-line logs**, specific configurations are required. See [Splunk Docs]
 
 A key function of a sourcetype is to apply [timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns timestamps to events.
 
-Example:
+Example (unstructured single-line logs with a timestamp in ISO 8601 format with microseconds):
 ```ini
 TIME_PREFIX = ^  # The timestamp starts at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # ISO 8601 format with microseconds.
@@ -61,11 +61,11 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 - Create the sourcetype(s)
   - Navigate to **Settings → Source Types** in Splunk Web
   - Click **New Source Type**.
-  - In the **Name** field, enter the name \<systemName\>_\<logSource\> (remember that the name has to be unique)
+  - In the **Name** field, enter the name \<systemName\>_\<logSource\> (each sourcetype must have a unique name; no two sourcetypes can share the same name.)
   - In the **Destination App**, select the app 'TA-patient-privacy'
-  - Define configurations for event line-breaking
-  - Define configurations for timestamp assigment (do it in the **Advanced** section)
-  - Click **Apply**
+  - Click on **Event Breaks** and define event line-breaking
+  - Click on **Advanced** and define timestamp assignment
+  - Click **Save**
 
 ##### **For Splunk Enterprise (Distributed Deployment)**
 If you are running a **distributed Splunk deployment**, sourcetypes must be created in a Splunk app located on the Cluster Manager. This ensures that all sourcetypes are pushed out from a central point to all peer nodes belonging to the cluster.
@@ -95,7 +95,7 @@ cp -r $SPLUNK_HOME/etc/apps/TA_patient_privacy/ $SPLUNK_HOME/etc/deployment-apps
 
 #### **5. Validate and Test Sourcetypes**
 
-After creating the sourcetype, always **test it before deploying it to production**. One way to check that logs are successfully parsed into events is by using the **"Add Data"** feature in Splunk Web.
+After creating the sourcetype, always **test it before deploying it to production**. One way to check that logs are successfully parsed into events is by using the **"Add Data"** wizard in Splunk Web.
 
 1. Navigate to **Settings → Add Data**
 2. Click **Upload**
