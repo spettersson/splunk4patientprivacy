@@ -7,9 +7,9 @@ When onboarding logs from a new system, it is crucial to provide Splunk with pro
 To manage the diversity of log formats, Splunk typically assigns each log format a unique **sourcetype**, allowing index-time processing to be tailored accordingly.
 
 Rule of thumb: 
-- Two log sources from the same system with different formats → Assign each log source a unique sourcetype
-- Two log sources from the same system have the same format → Assign both log sources the same sourcetype
-- Two log sources from different systems have the same format → Assign each log source a unique sourcetype
+- Two log sources (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system have different formats → Assign each log source a unique sourcetype.
+- Two log sources from the same system have the same format → Assign both log sources the same sourcetype.
+- Two log sources from different systems have the same format → Assign each log source a unique sourcetype.
 
 ### **What is a Sourcetype?**
 
@@ -121,7 +121,7 @@ A likely scenario is that the system you want to collect logs from supports writ
 
 On each individual Splunk UF, there should exist a configuration file called [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf) that instructs what log source(s) to collect and how. 
 
-In inputs.conf, you define a monitor stanza that instructs the Splunk UF where to collect logs from—whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source and the index where the data should be stored (this information will be carried over to Splunk Enterprise/Cloud). As a rule of thumb, if different log sources require distinct sourcetypes or indexes, each should have its own dedicated monitor stanza.
+In [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf), you define a monitor stanza that instructs the Splunk UF what path to collect logs from — whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source(s) and the index where it should be stored (this information will be carried over to Splunk Enterprise/Cloud). 
 
 Example monitor stanza:
 ```ini
