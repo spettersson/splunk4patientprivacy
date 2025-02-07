@@ -109,7 +109,7 @@ After creating the sourcetype, always **test it before deploying it to productio
 
 ❗ **If logs are not parsing correctly, adjust the sourcetype and repeat the test.**
 
-### **Assign the Right Sourcetype to the Right Log Source**
+### **Assign the Right Sourcetype to the Right Log Source(s)**
 
 How a sourcetype is assigned depends on how the log source(s) is collected, which is determined by how the system generates and allows access to logs.
 
