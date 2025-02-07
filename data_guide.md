@@ -4,12 +4,12 @@ Splunk can collect, index, search, correlate, and visualize logs from any system
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk. Finally on disk, each individual log record should be reflected as a **single event**, where each event represents something that happened at a specific point in time.
 
-To handle this diversity of different log formats, Splunk assigns each log format an unique **sourcetype**, allowing index-time processing to be tailored accordingly.
+To manage the diversity of log formats, Splunk typically assigns each log format a unique **sourcetype**, allowing index-time processing to be tailored accordingly.
 
 Rule of thumb: 
-- Two log sources from the same system with different formats → Assign each log source an unique sourcetype
+- Two log sources from the same system with different formats → Assign each log source a unique sourcetype
 - Two log sources from the same system have the same format → Assign both log sources the same sourcetype
-- Two log sources from different systems have the same format → Assign each log source an unique sourcetype
+- Two log sources from different systems have the same format → Assign each log source a unique sourcetype
 
 ### **What is a Sourcetype?**
 
@@ -26,7 +26,7 @@ The first step is to understand the format of each individual log source, specif
 
 - ❓ **Structured or Unstructured**
 - ❓ **Single-Line or Multi-Line**
-- ❓ **What signifies the start of a new log record**
+- ❓ **What indicates the start of a new log record**
 - ❓ **Timestamp format**
 
 #### **2. Event Line-Breaking**
@@ -35,7 +35,7 @@ The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentati
 
 Example (unstructured single-line logs separated by a single \n character):  
 ```ini
-LINE_BREAKER = ([\r\n]+)  # Ensures each log record is treated as a separate event by splitting at newlines.
+LINE_BREAKER = (\n+)  # Ensures each log record is treated as a separate event by splitting at newlines.
 ```
 
 For **multi-line logs**, specific configurations are required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
@@ -62,7 +62,10 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 - Create the sourcetype(s)
   - Navigate to **Settings → Source Types** in Splunk Web
   - Click **New Source Type**.
-  - In the **Name** field, enter the name \<systemName\>_\<logSource\> (each sourcetype must have a unique name; no two sourcetypes can share the same name.)
+  - In the **Name** field, enter the name.
+    - sourcetype names typically follow the format [\<vendor\>\:\<product\>:\<technology\>](https://docs.splunk.com/Documentation/AddOns/released/Overview/Sourcetypes?_gl=1*1ihn43k*_gcl_aw*R0NMLjE3MzY4NDU0MzMuQ2owS0NRaUFzNWk4QmhEbUFSSXNBR0U0eEh6cjhjclZaVG5CRjlzVVA2cEY4dFRjcGhUeUpsZUIzeVBYTWd2eUpSdVF5cHdtcUNYdnc3WWFBc2dRRUFMd193Y0I.*_gcl_au*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*FPAU*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*_ga*Mjg4NjYwNTkwLjE3MjUzNDU3NTA.*_ga_5EPM2P39FV*MTczODkzNTM0MS40NDAuMS4xNzM4OTM1NjYwLjAuMC40MTMwNzc2ODA.*_fplc*MUlEblIzNWlEZ1RieHdjRWhzekY3Snk3VnRza3FPdHNMQ1RPTmJVTWpEUFpHQ3d6dkJxJTJGZ3E2JTJGUjF4THhXQjlSQXJLaGlVbTAxQkx2RkxSekVmSE5zWk5ZdzdDOGdNaWtaUlJacHdSaUx2WjhBUTJZblJTdW1lZ0lXUTNpZyUzRCUzRA..#:~:text=Source%20type%20names,the%20vendor%2C%20OSSEC.)
+      - example: cambio:cosmic:access
+      - example: cambio:cosmic:activity  
   - In the **Destination App**, select the app 'TA-patient-privacy'
   - Click on **Event Breaks** and define event line-breaking
   - Click on **Advanced** and define timestamp assignment
@@ -123,8 +126,8 @@ In inputs.conf, you define a monitor stanza that instructs the Splunk UF where t
 Example monitor stanza:
 ```ini
 [monitor://<path>]
-index = <yourIndex>
-sourcetype = <yourSourceType>
+index = <indexName>
+sourcetype = <sourceTypeName>
 whitelist = <regular expression>
 whitelist = <regular expression>
 ```
