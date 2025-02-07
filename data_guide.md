@@ -69,7 +69,7 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
   - Click **Save**
 
 ##### **For Splunk Enterprise ([Distributed Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=To%20support%20larger,across%20the%20data.))**
-If you are running a **distributed Splunk deployment**, sourcetypes must be created in a Splunk app located on the Manager Node in the indexer cluster. This ensures that all sourcetypes can be created, managed and deployed from a central point to all peer nodes belonging to the cluster.
+If you are running a **distributed deployment**, sourcetypes must be created in a Splunk app located on the [Manager Node](https://docs.splunk.com/Splexicon:Managernode) in the [indexer cluster](https://docs.splunk.com/Documentation/Splunk/latest/Indexer/Aboutclusters#:~:text=An%20indexer%20cluster%20is,set%20of%20peer%20nodes.). This ensures that all sourcetypes can be created, managed and deployed from a central point to all peer nodes belonging to the cluster.
 
 Run the following commands to create a Splunk app, then create the local/ directory inside the app, and finally create a props.conf configuration file in that directory:
 ```bash
