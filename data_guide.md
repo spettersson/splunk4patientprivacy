@@ -31,7 +31,7 @@ A key function of a sourcetype is to apply [event line-breaking](https://docs.sp
 
 Example (unstructured single-line logs separated by a single \n character):  
 ```ini
-LINE_BREAKER = (\n)  # One or more newline characters separate events.
+LINE_BREAKER = ([\r\n]+)  # Ensures each log record is treated as a separate event by splitting at newlines.
 ```
 
 For **multi-line logs**, specific configurations are required. See [Splunk Docs](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
@@ -40,7 +40,7 @@ For **multi-line logs**, specific configurations are required. See [Splunk Docs]
 
 A key function of a sourcetype is to apply [timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns timestamps to events.
 
-Example (unstructured single-line logs with a timestamp in ISO 8601 format with microseconds):
+Example (unstructured single-line logs with timestamps in ISO 8601 format, including microseconds):
 ```ini
 TIME_PREFIX = ^  # The timestamp starts at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # ISO 8601 format with microseconds.
@@ -70,9 +70,9 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 ##### **For Splunk Enterprise (Distributed Deployment)**
 If you are running a **distributed Splunk deployment**, sourcetypes must be created in a Splunk app located on the Cluster Manager. This ensures that all sourcetypes are pushed out from a central point to all peer nodes belonging to the cluster.
 
-Run the following commands:
+Run the following commands to create a Splunk app, then create the local/ directory inside the app, and finally create a props.conf configuration file in that directory:
 ```bash
-$SPLUNK_HOME/bin/splunk new app TA-patient-privacy
+$SPLUNK_HOME/bin/splunk new app TA-patient-privacy 
 mkdir -p $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/
 nano $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/props.conf
 ```
@@ -82,16 +82,12 @@ Example:
 ```ini
 [<enterSourceTypeName>]
 LINE_BREAKER = (\n+)
-SHOULD_LINEMERGE = false
 TIME_PREFIX = ^
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ
 MAX_TIMESTAMP_LOOKAHEAD = 27
 ```
 
-Then, deploy the app:
-```bash
-cp -r $SPLUNK_HOME/etc/apps/TA_patient_privacy/ $SPLUNK_HOME/etc/deployment-apps/
-```
+Then, deploy the Splunk app by following the steps describe in [Splunk Docs](https://docs.splunk.com/Documentation/Splunk/9.4.0/Indexer/Updatepeerconfigurations#:~:text=Admin%20Manual.-,Distribute%20the%20configuration%20bundle,the%20peers.%20This%20overwrites%20the%20contents%20of%20the%20peers%27%20current%20bundle.,-1.%20Prepare%20the).
 
 #### **5. Validate and Test Sourcetypes**
 
