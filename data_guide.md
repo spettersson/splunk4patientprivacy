@@ -13,7 +13,7 @@ Rule of thumb:
 
 ### **What is a Sourcetype?**
 
-A sourcetype instructs Splunk how to perform index-time processing, specifically be determining:
+A sourcetype instructs Splunk how to perform index-time processing, specifically by determining:
 
 - **How logs are separated into individual events** 
 - **How the timestamp is identified, extracted and assigned to each individual event** 
@@ -57,22 +57,22 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 #### **4. Create the Sourcetype(s)**
 
 ##### **For Splunk Cloud and Splunk Enterprise ([Single Server Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
-- Create a Splunk app where the sourcetype(s) should be located
-  - Navigate to **Apps → Manage Apps** in Splunk Web
-  - Click on **Create App**
-  - In the field **Name**, enter 'TA-patient-privacy'
-  - In the field **Folder Name**, enter 'TA-patient-privacy'
-- Create the sourcetype(s)
-  - Navigate to **Settings → Source Types** in Splunk Web
+- Create a Splunk app where the sourcetype(s) should be located.
+  - Navigate to **Apps → Manage Apps** in Splunk Web.
+  - Click on **Create App**.
+  - In the field **Name**, enter 'TA-patient-privacy'.
+  - In the field **Folder Name**, enter 'TA-patient-privacy'.
+- Create the sourcetype(s).
+  - Navigate to **Settings → Source Types** in Splunk Web.
   - Click **New Source Type**.
   - In the **Name** field, enter the name.
     - sourcetype names typically follow the format [\<vendor\>\:\<product\>:\<technology\>](https://docs.splunk.com/Documentation/AddOns/released/Overview/Sourcetypes?_gl=1*1ihn43k*_gcl_aw*R0NMLjE3MzY4NDU0MzMuQ2owS0NRaUFzNWk4QmhEbUFSSXNBR0U0eEh6cjhjclZaVG5CRjlzVVA2cEY4dFRjcGhUeUpsZUIzeVBYTWd2eUpSdVF5cHdtcUNYdnc3WWFBc2dRRUFMd193Y0I.*_gcl_au*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*FPAU*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*_ga*Mjg4NjYwNTkwLjE3MjUzNDU3NTA.*_ga_5EPM2P39FV*MTczODkzNTM0MS40NDAuMS4xNzM4OTM1NjYwLjAuMC40MTMwNzc2ODA.*_fplc*MUlEblIzNWlEZ1RieHdjRWhzekY3Snk3VnRza3FPdHNMQ1RPTmJVTWpEUFpHQ3d6dkJxJTJGZ3E2JTJGUjF4THhXQjlSQXJLaGlVbTAxQkx2RkxSekVmSE5zWk5ZdzdDOGdNaWtaUlJacHdSaUx2WjhBUTJZblJTdW1lZ0lXUTNpZyUzRCUzRA..#:~:text=Source%20type%20names,the%20vendor%2C%20OSSEC.)
       - example: cambio:cosmic:access
-      - example: cambio:cosmic:activity  
-  - In the **Destination App**, select the app 'TA-patient-privacy'
-  - Click on **Event Breaks** and define event line-breaking
-  - Click on **Advanced** and define timestamp assignment
-  - Click **Save**
+      - example: cambio:cosmic:activity
+  - In the **Destination App**, select the app 'TA-patient-privacy'.
+  - Click on **Event Breaks** and define event line-breaking.
+  - Click on **Advanced** and define timestamp assignment.
+  - Click **Save**.
 
 ##### **For Splunk Enterprise ([Distributed Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=To%20support%20larger,across%20the%20data.))**
 If you are running a **distributed deployment**, sourcetypes must be created in a Splunk app located on the [Manager Node](https://docs.splunk.com/Splexicon:Managernode) in the [indexer cluster](https://docs.splunk.com/Documentation/Splunk/latest/Indexer/Aboutclusters#:~:text=An%20indexer%20cluster%20is,set%20of%20peer%20nodes.). This ensures that all sourcetypes can be created, managed and deployed from a central point to all peer nodes belonging to the cluster.
@@ -94,18 +94,18 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ
 MAX_TIMESTAMP_LOOKAHEAD = 27
 ```
 
-Then, instruct the Manager Node to deploy the Splunk app to the peer nodes in the cluster by following the steps describe in [Splunk Docs](https://docs.splunk.com/Documentation/Splunk/9.4.0/Indexer/Updatepeerconfigurations#:~:text=Admin%20Manual.-,Distribute%20the%20configuration%20bundle,the%20peers.%20This%20overwrites%20the%20contents%20of%20the%20peers%27%20current%20bundle.,-1.%20Prepare%20the).
+Then, instruct the Manager Node to deploy the Splunk app to the peer nodes in the cluster by following the steps described [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Indexer/Updatepeerconfigurations#:~:text=Admin%20Manual.-,Distribute%20the%20configuration%20bundle,the%20peers.%20This%20overwrites%20the%20contents%20of%20the%20peers%27%20current%20bundle.,-1.%20Prepare%20the).
 
 #### **5. Validate and Test Sourcetypes**
 
 After creating the sourcetype, always **test it before deploying it to production**. One way to check that logs are successfully parsed into events is by using the **"Add Data"** wizard.
 
 1. Navigate to **Settings → Add Data** in Splunk Web.
-2. Click **Upload**
-3. Click **Select File** and select a sample log file
-4. Select a sourcetype
-5. Validate **event line-breaking**
-6. Validate **timestamp extraction**
+2. Click **Upload**.
+3. Click **Select File** and select a sample log file.
+4. Select a sourcetype.
+5. Validate **event line-breaking**.
+6. Validate **timestamp extraction**.
 
 ❗ **If logs are not parsing correctly, adjust the sourcetype and repeat the test.**
 
@@ -120,11 +120,11 @@ How a sourcetype is assigned depends on how the log source(s) is collected, whic
 | **API** (REST API polling) | [Splunk Heavy Forwarder (HF)](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Deployaheavyforwarder) | **Splunk Enterprise/Cloud** | 
 | **Database tables**  | [Splunk Heavy Forwarder (HF)](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Deployaheavyforwarder) | **Splunk Enterprise/Cloud** | 
 
-A likely scenario is that the system you want to collect logs from supports writing logs different text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
+A common scenario is that the system you want to collect logs from supports writing logs different text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
 
 On each individual Splunk UF, there should exist a configuration file called [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf) that instructs what log source(s) to collect and how. 
 
-In [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf), you define a monitor stanza that instructs the Splunk UF what path to collect logs from — whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source(s) and the index where it should be stored (this information will be carried over to Splunk Enterprise/Cloud). 
+In [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf), you define a monitor stanza that instructs the Splunk UF what path to collect logs from — whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source(s) and the index where it should be stored. Then when Splunk Enterprise/Cloud receives the logs, it will know how to properly handle it.
 
 Example monitor stanza:
 ```ini
