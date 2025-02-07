@@ -84,7 +84,7 @@ Add a stanza for each unique sourcetype inside `props.conf`.
 
 Example:
 ```ini
-[<uniqueSourceTypeName>]
+[<sourceTypeName>] 
 LINE_BREAKER = (\n+)
 TIME_PREFIX = ^
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ
