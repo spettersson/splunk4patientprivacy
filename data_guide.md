@@ -155,10 +155,11 @@ whitelist = <regular expression>
 ---
 
 
-## **Normalizing Journal Audit Logss**
+## **Normalization of Journal Audit Logs**
 
+### Fields 
 
-## **Event types**
+### **Event types**
 
 <p align="center">
   <img src="images/eventtypes_v1.8.png" alt="eventtypes" style="width:80%;">
