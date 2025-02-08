@@ -31,18 +31,22 @@ Rule of thumb:
 
 #### **2. Define Event Line-Breaking**
 
-The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk separates each individual log record into a single event. This prevents issues such as multiple log records being merged into a single event or a single log record split into multiple events. 
+The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk breaks raw text into individual events - ensuring that each log record is processed as a single event. This prevents issues such as multiple log records being merged into a single event or a single log record split into multiple events. 
 
-A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, part of what is commonly referred to as the "Magic 8" configurations are `LINE_BREAKER`, `SHOULD_LINEMERGE`, and `TRUNCATE`. 
+A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, part of what is commonly referred to as the "Magic 8" configurations are:
+
+- `LINE_BREAKER` → Define a regular expression that Splunk uses to determine how it should split raw text into lines
+- `SHOULD_LINEMERGE` → Determines if Splunk should merge lines to a single event
+- `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
 
 An example defined to handle unstructured single-line logs delimited by a single \n character:  
 ```ini
-LINE_BREAKER = (\n+)  # Ensures each log record is treated as a separate event by splitting at each newline.
-SHOULD_LINEMERGE = false # When set to false, Splunk will treat the result of LINE_BREAKER as individual events.
-TRUNCATE = 10000 # The maximum length of an event, in bytes. Hinders Splunk from indexing very large events.
+LINE_BREAKER = (\n)  # Raw text is split into lines at each newline - ensuring that each full log record is treated as a separate event by splitting at each newline.
+SHOULD_LINEMERGE = false # Each line will be processed as a single event
+TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
 
-Best practices is to always test the configurations on sample logs before putting them into production. This can be done via the "Add Data" wizard in Splunk Web
+Best practice is to always test the configurations on sample logs before putting them into production. This can be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
@@ -54,7 +58,10 @@ Best practices is to always test the configurations on sample logs before puttin
 
 The sourcetype applies [event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns a timestamp to each individual events.
 
-A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, part of what is commonly referred to as the "Magic 8" configurations are `TIME_PREFIX`, `TIME_FORMAT`, and `MAX_TIMESTAMP_LOOKAHEAD`
+A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, part of what is commonly referred to as the "Magic 8" configurations are:
+- `TIME_PREFIX` →
+- `TIME_FORMAT` →
+- `MAX_TIMESTAMP_LOOKAHEAD` →
 
 An example defined to handle unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
 ```ini
