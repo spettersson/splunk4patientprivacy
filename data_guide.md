@@ -19,9 +19,9 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 
 The first step is to understand the format of each individual log source, specifically:
 
-- ❓ Structured (csv, json, xml) or unstructured (free-txt) 
+- ❓ Structured (csv, json, xml) or unstructured (free-text) 
 - ❓ Single-Line or Multi-Line
-- ❓ Log delimiter (that is, what indicates the start and end of log record)
+- ❓ Log delimiter (that is, what indicates the start and end of a log record)
 - ❓ Log timestamp format
 
 Rule of thumb: 
