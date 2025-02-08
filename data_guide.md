@@ -33,7 +33,7 @@ Rule of thumb:
 
 The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk breaks raw text into individual events - ensuring that each log record is processed as a single event. This prevents issues such as multiple log records being merged into a single event or a single log record split into multiple events. 
 
-A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, part of what is commonly referred to as the "Magic 8" configurations are:
+A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, those included in what is known as the "Magic 8" configurations are:
 
 - `LINE_BREAKER` → Defines a regular expression that determines how Splunk should split raw text into lines
 - `SHOULD_LINEMERGE` → Determines if Splunk should merge multiple lines to a single event. If set to false, each line will treated as an individual event.
@@ -41,7 +41,7 @@ A full list of configurations for event line-breaking with detailed explanations
 
 An example defined to handle unstructured single-line logs delimited by a single \n character:  
 ```ini
-LINE_BREAKER = (\n)  # Split raw text into lines at each newline.
+LINE_BREAKER = (\n+)  # Split raw text into lines when ever one or more newline occur
 SHOULD_LINEMERGE = false # Each line will become a single event
 TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
@@ -58,7 +58,7 @@ Best practice is to run tests to validate the configurations before putting them
 
 The sourcetype applies [event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns a timestamp to each individual events.
 
-A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, part of what is commonly referred to as the "Magic 8" configurations are:
+A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, those included in what is known as the "Magic 8" configurations are:
 - `TIME_PREFIX` → A regular expression that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
 - `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
