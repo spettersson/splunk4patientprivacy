@@ -10,19 +10,19 @@ To manage the diversity of log formats, Splunk typically assigns each log format
 
 A sourcetype instructs Splunk how to perform index-time processing, specifically by determining:
 
-- **How logs are separated into individual events** 
-- **How the timestamp is identified, extracted and assigned to each individual event** 
+- How logs are separated into individual events
+- How the timestamp is identified, extracted and assigned to each individual event
 
-### **Define Your Sourcetype(s)**
+### **Define and Create Sourcetype(s)**
 
 #### **1. Understand the Log Format(s)**
 
 The first step is to understand the format of each individual log source, specifically:
 
-- ❓ **Structured or Unstructured**
-- ❓ **Single-Line or Multi-Line**
-- ❓ **What indicates the start of a new log record**
-- ❓ **Timestamp format**
+- ❓ Structured or Unstructured
+- ❓ Single-Line or Multi-Line
+- ❓ What indicates the start of a new log record
+- ❓ Log timestamp format
 
 Rule of thumb: 
 - Two log sources (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system have different formats → Assign each log source a unique sourcetype.
@@ -35,27 +35,44 @@ The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentati
 
 A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, part of what is commonly referred to as the "Magic 8" configurations are `LINE_BREAKER`, `SHOULD_LINEMERGE`, and `TRUNCATE`. 
 
-Example (unstructured single-line logs delimited by a single \n character):  
+An example defined to handle unstructured single-line logs delimited by a single \n character:  
 ```ini
 LINE_BREAKER = (\n+)  # Ensures each log record is treated as a separate event by splitting at each newline.
 SHOULD_LINEMERGE = false # When set to false, Splunk will treat the result of LINE_BREAKER as individual events.
 TRUNCATE = 10000 # The maximum length of an event, in bytes. Hinders Splunk from indexing very large events.
 ```
 
-#### **3. Define Timestamp Assignment**
+Best practices is to always test the configurations on sample logs before putting them into production. This can be done via the "Add Data" wizard in Splunk Web
+1. Navigate to **Settings → Add Data** in Splunk Web.
+2. Click **Upload**.
+3. Click **Select File** and select a sample log file.
+4. Enter **event line-breaking** configurations
+5. Validate **event line-breaking**.
 
-The sourcetype applies [timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns timestamps to events.
 
-A full list of configurations for timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, part of what is commonly referred to as the "Magic 8" configurations are `TIME_PREFIX`, `TIME_FORMAT`, and `MAX_TIMESTAMP_LOOKAHEAD`
+#### **3. Define Event Timestamp Assignment**
 
-Example (unstructured single-line logs with timestamps in ISO 8601 format, including microseconds):
+The sourcetype applies [event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns a timestamp to each individual events.
+
+A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, part of what is commonly referred to as the "Magic 8" configurations are `TIME_PREFIX`, `TIME_FORMAT`, and `MAX_TIMESTAMP_LOOKAHEAD`
+
+An example defined to handle unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
 ```ini
 TIME_PREFIX = ^  # The timestamp starts directly at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  #ISO 8601 format including microseconds.
 MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
 ```
 
+Best practices is to always test the configurations on sample logs before putting them into production. This can be done via the "Add Data" wizard in Splunk Web
+1. Navigate to **Settings → Add Data** in Splunk Web.
+2. Click **Upload**.
+3. Click **Select File** and select a sample log file.
+4. Enter **event timestamp assignment** configurations
+5. Validate **event timestamp assignment**.
+
 #### **4. Create the Sourcetype(s)**
+
+By now, you have defined and validated that each of your sourcetypes does proper index-time processing. The next step is to actually create the sourcetype(s).
 
 ##### **For Splunk Cloud and Splunk Enterprise ([Single Server Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
 - Create a Splunk app where the sourcetype(s) should be located.
@@ -71,8 +88,8 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
       - example: cambio:cosmic:access
       - example: cambio:cosmic:activity
   - In the **Destination App**, select the app 'TA-patient-privacy'.
-  - Click on **Event Breaks** and define event line-breaking.
-  - Click on **Advanced** and define timestamp assignment.
+  - Click on **Event Breaks** and enter event line-breaking configurations
+  - Click on **Advanced** and enter timestamp assignment configurations
   - Click **Save**.
 
 ##### **For Splunk Enterprise ([Distributed Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=To%20support%20larger,across%20the%20data.))**
@@ -96,19 +113,6 @@ MAX_TIMESTAMP_LOOKAHEAD = 27
 ```
 
 Then, instruct the Manager Node to deploy the Splunk app to the peer nodes in the cluster by following the steps described [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Indexer/Updatepeerconfigurations#:~:text=Admin%20Manual.-,Distribute%20the%20configuration%20bundle,the%20peers.%20This%20overwrites%20the%20contents%20of%20the%20peers%27%20current%20bundle.,-1.%20Prepare%20the).
-
-#### **5. Validate and Test Sourcetypes**
-
-After creating the sourcetype, always **test it before deploying it to production**. One way to check that logs are successfully parsed into events is by using the **"Add Data"** wizard.
-
-1. Navigate to **Settings → Add Data** in Splunk Web.
-2. Click **Upload**.
-3. Click **Select File** and select a sample log file.
-4. Select a sourcetype.
-5. Validate **event line-breaking**.
-6. Validate **timestamp extraction**.
-
-❗ **If logs are not parsing correctly, adjust the sourcetype and repeat the test.**
 
 ### **Assign the Right Sourcetype to the Right Log Source(s)**
 
