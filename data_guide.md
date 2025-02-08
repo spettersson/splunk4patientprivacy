@@ -82,7 +82,7 @@ Best practice is to run tests to validate the configurations before putting them
 By now, you have defined and validated that each of your sourcetypes does proper index-time processing. The next step is to actually create the sourcetype(s). How this is done depends on how your Splunk deployment type. 
 
 ##### **For Splunk Cloud and Splunk Enterprise ([Single Server](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
-- Create a respository (that is, a Splunk App) where the configurations for each sourcetype should be located.
+- Create a respository (that is, a Splunk App) where each sourcetype should be stored.
   - Navigate to **Apps → Manage Apps** in Splunk Web.
   - Click on **Create App**.
   - In the field **Name**, enter 'TA-patient-privacy'.
@@ -103,7 +103,10 @@ By now, you have defined and validated that each of your sourcetypes does proper
 ##### **For Splunk Enterprise ([Distributed Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=To%20support%20larger,across%20the%20data.))**
 If you are running a **distributed deployment**, sourcetypes must be defined in a Splunk app located on the [Manager Node](https://docs.splunk.com/Splexicon:Managernode) in the [indexer cluster](https://docs.splunk.com/Documentation/Splunk/latest/Indexer/Aboutclusters#:~:text=An%20indexer%20cluster%20is,set%20of%20peer%20nodes.). This ensures that all sourcetypes can be created, managed and deployed from a central point to all peer nodes belonging to the cluster.
 
-Run the following commands to create a Splunk app, then create the local/ directory inside the app, and finally create a props.conf configuration file in that directory:
+Run the following commands to
+1. create a Splunk app,
+2. then create the local/ directory inside the app, and
+3. finally create a props.conf configuration file in that directory
 ```bash
 $SPLUNK_HOME/bin/splunk new app TA-patient-privacy 
 mkdir -p $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/
