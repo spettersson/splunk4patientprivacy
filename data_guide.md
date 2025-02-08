@@ -19,9 +19,9 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 
 The first step is to understand the format of each individual log source, specifically:
 
-- ❓ Structured or Unstructured
+- ❓ Structured (csv, json, xml) or unstructured (free-txt) 
 - ❓ Single-Line or Multi-Line
-- ❓ What indicates the start of a new log record
+- ❓ Log delimiter (that is, what indicates the start and end of log record)
 - ❓ Log timestamp format
 
 Rule of thumb: 
@@ -35,8 +35,8 @@ The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentati
 
 A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, part of what is commonly referred to as the "Magic 8" configurations are:
 
-- `LINE_BREAKER` → Define a regular expression that Splunk uses to determine how it should split raw text into lines
-- `SHOULD_LINEMERGE` → Determines if Splunk should merge multiple lines to a single event. If set to false, each line will be become an indexed event.
+- `LINE_BREAKER` → Define a regular expression that determines how Splunk should split raw text into lines
+- `SHOULD_LINEMERGE` → Determines if Splunk should merge multiple lines to a single event. If set to false, each line will be indexed as a separate event.
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
 
 An example defined to handle unstructured single-line logs delimited by a single \n character:  
@@ -59,9 +59,9 @@ Best practice is to always test the configurations on sample logs before putting
 The sourcetype applies [event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns a timestamp to each individual events.
 
 A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, part of what is commonly referred to as the "Magic 8" configurations are:
-- `TIME_PREFIX` →
-- `TIME_FORMAT` →
-- `MAX_TIMESTAMP_LOOKAHEAD` →
+- `TIME_PREFIX` → A regular expression that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match
+- `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
+- `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
 
 An example defined to handle unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
 ```ini
