@@ -1,4 +1,4 @@
-## **Getting the logs into Splunk**
+## **Getting Journal Audit Logs into Splunk**
 
 Splunk can collect, index, search, correlate, and visualize logs from any system and any vendor that records activities such as **create, read, update, delete, and export** related to patient journals.
 
