@@ -166,9 +166,9 @@ whitelist = <regular expression>
 
 Event types serve as a mean to categorize events in Splunk to easier make sense of them at scale. By defining a set of field-value pairs and search terms, you can identify a group of events and save the result as an event type which then can be references in a search (for example, eventtype=journalaudit:cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
 
-Since your organization likely has multiple systems that hold events that fall into to the same event category, you will inevitably end up with multiple event types. In such cases, you can assign them a common tag. This allows you to retrieve all desired events in a single search by simply referencing a tag (for example, tag=journalaudit), without manually specifying each event type.
+Since your organization likely has multiple systems that hold events that fall into to the same category, you will inevitably end up with multiple event types. In such cases, you can assign them a common tag. This allows you to retrieve all desired events in a single search by simply referencing a tag (for example, tag=journalaudit), without manually specifying each event type.
 
-For the use cases in this repository, each system is expected to have **one unique event type** (that is, journalaudit:<systemName>). This event type must include events that records create/read/update/delete activities associated to patient journals. 
+For the use cases in this repository, each system is expected to have **one unique event type** (that is, journalaudit:<systemName>). This event type must include events that records create/read/update/delete/export activities associated to patient journals. 
 
 An event type can be created either through the Splunk UI (AKA Splunk Web) or Splunk configuration files - which approach you use depends on your preferences. The following is a step by step guide for how to create an event type in Splunk UI.
 
