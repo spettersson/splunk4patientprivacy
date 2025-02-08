@@ -58,12 +58,12 @@ A full list of configurations for event timestamp assignment with detailed expla
 
 An example defined to handle unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
 ```ini
-TIME_PREFIX = ^  # The timestamp starts directly at the beginning of each log record.
-TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  #ISO 8601 format including microseconds.
-MAX_TIMESTAMP_LOOKAHEAD = 27  # The timestamp length is up to 27 characters.
+TIME_PREFIX = ^  # Regular expression indicating that the timestamp is located at the beginning of each log record.
+TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp format follow ISO 8601 with microseconds.
+MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-Best practices is to always test the configurations on sample logs before putting them into production. This can be done via the "Add Data" wizard in Splunk Web
+Best practices is to run tests to validate the configurations before putting them into production. This can be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
