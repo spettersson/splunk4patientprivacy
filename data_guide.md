@@ -2,7 +2,7 @@
 
 Splunk can collect, index, search, correlate, and visualize logs from any system that records activities such as **create, read, update, delete, and export** related to patient journals.
 
-When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as events - where each event represents something that happened at a specific point in time.
+When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
 To manage the diversity of log formats, Splunk typically assigns each log format a unique **sourcetype**, allowing index-time processing to be tailored accordingly.
 
@@ -19,13 +19,13 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 
 The first step is to understand the format of each individual log source, specifically:
 
-- ❓ Structured (csv, json, xml) or unstructured (free-text) 
+- ❓ Structured (csv, json, xml), unstructured (free-text), or semi-structured (combination)
 - ❓ Single-Line or Multi-Line
 - ❓ Log delimiter (that is, what indicates the start and end of a log record)
 - ❓ Log timestamp format
 
 Rule of thumb: 
-- Two log sources (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system have different formats → Assign each log source a unique sourcetype.
+- Two log sources (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (for example, Cambio Cosmic) have different formats → Assign each log source a unique sourcetype.
 - Two log sources from the same system have the same format → Assign both log sources the same sourcetype.
 - Two log sources from different systems have the same format → Assign each log source a unique sourcetype.
 
@@ -35,18 +35,18 @@ The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentati
 
 A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, part of what is commonly referred to as the "Magic 8" configurations are:
 
-- `LINE_BREAKER` → Define a regular expression that determines how Splunk should split raw text into lines
-- `SHOULD_LINEMERGE` → Determines if Splunk should merge multiple lines to a single event. If set to false, each line will be indexed as a separate event.
+- `LINE_BREAKER` → Defines a regular expression that determines how Splunk should split raw text into lines
+- `SHOULD_LINEMERGE` → Determines if Splunk should merge multiple lines to a single event. If set to false, each line will treated as an individual event.
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
 
 An example defined to handle unstructured single-line logs delimited by a single \n character:  
 ```ini
-LINE_BREAKER = (\n)  # Raw text is split into lines at each newline.
+LINE_BREAKER = (\n)  # Split raw text into lines at each newline.
 SHOULD_LINEMERGE = false # Each line will become a single event
 TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
 
-Best practice is to always test the configurations on sample logs before putting them into production. This can be done via the "Add Data" wizard in Splunk Web
+Best practice is to run tests to validate the configurations before putting them into production. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
@@ -70,7 +70,7 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-Best practices is to run tests to validate the configurations before putting them into production. This can be done via the "Add Data" wizard in Splunk Web
+Best practice is to run tests to validate the configurations before putting them into production. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
@@ -79,14 +79,15 @@ Best practices is to run tests to validate the configurations before putting the
 
 #### **4. Create the Sourcetype(s)**
 
-By now, you have defined and validated that each of your sourcetypes does proper index-time processing. The next step is to actually create the sourcetype(s).
+By now, you have defined and validated that each of your sourcetypes does proper index-time processing. The next step is to actually create the sourcetype(s). How this is done depends on how your Splunk deployment type. 
 
-##### **For Splunk Cloud and Splunk Enterprise ([Single Server Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
-- Create a Splunk app where the sourcetype(s) should be located.
+##### **For Splunk Cloud and Splunk Enterprise ([Single Server](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
+- Create a respository (that is, a Splunk App) where the configurations for each sourcetype should be located.
   - Navigate to **Apps → Manage Apps** in Splunk Web.
   - Click on **Create App**.
   - In the field **Name**, enter 'TA-patient-privacy'.
   - In the field **Folder Name**, enter 'TA-patient-privacy'.
+  - In the field **Visible**, select 'No'
 - Create the sourcetype(s).
   - Navigate to **Settings → Source Types** in Splunk Web.
   - Click **New Source Type**.
