@@ -6,11 +6,6 @@ When onboarding logs from a new system, it is crucial to provide Splunk with pro
 
 To manage the diversity of log formats, Splunk typically assigns each log format a unique **sourcetype**, allowing index-time processing to be tailored accordingly.
 
-Rule of thumb: 
-- Two log sources (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system have different formats → Assign each log source a unique sourcetype.
-- Two log sources from the same system have the same format → Assign both log sources the same sourcetype.
-- Two log sources from different systems have the same format → Assign each log source a unique sourcetype.
-
 ### **What is a Sourcetype?**
 
 A sourcetype instructs Splunk how to perform index-time processing, specifically by determining:
@@ -18,7 +13,7 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 - **How logs are separated into individual events** 
 - **How the timestamp is identified, extracted and assigned to each individual event** 
 
-### **Create Your Sourcetype(s)**
+### **Define Your Sourcetype(s)**
 
 #### **1. Understand the Log Format(s)**
 
@@ -29,23 +24,29 @@ The first step is to understand the format of each individual log source, specif
 - ❓ **What indicates the start of a new log record**
 - ❓ **Timestamp format**
 
-#### **2. Understand Event Line-Breaking**
+Rule of thumb: 
+- Two log sources (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system have different formats → Assign each log source a unique sourcetype.
+- Two log sources from the same system have the same format → Assign both log sources the same sourcetype.
+- Two log sources from different systems have the same format → Assign each log source a unique sourcetype.
 
-The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk separates each individual log record into a single event. This prevents issues such as multiple log records being merged into a single event or a single log record split into multiple events.  
+#### **2. Define Event Line-Breaking**
 
-Example (unstructured single-line logs separated by a single \n character):  
+The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk separates each individual log record into a single event. This prevents issues such as multiple log records being merged into a single event or a single log record split into multiple events. 
+
+A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, part of what is commonly referred to as the "Magic 8" configurations are `LINE_BREAKER`, `SHOULD_LINEMERGE`, and `TRUNCATE`. 
+
+Example (unstructured single-line logs delimited by a single \n character):  
 ```ini
-LINE_BREAKER = (\n+)  # Ensures each log record is treated as a separate event by splitting at newlines.
+LINE_BREAKER = (\n+)  # Ensures each log record is treated as a separate event by splitting at each newline.
+SHOULD_LINEMERGE = false # When set to false, Splunk will treat the result of LINE_BREAKER as individual events.
+TRUNCATE = 10000 # The maximum length of an event, in bytes. Hinders Splunk from indexing very large events.
 ```
 
-A full list of general configurations for event line-breaking can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.).
-
-
-For multi-line logs, more advanced configurations typically apply which can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/latest/Data/Configureeventlinebreaking#:~:text=When%20you%20set%20SHOULD_LINEMERGE%20to%20the%20default%20of%20true%2C%20use%20these%20additional%20settings%20to%20define%20line%20breaking%20behavior.).
-
-#### **3. Understand Timestamp Assignment**
+#### **3. Define Timestamp Assignment**
 
 The sourcetype applies [timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns timestamps to events.
+
+A full list of configurations for timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, part of what is commonly referred to as the "Magic 8" configurations are `TIME_PREFIX`, `TIME_FORMAT`, and `MAX_TIMESTAMP_LOOKAHEAD`
 
 Example (unstructured single-line logs with timestamps in ISO 8601 format, including microseconds):
 ```ini
@@ -83,7 +84,7 @@ $SPLUNK_HOME/bin/splunk new app TA-patient-privacy
 mkdir -p $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/
 nano $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/props.conf
 ```
-Add a stanza for each unique sourcetype inside `props.conf`. 
+Add a stanza for each unique sourcetype inside [`props.conf`](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf). 
 
 Example:
 ```ini
