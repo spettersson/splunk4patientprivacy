@@ -36,13 +36,13 @@ The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentati
 A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, part of what is commonly referred to as the "Magic 8" configurations are:
 
 - `LINE_BREAKER` → Define a regular expression that Splunk uses to determine how it should split raw text into lines
-- `SHOULD_LINEMERGE` → Determines if Splunk should merge lines to a single event
+- `SHOULD_LINEMERGE` → Determines if Splunk should merge multiple lines to a single event. If set to false, each line will be become an indexed event.
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
 
 An example defined to handle unstructured single-line logs delimited by a single \n character:  
 ```ini
-LINE_BREAKER = (\n)  # Raw text is split into lines at each newline - ensuring that each full log record is treated as a separate event by splitting at each newline.
-SHOULD_LINEMERGE = false # Each line will be processed as a single event
+LINE_BREAKER = (\n)  # Raw text is split into lines at each newline.
+SHOULD_LINEMERGE = false # Each line will become a single event
 TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
 
