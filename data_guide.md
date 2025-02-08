@@ -155,7 +155,7 @@ whitelist = <regular expression>
 ---
 
 
-## **Fields**
+## **Normalizing Journal Audit Logss**
 
 
 ## **Event types**
