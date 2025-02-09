@@ -10,7 +10,7 @@ bla bla bla
 This repo contains **use cases** that work together to surface incidents that potentially could indicate a violation of patient privacy. The use cases fall into the following two categories:
 
 #### **Anomaly-Triggering**
-- Identifies **unusual behavior** by searching and correlating logs/events to trigger anomalies.
+- Identifies **unusual behavior** by searching and correlating events to trigger anomalies.
 - Surfaces activity that may be abnormal but does not, on its own, clearly indicate a privacy violation.
 
 #### **Incident-Triggering**
