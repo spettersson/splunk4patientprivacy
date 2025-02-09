@@ -29,19 +29,19 @@ Rule of thumb:
 - Two log sources from the same system have the same format → Assign both log sources the same sourcetype.
 - Two log sources from different systems have the same format → Assign each log source a unique sourcetype.
 
-#### **2. Define Event Line-Breaking**
+#### **2. Define How the Sourcetype(s) Should Do Event Line-Breaking**
 
-The sourcetype applies [event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) configurations which control how Splunk breaks raw text into individual events - ensuring that each log record is processed as a single event. This prevents issues such as multiple log records being merged into a single event or a single log record split into multiple events. 
+[Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw data and breaks it into individual events, ensuring that every complete log record is indexed as a separate event.
 
-A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, those included in what is known as the "Magic 8" configurations are:
+A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, the key settings (part of what is known as the "Magic 8") that should be considered are:
 
-- `LINE_BREAKER` → Defines a regular expression that determines how Splunk should split raw text into lines
-- `SHOULD_LINEMERGE` → Determines if Splunk should merge multiple lines to a single event. If set to false, each line will processed as an individual event.
+- `LINE_BREAKER` → Defines a regular expression that determines where Splunk splits raw data into lines. Each match of the capturing group marks the point at which a new line begins. The portion of the text matched by the capturing group is excluded from the lines. Whether each line becomes a separate event depends on the SHOULD_LINEMERGE setting.
+- `SHOULD_LINEMERGE` → Determines whether multiple lines should be merged to a single event. If set to false, each line will processed as an individual event. How the merging is done depends on
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
 
-An example defined to handle unstructured single-line logs delimited by a single \n character:  
+If your sourcetype defined to handle unstructured single-line logs delimited by a single \n character:  
 ```ini
-LINE_BREAKER = (\n+)  # Split raw text into lines when ever one or more newline occur
+LINE_BREAKER = ([\r\n]+)  # This is the default setting - splits raw data into lines when ever one or more newline occur
 SHOULD_LINEMERGE = false # Each line will be processed as a single event
 TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
