@@ -36,7 +36,7 @@ Rule of thumb:
 A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, the key settings (part of what is known as the "Magic 8") that should be considered are:
 
 - `LINE_BREAKER` → Defines a regular expression that determines where Splunk splits raw data into lines. Each match of the capturing group marks the point at which a new line begins. The portion of the text matched by the capturing group is excluded from the lines. Whether each line becomes a separate event depends on the SHOULD_LINEMERGE setting.
-- `SHOULD_LINEMERGE` → Determines whether multiple lines should be merged to a single event. If set to false, each line will processed as an individual event. How the merging is done depends on other configurations mentioned in
+- `SHOULD_LINEMERGE` → Determines whether multiple lines should be merged to a single event. If set to false, each line will processed as an individual event. If set to true, Splunk will merge the lines based on other configuratio
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
 
 If your sourcetype defined to handle unstructured single-line logs delimited by a single \n character:  
