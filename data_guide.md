@@ -10,7 +10,7 @@ To manage the diversity of log formats, Splunk typically assigns each log format
 
 A sourcetype instructs Splunk how to perform index-time processing, specifically by determining:
 
-- How logs are separated into individual events
+- How log records are separated into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
 ### **Define and Create Sourcetype(s)**
@@ -19,7 +19,7 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 
 The first step is to understand the format of each individual log source, specifically:
 
-- ❓ Structured (csv, json, xml), unstructured (free-text), or semi-structured (combination)
+- ❓ Structured (csv, json, xml), unstructured (free-text), or semi-structured
 - ❓ Single-Line or Multi-Line
 - ❓ Log delimiter (that is, what indicates the start and end of a log record)
 - ❓ Log timestamp format
@@ -65,7 +65,7 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27
 
 #### **4. Validate event line-breaking and event timestamp assignment**
 
-Best practice is to run tests to validate event timestamp assignment before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
+Best practice is to run tests to validate event line-breaking and event timestamp assignment before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
@@ -75,7 +75,7 @@ Best practice is to run tests to validate event timestamp assignment before appl
 
 #### **4. Create the Sourcetype(s)**
 
-By now, you should know how to configure event-line breaking and timestamp assignment for each individual sourcetype. The next step is to actually create the sourcetype(s). How this is done depends on how your Splunk deployment type. 
+The next step is to create the sourcetype(s). How this is done depends on how your Splunk deployment type. 
 
 ##### **For Splunk Cloud and Splunk Enterprise ([Single Server](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
 - Create a respository (that is, a Splunk App) where each sourcetype should be stored.
