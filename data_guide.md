@@ -80,10 +80,11 @@ Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk
 
 To create a Splunk add-on that follows a structure that Splunk can understand, do the following: 
 
+```app creation instructions```
 
 
-##### **For Splunk Cloud and Splunk Enterprise ([Single Server](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
-- Create a respository (that is, a Splunk App) where each sourcetype should be stored.
+
+##### **For Splunk Cloud**
   - Navigate to **Apps → Manage Apps** in Splunk Web.
   - Click on **Create App**.
   - In the field **Name**, enter 'TA-patient-privacy'.
