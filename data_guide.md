@@ -33,20 +33,21 @@ Rule of thumb:
 
 [Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw data and breaks it into individual events, ensuring that every complete log record is indexed as a separate event.
 
-A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). However, the key settings (part of what is known as the "Magic 8") that should be considered are:
+A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). 
+In many cases, the default settings are sufficient, so it’s recommended to test them first. If they don't do the job, then consider adjusting the key settings (part of what is known as the ‘Magic 8’):
 
-- `LINE_BREAKER` → Defines a regular expression that determines where Splunk splits raw data into lines. Each match of the capturing group marks the point at which a new line begins. The portion of the text matched by the capturing group is excluded from the lines. Whether each line becomes a separate event depends on the SHOULD_LINEMERGE setting.
-- `SHOULD_LINEMERGE` → Determines whether multiple lines should be merged to a single event. If set to false, each line will processed as an individual event. If set to true, Splunk will merge the lines based on other configuratio
+- `LINE_BREAKER` → Specifies a regex that determines how Splunk breaks raw text into lines. The regex must contain a capturing group, and wherever the regex matches, Splunk considers the start of the first capturing group to be the end of the previous line, and considers the end of the first capturing group to be the start of the next line. The portion of the text matched by the capturing group is excluded from the lines. Whether lines are directly processed as individual event depends on if Splunk is instructed to try to merge lines or not (see SHOULD_LINEMERGE setting).
+- `SHOULD_LINEMERGE` → Determines whether Splunk should try to merge multiple lines into to a single event based on specific patterns. If set to false, each individual line will processed as a single event. If set to true, default behavior is that Splunk will create a new event if a new line with a timestamp is encountered. Splunk encourages disabling line merging if possible, as it results in improved performance.
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
 
-If your sourcetype defined to handle unstructured single-line logs delimited by a single \n character:  
+For example, to properly apply event line-breaking on unstructured single-line logs delimited by a single \n character:  
 ```ini
-LINE_BREAKER = ([\r\n]+)  # This is the default setting - splits raw data into lines when ever one or more newline occur
-SHOULD_LINEMERGE = false # Each line will be processed as a single event
+LINE_BREAKER = ([\r\n]+)  # This is a default setting - breaks raw data into lines whenever one or more newlines are identified.
+SHOULD_LINEMERGE = false # Because I know that I'm dealing with single line log records only, I can set this to false to disable line merging.
 TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
 
-Best practice is to run tests to validate the configurations before putting them into production. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
+Best practice is to run tests to validate event-line breaking before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
@@ -56,7 +57,7 @@ Best practice is to run tests to validate the configurations before putting them
 
 #### **3. Define Event Timestamp Assignment**
 
-The sourcetype applies [event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) configurations which control how Splunk identifies, extracts, and assigns a timestamp to each individual events.
+[Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual events.
 
 A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, those included in what is known as the "Magic 8" configurations are:
 - `TIME_PREFIX` → A regular expression that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match
@@ -70,7 +71,7 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-Best practice is to run tests to validate the configurations before putting them into production. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
+Best practice is to run tests to validate event timestamp assignment before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
