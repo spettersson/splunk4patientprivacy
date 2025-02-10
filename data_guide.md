@@ -34,7 +34,7 @@ Rule of thumb:
 [Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw data and breaks it into individual events, ensuring that every complete log record is indexed as a separate event.
 
 A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). 
-In many cases, the default settings are sufficient, so it’s recommended to test them first. If they don't do the job, then consider adjusting the key settings (part of what is known as the ‘Magic 8’):
+In many cases, the default settings are sufficient, so it’s recommended to test them first. If they don't do the job, then consider adjusting the  following key settings (part of what is known as the ‘Magic 8’):
 
 - `LINE_BREAKER` → Specifies a regex that determines how Splunk breaks raw text into lines. The regex must contain a capturing group, and wherever the regex matches, Splunk considers the start of the first capturing group to be the end of the previous line, and considers the end of the first capturing group to be the start of the next line. The portion of the text matched by the capturing group is excluded from the lines. Whether lines are directly processed as individual event depends on if Splunk is instructed to try to merge lines or not (see SHOULD_LINEMERGE setting).
 - `SHOULD_LINEMERGE` → Determines whether Splunk should try to merge multiple lines into to a single event based on specific patterns. If set to false, each individual line will processed as a single event. If set to true, default behavior is that Splunk will create a new event if a new line with a timestamp is encountered. Splunk encourages disabling line merging if you can do with just LINE_BREAKER, as it results in improved performance.
@@ -51,7 +51,9 @@ TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size.
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual events.
 
-A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). However, those included in what is known as the "Magic 8" configurations are:
+A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). If you do not explicitly define event time assignment for your sourcetype, Splunk will attempt to assign timestamps automatically. However, this automated process may not always be accurate. Therefore, it is strongly recommended to define timestamp configurations by considering key settings such as:
+
+However, those included in what is known as the "Magic 8" configurations are:
 - `TIME_PREFIX` → A regular expression that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
 - `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
