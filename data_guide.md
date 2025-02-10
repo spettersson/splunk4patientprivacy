@@ -37,7 +37,7 @@ A full list of configurations for event line-breaking with detailed explanations
 In many cases, the default settings are sufficient, so it’s recommended to test them first. If they don't do the job, then consider adjusting the key settings (part of what is known as the ‘Magic 8’):
 
 - `LINE_BREAKER` → Specifies a regex that determines how Splunk breaks raw text into lines. The regex must contain a capturing group, and wherever the regex matches, Splunk considers the start of the first capturing group to be the end of the previous line, and considers the end of the first capturing group to be the start of the next line. The portion of the text matched by the capturing group is excluded from the lines. Whether lines are directly processed as individual event depends on if Splunk is instructed to try to merge lines or not (see SHOULD_LINEMERGE setting).
-- `SHOULD_LINEMERGE` → Determines whether Splunk should try to merge multiple lines into to a single event based on specific patterns. If set to false, each individual line will processed as a single event. If set to true, default behavior is that Splunk will create a new event if a new line with a timestamp is encountered. Splunk encourages disabling line merging if possible, as it results in improved performance.
+- `SHOULD_LINEMERGE` → Determines whether Splunk should try to merge multiple lines into to a single event based on specific patterns. If set to false, each individual line will processed as a single event. If set to true, default behavior is that Splunk will create a new event if a new line with a timestamp is encountered. Splunk encourages disabling line merging if you can do with just LINE_BREAKER, as it results in improved performance.
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
 
 For example, to properly apply event line-breaking on unstructured single-line logs delimited by a single \n character:  
@@ -47,15 +47,7 @@ SHOULD_LINEMERGE = false # Because I know that I'm dealing with single line log 
 TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
 
-Best practice is to run tests to validate event-line breaking before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
-1. Navigate to **Settings → Add Data** in Splunk Web.
-2. Click **Upload**.
-3. Click **Select File** and select a sample log file.
-4. Enter **event line-breaking** configurations
-5. Validate **event line-breaking**.
-
-
-#### **3. Define Event Timestamp Assignment**
+#### **3. Define How the Sourcetype Should Do Event Timestamp Assignment**
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual events.
 
@@ -71,12 +63,15 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
+#### **4. Validate event line-breaking and event timestamp assignment**
+
 Best practice is to run tests to validate event timestamp assignment before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
-4. Enter **event timestamp assignment** configurations
-5. Validate **event timestamp assignment**.
+4. Enter **event event line-breaking** configurations.
+5. Enter **event timestamp assignment** configurations.
+6. Validate.
 
 #### **4. Create the Sourcetype(s)**
 
