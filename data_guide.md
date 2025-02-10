@@ -49,11 +49,10 @@ TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size.
 
 #### **3. Define How the Sourcetype(s) Should Do Event Timestamp Assignment**
 
-[Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual events.
+[Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual event.
 
 A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). If you do not explicitly define event time assignment for your sourcetype, Splunk will attempt to assign timestamps automatically. However, this automated process may not always be accurate. Therefore, it is strongly recommended to define timestamp configurations by considering key settings such as:
 
-However, those included in what is known as the "Magic 8" configurations are:
 - `TIME_PREFIX` → A regular expression that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
 - `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
@@ -77,9 +76,9 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Begin by creating a Splunk app to house all necessary configurations for ingesting the desired log sources. This app can then be deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
+Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) to house all necessary configurations for ingesting the desired log sources. The idea is that this app then can be deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
 
-To create a Splunk app that follows a structure that Splunk can understand, do the following: 
+To create a Splunk add-on that follows a structure that Splunk can understand, do the following: 
 
 
 
