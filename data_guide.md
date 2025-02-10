@@ -1,4 +1,4 @@
-## **Getting Journal Audit Logs into Splunk**
+## **Ingest Journal Audit Logs into Splunk**
 
 Splunk can collect, index, search, correlate, and visualize logs from any system and any vendor that records activities such as **create, read, update, delete, and export** related to patient journals.
 
@@ -43,7 +43,7 @@ In many cases, the default settings are sufficient, so it’s recommended to tes
 For example, to properly apply event line-breaking on unstructured single-line logs delimited by a single \n character:  
 ```ini
 LINE_BREAKER = ([\r\n]+)  # This is a default setting - breaks raw data into lines whenever one or more newlines are identified.
-SHOULD_LINEMERGE = false # Because I know that I'm dealing with single line log records only, I can set this to false to disable line merging.
+SHOULD_LINEMERGE = false # Because we are dealing with single line log records only, line merging can be disabled.
 TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
 
@@ -56,7 +56,7 @@ A full list of configurations for event timestamp assignment with detailed expla
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
 - `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
 
-An example defined to handle unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
+For example, to properly apply event timestamp assignment on unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
 ```ini
 TIME_PREFIX = ^  # Regular expression indicating that the timestamp is located at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp format follow ISO 8601 with microseconds.
@@ -75,7 +75,11 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-The next step is to create the sourcetype(s). How this is done depends on how your Splunk deployment type. 
+Begin by creating a Splunk app to house all necessary configurations for ingesting the desired log sources. This app can then be deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
+
+To create a Splunk app that follows a structure that Splunk can understand, do the following: 
+
+
 
 ##### **For Splunk Cloud and Splunk Enterprise ([Single Server](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=In%20single%2Dinstance%20deployments%2C%20one%20instance%20of%20Splunk%20Enterprise%20handles%20all%20aspects%20of%20processing%20data%2C%20from%20input%20through%20indexing%20to%20search.%20A%20single%2Dinstance%20deployment%20can%20be%20useful%20for%20testing%20and%20evaluation%20purposes%20and%20might%20serve%20the%20needs%20of%20department%2Dsized%20environments.))**
 - Create a respository (that is, a Splunk App) where each sourcetype should be stored.
