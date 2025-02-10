@@ -47,7 +47,7 @@ SHOULD_LINEMERGE = false # Because we are dealing with single line log records o
 TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
 ```
 
-#### **3. Define How the Sourcetype Should Do Event Timestamp Assignment**
+#### **3. Define How the Sourcetype(s) Should Do Event Timestamp Assignment**
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual events.
 
