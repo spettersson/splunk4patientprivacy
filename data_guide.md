@@ -37,8 +37,11 @@ A full list of configurations for event line-breaking with detailed explanations
 In many cases, the default settings are sufficient, so it’s recommended to test them first. If they don't do the job, then consider adjusting the  following key settings (part of what is known as the ‘Magic 8’):
 
 - `LINE_BREAKER` → Specifies a regex that determines how Splunk breaks raw text into lines. The regex must contain a capturing group, and wherever the regex matches, Splunk considers the start of the first capturing group to be the end of the previous line, and considers the end of the first capturing group to be the start of the next line. The portion of the text matched by the capturing group is excluded from the lines. Whether lines are directly processed as individual event depends on if Splunk is instructed to try to merge lines or not (see SHOULD_LINEMERGE setting).
+  - Default: LINE_BREAKER = ([\r\n]+)
 - `SHOULD_LINEMERGE` → Specifies a boolean that determines whether Splunk should try to merge multiple lines into to a single event based on specific patterns. If set to false, each individual line will processed as a single event. If set to true, default behavior is that Splunk will create a new event if a new line with a timestamp is encountered. Splunk encourages disabling line merging if you can do with just LINE_BREAKER, as it results in improved performance.
+  - Default: SHOULD_LINEMERGE = true 
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
+  - Default: TRUNCATE = 10000 
 
 For example, to properly apply event line-breaking on unstructured single-line logs delimited by a single \n character:  
 ```ini
