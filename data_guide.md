@@ -47,7 +47,7 @@ For example, to properly apply event line-breaking on unstructured single-line l
 ```ini
 LINE_BREAKER = ([\r\n]+)  # This is a default setting - breaks raw data into lines whenever one or more newlines are identified.
 SHOULD_LINEMERGE = false # Because we are dealing with single line log records only, line merging can be disabled.
-TRUNCATE = 10000 # An event cannot exceed 10,000 bytes in size. 
+TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exceed 10,000 bytes in size. 
 ```
 
 #### **3. Define How the Sourcetype(s) Should Do Event Timestamp Assignment**
