@@ -56,13 +56,13 @@ TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exce
 
 A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). If you do not explicitly define event time assignment for your sourcetype, Splunk will attempt to assign timestamps automatically. However, this automated process may not always be accurate. Therefore, it is strongly recommended to define timestamp configurations by considering key settings such as:
 
-- `TIME_PREFIX` → A regular expression that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match
+- `TIME_PREFIX` → A regex that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
 - `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
 
 For example, to properly apply event timestamp assignment on unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
 ```ini
-TIME_PREFIX = ^  # Regular expression indicating that the timestamp is located at the beginning of each log record.
+TIME_PREFIX = ^  # A regex indicating that the timestamp is located at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp format follow ISO 8601 with microseconds.
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
@@ -152,8 +152,8 @@ Example monitor stanza:
 [monitor://<path>]
 index = <indexName>
 sourcetype = <sourceTypeName>
-whitelist = <regular expression>
-whitelist = <regular expression>
+whitelist = <regex>
+whitelist = <regex>
 ```
 
 ---
