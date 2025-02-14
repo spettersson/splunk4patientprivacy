@@ -44,7 +44,7 @@ In many cases, the default settings are sufficient, so it’s recommended to tes
 - `TRUNCATE` → Determines the maximum size of an event, in bytes. This prevents Splunk from indexing abnormally large events that can have negative impact on performance.
   - Default: TRUNCATE = 10000 
 
-For example, to properly apply event line-breaking on unstructured single-line logs delimited by a single \n character:  
+For example, to properly apply event line-breaking to unstructured single-line logs delimited by a single \n character:  
 ```ini
 LINE_BREAKER = ([\r\n]+)  # This is a default setting - breaks raw data into lines whenever one or more newlines are identified.
 SHOULD_LINEMERGE = false # Because we are dealing with single line log records only, line merging can be disabled.
@@ -61,7 +61,7 @@ A full list of configurations for event timestamp assignment with detailed expla
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
 - `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
 
-For example, to properly apply event timestamp assignment on unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
+For example, to properly apply event timestamp assignment to unstructured single-line logs with timestamps in ISO 8601 format (including microseconds):
 ```ini
 TIME_PREFIX = ^  # A regex indicating that the timestamp is located at the beginning of each log record.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp format follow ISO 8601 with microseconds.
