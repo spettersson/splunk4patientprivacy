@@ -74,7 +74,7 @@ Best practice is to run tests to validate event line-breaking and event timestam
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
-4. Enter **event event line-breaking** configurations.
+4. Enter **event event line-breaking** configurations (tip: first check if the default settings work).
 5. Enter **event timestamp assignment** configurations.
 6. Validate.
 
