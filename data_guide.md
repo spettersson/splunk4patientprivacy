@@ -80,7 +80,7 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will house all the event line-breaking and event timestamp assignment configuration for each individual sourcetype. The idea is that this app then can be deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
+Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will house all the event line-breaking and event timestamp assignment configuration for each individual sourcetype. The idea is that this add-on then can be centrally managed and then deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
 
 To create a Splunk add-on that follows a structure that Splunk can understand, do the following: 
 
