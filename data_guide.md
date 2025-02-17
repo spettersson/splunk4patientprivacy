@@ -188,7 +188,7 @@ An event type can be created either through the Splunk UI (AKA Splunk Web) or Sp
 5. In the **Search string** field, enter the field::value pairs and search terms that captures the desired group of events from the system.
    - It's best practice to reference the index, host, source, and sourcetype fields associated with the system for performance reasons. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
    - Depending on the system, additional field-value pairs and search terms may be necessary to narrow down the events to the desired group of events.
-   - example: index=cosmic sourcetype IN ("cambio:cosmic:activity", "cambio:cosmic:access") source IN ("F_IX_ACTIVITY.txt", "F_IX_ACCESS") staff_ID=* patient_ID=* activity_type=*
+   - example: ```index=cosmic sourcetype IN ("cambio:cosmic:activity", "cambio:cosmic:access") source IN ("F_IX_ACTIVITY.txt", "F_IX_ACCESS") staff_ID=* patient_ID=* activity_type=*```
 6. In the **Tag(s)** field, enter the value 'journalaudit'
     - When creating an event type via Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
 
