@@ -1,6 +1,6 @@
 ## **Ingest Journal Audit Logs into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize logs from any system and any vendor that records **create, read, update, delete, and export** activities related to patient journals.
+Splunk can collect, index, search, correlate, and visualize any data from any system that records **create, read, update, delete, and export** activities related to patient journals.
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
@@ -80,7 +80,7 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will house all the event line-breaking and event timestamp assignment configuration for each individual sourcetype. Although it is practically possible to have a single add-on that houses all sourcetypes for all systems, best practice is to have one add-on per system as it eases managability easier. These add-ons then can be centrally managed and then deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
+Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will house all the event line-breaking and event timestamp assignment configurations for each individual sourcetype. Although it is practically possible to have a single add-on that houses all sourcetypes for all systems, best practice is to have one add-on per system as it eases managability easier. These add-ons then can be centrally managed and then deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
 
 To create a Splunk add-on that follows a structure that Splunk can understand, do the following: 
 
