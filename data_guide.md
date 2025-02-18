@@ -165,6 +165,32 @@ whitelist = <regex>
 
 ### Fields 
 
+To search, correlate, and visualize events in Splunk, fields play a central role. A field is the result of Splunk extracting values matching specific patterns from events associate with a sourcetype and then mapping the values to a specific field name, resulting in field::value pairs which subsequently can referenced in searches for detailed filtering and in SPL commands and functions for advanced analytics. For example, you might have a sourcetype that include events that provide information about an employee's ID. You can then create a field that extracts the ID from each individual event and then maps the values to a single field named employee_ID. You can then search for events that match a specific employee ID by referencing the field:value pair ```employee_ID=123456789``` in a search. Although you could have simply searched for events matching the keyword ```123456789``` (since Splunk is like Google but for logs), this may result in that you get undesired events in the search result, as there can be other events that include that exact value but may not be associated to employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
+
+
+This repo comes with a number of pre-built use cases where each is powered by different Splunk searches that require different fields. To ensure full compatibility, it is important to identify:
+1. the use cases of interest
+2. the data sources required
+3. the required fields and their characteristics
+
+When you know what fields are needed, the next step is to define field extractions that Splunk will execute every time you search for events from a specific sourcetype. Now, exactly how this is done depends on the event structure for each sourcetype - that is, if they are structured (json, xml, csv), unstructured (raw text), or semistructured. For structured events, all fields are typically extracted in an automatic fashion, whereas for unstructured where there are no obvious key-value pairs in the events, it requires a manual effort. 
+
+**delimited**
+```FIELD_DELIMITER = ,
+FIELD_NAMES = ```
+
+
+**json**
+```KV_MODE = json```
+
+
+**xml**
+```KV_MODE = xml```
+
+
+**raw text**
+
+
 ### **Event types**
 
 <p align="center">
