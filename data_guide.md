@@ -1,6 +1,6 @@
 ## **Ingest Journal Audit Logs into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize any data from any system that records **create, read, update, delete, and export** activities related to patient journals.
+Splunk can collect, index, search, correlate, and visualize any data from any system or device, including logs that record **create, read, update, delete, and export** activities related to patient journals.
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
