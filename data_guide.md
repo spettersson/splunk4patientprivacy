@@ -80,56 +80,13 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will house all the event line-breaking and event timestamp assignment configuration for each individual sourcetype. The idea is that this add-on then can be centrally managed and then deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
+Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will house all the event line-breaking and event timestamp assignment configuration for each individual sourcetype. Although it is practically possible to have a single add-on that houses all sourcetypes for all systems, best practice is to have one add-on per system as it eases managability easier. These add-ons then can be centrally managed and then deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
 
 To create a Splunk add-on that follows a structure that Splunk can understand, do the following: 
 
 ```app creation instructions```
 
 
-
-##### **For Splunk Cloud**
-  - Navigate to **Apps → Manage Apps** in Splunk Web.
-  - Click on **Create App**.
-  - In the field **Name**, enter 'TA-patient-privacy'.
-  - In the field **Folder Name**, enter 'TA-patient-privacy'.
-  - In the field **Visible**, select 'No'
-- Create the sourcetype(s).
-  - Navigate to **Settings → Source Types** in Splunk Web.
-  - Click **New Source Type**.
-  - In the **Name** field, enter the name.
-    - sourcetype names typically follow the format [\<vendor\>\:\<product\>:\<logCategory\>](https://docs.splunk.com/Documentation/AddOns/released/Overview/Sourcetypes?_gl=1*1ihn43k*_gcl_aw*R0NMLjE3MzY4NDU0MzMuQ2owS0NRaUFzNWk4QmhEbUFSSXNBR0U0eEh6cjhjclZaVG5CRjlzVVA2cEY4dFRjcGhUeUpsZUIzeVBYTWd2eUpSdVF5cHdtcUNYdnc3WWFBc2dRRUFMd193Y0I.*_gcl_au*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*FPAU*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*_ga*Mjg4NjYwNTkwLjE3MjUzNDU3NTA.*_ga_5EPM2P39FV*MTczODkzNTM0MS40NDAuMS4xNzM4OTM1NjYwLjAuMC40MTMwNzc2ODA.*_fplc*MUlEblIzNWlEZ1RieHdjRWhzekY3Snk3VnRza3FPdHNMQ1RPTmJVTWpEUFpHQ3d6dkJxJTJGZ3E2JTJGUjF4THhXQjlSQXJLaGlVbTAxQkx2RkxSekVmSE5zWk5ZdzdDOGdNaWtaUlJacHdSaUx2WjhBUTJZblJTdW1lZ0lXUTNpZyUzRCUzRA..#:~:text=Source%20type%20names,the%20vendor%2C%20OSSEC.)
-      - example: cambio:cosmic:access
-      - example: cambio:cosmic:activity
-  - In the **Destination App**, select the app 'TA-patient-privacy'.
-  - Click on **Event Breaks** and enter event line-breaking configurations
-  - Click on **Advanced** and enter timestamp assignment configurations
-  - Click **Save**.
-
-##### **For Splunk Enterprise ([Distributed Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=To%20support%20larger,across%20the%20data.))**
-If you are running a **distributed deployment**, sourcetypes must be defined in a Splunk app located on the [Manager Node](https://docs.splunk.com/Splexicon:Managernode) in the [indexer cluster](https://docs.splunk.com/Documentation/Splunk/latest/Indexer/Aboutclusters#:~:text=An%20indexer%20cluster%20is,set%20of%20peer%20nodes.). This ensures that all sourcetypes can be created, managed and deployed from a central point to all peer nodes belonging to the cluster.
-
-Run the following commands to
-1. create a Splunk app,
-2. then create the local/ directory inside the app, and
-3. finally create a props.conf configuration file in that directory
-```bash
-$SPLUNK_HOME/bin/splunk new app TA-patient-privacy 
-mkdir -p $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/
-nano $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/props.conf
-```
-Add a stanza for each unique sourcetype inside [`props.conf`](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf). 
-
-Example:
-```ini
-[<sourceTypeName>] 
-LINE_BREAKER = (\n+)
-TIME_PREFIX = ^
-TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ
-MAX_TIMESTAMP_LOOKAHEAD = 27
-```
-
-Then, instruct the Manager Node to deploy the Splunk app to the peer nodes in the cluster by following the steps described [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Indexer/Updatepeerconfigurations#:~:text=Admin%20Manual.-,Distribute%20the%20configuration%20bundle,the%20peers.%20This%20overwrites%20the%20contents%20of%20the%20peers%27%20current%20bundle.,-1.%20Prepare%20the).
 
 ### **Assign the Right Sourcetype to the Right Log Source(s)**
 
@@ -177,15 +134,15 @@ When you know what fields are needed, the next step is to define field extractio
 
 **delimited**
 ```FIELD_DELIMITER = ,
-FIELD_NAMES = ```
+FIELD_NAMES = lol```
 
 
 **json**
-```KV_MODE = json```
+KV_MODE = json
 
 
 **xml**
-```KV_MODE = xml```
+KV_MODE = xml
 
 
 **raw text**
@@ -219,6 +176,83 @@ An event type can be created either through the Splunk UI (AKA Splunk Web) or Sp
     - When creating an event type via Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
 
 Make sure to adjust permissions to ensure that the appropriate roles in Splunk have read and/or write access to the right event types.
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### **For Splunk Cloud**
+  - Navigate to **Apps → Manage Apps** in Splunk Web.
+  - Click on **Create App**.
+  - In the field **Name**, enter 'TA-patient-privacy'.
+  - In the field **Folder Name**, enter 'TA-patient-privacy'.
+  - In the field **Visible**, select 'No'
+- Create the sourcetype(s).
+  - Navigate to **Settings → Source Types** in Splunk Web.
+  - Click **New Source Type**.
+  - In the **Name** field, enter the name.
+    - sourcetype names typically follow the format [\<vendor\>\:\<product\>:\<logCategory\>](https://docs.splunk.com/Documentation/AddOns/released/Overview/Sourcetypes?_gl=1*1ihn43k*_gcl_aw*R0NMLjE3MzY4NDU0MzMuQ2owS0NRaUFzNWk4QmhEbUFSSXNBR0U0eEh6cjhjclZaVG5CRjlzVVA2cEY4dFRjcGhUeUpsZUIzeVBYTWd2eUpSdVF5cHdtcUNYdnc3WWFBc2dRRUFMd193Y0I.*_gcl_au*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*FPAU*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*_ga*Mjg4NjYwNTkwLjE3MjUzNDU3NTA.*_ga_5EPM2P39FV*MTczODkzNTM0MS40NDAuMS4xNzM4OTM1NjYwLjAuMC40MTMwNzc2ODA.*_fplc*MUlEblIzNWlEZ1RieHdjRWhzekY3Snk3VnRza3FPdHNMQ1RPTmJVTWpEUFpHQ3d6dkJxJTJGZ3E2JTJGUjF4THhXQjlSQXJLaGlVbTAxQkx2RkxSekVmSE5zWk5ZdzdDOGdNaWtaUlJacHdSaUx2WjhBUTJZblJTdW1lZ0lXUTNpZyUzRCUzRA..#:~:text=Source%20type%20names,the%20vendor%2C%20OSSEC.)
+      - example: cambio:cosmic:access
+      - example: cambio:cosmic:activity
+  - In the **Destination App**, select the app 'TA-patient-privacy'.
+  - Click on **Event Breaks** and enter event line-breaking configurations
+  - Click on **Advanced** and enter timestamp assignment configurations
+  - Click **Save**.
+
+
+
+
+##### **For Splunk Enterprise ([Distributed Deployment](https://docs.splunk.com/Documentation/Splunk/latest/Deploy/Distributedoverview#:~:text=To%20support%20larger,across%20the%20data.))**
+If you are running a **distributed deployment**, sourcetypes must be defined in a Splunk app located on the [Manager Node](https://docs.splunk.com/Splexicon:Managernode) in the [indexer cluster](https://docs.splunk.com/Documentation/Splunk/latest/Indexer/Aboutclusters#:~:text=An%20indexer%20cluster%20is,set%20of%20peer%20nodes.). This ensures that all sourcetypes can be created, managed and deployed from a central point to all peer nodes belonging to the cluster.
+
+Run the following commands to
+1. create a Splunk app,
+2. then create the local/ directory inside the app, and
+3. finally create a props.conf configuration file in that directory
+```bash
+$SPLUNK_HOME/bin/splunk new app TA-patient-privacy 
+mkdir -p $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/
+nano $SPLUNK_HOME/etc/apps/TA_patient_privacy/local/props.conf
+```
+Add a stanza for each unique sourcetype inside [`props.conf`](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf). 
+
+Example:
+```ini
+[<sourceTypeName>] 
+LINE_BREAKER = (\n+)
+TIME_PREFIX = ^
+TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ
+MAX_TIMESTAMP_LOOKAHEAD = 27
+```
+
+Then, instruct the Manager Node to deploy the Splunk app to the peer nodes in the cluster by following the steps described [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Indexer/Updatepeerconfigurations#:~:text=Admin%20Manual.-,Distribute%20the%20configuration%20bundle,the%20peers.%20This%20overwrites%20the%20contents%20of%20the%20peers%27%20current%20bundle.,-1.%20Prepare%20the).
 
 
