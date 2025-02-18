@@ -21,7 +21,7 @@ The first step is to understand the format of each individual log source, specif
 
 - ❓ Structured (csv, json, xml), unstructured (free-text), or semi-structured
 - ❓ Single-Line or Multi-Line
-- ❓ Log delimiter (that is, what indicates the start and end of a log record)
+- ❓ Log delimiter (that is, what indicates the end and start of a new log record)
 - ❓ Log timestamp format
 
 Rule of thumb: 
