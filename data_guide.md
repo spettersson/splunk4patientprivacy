@@ -57,7 +57,7 @@ TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exce
 
 A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). If you do not explicitly define event time assignment for your sourcetype, Splunk will attempt to assign timestamps automatically. However, this automated process may not always be accurate. Therefore, it is strongly recommended to define timestamp configurations by considering key settings such as:
 
-- `TIME_PREFIX` → A regex that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match
+- `TIME_PREFIX` → A regex that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match.
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
 - `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
 
@@ -80,7 +80,9 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will house all the event line-breaking and event timestamp assignment configurations for each individual sourcetype. Although it is practically possible to have a single add-on that houses all sourcetypes for all systems, best practice is to have one add-on per system as it eases managability easier. These add-ons then can be centrally managed and then deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
+Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will store all the event line-breaking and event timestamp assignment configurations for each individual sourcetype. 
+
+Although it is practically possible to store all sourcetypes for all systems in a single add-on, it is best practice is to have one add-on per system as it eases managability. These add-ons then can be centrally managed and then deployed across various components of your Splunk environment, ensuring that the appropriate configurations are applied where needed.
 
 To create a Splunk add-on that follows a structure that Splunk can understand, do the following: 
 
@@ -132,17 +134,17 @@ This repo comes with a number of pre-built use cases where each is powered by di
 
 When you know what fields are needed, the next step is to define field extractions that Splunk will execute every time you search for events from a specific sourcetype. Now, exactly how this is done depends on the event structure for each sourcetype - that is, if they are structured (json, xml, csv), unstructured (raw text), or semistructured. For structured events, all fields are typically extracted in an automatic fashion, whereas for unstructured where there are no obvious key-value pairs in the events, it requires a manual effort. 
 
-**delimited**
-```FIELD_DELIMITER = ,
-FIELD_NAMES = lol```
+**csv**
+- `FIELD_DELIMITER = ,`
+- `FIELD_NAMES = [fieldName1,fieldName2,...]`
 
 
 **json**
-KV_MODE = json
+- `KV_MODE = json`
 
 
 **xml**
-KV_MODE = xml
+- `KV_MODE = xml`
 
 
 **raw text**
