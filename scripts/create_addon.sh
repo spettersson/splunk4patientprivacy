@@ -1,20 +1,17 @@
 #!/bin/bash
 
-# Prompt user for VENDOR and AUTHOR if not set
-if [[ -z "$VENDOR" ]]; then
-    read -p "Enter vendor name: " VENDOR
-fi
+# Prompt user for VENDOR
+read -p "Enter the name of the vendor and product that this add-on should relate to (for example, Cambio COSMIC): " VENDOR_AND_PRODUCT
 
-if [[ -z "$AUTHOR" ]]; then
-    read -p "Enter author name: " AUTHOR
-fi
+read -p "Enter a description that explains the role of this add-on: " ADDON_DESCRIPTION
+   
 
-# Replace spaces with hyphens in ADDON_ID but keep spaces in DESCRIPTION
-VENDOR_FORMATTED_ID="$(echo "$VENDOR" | sed 's/ /-/g')"
+# Replace spaces with hyphens and convert to lowercase for ADDON_ID
+VENDOR_FORMATTED_ID="$(echo "$VENDOR_AND_PRODUCT" | sed -E 's/[[:space:]]+/-/g' | tr '[:upper:]' '[:lower:]')"
 
 # Set dependent variables
 ADDON_ID="TA-$VENDOR_FORMATTED_ID"
-ADDON_DESCRIPTION_AND_LABEL="Technical Add-on (TA) for $VENDOR"
+ADDON_LABEL="Technical Add-on (TA) for $VENDOR_AND_PRODUCT"
 
 # Create Add-on Directory Structure
 mkdir -p "$ADDON_ID"/{default,bin,metadata,static,lookups}
@@ -29,16 +26,15 @@ cat <<EOF > "$ADDON_ID/default/app.conf"
 is_configured = 1
 
 [launcher]
-author = "$AUTHOR"
-description = "$ADDON_DESCRIPTION_AND_LABEL"
+description = $ADDON_DESCRIPTION
 version = 1.0.0
 
 [ui]
-is_visible = false
-label = "$ADDON_DESCRIPTION_AND_LABEL"
+is_visible = false #the add-on will not be visible in Splunk Web
+label = $ADDON_LABEL
 
 [package]
-id = "$ADDON_ID"
+id = $ADDON_ID
 EOF
 
 # Create metadata/default.meta (Permissions)
