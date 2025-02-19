@@ -83,11 +83,11 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Start by creating Splunk [add-ons](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) to store event line-breaking and event timestamp assignment configurations for each individual sourcetype.
+Best practice is to use Splunk [add-ons](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) to store event line-breaking and event timestamp assignment configurations for each individual sourcetype.
 
-While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is create a separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
+While it’s technically possible to store all sourcetypes for all systems from all vendors in a single add-on, best practice is create a separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
-To create an add-on locally on your host, download and execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
+To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
 Subsequently, to define the sourcetype(s), go into `./defaulf/props.conf` and add a single stanza per sourcetype:
 
@@ -106,7 +106,7 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 
 When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
-A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A Splunk UF is a lightweight agent that, among other capabilities, can tail log files, continuously reading and forwarding both existing and new log entries to Splunk Enterprise or Splunk Cloud. Unlike many other agents, a Splunk UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
+A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A Splunk UF is a lightweight agent that, among other capabilities, can tail log files, reading and forwarding both historical and new log entries to Splunk Enterprise or Splunk Cloud. Unlike many other agents, a Splunk UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
 The instructions that a Splunk UF needs is what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
 
@@ -122,8 +122,8 @@ sourcetype = <sourceTypeName>
 ---
 
 
-## **Normalization of Data Already In Splunk**
-
+## **Normalization of Data Already Indexed in Splunk**
+Splunk is known for 
 
 
 ### Fields 
