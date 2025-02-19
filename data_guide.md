@@ -1,4 +1,4 @@
-## **Ingest Journal Audit Logs into Splunk**
+## **Getting Data Into Splunk**
 
 Splunk can collect, index, search, correlate, and visualize any data from any system or device, including logs from popular journal systems such as Cosmic, EPIC, TakeCare, and Millenium.
 
@@ -104,13 +104,9 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 
 ### **Assign the Right Sourcetype to the Right Log Stream**
 
-When Splunk receives logs being sent in, it needs to know which sourcetype to assign to which log stream. This is typically done by the collection mechanism (e.g., forwarder/HEC) assigning sourcetype metadata which subsequently is carried over to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
+When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HEC](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
-
-How a sourcetype is assigned depends on how the log source(s) is collected, which is determined by how the system generates and allows access to logs.
-
-
-A common scenario is that the system you want to collect logs from supports writing logs different text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
+A common scenario is that the system you want to collect logs from supports writing logs to different text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
 
 On each individual Splunk UF, there should exist a configuration file called [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf) that instructs what log source(s) to collect and how. 
 
@@ -177,7 +173,7 @@ An event type can be created either through the Splunk UI (AKA Splunk Web) or Sp
 2. Click on **New Event Type**
 3. In the field **Destination App**, select 'TA-patient-privacy'
 4. In the **Name** field, enter a name for the event type.
-   - This name should follow this format: journalaudit:vendor:product
+   - This name should follow this format: journalaudit:vendor:system
    - example: journalaudit:cambio:cosmic
 5. In the **Search string** field, enter the field::value pairs and search terms that captures the desired group of events from the system.
    - It's best practice to reference the index, host, source, and sourcetype fields associated with the system for performance reasons. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
@@ -230,7 +226,7 @@ Make sure to adjust permissions to ensure that the appropriate roles in Splunk h
   - Navigate to **Settings → Source Types** in Splunk Web.
   - Click **New Source Type**.
   - In the **Name** field, enter the name.
-    - sourcetype names typically follow the format [\<vendor\>\:\<product\>:\<logCategory\>](https://docs.splunk.com/Documentation/AddOns/released/Overview/Sourcetypes?_gl=1*1ihn43k*_gcl_aw*R0NMLjE3MzY4NDU0MzMuQ2owS0NRaUFzNWk4QmhEbUFSSXNBR0U0eEh6cjhjclZaVG5CRjlzVVA2cEY4dFRjcGhUeUpsZUIzeVBYTWd2eUpSdVF5cHdtcUNYdnc3WWFBc2dRRUFMd193Y0I.*_gcl_au*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*FPAU*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*_ga*Mjg4NjYwNTkwLjE3MjUzNDU3NTA.*_ga_5EPM2P39FV*MTczODkzNTM0MS40NDAuMS4xNzM4OTM1NjYwLjAuMC40MTMwNzc2ODA.*_fplc*MUlEblIzNWlEZ1RieHdjRWhzekY3Snk3VnRza3FPdHNMQ1RPTmJVTWpEUFpHQ3d6dkJxJTJGZ3E2JTJGUjF4THhXQjlSQXJLaGlVbTAxQkx2RkxSekVmSE5zWk5ZdzdDOGdNaWtaUlJacHdSaUx2WjhBUTJZblJTdW1lZ0lXUTNpZyUzRCUzRA..#:~:text=Source%20type%20names,the%20vendor%2C%20OSSEC.)
+    - sourcetype names typically follow the format [\<vendor\>\:\<system\>:\<logCategory\>](https://docs.splunk.com/Documentation/AddOns/released/Overview/Sourcetypes?_gl=1*1ihn43k*_gcl_aw*R0NMLjE3MzY4NDU0MzMuQ2owS0NRaUFzNWk4QmhEbUFSSXNBR0U0eEh6cjhjclZaVG5CRjlzVVA2cEY4dFRjcGhUeUpsZUIzeVBYTWd2eUpSdVF5cHdtcUNYdnc3WWFBc2dRRUFMd193Y0I.*_gcl_au*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*FPAU*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*_ga*Mjg4NjYwNTkwLjE3MjUzNDU3NTA.*_ga_5EPM2P39FV*MTczODkzNTM0MS40NDAuMS4xNzM4OTM1NjYwLjAuMC40MTMwNzc2ODA.*_fplc*MUlEblIzNWlEZ1RieHdjRWhzekY3Snk3VnRza3FPdHNMQ1RPTmJVTWpEUFpHQ3d6dkJxJTJGZ3E2JTJGUjF4THhXQjlSQXJLaGlVbTAxQkx2RkxSekVmSE5zWk5ZdzdDOGdNaWtaUlJacHdSaUx2WjhBUTJZblJTdW1lZ0lXUTNpZyUzRCUzRA..#:~:text=Source%20type%20names,the%20vendor%2C%20OSSEC.)
       - example: cambio:cosmic:access
       - example: cambio:cosmic:activity
   - In the **Destination App**, select the app 'TA-patient-privacy'.
