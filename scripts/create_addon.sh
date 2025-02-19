@@ -37,11 +37,11 @@ label = $ADDON_LABEL
 id = $ADDON_ID
 EOF
 
-# Create metadata/default.meta (Permissions)
+# Create metadata/default.meta 
 mkdir -p "$ADDON_ID/metadata"
 cat <<EOF > "$ADDON_ID/metadata/default.meta"
 []
-access = read : [ * ], write : [ admin, power ]
+access = read : [ * ], write : [ admin ]
 export = system
 EOF
 
