@@ -1,6 +1,6 @@
 ## **Ingest Journal Audit Logs into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize any data from any system or device, including logs that record **create, read, update, delete, and export** activities related to patient journals.
+Splunk can collect, index, search, correlate, and visualize any data from any system or device, including **create, read, update, delete, and export** activities associated with patient journals.
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
@@ -57,7 +57,7 @@ TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exce
 
 A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). If you do not explicitly define event time assignment for your sourcetype, Splunk will attempt to assign timestamps automatically. However, this automated process may not always be accurate. Therefore, it is strongly recommended to define timestamp configurations by considering key settings such as:
 
-- `TIME_PREFIX` → A regex that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after the match.
+- `TIME_PREFIX` → A regex that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after every match.
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
 - `MAX_TIMESTAMP_LOOKAHEAD` → Specifies how many characters Splunk should scan after TIME_PREFIX to extract the timestamp.
 
@@ -80,9 +80,9 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) that will store all the event line-breaking and event timestamp assignment configurations for each individual sourcetype.
+Start by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) to store event line-breaking and event timestamp assignment configurations for each individual sourcetype.
 
-While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is to segment the add-ons by vendor (i.e, one add-on per vendor) to improve manageability. These add-ons can then be centrally managed and deployed across your Splunk environment, ensuring that the appropriate configurations are applied where needed.
+While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is create a separate add-ons by vendor (i.e, one add-on per vendor. This improves manageability and makes it easier to maintain configurations. 
 
 To create an add-on, download and execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
@@ -95,7 +95,7 @@ SHOULD_LINEMERGE = <true|false>
 
 TIME_PREFIX = <regular expression>
 TIME_FORMAT = <strptime-format>
-MAX_TIMESTAMP_LOOKAHEAD = character
+MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
 
 
