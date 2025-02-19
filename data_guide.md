@@ -102,7 +102,7 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 
 ### **Assign the Right Sourcetype to the Right Log Stream**
 
-When Splunk receives logs being sent in, it needs to know which sourcetype to assign to which log stream. This is typically done by the collection mechanism (e.g., forwarder/HEC/SC4S) assigning sourcetype metadata which subsequently is carried over to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanisn used, which in turn depends on how the desired logs can be accessed from the system in question. 
+When Splunk receives logs being sent in, it needs to know which sourcetype to assign to which log stream. This is typically done by the collection mechanism (e.g., forwarder/HEC) assigning sourcetype metadata which subsequently is carried over to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
 
 How a sourcetype is assigned depends on how the log source(s) is collected, which is determined by how the system generates and allows access to logs.
