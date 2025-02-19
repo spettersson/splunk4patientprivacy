@@ -124,14 +124,17 @@ sourcetype = <sourceTypeName>
 ## **Normalization of Data**
 By now, you’ve likely realized that getting data into Splunk and making it searchable is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index log entries in their nearly original format as individual events with minimal configuration.
 
-How Splunk operates is that it dynamically generates the schema when events are searched (known as **schema-on-read**). This means that Splunk automatically extracts fields using standardized field names (and in some cases also field values), effectively **normalizing the data**. As a result, filtering and correlating logs from multiple vendors and systems becomes seamless.
+Splunk dynamically applies a schema when events are searched - a concept known as **schema-on-read**. This means that Splunk automatically extracts fields from events using standardized field names (and in some cases, field values), effectively **normalizing the data**. As a result, filtering and correlating logs from multiple vendors and systems becomes seamless.
 
-To get the normalization in place, there are a mainly two [knowledge object](https://docs.splunk.com/Splexicon:Knowledgeobject) in works - i.e., [field extractions](https://docs.splunk.com/Splexicon:Fieldextraction) and [field aliases](https://docs.splunk.com/Splexicon:Alias).
+To get the data normalized, Splunk primarily relies on two main [knowledge objects](https://docs.splunk.com/Splexicon:Knowledgeobject):
+- [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
+- [Field aliases](https://docs.splunk.com/Splexicon:Alias)
 
+### Field extractions 
 
-### Fields 
+A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for detailed filtering and in SPL commands and functions for advanced analytics. Field extractions are typically tied to a specific sourcetype, meaning they only apply to events associated with that sourcetype.
 
-To search, correlate, and visualize events in Splunk, fields play a central role. A field is the result of Splunk extracting values matching specific patterns from events associate with a sourcetype and then mapping the values to a specific field name, resulting in field::value pairs which subsequently can referenced in searches for detailed filtering and in SPL commands and functions for advanced analytics. For example, you might have a sourcetype that include events that provide information about an employee's ID. You can then create a field that extracts the ID from each individual event and then maps the values to a single field named employee_ID. You can then search for events that match a specific employee ID by referencing the field:value pair ```employee_ID=123456789``` in a search. Although you could have simply searched for events matching the keyword ```123456789``` (since Splunk is like Google but for logs), this may result in that you get undesired events in the search result, as there can be other events that include that exact value but may not be associated to employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
+For example, you might have a sourcetype that include events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
 
 This repo comes with a number of pre-built use cases where each is powered by different Splunk searches that require different fields. To ensure full compatibility, it is important to identify:
@@ -155,6 +158,15 @@ When you know what fields are needed, the next step is to define field extractio
 
 
 **raw text**
+
+### Field alias
+
+
+
+
+
+
+
 
 
 ### **Event types**
