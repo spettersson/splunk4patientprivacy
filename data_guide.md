@@ -84,7 +84,7 @@ Begin by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk
 
 While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is to segment the add-ons by vendor (i.e, one add-on per vendor) to improve manageability. These add-ons can then be centrally managed and deployed across your Splunk environment, ensuring that the appropriate configurations are applied where needed.
 
-To create an add-on, download and execute the following bash script: 
+To create an add-on, download and execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
 
 ### **Assign the Right Sourcetype to the Right Log Source(s)**
