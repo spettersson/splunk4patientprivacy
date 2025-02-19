@@ -102,13 +102,13 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
 
 
-### **Assign the Right Sourcetype to the Right Log Stream**
+### **Assign the Right Sourcetype to the Right Log**
 
 When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
 A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A Splunk UF is a lightweight agent that, among other capabilities, can tail log files, continuously reading and forwarding both existing and new log entries to Splunk Enterprise or Splunk Cloud. Unlike many other agents, a Splunk UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
-The instructions that a Splunk UF needs is what directory or files to monitor and what metadata to add to those logs. This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned to which sourcetype, this step should be straightforward. Note that in the stanza, you can also specify in what index to store the logs
+The instructions that a Splunk UF needs is what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned to which sourcetype, this step should be straightforward. 
 
 Example monitor stanza:
 ```ini
