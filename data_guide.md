@@ -123,7 +123,7 @@ sourcetype = <sourceTypeName>
 
 
 ## **Normalization of Data Already Indexed in Splunk**
-Splunk makes it easy to ingest data because it indexes log entries in their nearly original format as individual events and makes them searchable with minimal configuration. It then dynamically generates the schema when the events are searched (commonly known as **schema-on-read**), meaning that Splunk creates the fields with field names and field values that follows a certain standard (ie., they become normalized), making filtering and correlation logs from multiple vendors and products easy.
+Splunk makes it easy to ingest data by indexing log entries in their nearly original format as individual events and making them searchable with minimal configuration. It dynamically applies a schema when events are searched—commonly known as schema-on-read. This means that Splunk automatically extracts fields using standardized field names and values, effectively normalizing the data. As a result, filtering and correlating logs from multiple vendors and products becomes seamless.
 
 
 ### Fields 
