@@ -132,15 +132,18 @@ To get the data normalized, Splunk primarily relies on two main [knowledge objec
 
 ### Field extractions 
 
-A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for detailed filtering and in SPL commands and functions for advanced analytics. Field extractions are typically tied to a specific sourcetype, meaning they only apply to events associated with that sourcetype.
+A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering and correlation/analytics. Field extractions are typically tied to a specific sourcetype, meaning they only apply to events associated with that sourcetype.
 
 For example, you might have a sourcetype that include events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
+This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that require certain fields to function. While each use case specifies its required fields, these are the key fields you should ensure are in place:
 
-This repo comes with a number of pre-built use cases where each is powered by different Splunk searches that require different fields. To ensure full compatibility, it is important to identify:
-1. the use cases of interest
-2. the data sources required
-3. the required fields and their characteristics
+employee_ID
+employee_workUnit
+employee_careUnit
+patient_ID
+
+
 
 When you know what fields are needed, the next step is to define field extractions that Splunk will execute every time you search for events from a specific sourcetype. Now, exactly how this is done depends on the event structure for each sourcetype - that is, if they are structured (json, xml, csv), unstructured (raw text), or semistructured. For structured events, all fields are typically extracted in an automatic fashion, whereas for unstructured where there are no obvious key-value pairs in the events, it requires a manual effort. 
 
