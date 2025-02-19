@@ -21,15 +21,15 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 The first step is to understand what logs each system is generating and in which formats. When investigating the formats, it is important to consider the following:
 
 -  Are the logs structured (csv, json, xml), semi-structured, or unstructured (free-text)❓ 
--  Is each log record made up of a single line or multiple line❓ 
--  What delimiter separates log records delimiter (that is, what indicates the end and start of a new log entry)❓ 
+-  Does each log record consist of a single line or multiple line❓ 
+-  What delimiter separates log records (i.e, what indicates the end and start of a new log entry)❓ 
 -  What timestamp format is used❓
 
 Rule of thumb: 
-- Two log sources (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (for example, Cambio Cosmic) have different formats → Assign each log source a unique sourcetype.
-- Two log sources from the same system have the same format, but falls into two completely different log categories → Assign each log source a unique sourcetype.
-- Two log sources from the same system have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
-- Two log sources from different systems have the same format → Assign each log source a unique sourcetype.
+- Two log files (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (for example, Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
+- Two log files from the same system have the same format, but falls into two completely different log categories → Assign each log source a unique sourcetype.
+- Two log files from the same system have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
+- Two log files from different systems have the same format → Assign each log source a unique sourcetype.
 
 #### **2. Define How the Sourcetype(s) Should Do Event Line-Breaking**
 
