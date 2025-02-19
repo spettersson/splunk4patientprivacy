@@ -83,7 +83,7 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 Start by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) to store event line-breaking and event timestamp assignment configurations for each individual sourcetype.
 
-While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is create a separate add-ons by vendor (i.e, one add-on per vendor). This improves manageability and makes it easier to maintain configurations. 
+While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is create a separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
 To create an add-on, download and execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
