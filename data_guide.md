@@ -4,7 +4,7 @@ Splunk can collect, index, search, correlate, and visualize any data from any sy
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
-To handle the wide variety of log formats—whether from different systems or variations within the same system—Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly.
+To handle the wide variety of log formats—whether from different systems or variations within the same system—Splunk assigns each log format a unique [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype), ensuring that index-time processing is tailored accordingly.
 
 
 ### **What is a Sourcetype?**
@@ -83,7 +83,7 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Best practice is to use Splunk [add-ons](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) to store event line-breaking and event timestamp assignment configurations for each individual sourcetype.
+Best practice is to use Splunk [add-ons](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) to store the configurations for each individual sourcetype.
 
 While it’s technically possible to store all sourcetypes for all systems from all vendors in a single add-on, best practice is create a separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
@@ -104,11 +104,11 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 
 #### **5. Assign the Right Sourcetype to the Right Log**
 
-When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
+When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
-A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A Splunk UF is a lightweight agent that, among other capabilities, can tail log files, reading and forwarding both historical and new log entries to Splunk Enterprise or Splunk Cloud. Unlike many other agents, a Splunk UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
+A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that, among other capabilities, can tail log files, reading and forwarding both historical and new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
-The instructions that a Splunk UF needs is what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
+The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
 
 Example monitor stanza:
 ```ini
@@ -119,11 +119,14 @@ sourcetype = <sourceTypeName>
 
 
 ---
----
 
 
-## **Normalization of Data Already Indexed in Splunk**
-Splunk makes it easy to ingest data by indexing log entries in their nearly original format as individual events and making them searchable with minimal configuration. It dynamically applies a schema when events are searched—commonly known as schema-on-read. This means that Splunk automatically extracts fields using standardized field names and values, effectively normalizing the data. As a result, filtering and correlating logs from multiple vendors and products becomes seamless.
+## **Normalization of Data**
+By now, you’ve likely realized that getting data into Splunk and making it searchable is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index log entries in their nearly original format as individual events with minimal configuration.
+
+How Splunk operates is that it dynamically generates the schema when events are searched (known as **schema-on-read**). This means that Splunk automatically extracts fields using standardized field names (and in some cases also field values), effectively **normalizing the data**. As a result, filtering and correlating logs from multiple vendors and systems becomes seamless.
+
+To get the normalization in place, there are a mainly two [knowledge object](https://docs.splunk.com/Splexicon:Knowledgeobject) in works - i.e., [field extractions](https://docs.splunk.com/Splexicon:Fieldextraction) and [field aliases](https://docs.splunk.com/Splexicon:Alias).
 
 
 ### Fields 
