@@ -102,7 +102,7 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
 
 
-### **Assign the Right Sourcetype to the Right Log**
+#### **5. Assign the Right Sourcetype to the Right Log**
 
 When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
@@ -122,7 +122,9 @@ sourcetype = <sourceTypeName>
 ---
 
 
-## **Normalization of Journal Audit Logs**
+## **Normalization of Data Already In Splunk**
+
+
 
 ### Fields 
 
