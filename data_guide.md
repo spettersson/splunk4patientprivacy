@@ -1,10 +1,11 @@
 ## **Ingest Journal Audit Logs into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize any data from any system or device, including log records from popular journal systems such as Cosmic, EPIC,  TakeCare and Millenium.
+Splunk can collect, index, search, correlate, and visualize any data from any system or device, including log records from popular journal systems such as Cosmic, EPIC, TakeCare, and Millenium.
 
-When onboarding logs, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
+When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
-To manage the diversity of log formats, Splunk typically assigns each log format a unique **sourcetype**, allowing index-time processing to be tailored accordingly.
+To handle the wide variety of log formats—whether from different systems or variations within the same system—Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly
+
 
 ### **What is a Sourcetype?**
 
@@ -13,16 +14,16 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 - How log records are separated into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
-### **Define and Create Sourcetype(s)**
+### **Create Sourcetype(s)**
 
 #### **1. Understand the Log Format(s)**
 
-The first step is to understand the format of each individual log source, specifically:
+The first step is to understand what logs each system is generating and in which formats. When investigating the formats, it is important to consider the following:
 
-- ❓ Structured (csv, json, xml), unstructured (free-text), or semi-structured
-- ❓ Single-Line or Multi-Line
-- ❓ Log delimiter (that is, what indicates the end and start of a new log record)
-- ❓ Log timestamp format
+-  Are the logs structured (csv, json, xml), semi-structured, or unstructured (free-text)❓ 
+-  Is each log record made up of a single line or multiple line❓ 
+-  What delimiter separates log records delimiter (that is, what indicates the end and start of a new log entry)❓ 
+-  What timestamp format is used❓
 
 Rule of thumb: 
 - Two log sources (for example, F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (for example, Cambio Cosmic) have different formats → Assign each log source a unique sourcetype.
