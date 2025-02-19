@@ -85,7 +85,7 @@ Start by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk
 
 While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is create a separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
-To create an add-on, download and execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
+To create an add-on locally on your host, download and execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
 Subsequently, to define the sourcetype(s), go into `./defaulf/props.conf` and add a single stanza per sourcetype:
 
