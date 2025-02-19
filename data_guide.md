@@ -108,15 +108,13 @@ When Splunk receives logs, it needs information about which sourcetype to assign
 
 A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A Splunk UF is a lightweight agent that, among other capabilities, can tail log files, continuously reading and forwarding both existing and new log entries to Splunk Enterprise or Splunk Cloud. Unlike many other agents, a Splunk UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
-The instructions that a Splunk UF needs is what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned to which sourcetype, this step should be straightforward. 
+The instructions that a Splunk UF needs is what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
 
 Example monitor stanza:
 ```ini
 [monitor://<path>]
 index = <indexName>
 sourcetype = <sourceTypeName>
-whitelist = <regex>
-whitelist = <regex>
 ```
 
 
