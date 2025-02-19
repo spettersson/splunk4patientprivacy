@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Prompt user for VENDOR
+# Prompt user for vendor and product, and 
 read -p "Enter the name of the vendor and product that this add-on should relate to (for example, Cambio COSMIC): " VENDOR_AND_PRODUCT
 
-read -p "Enter a description that explains the role of this add-on: " ADDON_DESCRIPTION
+read -p "Enter a description that explains the role of this add-on: " DESCRIPTION
    
 
 # Replace spaces with hyphens and convert to lowercase for ADDON_ID
@@ -26,7 +26,7 @@ cat <<EOF > "$ADDON_ID/default/app.conf"
 is_configured = 1
 
 [launcher]
-description = $ADDON_DESCRIPTION
+description = $DESCRIPTION
 version = 1.0.0
 
 [ui]
