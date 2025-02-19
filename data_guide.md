@@ -4,7 +4,7 @@ Splunk can collect, index, search, correlate, and visualize any data from any sy
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
-To handle the wide variety of log formats—whether from different systems or variations within the same system—Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly
+To handle the wide variety of log formats—whether from different systems or variations within the same system—Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly.
 
 
 ### **What is a Sourcetype?**
@@ -28,7 +28,7 @@ The first step is to understand what logs each system is generating and in which
 Additionally, it is essential to categorize logs appropriately. For example, a system might write logs to multiple log files with the same format, but they could still belong to different categories.
 
 Rule of thumb for assigning sourcetypes: 
-- If log files (e.g., F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
+- If two log files (e.g., F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
 - If two log files from the same system have the same format, but falls into two completely different log categories → Assign each log source a unique sourcetype.
 - If two log files from the same system have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
 - If two log files from different systems have the same format → Assign each log source a unique sourcetype.
