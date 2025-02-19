@@ -18,7 +18,7 @@ mkdir -p "$ADDON_ID"/{default,bin,metadata,static,lookups}
 mkdir -p "$ADDON_ID/appserver/static"
 
 # Ensure configuration files exist
-touch "$ADDON_ID"/default/{props.conf,transforms.conf,eventtypes.conf,tags.conf}
+touch "$ADDON_ID"/default/{inputs.conf,props.conf,transforms.conf,eventtypes.conf,tags.conf}
 
 # Create app.conf
 cat <<EOF > "$ADDON_ID/default/app.conf"
