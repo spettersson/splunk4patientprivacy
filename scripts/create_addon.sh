@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Prompt user for vendor and product, and 
+# Prompt user for information about the add-on
 read -p "Enter the name of the vendor and product that this add-on should relate to (for example, Cambio COSMIC): " VENDOR_AND_PRODUCT
 
 read -p "Enter a description that explains the role of this add-on: " DESCRIPTION
