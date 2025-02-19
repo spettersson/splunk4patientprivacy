@@ -1,6 +1,6 @@
 ## **Ingest Journal Audit Logs into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize any data from any system or device, including log records from popular journal systems such as Cosmic, EPIC, TakeCare, and Millenium.
+Splunk can collect, index, search, correlate, and visualize any data from any system or device, including logs from popular journal systems such as Cosmic, EPIC, TakeCare, and Millenium.
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
@@ -83,11 +83,11 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 Start by creating a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don) to store event line-breaking and event timestamp assignment configurations for each individual sourcetype.
 
-While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is create a separate add-ons by vendor (i.e, one add-on per vendor. This improves manageability and makes it easier to maintain configurations. 
+While it’s technically possible to store all sourcetypes for all products from all vendors in a single add-on, best practice is create a separate add-ons by vendor (i.e, one add-on per vendor). This improves manageability and makes it easier to maintain configurations. 
 
 To create an add-on, download and execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
-Subsequently, go into `./defaulf/props.conf` and add a single stanza per sourcetype:
+Subsequently, to define the sourcetype(s), go into `./defaulf/props.conf` and add a single stanza per sourcetype:
 
 ```ini
 [<sourceTypeName>]
@@ -100,7 +100,10 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
 
 
-### **Assign the Right Sourcetype to the Right Log Source(s)**
+### **Assign the Right Sourcetype to the Right Logs**
+
+When Splunk receives logs being sent in, it needs to know which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., forwarder/HEC/SC4S) assigning sourcetype metadata which subsequently is carried over to Splunk Enterprise/Cloud. 
+
 
 How a sourcetype is assigned depends on how the log source(s) is collected, which is determined by how the system generates and allows access to logs.
 
