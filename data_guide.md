@@ -86,6 +86,18 @@ While it’s technically possible to store all sourcetypes for all products from
 
 To create an add-on, download and execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
+Subsequently, go into `./defaulf/props.conf` and add a single stanza per sourcetype:
+
+```ini
+[<sourceTypeName>]
+LINE_BREAKER = <regular expression>
+SHOULD_LINEMERGE = <true|false>
+
+TIME_PREFIX = <regular expression>
+TIME_FORMAT = <strptime-format>
+MAX_TIMESTAMP_LOOKAHEAD = character
+```
+
 
 ### **Assign the Right Sourcetype to the Right Log Source(s)**
 
