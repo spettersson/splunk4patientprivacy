@@ -123,7 +123,7 @@ sourcetype = <sourceTypeName>
 
 
 ## **Normalization of Data Already Indexed in Splunk**
-Splunk is known for 
+Splunk makes it easy to ingest data because it indexes log entries in their nearly original format as individual events and makes them searchable with minimal configuration. It then creates the desired schema adhoc at search-time based on your instructions. With schema, it means that  
 
 
 ### Fields 
