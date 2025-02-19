@@ -102,17 +102,11 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 
 ### **Assign the Right Sourcetype to the Right Logs**
 
-When Splunk receives logs being sent in, it needs to know which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., forwarder/HEC/SC4S) assigning sourcetype metadata which subsequently is carried over to Splunk Enterprise/Cloud. 
+When Splunk receives logs being sent in, it needs to know which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., forwarder/HEC/SC4S) assigning sourcetype metadata which subsequently is carried over to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanisn used, which in turn depends on how the desired logs can be accessed from the system in question. 
 
 
 How a sourcetype is assigned depends on how the log source(s) is collected, which is determined by how the system generates and allows access to logs.
 
-| **Access Type**   | **Collection Method**                               | **Destination**                |
-|----------------------|------------------------------------------------|---------------------------------|
-| **Text files** (`.log`, `.txt`, `.csv`, `.json`, `.xml`) | [Splunk Universal Forwarder (UF)](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) | **Splunk Enterprise/Cloud** | 
-| **API** (HTTP event forwarding) | [Splunk HTTP Event Collector (HEC)](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector) | **Splunk Enterprise/Cloud** | 
-| **API** (REST API polling) | [Splunk Heavy Forwarder (HF)](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Deployaheavyforwarder) | **Splunk Enterprise/Cloud** | 
-| **Database tables**  | [Splunk Heavy Forwarder (HF)](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Deployaheavyforwarder) | **Splunk Enterprise/Cloud** | 
 
 A common scenario is that the system you want to collect logs from supports writing logs different text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
 
