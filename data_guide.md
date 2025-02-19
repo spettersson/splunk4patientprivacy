@@ -1,8 +1,8 @@
 ## **Ingest Journal Audit Logs into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize any data from any system or device, including **create, read, update, delete, and export** activities associated with patient journals.
+Splunk can collect, index, search, correlate, and visualize any data from any system or device, including log records from popular journal systems such as Cosmic, EPIC,  TakeCare and Millenium.
 
-When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
+When onboarding logs, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
 To manage the diversity of log formats, Splunk typically assigns each log format a unique **sourcetype**, allowing index-time processing to be tailored accordingly.
 
@@ -55,7 +55,7 @@ TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exce
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual event.
 
-A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). If you do not explicitly define event time assignment for your sourcetype, Splunk will attempt to assign timestamps automatically. However, this automated process may not always be accurate. Therefore, it is strongly recommended to define timestamp configurations by considering key settings such as:
+A full list of configurations for event timestamp assignment with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Data/Configuretimestamprecognition#:~:text=of%20these%20settings.-,Timestamp%20settings,The%20following%20timestamp%20configuration%20settings%20are%20available%3A,-Setting). If you do not explicitly define event time assignment for your sourcetype, Splunk will attempt to assign timestamps automatically. However, this automated process may not always be accurate. Therefore, it is strongly recommended to define custom event timestamp configurations by considering the following key settins (part of what is known as the ‘Magic 8’):
 
 - `TIME_PREFIX` → A regex that identifies where the timestamp begins in an event. The timestamp is expected to follow immediately after every match.
 - `TIME_FORMAT` → Defines the expected timestamp format using a strftime-style pattern.
