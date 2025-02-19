@@ -11,7 +11,7 @@ To handle the wide variety of log formats—whether from different systems or va
 
 A sourcetype instructs Splunk how to perform index-time processing, specifically by determining:
 
-- How log records are separated into individual events
+- How log entries are separated into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
 ### **Create Sourcetype(s)**
@@ -21,8 +21,8 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 The first step is to understand what logs each system is generating and in which formats. When analyzing the **log formats**, it is important to consider the following:
 
 -  Are the logs **structured** (csv, json, xml), **semi-structured**, or **unstructured** (free-text)❓ 
--  Does each log record consist of a **single line or multiple line**❓ 
--  What **delimiter** separates log records (i.e, what indicates the end and start of a new log entry)❓ 
+-  Does each log entry consist of a **single line or multiple line**❓ 
+-  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
 Additionally, it is essential to categorize logs appropriately. For example, a system might write logs to multiple log files with the same format, but they could still belong to different categories.
@@ -35,7 +35,7 @@ Rule of thumb for assigning sourcetypes:
 
 #### **2. Define How the Sourcetype(s) Should Do Event Line-Breaking**
 
-[Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw text and breaks it into individual events, ensuring that every complete log record is indexed as a separate event.
+[Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw text and breaks it into individual events, ensuring that every complete log entry is indexed as a separate event.
 
 A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). 
 In many cases, the default settings are sufficient, so it’s recommended to test them first. If they don't do the job, then consider adjusting the  following key settings (part of what is known as the ‘Magic 8’):
@@ -50,7 +50,7 @@ In many cases, the default settings are sufficient, so it’s recommended to tes
 For example, to properly apply event line-breaking to free-text single-line logs delimited by a single \n character:  
 ```ini
 LINE_BREAKER = ([\r\n]+)  # This is a default setting - breaks raw data into lines whenever one or more newlines are identified.
-SHOULD_LINEMERGE = false # Because we are dealing with single line log records only, line merging can be disabled.
+SHOULD_LINEMERGE = false # Because we are dealing with single line log entries only, line merging can be disabled.
 TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exceed 10,000 bytes in size. 
 ```
 
@@ -66,7 +66,7 @@ A full list of configurations for event timestamp assignment with detailed expla
 
 For example, to properly apply event timestamp assignment to free-text single-line logs with timestamps in ISO 8601 format (including microseconds):
 ```ini
-TIME_PREFIX = ^  # A regex indicating that the timestamp is located at the beginning of each log record.
+TIME_PREFIX = ^  # A regex indicating that the timestamp is located at the beginning of each log entry.
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp format follow ISO 8601 with microseconds.
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
@@ -114,7 +114,7 @@ A common scenario is that the system you want to collect logs from supports writ
 
 On each individual Splunk UF, there should exist a configuration file called [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf) that instructs what log source(s) to collect and how. 
 
-In [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf), you define a monitor stanza that instructs the Splunk UF what path to collect logs from — whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log records as they are written. Within the stanza, you also specify the sourcetype to assign to the log source(s) and the index where it should be stored. Then when Splunk Enterprise/Cloud receives the logs, it will know how to properly handle it.
+In [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf), you define a monitor stanza that instructs the Splunk UF what path to collect logs from — whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log entries as they are written. Within the stanza, you also specify the sourcetype to assign to the log source(s) and the index where it should be stored. Then when Splunk Enterprise/Cloud receives the logs, it will know how to properly handle it.
 
 Example monitor stanza:
 ```ini
