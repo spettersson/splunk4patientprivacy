@@ -104,13 +104,11 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 
 ### **Assign the Right Sourcetype to the Right Log Stream**
 
-When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HEC](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
+When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk Enterprise/Cloud. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
-A common scenario is that the system you want to collect logs from supports writing logs to different text files which subsequently can collected by a [Splunk UF](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder) and sent to Splunk Enterprise/Cloud.
+A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A Splunk UF is a lightweight agent that, among other capabilities, can tail log files, continuously reading and forwarding both existing and new log entries to Splunk Enterprise or Splunk Cloud. Unlike many other agents, a Splunk UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
-On each individual Splunk UF, there should exist a configuration file called [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf) that instructs what log source(s) to collect and how. 
-
-In [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf), you define a monitor stanza that instructs the Splunk UF what path to collect logs from — whether a specific file or directory. The UF continuously monitors the specified path, ingesting new log entries as they are written. Within the stanza, you also specify the sourcetype to assign to the log source(s) and the index where it should be stored. Then when Splunk Enterprise/Cloud receives the logs, it will know how to properly handle it.
+The instructions that a Splunk UF needs is what directory or files to monitor and what metadata to add to those logs. This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned to which sourcetype, this step should be straightforward. Note that in the stanza, you can also specify in what index to store the logs
 
 Example monitor stanza:
 ```ini
@@ -120,6 +118,7 @@ sourcetype = <sourceTypeName>
 whitelist = <regex>
 whitelist = <regex>
 ```
+
 
 ---
 ---
