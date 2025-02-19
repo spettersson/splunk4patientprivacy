@@ -138,10 +138,10 @@ For example, you might have a sourcetype that include events that provide inform
 
 This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that require certain fields to function. While each use case specifies its required fields, these are the key fields you should ensure are in place:
 
-employee_ID
-employee_workUnit
-employee_careUnit
-patient_ID
+- employee_ID
+- employee_workUnit
+- employee_careUnit
+- patient_ID
 
 
 
