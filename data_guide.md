@@ -18,7 +18,7 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 
 #### **1. Understand the Log Format(s)**
 
-The first step is to understand what logs each system is generating and in which formats. When analyzing the **log formats**, it is important to consider the following:
+The first step is to understand what logs each system is generating, where they are generated, and in which formats. When analyzing the **log formats**, it is important to consider the following:
 
 -  Are the logs **structured** (csv, json, xml), **semi-structured**, or **unstructured** (free-text)❓ 
 -  Does each log entry consist of a **single line or multiple line**❓ 
@@ -124,7 +124,7 @@ sourcetype = <your_sourcetype>
 ## **Normalization of Data**
 By now, you’ve likely realized that getting data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index log entries in their nearly original format with minimal configuration.
 
-Splunk dynamically applies a schema when events are searched - a concept known as **schema-on-read**. This means that Splunk automatically extracts fields from events using standardized field names (and in some cases, field values), effectively **normalizing the data**. As a result, filtering and correlating logs from multiple vendors and systems becomes seamless.
+Splunk dynamically applies a schema when events are searched - a concept known as **schema-on-read**. This means that Splunk automatically extracts fields from events using standardized field names (and in some cases, field values), effectively **normalizing the data**. As a result, filtering and correlating events from multiple vendors and systems becomes seamless.
 
 To get the data normalized, Splunk primarily relies on two main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
@@ -161,7 +161,7 @@ For events without a clear structure, meaning that their are no obvious key-valu
 [your_sourcetype]
 EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
-**Note:** The regular expression must include at least one capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that appears in the field sidebar in search.
+**Note:** The regular expression must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that appears in the field sidebar in search.
 
 ### What is a Field Alias?
 
@@ -175,25 +175,6 @@ This repo comes with a number of pre-built [use cases](https://github.com/spette
 - patient_ID
 
 
-
-When you know what fields are needed, the next step is to define field extractions that Splunk will execute every time you search for events from a specific sourcetype. Now, exactly how this is done depends on the event structure for each sourcetype - that is, if they are structured (json, xml, csv), unstructured (raw text), or semistructured. For structured events, all fields are typically extracted in an automatic fashion, whereas for unstructured where there are no obvious key-value pairs in the events, it requires a manual effort. 
-
-**csv**
-- `FIELD_DELIMITER = ,`
-- `FIELD_NAMES = [fieldName1,fieldName2,...]`
-
-
-**json**
-- `KV_MODE = json`
-
-
-**xml**
-- `KV_MODE = xml`
-
-
-**raw text**
-
-### Field alias
 
 
 
