@@ -83,16 +83,16 @@ Best practice is to run tests to validate event line-breaking and event timestam
 
 #### **4. Create the Sourcetype(s)**
 
-Best practice is to define and store sourcetypes in Splunk [add-ons](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don).
+Best practice is define and store sourcetypes in Splunk [add-ons](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don).
 
 While it’s technically possible to store all sourcetypes for all systems from all vendors in a single add-on, best practice is create a separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
 To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
-Subsequently, to define the sourcetype(s), go into `./defaulf/props.conf` and add a single stanza per sourcetype:
+Subsequently, to define the sourcetype(s), go into `./defaulf/props.conf` on the right add-on and add a single stanza per sourcetype:
 
 ```ini
-[<sourceTypeName>]
+[<your_sourcetype>]
 LINE_BREAKER = <regular expression>
 SHOULD_LINEMERGE = <true|false>
 
@@ -114,7 +114,7 @@ Example monitor stanza:
 ```ini
 [monitor://<path>]
 index = <indexName>
-sourcetype = <sourceTypeName>
+sourcetype = <your_sourcetype>
 ```
 
 
@@ -141,27 +141,27 @@ As field extractions are typically tied to a specific sourcetype, they are defin
 
 For JSON and XML, setting KV_MODE enables automatic field extraction, where Splunk treats each key-value pair in each event as a field::value pair. The key names become the field names in Splunk.
 ```init
-[sourceTypeName] 
+[your_sourcetype] 
 KV_MODE = [json|xml]
 ```
 
 
 For CSV, where values are separated by a consistent delimiter, you need to specify:
-- `FIELD_DELIMITER` → The character separating values (e.g., ,, ;, |).
+- `FIELD_DELIMITER` → The character separating values (e.g., `,`, `;`, `|`).
 - `FIELD_NAMES` → A comma-separated list of field names to assign to each value.
 ```init
-[sourceTypeName]
+[your_sourcetype]
 FIELD_DELIMITER = <character>
-FIELD_NAMES = [<fieldName1>,<fieldName1>,...]
+FIELD_NAMES = [<string>,<string>,...]
 ```
 
 
 For events without a clear structure, meaning that their are no obvious key-value pairs, you need to extract each field manually with regular expression:
 ```init
-[sourceTypeName]
-EXTRACT-<field_name> = <regular expression> 
+[your_sourcetype]
+EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
-**Note:** The regular expression must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name.
+**Note:** The regular expression must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that appears in the field sidebar in search.
 
 ### What is a Field Alias?
 
@@ -301,7 +301,7 @@ Add a stanza for each unique sourcetype inside [`props.conf`](https://docs.splun
 
 Example:
 ```ini
-[<sourceTypeName>] 
+[<your_sourcetype>] 
 LINE_BREAKER = (\n+)
 TIME_PREFIX = ^
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ
