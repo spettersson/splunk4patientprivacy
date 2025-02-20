@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prompt user for information about the add-on
-read -p "Enter the name of the vendor and technology that this add-on is dedicated for (for example, Cambio COSMIC): " VENDOR_AND_PRODUCT
+read -p "Enter the name of the vendor and technology that this add-on is dedicated for (only alfanumeric and whitespace characters; for example, Cambio COSMIC): " VENDOR_AND_PRODUCT
 
 read -p "Enter a description that explains the role of this add-on: " DESCRIPTION
    
