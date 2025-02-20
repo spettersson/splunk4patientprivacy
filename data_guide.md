@@ -156,15 +156,13 @@ FIELD_NAMES = [<string>,...,<string>]
 ```
 
 
-For events without a clear structure, meaning that their are no obvious key-value pairs, you need to extract each field manually with regular expression:
+For events without a clear structure—where there are no obvious key-value pairs—you need to extract fields manually using regular expressions. However, if your events contain obvious key-value pairs (such as key=value or key::value), Splunk can automatically extract those fields without additional configuration.
+
 ```init
 [your_sourcetype]
 EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
 **Note:** The regular expression must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search.
-
-It might also be the case that logs are somewhat structured (i.e. semi-structured).
-
 
 
 ### What is a Field Alias?
