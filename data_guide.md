@@ -136,7 +136,7 @@ A field extraction is the process of Splunk extracting values matching a specifi
 
 For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
-As field extractions are typically tied to a specific sourcetype, they are defined in `./default/props.conf` within the sourcetype stanza. However, **the exact method for defining field extractions depends on the event structure**.
+As field extractions are typically scoped to a specific sourcetype, they are defined in `./default/props.conf` within the sourcetype stanza. However, **the exact method for defining field extractions depends on the event structure**.
 
 
 For JSON and XML, setting KV_MODE enables automatic field extraction, where Splunk treats each key-value pair in each event as a field::value pair. The key names become the field names in Splunk.
@@ -162,18 +162,24 @@ For events without a clear structure—where there are no obvious key-value pair
 [your_sourcetype]
 EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
-**Note:** The regular expression must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, no two field extractions can have the exact same capturing group, as it will result in field collision. 
+**Note:** The regular expression for each `EXTRACT...` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, no two field extractions can have the exact same capturing group, as it will result in field collision. 
 
 
 ### What is a Field Alias?
+A field alias allows for renaming of an already extracted field, resulting in a new field without replacing the original field.
+
+When Splunk automatically extracts fields from your events, the field names are based on the keys in the events. Likely, these field names don't follow the standard naming convention that is desired. To solve this, you can create a field alias for each field that mismatches to get the field name to align right.
+
 
 
 ### What Fields Are Needed?
 This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that require certain fields to function. While each use case specifies its required fields, these are the key fields you should ensure are in place:
 
 - employee_ID
+- employee_careProvider
 - employee_workUnit
 - employee_careUnit
+- employee_careProvider
 - patient_ID
 
 
