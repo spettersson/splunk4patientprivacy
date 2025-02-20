@@ -136,18 +136,29 @@ A field extraction is the process of Splunk extracting values matching a specifi
 
 For example, you might have a sourcetype that include events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
-A field extraction is typically tied to a specific sourcetype, resulting in that it too is defined in props.conf within the sourcetype stanza. However, exactly how the field extractions are defined depends on the logs format, specifically whether they are structured or not.
+A field extraction is typically tied to a specific sourcetype, resulting in that it too is defined in `./default/props.conf` within the sourcetype stanza. However, exactly how the field extractions are defined depends on the logs format, specifically whether they are structured or not.
 
 
-```init [sourceTypeName]
-KV_MODE = [json|xml]```
+```init
+[sourceTypeName] 
+KV_MODE = json
+```
 
+```init
+[sourceTypeName] 
+KV_MODE = xml
+```
+
+```init
 [sourceTypeName]
 FIELD_DELIMITER = <character>
 FIELD_NAMES = [<fieldName1>,<fieldName1>,...]
+```
 
+```init
 [sourceTypeName]
 EXTRACT-<field_name> = <regular expression>
+```
 
 ### What is a Field Alias?
 
