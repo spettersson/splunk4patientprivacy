@@ -14,9 +14,9 @@ A sourcetype instructs Splunk how to perform index-time processing, specifically
 - How log entries are separated into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
-### **Create Sourcetype(s)**
+### **How are Sourcetypes Created?**
 
-#### **1. Understand the Log Format(s)**
+#### **1. Get to know your logs**
 
 The first step is to understand what logs each system is generating, where they are generated, and in which formats. When analyzing the **log formats**, it is important to consider the following:
 
@@ -81,7 +81,7 @@ Best practice is to run tests to validate event line-breaking and event timestam
 5. Enter **event timestamp assignment** configurations.
 6. Validate.
 
-#### **4. Create the Sourcetype(s)**
+#### **4. Define and Store Sourcetypes**
 
 Best practice is define and store sourcetypes in Splunk [add-ons](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don).
 
