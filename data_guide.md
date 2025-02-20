@@ -4,12 +4,12 @@ Splunk can collect, index, search, correlate, and visualize any data from any sy
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
-To handle the wide variety of log formats—whether from different systems or variations within the same system—Splunk assigns each log format a unique [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype), ensuring that index-time processing is tailored accordingly.
+To handle the wide variety of log formats—whether from different systems or variations within the same system—Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly.
 
 
 ### **What is a Sourcetype?**
 
-A sourcetype instructs Splunk how to perform index-time processing, specifically by determining:
+A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk how to perform index-time processing, specifically by determining:
 
 - How log entries are separated into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
@@ -25,7 +25,7 @@ The first step is to understand what logs each system is generating, where they 
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to categorize logs appropriately. For example, a system might write logs to multiple log files with the same format, but they could still belong to different categories.
+Additionally, it is essential to categorize logs appropriately. For example, a system might write logs to multiple log files with the same format, but they could belong to different categories.
 
 Rule of thumb for assigning sourcetypes: 
 - If two log files (e.g., F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
@@ -71,9 +71,9 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-#### **4. Validate event line-breaking and event timestamp assignment**
+#### **4. Validate event line-breaking and timestamp assignment**
 
-Best practice is to run tests to validate event line-breaking and event timestamp assignment before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
+Best practice is to run tests to validate event line-breaking and timestamp assignment before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
@@ -108,7 +108,7 @@ When Splunk receives logs, it needs information about which sourcetype to assign
 
 A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that, among other capabilities, can tail log files, reading and forwarding both historical and new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
-The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs for Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for that specific vendor and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
+The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs from e.g., Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for Cambio and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
 
 Example monitor stanza:
 ```ini
@@ -162,6 +162,10 @@ For events without a clear structure, meaning that their are no obvious key-valu
 EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
 **Note:** The regular expression must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search.
+
+It might also be the case that logs are somewhat structured (i.e. semi-structured).
+
+
 
 ### What is a Field Alias?
 
