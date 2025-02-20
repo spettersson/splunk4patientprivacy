@@ -1,3 +1,8 @@
+# **Data Guide**
+
+
+
+
 ## **Getting Data Into Splunk**
 
 Splunk can collect, index, search, correlate, and visualize any data from any system or device, including logs from popular journal systems such as Cosmic, EPIC, TakeCare, LifeCare, and Millenium.
