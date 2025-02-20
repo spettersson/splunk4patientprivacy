@@ -51,11 +51,11 @@ search_1:
   title: Historical activity baseline
   description: Establishes a baseline of historical activity for the past 6 months.
   search: 
-    tag=journal earliest=-6mon latest=now
+    ```tag=journal earliest=-6mon latest=now
     | fields _time, staff_ID, patient_ID
     | stats latest(_time) as last_activity by staff_ID, patient_ID
     | table staff_ID, patient_ID, last_activity
-    | outputlookup baseline_historical_activity
+    | outputlookup baseline_historical_activity```
   earliest_time: Leave empty (defined in search: earliest=-6mon).
   latest_time: Leave empty (defined in search: latest=now).
   schedule: N/A (Run manually before enabling search 2 and search 3).
