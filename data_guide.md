@@ -132,9 +132,11 @@ To get the data normalized, Splunk primarily relies on two main [knowledge objec
 
 ### What is a Field extraction?
 
-A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering and correlation/analytics. Field extractions are typically tied to a specific sourcetype, meaning they only apply to events associated with that sourcetype.
+A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering and correlation/analytics. 
 
 For example, you might have a sourcetype that include events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
+
+Field extractions are typically tied to a specific sourcetype, meaning they only apply to events associated with that sourcetype.
 
 ### What is a Field Alias?
 
