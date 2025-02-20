@@ -1,6 +1,6 @@
 ## **Getting Data Into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize any data from any system or device, including logs from popular journal systems such as Cosmic, EPIC, TakeCare, and Millenium.
+Splunk can collect, index, search, correlate, and visualize any data from any system or device, including logs from popular journal systems such as Cosmic, EPIC, TakeCare, LifeCare, and Millenium.
 
 When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
@@ -179,12 +179,13 @@ FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a u
 ### What Fields Are Needed?
 This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that require certain fields to function. While each use case specifies its required fields, these are the key fields you should ensure are in place:
 
-- employee_ID
-- employee_careProvider
-- employee_workUnit
+- employee_ID   
+- employee_role_ID
+- employee_role_name
 - employee_careUnit
 - employee_careProvider
 - patient_ID
+- patient_careUnit
 
 
 
