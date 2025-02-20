@@ -122,7 +122,7 @@ sourcetype = <my_sourcetype>
 
 
 ## **Normalization of Data**
-By now, you’ve likely realized that getting data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index a log entries as events in its nearly original format with minimal configuration.
+By now, you’ve likely realized that getting data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index all log entries as events in their nearly original format with minimal configuration.
 
 Splunk dynamically applies a schema when events are searched - a concept known as **schema-on-read**. This means that Splunk automatically extracts fields from events using standardized field names (and in some cases, field values), effectively **normalizing the data**. As a result, filtering and correlating events from multiple vendors and systems becomes seamless.
 
