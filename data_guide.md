@@ -179,13 +179,22 @@ FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a u
 ### What Fields Are Needed?
 This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that require certain fields to function. While each use case specifies its required fields, these are the key fields you should ensure are in place:
 
-- employee_ID   
+- employee_ID
+- employee_SSN
+- employeee_name   
 - employee_role_ID
 - employee_role_name
-- employee_careUnit
-- employee_careProvider
+- employee_workUnit
+- employee_careProvider_ID
+- employee_careProvider_name
+  
 - patient_ID
-- patient_careUnit
+- patient_SSN
+- patient_name
+- patient_careUnit_ID
+- patient_careUnit_name
+- patient_careProvider_ID
+- patient_careProvider_name
 
 
 
