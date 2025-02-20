@@ -92,7 +92,7 @@ To create an add-on locally on your host, execute the following [bash script](ht
 Subsequently, to define the sourcetype(s), go into `./defaulf/props.conf` on the right add-on and add a single stanza per sourcetype:
 
 ```ini
-[<your_sourcetype>]
+[<my_sourcetype>]
 LINE_BREAKER = <regular expression>
 SHOULD_LINEMERGE = <true|false>
 
@@ -114,7 +114,7 @@ Example monitor stanza:
 ```ini
 [monitor://<path>]
 index = <your_index>
-sourcetype = <your_sourcetype>
+sourcetype = <my_sourcetype>
 ```
 
 
@@ -140,8 +140,8 @@ As field extractions are typically scoped to a specific sourcetype, they are def
 
 
 For JSON and XML, setting KV_MODE enables automatic field extraction, where Splunk treats each key-value pair in each event as a field::value pair. The key names become the field names in Splunk.
-```init
-[your_sourcetype] 
+```ini
+[my_sourcetype] 
 KV_MODE = [json|xml]
 ```
 
@@ -149,8 +149,8 @@ KV_MODE = [json|xml]
 For CSV, where values are separated by a consistent delimiter, you need to specify:
 - `FIELD_DELIMITER` → The character separating values (e.g., `,`, `;`, `|`).
 - `FIELD_NAMES` → A comma-separated list of field names to assign to each value.
-```init
-[your_sourcetype]
+```ini
+[my_sourcetype]
 FIELD_DELIMITER = <character>
 FIELD_NAMES = [<string>,...,<string>]
 ```
@@ -158,17 +158,23 @@ FIELD_NAMES = [<string>,...,<string>]
 
 For events without a clear structure—where there are no obvious key-value pairs—you need to extract fields manually using regular expressions. However, if your events contain obvious key-value pairs (such as key=value or key::value), Splunk can automatically extract those fields without additional configuration.
 
-```init
-[your_sourcetype]
+```ini
+[my_sourcetype]
 EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
-**Note:** The regular expression for each `EXTRACT...` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, no two field extractions can have the exact same capturing group, as it will result in field collision. 
+**Note:** The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, no two field extractions can have the exact same capturing group, as it will result in field collision. 
 
 
 ### What is a Field Alias?
 A field alias allows for renaming of an already extracted field, resulting in a new field without modifying or replacing the original field.
 
 When Splunk automatically extracts fields from your events, the field names are based on the keys in the events. Likely, these field names don't follow the standard naming convention that is desired. To solve this, you can create field aliases to standardize the field names. 
+
+Just like field extractions, field aliases will be defined in `./default/props.conf` in the right add-on:
+```ini
+[my_sourcetype]
+FIELDALIAS-<class> = <original_field_name> AS <new_field_name>
+```
 
 
 
@@ -290,7 +296,7 @@ Add a stanza for each unique sourcetype inside [`props.conf`](https://docs.splun
 
 Example:
 ```ini
-[<your_sourcetype>] 
+[<my_sourcetype>] 
 LINE_BREAKER = (\n+)
 TIME_PREFIX = ^
 TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ
