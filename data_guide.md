@@ -173,7 +173,7 @@ When Splunk automatically extracts fields from your events, the field names are 
 Just like field extractions, field aliases will be defined in `./default/props.conf` in the right add-on:
 ```ini
 [my_sourcetype]
-FIELDALIAS-<class> = <original_field_name> AS <new_field_name>
+FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a unique identifier for the field alias - i.e, no two field alises can have the same class.
 ```
 
 
