@@ -113,7 +113,7 @@ The UF needs instructions for what directory or files to monitor and what metada
 Example monitor stanza:
 ```ini
 [monitor://<path>]
-index = <indexName>
+index = <your_index>
 sourcetype = <your_sourcetype>
 ```
 
