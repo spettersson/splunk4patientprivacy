@@ -1,5 +1,5 @@
 # **Data Guide**
-This data guide serves the purpose of description how to get 
+This data guide serves the purpose of description how to get the required data into Splunk and normalized so they can be fed into the use cases.
 
 
 
