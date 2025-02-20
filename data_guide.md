@@ -126,7 +126,7 @@ By now, you’ve likely realized that getting data into Splunk is easy because y
 
 Splunk dynamically applies a schema when events are searched - a concept known as **schema-on-read**. This means that Splunk automatically extracts fields from events using standardized field names (and in some cases, field values), effectively **normalizing the data**. As a result, filtering and correlating logs from multiple vendors and systems becomes seamless.
 
-To get the data normalized, Splunk primarily relies on two main [knowledge objects](https://docs.splunk.com/Splexicon:Knowledgeobject):
+To get the data normalized, Splunk primarily relies on two main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
 - [Field aliases](https://docs.splunk.com/Splexicon:Alias)
 
@@ -136,7 +136,18 @@ A field extraction is the process of Splunk extracting values matching a specifi
 
 For example, you might have a sourcetype that include events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
-Field extractions are typically tied to a specific sourcetype, meaning they only apply to events associated with that sourcetype.
+A field extraction is typically tied to a specific sourcetype, resulting in that it too is defined in props.conf within the sourcetype stanza. However, exactly how the field extractions are defined depends on the logs format, specifically whether they are structured or not.
+
+
+```init [sourceTypeName]
+KV_MODE = [json|xml]```
+
+[sourceTypeName]
+FIELD_DELIMITER = <character>
+FIELD_NAMES = [<fieldName1>,<fieldName1>,...]
+
+[sourceTypeName]
+EXTRACT-<field_name> = <regular expression>
 
 ### What is a Field Alias?
 
