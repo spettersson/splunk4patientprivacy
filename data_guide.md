@@ -89,7 +89,7 @@ While it’s technically possible to store all sourcetypes for all systems from 
 
 To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
-Subsequently, to define the sourcetype(s), go into `./defaulf/props.conf` on the right add-on and add a single stanza per sourcetype:
+Subsequently, to define the sourcetype(s), navigate to `<my_addon>/defaulf/props.conf` and add a single stanza per sourcetype:
 
 ```ini
 [<my_sourcetype>]
@@ -108,7 +108,7 @@ When Splunk receives logs, it needs information about which sourcetype to assign
 
 A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that, among other capabilities, can tail log files, reading and forwarding both historical and new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
-The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs from e.g., Cambio Cosmic, edit `./default/inputs.conf`in the add-on created for Cambio and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
+The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs from e.g., Cambio Cosmic, navigate to `<my_addon>/default/inputs.conf` and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
 
 Example monitor stanza:
 ```ini
@@ -136,7 +136,7 @@ A field extraction is the process of Splunk extracting values matching a specifi
 
 For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
-As field extractions are typically scoped to a specific sourcetype, they are defined in `./default/props.conf` within the sourcetype stanza. However, **the exact method for defining field extractions depends on the event structure**.
+As field extractions are typically scoped to a specific sourcetype, they are defined in `<my_addon>/default/props.conf` within the sourcetype stanza. However, **the exact method for defining field extractions depends on the event structure**.
 
 
 For JSON and XML, setting KV_MODE enables automatic field extraction, where Splunk treats each key-value pair in each event as a field::value pair. The key names become the field names in Splunk.
@@ -170,13 +170,11 @@ A field alias allows for renaming of an already extracted field, resulting in a 
 
 When Splunk automatically extracts fields from your events, the field names are based on the keys in the events. Likely, these field names don't follow the standard naming convention that is desired. To solve this, you can create field aliases to standardize the field names. 
 
-Just like field extractions, field aliases will be defined in `./default/props.conf` in the right add-on:
+Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
 ```ini
 [my_sourcetype]
 FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a unique identifier for the field alias - i.e, no two field alises can have the same class.
 ```
-
-
 
 ### What Fields Are Needed?
 This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that require certain fields to function. While each use case specifies its required fields, these are the key fields you should ensure are in place:
