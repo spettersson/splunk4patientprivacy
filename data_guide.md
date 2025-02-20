@@ -18,7 +18,7 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk ho
 
 #### **1. Get to know your logs**
 
-The first step is to understand what logs each system is generating, where they are generated, and in which formats. When analyzing the **log formats**, it is important to consider the following:
+The first step is to understand what logs each system is generating, where they are generated (determines how they can be accessed), and in which formats. When analyzing the **log formats**, it is important to consider the following:
 
 -  Are the logs **structured** (csv, json, xml), **semi-structured**, or **unstructured** (free-text)❓ 
 -  Does each log entry consist of a **single line or multiple line**❓ 
