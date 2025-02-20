@@ -161,7 +161,7 @@ For events without a clear structure, meaning that their are no obvious key-valu
 [your_sourcetype]
 EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
-**Note:** The regular expression must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that appears in the field sidebar in search.
+**Note:** The regular expression must include at least one capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that appears in the field sidebar in search.
 
 ### What is a Field Alias?
 
