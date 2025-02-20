@@ -136,7 +136,7 @@ A field extraction is the process of Splunk extracting values matching a specifi
 
 For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
-As field extractions are typically tied to a specific sourcetype, they are defined in `./default/props.conf` within the sourcetype stanza. However, the exact method for defining field extractions depends on the log format, specifically how they are structured.
+As field extractions are typically tied to a specific sourcetype, they are defined in `./default/props.conf` within the sourcetype stanza. However, **the exact method for defining field extractions depends on the event structure**.
 
 
 For JSON and XML, setting KV_MODE enables automatic field extraction, where Splunk treats each key-value pair in each event as a field::value pair. The key names become the field names in Splunk.
@@ -152,7 +152,7 @@ For CSV, where values are separated by a consistent delimiter, you need to speci
 ```init
 [your_sourcetype]
 FIELD_DELIMITER = <character>
-FIELD_NAMES = [<string>,<string>,...]
+FIELD_NAMES = [<string>,...,<string>]
 ```
 
 
