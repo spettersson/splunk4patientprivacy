@@ -26,7 +26,7 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk ho
 The first step is to understand what logs each system generates, where they are stored (which determines how they can be accessed), and in what format. When analyzing the **log formats**, it is important to consider the following:
 
 -  Are the logs **structured** (csv, json, xml), **unstructured** (free-text), or a combination❓ 
--  Does each log entry consist of a **single line** or **multiple line**❓ 
+-  Does each log entry consist of a **single line** or **multiple lines**❓ 
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
