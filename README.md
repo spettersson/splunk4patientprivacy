@@ -1,5 +1,5 @@
 
-This repository was brought to life to help organizations get started with using **Splunk Enterprise/Splunk Cloud** to protect **patient privacy**.
+This repository was brought to life to help organizations get started with using **Splunk** to protect **patient privacy**.
 
 ## 📌 What You'll Find Here
 
