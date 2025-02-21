@@ -198,10 +198,6 @@ This repo comes with a number of pre-built [use cases](https://github.com/spette
 - employee_careProvider_name
 
 
-
-
-
-
 - patient_ID
 - patient_SSN
 - patient_name
