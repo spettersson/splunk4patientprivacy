@@ -30,11 +30,11 @@ The first step is to understand what logs each application generates, where they
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to categorize logs appropriately. For example, an application might write logs to multiple files with the same format all related to audit, but some may be associated to performance while others are related to audit.
+Additionally, it is essential to categorize logs appropriately. For example, an application might generate audit logs across multiple files with the same format, where different logs may serve distinct purposes within the audit domain.
 
 Rule of thumb when assigning sourcetypes: 
 - If two log files (e.g., F_IX_ACCESS.log and F_IX_ACTIVITY.log) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
-- If two log files from the same application have the same format, but falls into two completely different log categories → Assign each log source a unique sourcetype.
+- If two log files from the same application have the same format, but falls into two different log categories → Assign each log source a unique sourcetype.
 - If two log files from the same application have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
 - If two log files from different applications have the same format → Assign each log source a unique sourcetype.
 
@@ -88,9 +88,9 @@ It is recommended to always run tests to validate that each individual sourcetyp
 
 #### **5. Create a Sourcetype**
 
-It is recommended to store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations designed to assist with collecting, parsing, normalizing, and enriching data.
+It is recommended to create a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations designed to assist with collecting, parsing, normalizing, and enriching data.
 
-While it’s technically possible to store all sourcetypes for all applications from all vendors in a single add-on, best practice is to (as a bare minimum) create one add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
+While it’s technically possible to create all sourcetypes for all applications from all vendors in a single add-on, best practice is to (as a bare minimum) create one add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
 To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
@@ -174,9 +174,9 @@ EXTRACT-<class> = <regular expression> #the class is a unique identifier for the
 
 
 ### What is a Field Alias?
-A field alias allows you to rename an already extracted field, creating a new field without modifying or replacing the original.
+A field alias allows you to rename an already extracted field, resulting in the creation of a new field without modifying or replacing the original.
 
-When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names don't align with the field names that the use cases require to function. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
+When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names doesn't align with the field names that the use cases require to function. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
 
 Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
 ```ini
@@ -186,6 +186,35 @@ FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a u
 
 ### What Fields Are Needed?
 This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that require certain fields to function. While each use case specifies its required fields, these are the key fields you should ensure are in place:
+
+# Employee fields
+
+| Field                      | Description                                      |
+|----------------------------|--------------------------------------------------|
+| employee_SSN (key)               | Social Security Number of the employee             |
+| employee_ID (optional key)             | Unique identifier for the employee        |
+| employee_name              | Full name of the employee                      |
+| employee_role_ID           | Unique identifier for the employee's role      |
+| employee_role_name         | Name of the employee's role                    |
+| employee_workUnit_ID       | Unique identifier for the employee's work unit |
+| employee_workUnit_name     | Name of the employee's work unit               |
+| employee_careProvider_ID   | Unique identifier for the employee's care provider |
+| employee_careProvider_name | Name of the employee's care provider           |
+
+
+# Patient Fields
+
+| Field                      | Description                                      |
+|----------------------------|--------------------------------------------------|
+| patient_SSN (key)                | Social Security Number of the patient              |
+| patient_ID (optional key)  | Unique identifier for the patient      |
+| patient_name               | Full name of the patient                      |
+| patient_careUnit_ID        | Unique identifier for the patient's care unit |
+| patient_careUnit_name      | Name of the patient's care unit               |
+| patient_careProvider_ID    | Unique identifier for the patient's care provider |
+| patient_careProvider_name  | Name of the patient's care provider           |
+
+
 
 - employee_ID
 - employee_SSN
