@@ -6,7 +6,7 @@ This repository was brought to life to help organizations get started with using
 ### Data Guide
 bla bla bla 
 
-### 🔍 Use Cases
+### 🔍 [Use Cases](https://github.com/spettersson/splunk4patientprivacy/tree/1725f8c42f759470bdd94d3c3bcaa60e4b70ad65/use_cases)
 **Use cases** that work together to surface incidents that potentially could indicate a violation of patient privacy. The use cases fall into the following two categories:
 
 #### **Anomaly-Triggering**
