@@ -88,7 +88,7 @@ It is recommended to always run tests to validate that each individual sourcetyp
 
 #### **4. Define and Store a Sourcetype**
 
-It is recommended to define and store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). An add-on is in simple terms a repository for configurations.
+It is recommended to define and store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations designed to assist with collecting, parsing, normalizing, and enriching data.
 
 While it’s technically possible to store all sourcetypes for all systems and devices from all vendors in a single add-on, best practice is to as a bare minimum create one separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
