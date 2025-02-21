@@ -137,9 +137,10 @@ By now, you’ve likely realized that getting application data into Splunk is ea
 
 Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and standardized values when applicable), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
 
-To get the data normalized, Splunk primarily relies on two main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
+To get the data normalized, Splunk primarily relies on three main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
 - [Field aliases](https://docs.splunk.com/Splexicon:Alias)
+- [Eval expressions]()
 
 ### What is a Field extraction?
 
