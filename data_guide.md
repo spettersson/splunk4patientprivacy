@@ -1,6 +1,9 @@
 # **Data Guide**
 Welcome to the **Data Guide**! This document provides a structured approach to **getting the right data into Splunk** and ensuring it is **properly normalized** to be fully compatible with the **out-of-the-box use cases** provided in this repository.
 
+Specifically, it touches two data types central to the use cases:
+- Application data
+- Identity data
 
 
 ## **Getting Application Data Into Splunk**
