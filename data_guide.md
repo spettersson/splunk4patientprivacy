@@ -30,10 +30,10 @@ The first step is to understand what logs each application generates, where they
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to categorize logs appropriately. For example, an application might write logs to multiple files with the same format, but some may be associated to performance while others are related to audit.
+Additionally, it is essential to categorize logs appropriately. For example, an application might write logs to multiple files with the same format all related to audit, but some may be associated to performance while others are related to audit.
 
 Rule of thumb when assigning sourcetypes: 
-- If two log files (e.g., F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
+- If two log files (e.g., F_IX_ACCESS.log and F_IX_ACTIVITY.log) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
 - If two log files from the same application have the same format, but falls into two completely different log categories → Assign each log source a unique sourcetype.
 - If two log files from the same application have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
 - If two log files from different applications have the same format → Assign each log source a unique sourcetype.
