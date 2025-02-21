@@ -30,7 +30,7 @@ The first step is to understand what logs each application generates, where they
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to categorize logs appropriately. For example, an application might generate audit logs across multiple files with the same format, where different logs may serve distinct purposes within the audit domain.
+Additionally, it is essential to **categorize logs appropriately**. For example, an application might generate audit logs across multiple files with the same format, yet different logs may serve distinct purposes within the audit domain. By taking this into account, you can easily filter through the events in Splunk to find the desired subset.
 
 Rule of thumb when assigning sourcetypes: 
 - If two log files (e.g., F_IX_ACCESS.log and F_IX_ACTIVITY.log) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
@@ -105,7 +105,7 @@ TIME_PREFIX = <regular expression>
 TIME_FORMAT = <strptime-format>
 MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
-
+**Note**: each sourcetype requires its own stanza. 
 
 #### **6. Assign the Right Sourcetype to the Right Logs**
 
@@ -176,7 +176,7 @@ EXTRACT-<class> = <regular expression> #the class is a unique identifier for the
 ### What is a Field Alias?
 A field alias allows you to rename an already extracted field, resulting in the creation of a new field without modifying or replacing the original.
 
-When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names doesn't align with the field names that the use cases require to function. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
+When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names doesn't align with the field names that the out-of-box use cases in this repository expects. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
 
 Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
 ```ini
@@ -185,9 +185,11 @@ FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a u
 ```
 
 ### What Fields Are Needed?
-This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that require certain fields to function. While each use case specifies its required fields, these are the key fields you should ensure are in place:
+This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that expect specific fields with specific values to propely function and shine. While the exact field that each use case require may differ, there are 
 
-# Employee fields
+each use case specifies its required fields, these are the key fields you should ensure are in place:
+
+#### Employee fields
 
 | Field                      | Description                                      |
 |----------------------------|--------------------------------------------------|
@@ -202,7 +204,7 @@ This repo comes with a number of pre-built [use cases](https://github.com/spette
 | employee_careProvider_name | Name of the employee's care provider           |
 
 
-# Patient Fields
+#### Patient Fields
 
 | Field                      | Description                                      |
 |----------------------------|--------------------------------------------------|
