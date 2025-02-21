@@ -5,9 +5,9 @@ This data guide serves the purpose of description how to get the required data i
 
 ## **Getting Application Data Into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize any data from application, including logs from popular clinical applications such as Cosmic, Millenium, and EPIC.
+Splunk can collect, index, search, correlate, and visualize any data from application, including audit logs from popular clinical applications such as Cosmic, Millenium, and EPIC.
 
-When onboarding logs from a new application, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
+When onboarding logs from a new application, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally written to an index as individual events - where each event represents something that happened at a specific point in time.
 
 To handle the wide variety of log formats — whether from different applications or variations within the same application — Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly.
 
@@ -23,16 +23,16 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk ho
 
 #### **1. Get to know your logs**
 
-The first step is to understand what logs each application generates, where they are stored (which determines how they can be accessed), and in what format. When analyzing the **log formats**, it is important to consider the following:
+The first step is to understand what logs each application generates, where they are stored, and in what format. When analyzing the **log formats**, it is important to consider the following:
 
 -  Are the logs **structured** (csv, json, xml), **unstructured** (free-text), or a combination❓ 
 -  Does each log entry consist of a **single line** or **multiple lines**❓ 
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to categorize logs appropriately. For example, an application might write logs to multiple files with the same format, but they could belong to different categories.
+Additionally, it is essential to categorize logs appropriately. For example, an application might write logs to multiple files with the same format, but some may be associated to performance while others are related to audit.
 
-Rule of thumb for assigning sourcetypes: 
+Rule of thumb when assigning sourcetypes: 
 - If two log files (e.g., F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
 - If two log files from the same application have the same format, but falls into two completely different log categories → Assign each log source a unique sourcetype.
 - If two log files from the same application have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
@@ -43,7 +43,7 @@ Rule of thumb for assigning sourcetypes:
 [Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw text and breaks it into individual events, ensuring that every complete log entry is indexed as a separate event.
 
 A full list of configurations for event line-breaking with detailed explanations can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking#:~:text=Line%20breaking%20general,affect%20line%20breaking.). 
-In many cases, the default settings are sufficient, so it’s recommended to test them first. If they don't do the job, then consider adjusting the  following key settings (part of what is known as the [Splunk Great Eight](https://lantern.splunk.com/Splunk_Platform/Product_Tips/Data_Management/Configuring_new_source_types#:~:text=The%20Splunk%20Great%20Eight%0A(always%20configure%20for%20all%20source%20types))):
+In many cases, the default settings are sufficient, so it’s recommended to test them first. If they don't do the job, then consider adjusting the following key settings (part of what is known as the [Splunk Great Eight](https://lantern.splunk.com/Splunk_Platform/Product_Tips/Data_Management/Configuring_new_source_types#:~:text=The%20Splunk%20Great%20Eight%0A(always%20configure%20for%20all%20source%20types))):
 
 - `LINE_BREAKER` → Specifies a regex that determines how Splunk breaks raw text into lines. The regex must contain a capturing group, and wherever the regex matches, Splunk considers the start of the first capturing group to be the end of the previous line, and considers the end of the first capturing group to be the start of the next line. The portion of the text matched by the capturing group is excluded from the lines. Whether each line is directly processed as an individual event depends on if Splunk is instructed to try to merge lines or not (see SHOULD_LINEMERGE setting).
   - Default: LINE_BREAKER = ([\r\n]+)
