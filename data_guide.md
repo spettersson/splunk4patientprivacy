@@ -142,7 +142,7 @@ To get the data normalized, Splunk primarily relies on two main [knowledge objec
 
 A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering, correlating, and analyzing events. 
 
-For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
+For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
 As field extractions are typically scoped to a specific sourcetype, they are defined in `<my_addon>/default/props.conf` within the sourcetype stanza. However, **the exact method for defining field extractions depends on the event structure**.
 
@@ -176,7 +176,7 @@ EXTRACT-<class> = <regular expression> #the class is a unique identifier for the
 ### What is a Field Alias?
 A field alias allows for renaming of an already extracted field, resulting in a new field without modifying or replacing the original field.
 
-When Splunk automatically extracts fields from your events, the field names are based on the keys in the events. Likely, these field names don't follow the standard naming convention that is desired. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
+When Splunk automatically extracts fields from your events, the field names are based on the keys in the events. Chances are that these field names won't follow the standard naming convention that is desired. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
 
 Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
 ```ini
