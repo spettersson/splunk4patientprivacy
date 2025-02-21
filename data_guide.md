@@ -86,15 +86,15 @@ It is recommended to always run tests to validate that each individual sourcetyp
 5. Enter **event timestamp assignment** configurations.
 6. Validate.
 
-#### **4. Define and Store a Sourcetype**
+#### **4. Create a Sourcetype**
 
-It is recommended to define and store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations designed to assist with collecting, parsing, normalizing, and enriching data.
+It is recommended to store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations designed to assist with collecting, parsing, normalizing, and enriching data.
 
-While it’s technically possible to store all sourcetypes for all systems and devices from all vendors in a single add-on, best practice is to as a bare minimum create one separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
+While it’s technically possible to store all sourcetypes for all systems and devices from all vendors in a single add-on, best practice is to (as a bare minimum) create one add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
 To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
-Subsequently, to define the sourcetype(s), navigate to `<my_addon>/defaulf/props.conf` and add a single stanza per sourcetype:
+Subsequently, to create a sourcetype, navigate to the configurations file [props.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf) in the right add-on (`<my_addon>/defaulf/props.conf`) and add a stanza as shown below:
 
 ```ini
 [<my_sourcetype>]
@@ -170,7 +170,7 @@ For events without a clear structure—where there are no obvious key-value pair
 [my_sourcetype]
 EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
-**Note:** The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, no two field extractions can have the exact same capturing group, as it will result in field collision. 
+**Note:** The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, for the same sourcetype, no two field extractions can have the exact same capturing group, as it will result in field collision. 
 
 
 ### What is a Field Alias?
