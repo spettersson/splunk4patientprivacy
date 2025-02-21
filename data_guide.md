@@ -130,7 +130,7 @@ sourcetype = <my_sourcetype>
 
 
 ### Introduction
-By now, you’ve likely realized that getting data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index all log entries as events in their nearly original format with minimal configuration.
+By now, you’ve likely realized that getting application data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index all log entries as events in their nearly original format with minimal configuration.
 
 Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and, in some cases, standardized values), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
 
