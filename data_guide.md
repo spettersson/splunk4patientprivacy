@@ -132,7 +132,7 @@ sourcetype = <my_sourcetype>
 ### Introduction
 By now, you’ve likely realized that getting application data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index all log entries as events in their nearly original format with minimal configuration.
 
-Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and, in some cases, standardized values), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
+Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and standardized values when applicable), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
 
 To get the data normalized, Splunk primarily relies on two main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
@@ -170,13 +170,13 @@ For events without a clear structure—where there are no obvious key-value pair
 [my_sourcetype]
 EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
 ```
-**Note:** The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, for the same sourcetype, no two field extractions can have the exact same capturing group, as it will result in field collision. 
+**Note:** The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, for the same sourcetype, no two field extractions can have the exact same group name, as it will result in field collision. 
 
 
 ### What is a Field Alias?
-A field alias allows for renaming of an already extracted field, resulting in a new field without modifying or replacing the original field.
+A field alias allows you to rename an already extracted field, creating a new field without modifying or replacing the original.
 
-When Splunk automatically extracts fields from your events, the field names are based on the keys in the events. Chances are that these field names won't follow the standard naming convention that is desired. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
+When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names don't align with the field names that the use cases require to function. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
 
 Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
 ```ini
