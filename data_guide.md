@@ -94,7 +94,7 @@ While it’s technically possible to store all sourcetypes for all systems and d
 
 To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
-Subsequently, to create a sourcetype, navigate to the configurations file [props.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf) in the right add-on (`<my_addon>/defaulf/props.conf`) and add a stanza as shown below:
+Subsequently, to create a sourcetype, navigate to `<my_addon>/defaulf/props.conf` and add a stanza as shown below:
 
 ```ini
 [<my_sourcetype>]
@@ -118,7 +118,7 @@ The UF needs instructions for what directory or files to monitor and what metada
 Example monitor stanza:
 ```ini
 [monitor://<path>]
-index = <your_index>
+index = <my_index>
 sourcetype = <my_sourcetype>
 ```
 
