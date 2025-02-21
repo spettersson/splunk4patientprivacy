@@ -19,18 +19,18 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk ho
 - How log entries are separated into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
-### **How are Sourcetypes Created?**
+### **How are Sourcetypes Created and Assigned to the Right Logs?**
 
 #### **1. Get to know your logs**
 
-The first step is to understand what logs each system is generating, where they are generated (determines how they can be accessed), and in which formats. When analyzing the **log formats**, it is important to consider the following:
+The first step is to understand what logs each system generates, where they are stored (which determines how they can be accessed), and in what format. When analyzing the **log formats**, it is important to consider the following:
 
 -  Are the logs **structured** (csv, json, xml), **unstructured** (free-text), or a combination❓ 
--  Does each log entry consist of a **single line or multiple line**❓ 
+-  Does each log entry consist of a **single line** or **multiple line**❓ 
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to categorize logs appropriately. For example, a system might write logs to multiple log files with the same format, but they could belong to different categories.
+Additionally, it is essential to categorize logs appropriately. For example, a system might write logs to multiple files with the same format, but they could belong to different categories.
 
 Rule of thumb for assigning sourcetypes: 
 - If two log files (e.g., F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
@@ -38,7 +38,7 @@ Rule of thumb for assigning sourcetypes:
 - If two log files from the same system have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
 - If two log files from different systems have the same format → Assign each log source a unique sourcetype.
 
-#### **2. Define How the Sourcetype(s) Should Do Event Line-Breaking**
+#### **2. Define How a Sourcetype Does Event Line-Breaking**
 
 [Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw text and breaks it into individual events, ensuring that every complete log entry is indexed as a separate event.
 
@@ -59,7 +59,7 @@ SHOULD_LINEMERGE = false # Because we are dealing with single line log entries o
 TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exceed 10,000 bytes in size. 
 ```
 
-#### **3. Define How the Sourcetype(s) Should Do Event Timestamp Assignment**
+#### **3. Define How a Sourcetype Does Event Timestamp Assignment**
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual event.
 
@@ -76,9 +76,9 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-#### **4. Validate event line-breaking and timestamp assignment**
+#### **4. Validate the sourcetype**
 
-Best practice is to run tests to validate event line-breaking and timestamp assignment before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
+It is recommended to always run tests to validate that each individual sourcetype works as intended before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
@@ -86,11 +86,11 @@ Best practice is to run tests to validate event line-breaking and timestamp assi
 5. Enter **event timestamp assignment** configurations.
 6. Validate.
 
-#### **4. Define and Store Sourcetypes**
+#### **4. Define and Store a Sourcetype**
 
-Best practice is define and store sourcetypes in Splunk [add-ons](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don).
+It is recommended to define and store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). An add-on is in simple terms a repository for configurations.
 
-While it’s technically possible to store all sourcetypes for all systems from all vendors in a single add-on, best practice is create a separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
+While it’s technically possible to store all sourcetypes for all systems and devices from all vendors in a single add-on, best practice is to as a bare minimum create one separate add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
 To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
@@ -107,13 +107,13 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
 
 
-#### **5. Assign the Right Sourcetype to the Right Log**
+#### **5. Assign the Right Sourcetype to the Right Logs**
 
 When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
-A common scenario is that the system you want to collect logs from writes logs to multiple text files, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that, among other capabilities, can tail log files, reading and forwarding both historical and new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
+A common scenario is that the system you want to collect logs from writes logs to multiple files in a human-readable format, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that tails log files, sending historical entries once and continuously forwarding any new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
-The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs from e.g., Cambio Cosmic, navigate to `<my_addon>/default/inputs.conf` and add one stanza per sourcetype. If you’ve already mapped out which logs should be assigned which sourcetype, this step should be straightforward. 
+The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign, and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs from e.g., Cambio Cosmic, navigate to `<my_addon>/default/inputs.conf` and add one stanza per sourcetype. If you’ve already mapped out which log file should be assigned which sourcetype, this step is straightforward. 
 
 Example monitor stanza:
 ```ini
@@ -132,7 +132,7 @@ sourcetype = <my_sourcetype>
 ### Introduction
 By now, you’ve likely realized that getting data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index all log entries as events in their nearly original format with minimal configuration.
 
-Splunk dynamically applies a schema when events are searched - a concept known as **schema-on-read**. This means that Splunk automatically extracts fields from events using standardized field names (and in some cases, field values), effectively **normalizing the data**. As a result, filtering and correlating events from multiple vendors and systems becomes seamless.
+Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and, in some cases, standardized values), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and systems becomes seamless.
 
 To get the data normalized, Splunk primarily relies on two main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
@@ -140,7 +140,7 @@ To get the data normalized, Splunk primarily relies on two main [knowledge objec
 
 ### What is a Field extraction?
 
-A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering and correlation/analytics. 
+A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering, correlating, and analyzing events. 
 
 For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a single field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
