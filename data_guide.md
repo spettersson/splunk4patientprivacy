@@ -176,7 +176,7 @@ EXTRACT-<class> = <regular expression> #the class is a unique identifier for the
 ### What is a Field Alias?
 A field alias allows for renaming of an already extracted field, resulting in a new field without modifying or replacing the original field.
 
-When Splunk automatically extracts fields from your events, the field names are based on the keys in the events. Likely, these field names don't follow the standard naming convention that is desired. To solve this, you can create field aliases to standardize the field names. 
+When Splunk automatically extracts fields from your events, the field names are based on the keys in the events. Likely, these field names don't follow the standard naming convention that is desired. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
 
 Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
 ```ini
