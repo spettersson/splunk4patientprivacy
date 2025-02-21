@@ -1,5 +1,5 @@
 # **Data Guide**
-This data guide serves the purpose of description how to get the required data into Splunk and normalized so they can be fed into the use cases.
+Welcome to the **Data Guide**! This document provides a structured approach to **getting the right data into Splunk** and ensuring it is **properly normalized** to be fully compatible with the **out-of-the-box use cases** provided in this repository.
 
 
 
