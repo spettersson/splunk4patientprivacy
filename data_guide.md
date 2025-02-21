@@ -185,36 +185,20 @@ FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a u
 ```
 
 ### What Fields Are Needed?
-This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that expect specific fields with specific values to propely function and shine. While the exact field that each use case require may differ, there are 
+This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that expect specific fields with specific values to propely function and shine.
 
-each use case specifies its required fields, these are the key fields you should ensure are in place:
-
-#### Employee fields
+#### Employee and Patient fields
 
 | Field                      | Description                                      |
 |----------------------------|--------------------------------------------------|
-| employee_SSN (key)               | Social Security Number of the employee             |
-| employee_ID (optional key)             | Unique identifier for the employee        |
-| employee_name              | Full name of the employee                      |
-| employee_role_ID           | Unique identifier for the employee's role      |
-| employee_role_name         | Name of the employee's role                    |
-| employee_workUnit_ID       | Unique identifier for the employee's work unit |
-| employee_workUnit_name     | Name of the employee's work unit               |
-| employee_careProvider_ID   | Unique identifier for the employee's care provider |
-| employee_careProvider_name | Name of the employee's care provider           |
+| employee_ID              | A unique identifier for the employee. This could be for example a username, ID number, or Social Security Number. The type used depends on what type of information that is in the logs   |
+| patient_ID              | A unique identifier for the patient. This is typically a Medical Record Number     |
+| action_type             | The action type executed by the employee, for example, CREATE, READ, UPDATE, DELETE, EXPORT    |
 
 
-#### Patient Fields
 
-| Field                      | Description                                      |
-|----------------------------|--------------------------------------------------|
-| patient_SSN (key)                | Social Security Number of the patient              |
-| patient_ID (optional key)  | Unique identifier for the patient      |
-| patient_name               | Full name of the patient                      |
-| patient_careUnit_ID        | Unique identifier for the patient's care unit |
-| patient_careUnit_name      | Name of the patient's care unit               |
-| patient_careProvider_ID    | Unique identifier for the patient's care provider |
-| patient_careProvider_name  | Name of the patient's care provider           |
+
+
 
 
 
