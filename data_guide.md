@@ -19,7 +19,7 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk ho
 - How log entries are separated into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
-### **How are Sourcetypes Created and Assigned to the Right Logs?**
+### **How is a Sourcetype Created and Assigned to the Right Logs?**
 
 #### **1. Get to know your logs**
 
