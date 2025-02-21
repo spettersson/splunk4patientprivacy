@@ -86,7 +86,7 @@ It is recommended to always run tests to validate that each individual sourcetyp
 5. Enter **event timestamp assignment** configurations.
 6. Validate.
 
-#### **4. Create a Sourcetype**
+#### **5. Create a Sourcetype**
 
 It is recommended to store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations designed to assist with collecting, parsing, normalizing, and enriching data.
 
@@ -107,7 +107,7 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
 
 
-#### **5. Assign the Right Sourcetype to the Right Logs**
+#### **6. Assign the Right Sourcetype to the Right Logs**
 
 When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
 
