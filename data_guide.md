@@ -195,8 +195,8 @@ This repo comes with a number of pre-built [use cases](https://github.com/spette
 
 | Field                      | Description                                      |
 |----------------------------|--------------------------------------------------|
-| employee_ID              | A unique identifier for the employee. This could be for example a username, ID number, or Social Security Number. The type used depends on what type of information that is in the logs   |
-| patient_ID              | A unique identifier for the patient. This is typically a Medical Record Number     |
+| employee_ID              | A unique identifier for the employee. This could be for example a `username`, `ID number`, or `Social Security Number`. The type used depends on what type of information that is in the logs   |
+| patient_ID              | A unique identifier for the patient. This is typically a `Medical Record Number`     |
 | action_type             | The action type executed by the employee, for example, CREATE, READ, UPDATE, DELETE, EXPORT    |
 
 
