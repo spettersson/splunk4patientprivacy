@@ -3,13 +3,13 @@ This data guide serves the purpose of description how to get the required data i
 
 
 
-## **Getting Data Into Splunk**
+## **Getting Application Data Into Splunk**
 
-Splunk can collect, index, search, correlate, and visualize any data from any system or device, including logs from popular journal systems such as Cosmic, EPIC, TakeCare, LifeCare, and Millenium.
+Splunk can collect, index, search, correlate, and visualize any data from application, including logs from popular clinical applications such as Cosmic, Millenium, and EPIC.
 
-When onboarding logs from a new system, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
+When onboarding logs from a new application, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally are indexed and written to disk as individual events - where each event represents something that happened at a specific point in time.
 
-To handle the wide variety of log formats—whether from different systems or variations within the same system—Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly.
+To handle the wide variety of log formats — whether from different applications or variations within the same application — Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly.
 
 
 ### **What is a Sourcetype?**
@@ -23,20 +23,20 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk ho
 
 #### **1. Get to know your logs**
 
-The first step is to understand what logs each system generates, where they are stored (which determines how they can be accessed), and in what format. When analyzing the **log formats**, it is important to consider the following:
+The first step is to understand what logs each application generates, where they are stored (which determines how they can be accessed), and in what format. When analyzing the **log formats**, it is important to consider the following:
 
 -  Are the logs **structured** (csv, json, xml), **unstructured** (free-text), or a combination❓ 
 -  Does each log entry consist of a **single line** or **multiple lines**❓ 
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to categorize logs appropriately. For example, a system might write logs to multiple files with the same format, but they could belong to different categories.
+Additionally, it is essential to categorize logs appropriately. For example, an application might write logs to multiple files with the same format, but they could belong to different categories.
 
 Rule of thumb for assigning sourcetypes: 
-- If two log files (e.g., F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same system (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
-- If two log files from the same system have the same format, but falls into two completely different log categories → Assign each log source a unique sourcetype.
-- If two log files from the same system have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
-- If two log files from different systems have the same format → Assign each log source a unique sourcetype.
+- If two log files (e.g., F_IX_ACCESS.txt and F_IX_ACTIVITY.txt) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
+- If two log files from the same application have the same format, but falls into two completely different log categories → Assign each log source a unique sourcetype.
+- If two log files from the same application have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
+- If two log files from different applications have the same format → Assign each log source a unique sourcetype.
 
 #### **2. Define How a Sourcetype Does Event Line-Breaking**
 
@@ -90,7 +90,7 @@ It is recommended to always run tests to validate that each individual sourcetyp
 
 It is recommended to store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations designed to assist with collecting, parsing, normalizing, and enriching data.
 
-While it’s technically possible to store all sourcetypes for all systems and devices from all vendors in a single add-on, best practice is to (as a bare minimum) create one add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
+While it’s technically possible to store all sourcetypes for all applications from all vendors in a single add-on, best practice is to (as a bare minimum) create one add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
 To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
@@ -109,9 +109,9 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 
 #### **6. Assign the Right Sourcetype to the Right Logs**
 
-When Splunk receives logs, it needs information about which sourcetype to assign to which log. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the system in question. 
+When Splunk receives logs, it needs information about which sourcetype to assign to which logs. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the application in question. 
 
-A common scenario is that the system you want to collect logs from writes logs to multiple files in a human-readable format, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that tails log files, sending historical entries once and continuously forwarding any new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
+A common scenario is that the application you want to collect logs from writes logs to multiple files in a human-readable format, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that tails log files, sending historical entries once and continuously forwarding any new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
 The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign, and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs from e.g., Cambio Cosmic, navigate to `<my_addon>/default/inputs.conf` and add one stanza per sourcetype. If you’ve already mapped out which log file should be assigned which sourcetype, this step is straightforward. 
 
@@ -126,13 +126,13 @@ sourcetype = <my_sourcetype>
 ---
 
 
-## **Normalization of Data**
+## **Normalization of Application Data**
 
 
 ### Introduction
 By now, you’ve likely realized that getting data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index all log entries as events in their nearly original format with minimal configuration.
 
-Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and, in some cases, standardized values), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and systems becomes seamless.
+Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and, in some cases, standardized values), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
 
 To get the data normalized, Splunk primarily relies on two main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
@@ -228,9 +228,9 @@ This repo comes with a number of pre-built [use cases](https://github.com/spette
 
 Event types serve as a mean to categorize events in Splunk to easier make sense of them at scale. By defining a set of field-value pairs and search terms, you can identify a group of events and save the result as an event type which then can be references in a search (for example, eventtype=journalaudit:cosmic), simplifying searches and ensuring consistency. Since Splunk uses schema-on-read, event types can be easily modified and updated over time.
 
-Since your organization likely has multiple systems that hold events that fall into to the same category, you will inevitably end up with multiple event types. In such cases, you can assign them a common tag. This allows you to retrieve all desired events in a single search by simply referencing a tag (for example, tag=journalaudit), without manually specifying each event type.
+Since your organization likely has multiple applications that hold events that fall into to the same category, you will inevitably end up with multiple event types. In such cases, you can assign them a common tag. This allows you to retrieve all desired events in a single search by simply referencing a tag (for example, tag=journalaudit), without manually specifying each event type.
 
-For the use cases in this repository, each system is expected to have **one unique event type** (that is, journalaudit:<systemName>). This event type must include events that records create/read/update/delete/export activities associated to patient journals. 
+For the use cases in this repository, each application is expected to have **one unique event type** (that is, journalaudit:<applicationName>). This event type must include events that records create/read/update/delete/export activities associated to patient journals. 
 
 An event type can be created either through the Splunk UI (AKA Splunk Web) or Splunk configuration files - which approach you use depends on your preferences. The following is a step by step guide for how to create an event type in Splunk UI.
 
@@ -238,11 +238,11 @@ An event type can be created either through the Splunk UI (AKA Splunk Web) or Sp
 2. Click on **New Event Type**
 3. In the field **Destination App**, select 'TA-patient-privacy'
 4. In the **Name** field, enter a name for the event type.
-   - This name should follow this format: journalaudit:vendor:system
+   - This name should follow this format: journalaudit:vendor:application
    - example: journalaudit:cambio:cosmic
-5. In the **Search string** field, enter the field::value pairs and search terms that captures the desired group of events from the system.
-   - It's best practice to reference the index, host, source, and sourcetype fields associated with the system for performance reasons. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
-   - Depending on the system, additional field-value pairs and search terms may be necessary to narrow down the events to the desired group of events.
+5. In the **Search string** field, enter the field::value pairs and search terms that captures the desired group of events from the application.
+   - It's best practice to reference the index, host, source, and sourcetype fields associated with the application for performance reasons. These fields are mandatory across all events in Splunk and provides important metadata about for example where it originated, what kind of data it contains, and what index it is located in.
+   - Depending on the application, additional field-value pairs and search terms may be necessary to narrow down the events to the desired group of events.
    - example: ```index=cosmic sourcetype IN ("cambio:cosmic:activity", "cambio:cosmic:access") source IN ("F_IX_ACTIVITY.txt", "F_IX_ACCESS") staff_ID=* patient_ID=* activity_type=*```
 6. In the **Tag(s)** field, enter the value 'journalaudit'
     - When creating an event type via Splunk Web and reference a tag that does not already exist, Splunk automatically creates that tag for you.
@@ -291,7 +291,7 @@ Make sure to adjust permissions to ensure that the appropriate roles in Splunk h
   - Navigate to **Settings → Source Types** in Splunk Web.
   - Click **New Source Type**.
   - In the **Name** field, enter the name.
-    - sourcetype names typically follow the format [\<vendor\>\:\<system\>:\<logCategory\>](https://docs.splunk.com/Documentation/AddOns/released/Overview/Sourcetypes?_gl=1*1ihn43k*_gcl_aw*R0NMLjE3MzY4NDU0MzMuQ2owS0NRaUFzNWk4QmhEbUFSSXNBR0U0eEh6cjhjclZaVG5CRjlzVVA2cEY4dFRjcGhUeUpsZUIzeVBYTWd2eUpSdVF5cHdtcUNYdnc3WWFBc2dRRUFMd193Y0I.*_gcl_au*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*FPAU*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*_ga*Mjg4NjYwNTkwLjE3MjUzNDU3NTA.*_ga_5EPM2P39FV*MTczODkzNTM0MS40NDAuMS4xNzM4OTM1NjYwLjAuMC40MTMwNzc2ODA.*_fplc*MUlEblIzNWlEZ1RieHdjRWhzekY3Snk3VnRza3FPdHNMQ1RPTmJVTWpEUFpHQ3d6dkJxJTJGZ3E2JTJGUjF4THhXQjlSQXJLaGlVbTAxQkx2RkxSekVmSE5zWk5ZdzdDOGdNaWtaUlJacHdSaUx2WjhBUTJZblJTdW1lZ0lXUTNpZyUzRCUzRA..#:~:text=Source%20type%20names,the%20vendor%2C%20OSSEC.)
+    - sourcetype names typically follow the format [\<vendor\>\:\<application\>:\<logCategory\>](https://docs.splunk.com/Documentation/AddOns/released/Overview/Sourcetypes?_gl=1*1ihn43k*_gcl_aw*R0NMLjE3MzY4NDU0MzMuQ2owS0NRaUFzNWk4QmhEbUFSSXNBR0U0eEh6cjhjclZaVG5CRjlzVVA2cEY4dFRjcGhUeUpsZUIzeVBYTWd2eUpSdVF5cHdtcUNYdnc3WWFBc2dRRUFMd193Y0I.*_gcl_au*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*FPAU*MTIzNTEwMDQ2Ni4xNzMzMTI2NzQ3*_ga*Mjg4NjYwNTkwLjE3MjUzNDU3NTA.*_ga_5EPM2P39FV*MTczODkzNTM0MS40NDAuMS4xNzM4OTM1NjYwLjAuMC40MTMwNzc2ODA.*_fplc*MUlEblIzNWlEZ1RieHdjRWhzekY3Snk3VnRza3FPdHNMQ1RPTmJVTWpEUFpHQ3d6dkJxJTJGZ3E2JTJGUjF4THhXQjlSQXJLaGlVbTAxQkx2RkxSekVmSE5zWk5ZdzdDOGdNaWtaUlJacHdSaUx2WjhBUTJZblJTdW1lZ0lXUTNpZyUzRCUzRA..#:~:text=Source%20type%20names,the%20vendor%2C%20OSSEC.)
       - example: cambio:cosmic:access
       - example: cambio:cosmic:activity
   - In the **Destination App**, select the app 'TA-patient-privacy'.
