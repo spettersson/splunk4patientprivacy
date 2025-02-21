@@ -102,7 +102,7 @@ search_3:
     | addinfo
     | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time)
     | fields use_case_ID, anomaly_ID, anomaly_title, anomaly_description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_activity, baseline_last_activity, info_search_time, info_min_time, info_max_time
-    | collect index=anomaly_collection addinfo=false
+    | collect index=anomaly_collection sourcetype=patientprivacy_anomaly addinfo=false
   earliest_time: Leave empty (defined in search: earliest=-12min@min).
   latest_time: Leave empty (defined in search: latest=-2min@min).
   schedule: 
