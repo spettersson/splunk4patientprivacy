@@ -79,7 +79,7 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-#### **4. Validate the sourcetype**
+#### **4. Validate the Sourcetype**
 
 It is recommended to always run tests to validate that each individual sourcetype works as intended before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
@@ -137,12 +137,12 @@ By now, you’ve likely realized that getting application data into Splunk is ea
 
 Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and values when applicable), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
 
-To get the data normalized, Splunk primarily relies on three main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
+To create fields and normalize them, Splunk primarily relies on three main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
 - [Field aliases](https://docs.splunk.com/Splexicon:Alias)
 - [Lookups](https://docs.splunk.com/Documentation/Splunk/latest/Knowledge/Aboutlookupsandfieldactions)
 
-### What is a Field extraction?
+### Field Extraction - How Does It Work?
 A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering, correlating, and analyzing events. 
 
 For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
@@ -176,7 +176,7 @@ EXTRACT-<class> = <regular expression> #the class is a unique identifier for the
 **Note:** The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, for the same sourcetype, no two field extractions can have the exact same group name, as it will result in field collision. 
 
 
-### What is a Field Alias?
+### Field Alias - How Does It Work?
 A field alias allows you to rename an already extracted field, resulting in the creation of a new field without modifying or replacing the original.
 
 When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names doesn't align with the field names that the out-of-box use cases and dashboards in this repository expects. To fix this, you can create field aliases to standardize (i.e., normalize) the field names. 
@@ -187,6 +187,15 @@ Just like field extractions, field aliseses are typically scoped to a specific s
 FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a unique identifier for the field alias - i.e, no two field alises can have the same class.
 ```
 
+### Lookup - How Does It Work?
+
+Using lookups is a fast, easy, and flexible way to bring field values to a common standard. Lookups enrich events at search-time by mapping key-value pairs from a lookup file (e.g., a CSV file) to event fields. 
+
+For a lookup to work, there must be a common denominator between the event data and the lookup file—specifically, a matching field-value pair. When a match is found, Splunk can either enrich events by adding new fields from the lookup file or modifying an existing event field by replacing existing values with standardized ones. 
+
+
+
+
 ### What Fields Are Needed?
 This repo comes with a number of pre-built use cases and dashboards that expect specific fields to work properly. 
 
@@ -194,12 +203,12 @@ This repo comes with a number of pre-built use cases and dashboards that expect 
 
 | Field name     | Field description  | Field values  |
 |---------------|--------------------------------------------------|--------------------------|
-| employee_ID   | A unique identifier for an employee. This could be any value in an event that separates one employee from another, for example, it could be a `username`, `ID number`, or `Social Security Number`. It is critical that this value is unique—i.e., no two employees have the same value.  | N/A |
-| patient_ID    | A unique identifier for each patient. This could be any value in the events that separates one patient from another, for example, `Medical Record Number`. It is critical that this value is unique—i.e., no two patients have the same value.  | N/A |
+| employee_ID   | A unique identifier for an employee. This could be any value in an event that separates one employee from another - for example, it could be a `username`, `ID number`, or `Social Security Number`. It is critical that this value is unique—i.e., no two employees have the same value.  | N/A |
+| patient_ID    | A unique identifier for each patient. This could be any value in the events that separates one patient from another - for example, `Medical Record Number`. It is critical that this value is unique—i.e., no two patients have the same value.  | N/A |
 | action_type   | The type of action that was executed by the employee. | `create`, `read`, `update`, `delete`, `export` |
 | object        | The type of object that the employee interacted with. This could, for example, be the page or section of a patient journal that an employee navigated to, or an item an employee deleted. | N/A |
 
-- Note: **N/A** means that no specific naming convention is expected for the field values.
+**Note**: `N/A` means that no specific naming convention is expected for the field values.
 
 
 
