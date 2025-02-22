@@ -1,23 +1,27 @@
 ## **Introduction to The Data Onboarding Guide**
-Welcome to the Data Onboarding Guide! This document is designed  to help you get the right data into Splunk and ensure it is properly normalized, making it fully compatible with the out-of-the-box use cases and dashboards included in this repository.
+Welcome to the Data Onboarding Guide! This document is designed to help you get the right data into Splunk and ensure it is properly normalized, making it fully compatible with the out-of-the-box use cases and dashboards included in this repository.
 
 Rather than detailing configurations needed for every possible data source — which would be impractical due to the wide variety of data sources — this guide focuses on:
 - Key steps in the data onboarding process
 - Key Splunk concepts
 - Best practices
 
-By going through this guide, you should have that "**Aha! Now I get it**" moment where (almost) everything clicks and that you feel confident getting started onboarding the data needed . If that doesn't happen, then I haven't done my job right! 
+By going through this guide, you should have that "**Aha! Now I get it**" moment where (almost) everything clicks and that you feel confident getting started onboarding data in Splunk. If that doesn't happen, then I haven't done my job right! 
 
 ## Data sources
-
-Specifically, it touches two data types central to the use cases:
-- Application data
+It is important to early on highlight that the use cases and dashboards in this repository depend on two main data sources categories, i.e.:
+- EHR application data
 - Identity data
 
 
-## Getting Application Data Into Splunk
 
-Splunk can collect, index, search, correlate, and visualize any data from application, including audit logs from popular clinical applications such as Cosmic, Millenium, and EPIC.
+
+
+
+
+## Getting Data From EHR Applications Into Splunk
+
+Splunk can collect, index, search, correlate, and visualize any data from application, including logs from popular EHR applications such as Cosmic, Millenium, and EPIC.
 
 When onboarding logs from a new application, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally written to an index as individual events - where each event represents something that happened at a specific point in time.
 
