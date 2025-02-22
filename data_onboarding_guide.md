@@ -9,7 +9,7 @@ Rather than detailing configurations needed for every possible data source — w
 By going through this guide, you should have that "**Aha! Now I get it**" moment where (almost) everything clicks and that you feel confident getting started onboarding data in Splunk. If that doesn't happen, then I haven't done my job right! 
 
 ## Data sources
-It is important to early on highlight that the use cases and dashboards in this repository depend on two main data sources categories, i.e.:
+It is important to early on highlight that the use cases and dashboards in this repository depend on two data sources categories, i.e.:
 - EHR application data
 - Identity data
 
