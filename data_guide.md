@@ -1,5 +1,5 @@
 # **Introduction - Data Guide**
-Welcome to the **Data Guide**! This document provides a structured approach to **getting the right data into Splunk** and ensuring it is **properly normalized** to be fully compatible with the **out-of-the-box use cases** provided in this repository.
+Welcome to the **Data Guide**! This document provides a structured approach to **getting the right data into Splunk** and ensuring it is **properly normalized** to be fully compatible with the out-of-the-box **use cases** and **dashboards** provided in this repository.
 
 Specifically, it touches two data types central to the use cases:
 - Application data
@@ -137,7 +137,7 @@ By now, you’ve likely realized that getting application data into Splunk is ea
 
 However, like any other tool, Splunk still requires a schema—the key difference is that Splunk applies one dynamically at search time, a concept known as **schema-on-read**. This means fields are extracted from events only when a search is executed, whether manually or as a scheduled background process.
 
-One major advantage of this approach is flexibility: if you need to modify how fields are extracted or standardized, you can simply redefine them and rerun the search—without needing to re-index the data.
+One major advantage of this approach is flexibility: if you need to modify how fields are extracted or formatted, you can simply redefine them and rerun the search—without needing to re-index the data.
 
 By using standardized field names (and values when applicable), you can effectively normalize data across different sources, making filtering, correlating, and analyzing events across vendors and applications seamless.
 
