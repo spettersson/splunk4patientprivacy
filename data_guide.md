@@ -177,7 +177,7 @@ For events without a clear structure—where there are no obvious key-value pair
 EXTRACT-aUniqueIdentifierForThisFieldExtraction = ^(?P<my_field_name>\w+)\s
 ```
 **Note:** 
-- `ÈXTRACT` is a type of field extraction. In addition, there are `REPORT` and `TRANSFORMS`. Although REPORT and TRANSFORMS only are used for special cases and thus not likely to be useful, it is possible to read about their differences to EXTRACT in more detail [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=There%20are%20three,in%20transforms.conf.).
+- `ÈXTRACT` is a type of field extraction. In addition, there are `REPORT` and `TRANSFORMS`. Although REPORT and TRANSFORMS only are used for special cases and thus not likely to be useful, it is possible to read about each type and their differences [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=There%20are%20three,in%20transforms.conf.).
 - The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search.
 - No two field extractions can have the exact same group name, as it will result in field collision.
 - For full 
