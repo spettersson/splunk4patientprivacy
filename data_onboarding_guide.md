@@ -1,5 +1,14 @@
-# **Introduction - Data Guide**
-Welcome to the **Data Guide**! This document provides a structured approach to **getting the right data into Splunk** and ensuring it is **properly normalized** to be fully compatible with the out-of-the-box **use cases** and **dashboards** provided in this repository.
+# **Introduction to The Data Onboarding Guide**
+Welcome to the Data Onboarding Guide! This document provides a structured approach to getting the right data into Splunk and ensuring it is properly normalized to be fully compatible with the out-of-the-box use cases and dashboards included in this repository.
+
+Rather than providing step-by-step configurations that can be copy-pasted for every possible data source — which would be impractical due to the wide variety of data sources — this guide focuses on:
+✔ Key steps in the data onboarding process
+✔ Key Splunk concepts
+✔ Best practices
+
+By going through this guide, you should have that "Aha! Now I get it" moment where (almost) everything clicks  and that you feel confident getting started onboarding data in Splunk. If that doesn't happen, then I haven't done my job right! 
+
+
 
 Specifically, it touches two data types central to the use cases:
 - Application data
