@@ -165,8 +165,8 @@ For CSV, where values are separated by a consistent delimiter, you need to speci
 - `FIELD_NAMES` → A comma-separated list of field names to assign to each value.
 ```ini
 [my_sourcetype]
-FIELD_DELIMITER = <character>
-FIELD_NAMES = [<string>,...,<string>]
+FIELD_DELIMITER = ,
+FIELD_NAMES = [fieldName1,fieldName2,...]
 ```
 
 
@@ -174,9 +174,12 @@ For events without a clear structure—where there are no obvious key-value pair
 
 ```ini
 [my_sourcetype]
-EXTRACT-<class> = <regular expression> #the class is a unique identifier for the field extraction - i.e, no two field extractions can have the same class.
+EXTRACT-aUniqueIdentifierForThisFieldExtraction = ^(?P<my_field_name>\w+)\s
 ```
-**Note:** The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search. Also, for the same sourcetype, no two field extractions can have the exact same group name, as it will result in field collision. 
+**Note:** 
+- The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search.
+- No two field extractions can have the exact same group name, as it will result in field collision.
+- For full 
 
 
 ### Field Alias - How Does It Work?
@@ -187,16 +190,39 @@ When Splunk automatically extracts fields, the field names are based on the keys
 Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
 ```ini
 [my_sourcetype]
-FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a unique identifier for the field alias - i.e, no two field alises can have the same class.
+FIELDALIAS-aUniqueIdentifierForThisFieldAlias = original_field_name AS new_field_name 
 ```
+**Note**: 
+- A full explanation for how to define a field alias in props.conf is found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=FIELDALIAS%2D%3Cclass%3E%20%3D%20(%3Corig_field_name%3E%20AS%7CASNEW%20%3Cnew_field_name%3E)%2B).
 
 ### Lookup - How Does It Work?
 
-Using lookups is a fast, easy, and flexible way to bring field values to a common standard. Lookups enrich events at search-time by mapping key-value pairs from a lookup file (e.g., a CSV file) to event fields. 
+Using lookups is an easy and flexible way to bring field values to a common standard. Lookups enrich events at search-time by mapping key-value pairs from a lookup file (e.g., a CSV file) to event fields. 
 
-For a lookup to work, there must be a common denominator between the event data and the lookup file—specifically, a matching field-value pair. When a match is found, Splunk can either enrich events by adding new fields from the lookup file or modifying an existing event field by replacing existing values with standardized ones. 
+For a lookup to work, there must be a common denominator between the event and the lookup file — specifically, a matching field-value pair. When a match is found, Splunk can either enrich events by adding new fields from the lookup file or modifying an existing event field by replacing existing values with standardized (i.e. normalized) ones. 
 
+How the normalization works is best illustrated with an example.
 
+Suppose you have a field called `action_type`, and an event contains the value `removed`. To standardize this value and ensure consistency across different data sources, you want to transform it into `delete`.
+
+This can be achieved using a lookup file called `action_lookup.csv`, which contains the following key-value mappings:
+
+| action          | normalized_action |
+|----------------------|-----------------------|
+| removed | delete              |
+
+In this lookup file, `action_type` holds the **unstandardized values** as they appear in raw events, while `normalized_action` contains the **standardized values**.
+
+By configuring Splunk to perform an automatic lookup at search-time, the `action` values in events will be **replaced with their standardized equivalents** from the lookup file, ensuring data consistency without requiring re-indexing.
+
+Lookup files are created csv format with a .csv extension in `./<my-addon>/lookups/` and the lookups are defined in a sourcetype stanza in `./<my-addon>/default/props.conf`
+
+```ini
+[my_sourcetype]
+LOOKUP-aUniqueIdentifierForThisLookup = action_lookup.csv action OUTPUT normalized_action AS action
+```
+**Note:**
+- A full explanation for how to define a lookup in props.conf is found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=LOOKUP%2D%3Cclass%3E%20%3D%20%24TRANSFORM%20(%3Cmatch_field%3E%20(AS%20%3Cmatch_field_in_event%3E)%3F)%2B%20(OUTPUT%7COUTPUTNEW%20(%3Coutput_field%3E%20(AS%20%3Coutput_field_in_event%3E)%3F%20)%2B%20)%3F).
 
 
 ### What Fields Are Needed?
