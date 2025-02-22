@@ -209,7 +209,7 @@ This repo comes with a number of pre-built use cases and dashboards that expect 
 
 | Field name          | Field description  | Field values  |
 |---------------------|--------------------------------------------------|--------------------------|
-| employee_ID        | A unique identifier for an employee. This could be any value in an event that separates one employee from another—such as a `username`, `ID number`, or `National Provider Identifier (NPI)`. It is critical that this value is unique—i.e., no two employees have the same value.  | N/A |
+| employee_ID        | A unique identifier for an employee. This could be any value in an event that separates one employee from another—such as a `username`, `company-issued identifier`, or `government-issued identifier`. It is critical that this value is unique—i.e., no two employees have the same value.  | N/A |
 | patient_ID         | A unique identifier for a patient. This could be any value in an event that separates one patient from another—such as a `Medical Record Number (MRN)`. It is critical that this value is unique—i.e., no two patients have the same value.  | N/A |
 | action            | The action attempted by the employee in the application, regardless of success or failure. | `create`, `read`, `update`, `delete`, `export`, `login`, `logout` |
 | action_description | A description of the action attempted by the employee in the application. | N/A |
