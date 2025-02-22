@@ -1,4 +1,4 @@
-# **Data Guide**
+# **Introduction - Data Guide**
 Welcome to the **Data Guide**! This document provides a structured approach to **getting the right data into Splunk** and ensuring it is **properly normalized** to be fully compatible with the **out-of-the-box use cases** provided in this repository.
 
 Specifically, it touches two data types central to the use cases:
@@ -6,7 +6,7 @@ Specifically, it touches two data types central to the use cases:
 - Identity data
 
 
-## **Getting Application Data Into Splunk**
+## Getting Application Data Into Splunk
 
 Splunk can collect, index, search, correlate, and visualize any data from application, including audit logs from popular clinical applications such as Cosmic, Millenium, and EPIC.
 
@@ -33,7 +33,7 @@ The first step is to understand what logs each application generates, where they
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to **categorize logs appropriately**. For example, an application might generate audit logs across multiple files with the same format, yet different logs may serve distinct purposes within the audit domain. By taking this into account, you can easily filter through the events in Splunk to find the desired subset.
+Additionally, it is essential to **categorize logs appropriately**. For example, an application might generate audit logs across multiple files with the same format, yet different logs may serve distinct purposes within the audit domain. By taking this into account, you can easily filter events in Splunk to find the desired subset.
 
 Rule of thumb when assigning sourcetypes: 
 - If two log files (e.g., F_IX_ACCESS.log and F_IX_ACTIVITY.log) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
@@ -135,15 +135,14 @@ sourcetype = <my_sourcetype>
 ### Introduction
 By now, you’ve likely realized that getting application data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index all log entries as events in their nearly original format with minimal configuration.
 
-Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and standardized values when applicable), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
+Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and values when applicable), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
 
 To get the data normalized, Splunk primarily relies on three main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
 - [Field aliases](https://docs.splunk.com/Splexicon:Alias)
-- [Eval expressions]()
+- [Lookups](https://docs.splunk.com/Documentation/Splunk/latest/Knowledge/Aboutlookupsandfieldactions)
 
 ### What is a Field extraction?
-
 A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering, correlating, and analyzing events. 
 
 For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
@@ -180,7 +179,7 @@ EXTRACT-<class> = <regular expression> #the class is a unique identifier for the
 ### What is a Field Alias?
 A field alias allows you to rename an already extracted field, resulting in the creation of a new field without modifying or replacing the original.
 
-When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names doesn't align with the field names that the out-of-box use cases in this repository expects. To solve this, you can create field aliases to standardize (i.e., normalize) the field names. 
+When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names doesn't align with the field names that the out-of-box use cases and dashboards in this repository expects. To fix this, you can create field aliases to standardize (i.e., normalize) the field names. 
 
 Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
 ```ini
@@ -189,41 +188,23 @@ FIELDALIAS-<class> = <original_field_name> AS <new_field_name> #the class is a u
 ```
 
 ### What Fields Are Needed?
-This repo comes with a number of pre-built [use cases](https://github.com/spettersson/splunk4patientprivacy/tree/0ba9865b121f96078699baeed1dc8db54b535732/use_cases) that expect specific fields with specific values to propely function and shine.
+This repo comes with a number of pre-built use cases and dashboards that expect specific fields to work properly. 
 
 #### Employee and Patient fields
 
-| Field                      | Description                                      |
-|----------------------------|--------------------------------------------------|
-| employee_ID              | A unique identifier for the employee. This could be for example a `username`, `ID number`, or `Social Security Number`. The type used depends on what type of information that is in the logs   |
-| patient_ID              | A unique identifier for the patient. This is typically a `Medical Record Number`     |
-| action_type             | The action type executed by the employee, for example, CREATE, READ, UPDATE, DELETE, EXPORT    |
+| Field name     | Field description  | Field values  |
+|---------------|--------------------------------------------------|--------------------------|
+| employee_ID   | A unique identifier for an employee. This could be any value in an event that separates one employee from another, for example, it could be a `username`, `ID number`, or `Social Security Number`. It is critical that this value is unique—i.e., no two employees have the same value.  | N/A |
+| patient_ID    | A unique identifier for each patient. This could be any value in the events that separates one patient from another, for example, `Medical Record Number`. It is critical that this value is unique—i.e., no two patients have the same value.  | N/A |
+| action_type   | The type of action that was executed by the employee. | `create`, `read`, `update`, `delete`, `export` |
+| object        | The type of object that the employee interacted with. This could, for example, be the page or section of a patient journal that an employee navigated to, or an item an employee deleted. | N/A |
+
+- Note: **N/A** means that no specific naming convention is expected for the field values.
 
 
 
 
 
-
-
-
-- employee_ID
-- employee_SSN
-- employeee_name   
-- employee_role_ID
-- employee_role_name
-- employee_workUnit_ID
-- employee_workUnit_name
-- employee_careProvider_ID
-- employee_careProvider_name
-
-
-- patient_ID
-- patient_SSN
-- patient_name
-- patient_careUnit_ID
-- patient_careUnit_name
-- patient_careProvider_ID
-- patient_careProvider_name
 
 
 
@@ -341,5 +322,25 @@ MAX_TIMESTAMP_LOOKAHEAD = 27
 ```
 
 Then, instruct the Manager Node to deploy the Splunk app to the peer nodes in the cluster by following the steps described [here](https://docs.splunk.com/Documentation/Splunk/9.4.0/Indexer/Updatepeerconfigurations#:~:text=Admin%20Manual.-,Distribute%20the%20configuration%20bundle,the%20peers.%20This%20overwrites%20the%20contents%20of%20the%20peers%27%20current%20bundle.,-1.%20Prepare%20the).
+
+
+- employee_ID
+- employee_SSN
+- employeee_name   
+- employee_role_ID
+- employee_role_name
+- employee_workUnit_ID
+- employee_workUnit_name
+- employee_careProvider_ID
+- employee_careProvider_name
+
+
+- patient_ID
+- patient_SSN
+- patient_name
+- patient_careUnit_ID
+- patient_careUnit_name
+- patient_careProvider_ID
+- patient_careProvider_name
 
 
