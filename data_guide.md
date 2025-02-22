@@ -180,7 +180,7 @@ EXTRACT-aUniqueIdentifierForThisFieldExtraction = ^(?P<my_field_name>\w+)\s
 - `ÈXTRACT` is a type of field extraction. In addition, there are `REPORT` and `TRANSFORMS`. Although REPORT and TRANSFORMS only are used for special cases and thus not likely to be useful, it is possible to read about each type and their differences [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=There%20are%20three,in%20transforms.conf.).
 - The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search.
 - No two field extractions can have the exact same group name, as it will result in field collision.
-- For full 
+- Full explanation of how a field extraction can be defined with EXTRACT can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=EXTRACT%2D%3Cclass%3E%20%3D%20%5B%3Cregex%3E%7C%3Cregex%3E%20in%20%3Csrc_field%3E%5D).
 
 
 ### Field Alias - How Does It Work?
