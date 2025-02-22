@@ -33,7 +33,7 @@ The first step is to understand what logs each application generates, where they
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
 -  What **timestamp format** is used❓
 
-Additionally, it is essential to **categorize logs appropriately**. For example, an application might generate audit logs across multiple files with the same format, yet different logs may serve distinct purposes within the audit domain. By taking this into account, you can easily filter events in Splunk to find the desired subset.
+Additionally, it is essential to **categorize logs appropriately**. For example, an application might generate audit logs across multiple files with the same format, yet different logs may serve distinct purposes within the audit domain. By taking this into account, you can later easily filter events in Splunk to find the desired subset.
 
 Rule of thumb when assigning sourcetypes: 
 - If two log files (e.g., F_IX_ACCESS.log and F_IX_ACTIVITY.log) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
@@ -133,9 +133,13 @@ sourcetype = <my_sourcetype>
 
 
 ### Introduction
-By now, you’ve likely realized that getting application data into Splunk is easy because you don’t need to do the work of defining a schema upfront (known as schema-on-write). You simply index all log entries as events in their nearly original format with minimal configuration.
+By now, you’ve likely realized that getting application data into Splunk is easy because you don’t need to define a schema upfront. Instead, Splunk indexes log entries as events in their nearly original format with minimal configuration.
 
-Splunk dynamically applies a schema to events when a search is run—a concept known as schema-on-read. Essentially, this means that Splunk extracts fields from events at the moment a search is executed, whether manually or as a scheduled background process. Fields can be extracted using standardized names (and values when applicable), effectively normalizing the data. As a result, filtering, correlating, and analyzing events across vendors and applications becomes seamless.
+However, like any other tool, Splunk still requires a schema—the key difference is that Splunk applies one dynamically at search time, a concept known as **schema-on-read**. This means fields are extracted from events only when a search is executed, whether manually or as a scheduled background process.
+
+One major advantage of this approach is flexibility: if you need to modify how fields are extracted or standardized, you can simply redefine them and rerun the search—without needing to re-index the data.
+
+By using standardized field names (and values when applicable), you can effectively normalize data across different sources, making filtering, correlating, and analyzing events across vendors and applications seamless.
 
 To create fields and normalize them, Splunk primarily relies on three main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
@@ -201,14 +205,18 @@ This repo comes with a number of pre-built use cases and dashboards that expect 
 
 #### Employee and Patient fields
 
-| Field name     | Field description  | Field values  |
-|---------------|--------------------------------------------------|--------------------------|
-| employee_ID   | A unique identifier for an employee. This could be any value in an event that separates one employee from another - for example, it could be a `username`, `ID number`, or `Social Security Number`. It is critical that this value is unique—i.e., no two employees have the same value.  | N/A |
-| patient_ID    | A unique identifier for each patient. This could be any value in the events that separates one patient from another - for example, `Medical Record Number`. It is critical that this value is unique—i.e., no two patients have the same value.  | N/A |
-| action_type   | The type of action that was executed by the employee. | `create`, `read`, `update`, `delete`, `export` |
-| object        | The type of object that the employee interacted with. This could, for example, be the page or section of a patient journal that an employee navigated to, or an item an employee deleted. | N/A |
+# Healthcare-Focused Audit Fields
 
-**Note**: `N/A` means that no specific naming convention is expected for the field values.
+| Field name          | Field description  | Field values  |
+|---------------------|--------------------------------------------------|--------------------------|
+| employee_ID        | A unique identifier for an employee. This could be any value in an event that separates one employee from another—such as a `username`, `ID number`, or `National Provider Identifier (NPI)`. It is critical that this value is unique—i.e., no two employees have the same value.  | N/A |
+| patient_ID         | A unique identifier for a patient. This could be any value in an event that separates one patient from another—such as a `Medical Record Number (MRN)`. It is critical that this value is unique—i.e., no two patients have the same value.  | N/A |
+| action            | The action attempted by the employee in the application, regardless of success or failure. | `create`, `read`, `update`, `delete`, `export`, `login`, `logout` |
+| action_description | A description of the action attempted by the employee in the application. | N/A |
+| object            | The name of the object affected by the action. This could, for example, be the page or section of a patient journal that an employee navigated to, or an item an employee deleted. | N/A |
+| status            | The outcome of the action attempted by the employee. | `success`, `failure` |
+
+**Note**: `N/A` means that no specific naming convention is expected for the field values - i.e., vendor-specific
 
 
 
