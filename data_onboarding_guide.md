@@ -136,7 +136,7 @@ The UF needs instructions for what directory or files to monitor and what metada
 
 Example monitor stanza:
 ```ini
-[monitor://<path>]
+[monitor://<fullPathToTail>]
 index = <my_index>
 sourcetype = <my_sourcetype>
 ```
