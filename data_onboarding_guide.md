@@ -217,17 +217,18 @@ For a lookup to work, there must be a common denominator between the event and t
 
 How the normalization works is best illustrated with an example.
 
-Suppose you have a field called `action`, and an event contains the value `removed`. To standardize this value and ensure consistency across different data sources, you want to transform it into `delete`.
+Suppose you have an field called action, extracting values such as `removed` and `DELETED` from events, indicating that employees took action to delete something from a patient’s EHR. To standardize these values and ensure consistency across different data sources, you want to transform these values to `delete`.
 
-This can be achieved using a lookup file called `action_lookup.csv`, which contains the following key-value mappings:
+This can be achieved by running a lookup against a lookup file called `action_lookup.csv`, which contains the following key-value mappings:
 
 | action          | normalized_action |
 |----------------------|-----------------------|
 | removed | delete              |
+| DELETED | delete              |
 
-In this lookup file, `action` holds the **unstandardized values** as they appear in raw events, while `normalized_action` contains the **standardized values**.
+In this lookup file, `action` holds the **unstandardized values** as they appear in events, while `normalized_action` contains the **standardized values**.
 
-By configuring Splunk to perform an automatic lookup at search-time, the `action` values in events will be **replaced with their standardized equivalents** from the lookup file, ensuring data consistency without requiring re-indexing.
+By configuring Splunk to perform an automatic lookup at search-time, the values in the event field `action` will be **replaced with their standardized equivalents** from the lookup file, ensuring data consistency without requiring re-indexing.
 
 Lookup files are created csv format with a .csv extension in `./<my_TA>/lookups/` and the lookups are defined in a sourcetype stanza in `./<my_TA>/default/props.conf`
 
