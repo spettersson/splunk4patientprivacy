@@ -217,7 +217,7 @@ For a lookup to work, there must be a common denominator between the event and t
 
 How the normalization works is best illustrated with an example.
 
-Suppose you have a field called `action_type`, and an event contains the value `removed`. To standardize this value and ensure consistency across different data sources, you want to transform it into `delete`.
+Suppose you have a field called `action`, and an event contains the value `removed`. To standardize this value and ensure consistency across different data sources, you want to transform it into `delete`.
 
 This can be achieved using a lookup file called `action_lookup.csv`, which contains the following key-value mappings:
 
@@ -225,7 +225,7 @@ This can be achieved using a lookup file called `action_lookup.csv`, which conta
 |----------------------|-----------------------|
 | removed | delete              |
 
-In this lookup file, `action_type` holds the **unstandardized values** as they appear in raw events, while `normalized_action` contains the **standardized values**.
+In this lookup file, `action` holds the **unstandardized values** as they appear in raw events, while `normalized_action` contains the **standardized values**.
 
 By configuring Splunk to perform an automatic lookup at search-time, the `action` values in events will be **replaced with their standardized equivalents** from the lookup file, ensuring data consistency without requiring re-indexing.
 
