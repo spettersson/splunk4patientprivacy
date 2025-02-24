@@ -104,13 +104,13 @@ It is recommended to always run tests to validate that each individual sourcetyp
 
 #### **5. Create a Sourcetype**
 
-It is recommended to create a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations designed to assist with collecting, parsing, normalizing, and enriching data.
+It is recommended to create a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations (and sometimes scripts) that extends Splunk with additional functionality. Although add-ons can serve a variety of purposes, a **Technical Add-on (TA)** is specifically designed to assist with collecting, parsing, and normalizing data from specific sources.
 
-While it’s technically possible to create all sourcetypes for all applications from all vendors in a single add-on, best practice is to (as a bare minimum) create one add-on for each vendor. This improves manageability and makes it easier to maintain configurations. 
+While it’s technically possible to create all sourcetypes for all applications from all vendors in a single TA, best practice is to (as a bare minimum) create one unique TA for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
-To create an add-on locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
+To create an TA locally on your host, execute the following [bash script](https://github.com/spettersson/splunk4patientprivacy/blob/92e977ac752a40383dad873b391d34c68046172b/scripts/create_addon.sh).
 
-Subsequently, to create a sourcetype, navigate to `<my_addon>/defaulf/props.conf` and add a stanza as shown below:
+Subsequently, to create a sourcetype, navigate to `<my_TA>/defaulf/props.conf` and add a stanza as shown below:
 
 ```ini
 [<my_sourcetype>]
@@ -129,7 +129,7 @@ When Splunk receives logs, it needs information about which sourcetype to assign
 
 A common scenario is that the application you want to collect logs from writes logs to multiple files in a human-readable format, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that tails log files, sending historical entries once and continuously forwarding any new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
-The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign, and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs from e.g., Cambio Cosmic, navigate to `<my_addon>/default/inputs.conf` and add one stanza per sourcetype. If you’ve already mapped out which log file should be assigned which sourcetype, this step is straightforward. 
+The UF needs instructions for what directory or files to monitor and what metadata to add to those logs (e.g., which sourcetype to assign, and in what Splunk [index](https://docs.splunk.com/Splexicon:Index) to store the logs). This is defined in the configuration file [inputs.conf](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Inputsconf). If you are collecting logs from e.g., Cambio Cosmic, navigate to `<my_TA>/default/inputs.conf` and add one stanza per sourcetype. If you’ve already mapped out which log file should be assigned which sourcetype, this step is straightforward. 
 
 Example monitor stanza:
 ```ini
@@ -163,7 +163,7 @@ A field extraction is the process of Splunk extracting values matching a specifi
 
 For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
-As field extractions are typically scoped to a specific sourcetype, they are defined in `<my_addon>/default/props.conf` within the sourcetype stanza. However, **the exact method for defining field extractions depends on the event structure**.
+As field extractions are typically scoped to a specific sourcetype, they are defined in `<my_TA>/default/props.conf` within the sourcetype stanza. However, **the exact method for defining field extractions depends on the event structure**.
 
 
 For JSON and XML, setting KV_MODE enables automatic field extraction, where Splunk treats each key-value pair in each event as a field::value pair. The key names become the field names in Splunk.
@@ -197,11 +197,11 @@ EXTRACT-aUniqueIdentifierForThisFieldExtraction = ^(?P<my_field_name>\w+)\s
 
 
 ### Field Alias - How Does It Work?
-A field alias allows you to rename an already extracted field, resulting in the creation of a new field without modifying or replacing the original.
-
 When Splunk automatically extracts fields, the field names are based on the keys in the events. Chances are that these field names doesn't align with the field names that the out-of-box use cases and dashboards in this repository expects. To fix this, you can create field aliases to standardize (i.e., normalize) the field names. 
 
-Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_addon>/default/props.conf` within the sourcetype stanza. 
+A field alias allows you to rename an already extracted field, resulting in the creation of a new field without modifying or replacing the original.
+
+Just like field extractions, field aliseses are typically scoped to a specific sourcetype and thus defined in `<my_TA>/default/props.conf` within the sourcetype stanza. 
 ```ini
 [my_sourcetype]
 FIELDALIAS-aUniqueIdentifierForThisFieldAlias = original_field_name AS new_field_name 
@@ -229,7 +229,7 @@ In this lookup file, `action_type` holds the **unstandardized values** as they a
 
 By configuring Splunk to perform an automatic lookup at search-time, the `action` values in events will be **replaced with their standardized equivalents** from the lookup file, ensuring data consistency without requiring re-indexing.
 
-Lookup files are created csv format with a .csv extension in `./<my-addon>/lookups/` and the lookups are defined in a sourcetype stanza in `./<my-addon>/default/props.conf`
+Lookup files are created csv format with a .csv extension in `./<my_TA>/lookups/` and the lookups are defined in a sourcetype stanza in `./<my_TA>/default/props.conf`
 
 ```ini
 [my_sourcetype]
