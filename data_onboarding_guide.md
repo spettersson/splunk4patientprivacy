@@ -121,7 +121,10 @@ TIME_PREFIX = <regular expression>
 TIME_FORMAT = <strptime-format>
 MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
-**Note**: each sourcetype requires its own stanza. 
+**Note**: 
+- Each sourcetype requires its own stanza.
+- What you but inbetween the backets [] will become the sourcetype name
+- Recommended sourcetype naming convention is <vendor>:<technology>:<category> - for example, cambio:cosmic:audit
 
 #### **6. Assign the Right Sourcetype to the Right Logs**
 
