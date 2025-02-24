@@ -123,8 +123,8 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 ```
 **Note**: 
 - Each sourcetype requires its own stanza.
-- What you but inbetween the backets [] will become the sourcetype name
-- Recommended sourcetype naming convention is <vendor>:<technology>:<category> - for example, cambio:cosmic:audit
+- What is specified inbetween the square brackets [`...`] will become the sourcetype name.
+- Recommended sourcetype naming convention is `<vendor>:<technology>:<category>` - for example, `cambio:cosmic:audit`.
 
 #### **6. Assign the Right Sourcetype to the Right Logs**
 
