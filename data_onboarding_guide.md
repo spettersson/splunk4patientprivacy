@@ -11,8 +11,8 @@ By going through this guide, you should have that "**Aha! Now I get it**" moment
 ## Data sources
 It is important to early on highlight that the use cases and dashboards in this repository depend on two data sources categories, i.e.:
 - EHR application data
-- Authentication data
 - Identity data
+- Authentication data
 
 
 
