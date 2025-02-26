@@ -159,12 +159,12 @@ One major advantage of this approach is flexibility: if you need to modify how f
 By using standardized field names (and values when applicable), you can effectively normalize data across different sources, making filtering, correlating, and analyzing events across vendors and applications seamless.
 
 To create fields and normalize them, Splunk primarily relies on three main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
-- [Field extractions](https://docs.splunk.com/Splexicon:Fieldextraction)
-- [Field aliases](https://docs.splunk.com/Splexicon:Alias)
-- [Lookups](https://docs.splunk.com/Documentation/Splunk/latest/Knowledge/Aboutlookupsandfieldactions)
+- [Field extraction](https://docs.splunk.com/Splexicon:Fieldextraction)
+- [Field alias](https://docs.splunk.com/Splexicon:Alias)
+- [Calculated field](https://docs.splunk.com/Splexicon:Calculatedfield)
 
 ### Field Extraction - How Does It Work?
-A field extraction is the process of Splunk extracting values matching a specific pattern within events and mapping them to a defined field name. This results in field::value pairs, which can be referenced in searches for filtering, correlating, and analyzing events. 
+A field extraction is the process of Splunk extracting values matching specific patterns within events and mapping them to defined field names. This results in field::value pairs, which can be referenced in searches for filtering, correlating, and analyzing events. 
 
 For example, you might have a sourcetype with events that provide information about an employee's ID. You can then create a field that extracts the ID from each event and then maps it to a field named employee_ID. You can then search for events matching a specific employee ID by referencing the field:value pair ```employee_ID=123456789```. Although you could simply search for ```123456789``` as a keyword (since Splunk is like Google, but for logs), this might return irrelevant results - as other events could contain the same number but not be related to an employee ID. You can also reference the field in a SPL command to count the number of events seen during a specific time period by each individual ID, like ```| stats count by employee_ID```.
 
@@ -192,7 +192,7 @@ For events without a clear structure—where there are no obvious key-value pair
 
 ```ini
 [my_sourcetype]
-EXTRACT-aUniqueIdentifierForThisFieldExtraction = ^(?P<my_field_name>\w+)\s
+EXTRACT-aUniqueIdentifierForThisFieldExtraction = ^(?P<my_field_name_1>\w+)\s(?P<my_field_name_2>\d+\.\d+\.\d+\.\d+)$
 ```
 **Note:** 
 - `ÈXTRACT` is a type of field extraction. In addition, there are `REPORT` and `TRANSFORMS`. Although REPORT and TRANSFORMS only are used for special cases and thus not likely to be useful, it is possible to read about each type and their differences [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=There%20are%20three,in%20transforms.conf.).
@@ -214,35 +214,8 @@ FIELDALIAS-aUniqueIdentifierForThisFieldAlias = original_field_name AS new_field
 **Note**: 
 - A full explanation for how to define a field alias in props.conf is found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=FIELDALIAS%2D%3Cclass%3E%20%3D%20(%3Corig_field_name%3E%20AS%7CASNEW%20%3Cnew_field_name%3E)%2B).
 
-### Lookup - How Does It Work?
+### Calculated Field - How Does It Work?
 
-Using lookups is an easy and flexible way to bring field values to a common standard. Lookups enrich events at search-time by mapping key-value pairs from a lookup file (e.g., a CSV file) to event fields. 
-
-For a lookup to work, there must be a common denominator between the event and the lookup file — specifically, a matching field-value pair. When a match is found, Splunk can either enrich events by adding new fields from the lookup file or modifying an existing event field by replacing existing values with standardized (i.e. normalized) ones. 
-
-How the normalization works is best illustrated with an example.
-
-Suppose you have an field called action, extracting values such as `removed` and `DELETED` from events, indicating that employees took action to delete something from a patient’s EHR. To standardize these values and ensure consistency across different data sources, you want to transform these values to `delete`.
-
-This can be achieved by running a lookup against a lookup file called `action_lookup.csv`, which contains the following key-value mappings:
-
-| action          | normalized_action |
-|----------------------|-----------------------|
-| removed | delete              |
-| DELETED | delete              |
-
-In this lookup file, `action` holds the **unstandardized values** as they appear in events, while `normalized_action` contains the **standardized values**.
-
-By configuring Splunk to perform an automatic lookup at search-time, the values in the event field `action` will be **replaced with their standardized equivalents** from the lookup file, ensuring data consistency without requiring re-indexing.
-
-Lookup files are created csv format with a .csv extension in `./<my_TA>/lookups/` and the lookups are defined in a sourcetype stanza in `./<my_TA>/default/props.conf`
-
-```ini
-[my_sourcetype]
-LOOKUP-aUniqueIdentifierForThisLookup = action_lookup.csv action OUTPUT normalized_action AS action
-```
-**Note:**
-- A full explanation for how to define a lookup in props.conf is found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=LOOKUP%2D%3Cclass%3E%20%3D%20%24TRANSFORM%20(%3Cmatch_field%3E%20(AS%20%3Cmatch_field_in_event%3E)%3F)%2B%20(OUTPUT%7COUTPUTNEW%20(%3Coutput_field%3E%20(AS%20%3Coutput_field_in_event%3E)%3F%20)%2B%20)%3F).
 
 
 ### What Fields Are Needed?
@@ -401,5 +374,37 @@ Then, instruct the Manager Node to deploy the Splunk app to the peer nodes in th
 - patient_careUnit_name
 - patient_careProvider_ID
 - patient_careProvider_name
+
+
+
+### Lookup - How Does It Work?
+
+Using lookups is an easy and flexible way to bring field values to a common standard. Lookups enrich events at search-time by mapping key-value pairs from a lookup file (e.g., a CSV file) to event fields. 
+
+For a lookup to work, there must be a common denominator between the event and the lookup file — specifically, a matching field-value pair. When a match is found, Splunk can either enrich events by adding new fields from the lookup file or modifying an existing event field by replacing existing values with standardized (i.e. normalized) ones. 
+
+How the normalization works is best illustrated with an example.
+
+Suppose you have an field called action, extracting values such as `removed` and `DELETED` from events, indicating that employees took action to delete something from a patient’s EHR. To standardize these values and ensure consistency across different data sources, you want to transform these values to `delete`.
+
+This can be achieved by running a lookup against a lookup file called `action_lookup.csv`, which contains the following key-value mappings:
+
+| action          | normalized_action |
+|----------------------|-----------------------|
+| removed | delete              |
+| DELETED | delete              |
+
+In this lookup file, `action` holds the **unstandardized values** as they appear in events, while `normalized_action` contains the **standardized values**.
+
+By configuring Splunk to perform an automatic lookup at search-time, the values in the event field `action` will be **replaced with their standardized equivalents** from the lookup file, ensuring data consistency without requiring re-indexing.
+
+Lookup files are created csv format with a .csv extension in `./<my_TA>/lookups/` and the lookups are defined in a sourcetype stanza in `./<my_TA>/default/props.conf`
+
+```ini
+[my_sourcetype]
+LOOKUP-aUniqueIdentifierForThisLookup = action_lookup.csv action OUTPUT normalized_action AS action
+```
+**Note:**
+- A full explanation for how to define a lookup in props.conf is found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=LOOKUP%2D%3Cclass%3E%20%3D%20%24TRANSFORM%20(%3Cmatch_field%3E%20(AS%20%3Cmatch_field_in_event%3E)%3F)%2B%20(OUTPUT%7COUTPUTNEW%20(%3Coutput_field%3E%20(AS%20%3Coutput_field_in_event%3E)%3F%20)%2B%20)%3F).
 
 
