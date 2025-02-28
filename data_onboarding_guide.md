@@ -6,7 +6,7 @@ Rather than detailing configurations needed for every possible data source — w
 - Key Splunk concepts
 - Best practices
 
-By going through this guide, you should have that "**Aha! Now I get it**" moment where (almost) everything clicks and you feel confident getting started. If that doesn't happen, then message the authors (or your friendly neighborhood Splunk Solutions Engineer) right away.
+By going through this guide, you should have that "**Aha! Now I get it**" moment where (almost) everything clicks and you feel confident getting started. If that doesn't happen, then contact the authors (or your friendly neighborhood Splunk Solutions Engineer) right away.
 
 P.S. This guide does not remove the need for proper Splunk Education.
 ## Data sources
@@ -34,8 +34,12 @@ To handle the wide variety of log formats — whether from different application
 
 A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk how to perform index-time processing, specifically by determining:
 
-- How log entries are separated into individual events
+- How log entries are broken into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
+
+In addition, a sourcetype also influences search-time processing, helping Splunk structure logs (which become "events" once indexed) to ease filtering, correlation, and analysis.
+
+For a deeper dive into search-time processing and exactly what "structuring logs" means, see the "Normalization of Application Data" section.
 
 ### **How is a Sourcetype Created and Assigned to the Right Logs?**
 
