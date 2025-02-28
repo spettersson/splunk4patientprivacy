@@ -8,7 +8,7 @@ Rather than detailing configurations needed for every possible data source — w
 
 By going through this guide, you should have that "**Aha! Now I get it**" moment where (almost) everything clicks and you feel confident getting started. If that doesn't happen, then message the authors (or your friendly neighborhood Splunk Solutions Engineer) right away.
 
-P.S. This does not remove the need for proper Splunk Education.
+P.S. This guide does not remove the need for proper Splunk Education.
 ## Data sources
 It is important to early on highlight that the use cases and dashboards in this repository depend on two data sources categories, i.e.:
 - EHR application data
