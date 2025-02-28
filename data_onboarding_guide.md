@@ -46,15 +46,19 @@ The first step is to understand what logs each application generates, where they
 -  Are the logs **structured** (csv, json, xml), **unstructured** (free-text), or a combination❓ 
 -  Does each log entry consist of a **single line** or **multiple lines**❓ 
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
--  What **timestamp format** is used❓
+-  What **format** does the timestamp have that indicates the point in time when the log entry was generated at source?
 
 Additionally, it is essential to **categorize logs appropriately**. For example, an application might generate audit logs across multiple files with the same format, yet different logs may serve distinct purposes within the audit domain. By taking this into account, you can later easily filter events in Splunk to find the desired subset.
 
 Rule of thumb when assigning sourcetypes: 
-- If two log files (e.g., F_IX_ACCESS.log and F_IX_ACTIVITY.log) from the same application (e.g., Cambio Cosmic) have different formats → Assign each log file a unique sourcetype.
-- If two log files from the same application have the same format, but falls into two different log categories → Assign each log source a unique sourcetype.
-- If two log files from the same application have the same format, and falls into the same log category → Assign both log sources the same sourcetype.
-- If two log files from different applications have the same format → Assign each log source a unique sourcetype.
+| Application     | Format   | Category   | Sourcetype |
+|----------------|----------|------------|------------|
+| Same  | Different | Different  | Different  |
+| Same  | Same      | Different  | Different  |
+| Different | Same      | Same       | Different  |
+| Same  | Same      | Same       | Same       |
+
+
 
 #### **2. Define How a Sourcetype Does Event Line-Breaking**
 
