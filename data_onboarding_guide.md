@@ -40,9 +40,9 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) instructs Splunk ho
 - How log entries are broken into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
-In addition, a sourcetype also influences search-time processing, helping Splunk structure logs (which become "events" once indexed) to ease filtering, correlation, and analysis.
+In addition, a sourcetype also influences search-time processing, helping Splunk structure logs (which become "events" once indexed) to ease filtering, correlation, and analysis. For a deeper dive into search-time processing and exactly what normalization means, see the "Normalization of Application Data" section.
 
-For a deeper dive into search-time processing and exactly what "structuring logs" means, see the "Normalization of Application Data" section.
+Not only this, it also 
 
 ### **How is a Sourcetype Created and Assigned to the Right Logs?**
 
@@ -137,7 +137,7 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 **Note**: 
 - Each sourcetype requires its own stanza.
 - What is specified inbetween the square brackets [`...`] will become the sourcetype name.
-- Recommended sourcetype naming convention is `<vendor>:<solution>:<module>:<format>` - for example, `cambio:cosmic:birth:`.
+- Splunk recommends the source type naming convention <vendor>:<product>:<technology>:<format>. Simplified, this follows the structure <vendor>:<solution>:<module>:<logtype>. For example, cambio:cosmic:birth:access or cambio:cosmic:birth:activity categorize logs from the Cambio COSMIC Birth module based on their specific data type.
 
 #### **6. Assign the Right Sourcetype to the Right Logs**
 
