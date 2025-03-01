@@ -117,7 +117,7 @@ It is recommended to always run tests to validate that each individual sourcetyp
 
 #### **5. Create a Sourcetype**
 
-It is recommended to create a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a repository for configurations (and sometimes scripts) that extends Splunk with additional functionality. Although add-ons can serve a variety of purposes, a **Technical Add-on (TA)** is specifically designed to assist with collecting, parsing, and normalizing data from specific sources.
+It is recommended to define and store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a folder for configurations (and sometimes scripts) that when brought into Splunk extends it with additional functionality. Although add-ons can serve a variety of purposes, a **Technical Add-on (TA)** is specifically designed to assist with collecting, parsing, and normalizing data from specific sources.
 
 While it’s technically possible to create all sourcetypes for all applications from all vendors in a single TA, best practice is to (as a bare minimum) create one unique TA for each vendor. This improves manageability and makes it easier to maintain configurations. 
 
