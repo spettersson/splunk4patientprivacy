@@ -10,6 +10,9 @@ By going through this guide, you should have that "**Aha! Now I get it**" moment
 
 Observe! This guide does not remove the need for proper Splunk Education.
 ## Data sources
+
+TO DO: explain the importance of each "data category" and how they work together to give us the complete view laying the foundation for proper analytics
+
 It is important to early on highlight that the use cases and dashboards in this repository depend on two data sources categories, i.e.:
 - EHR application data
 - Identity data
@@ -134,7 +137,7 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 **Note**: 
 - Each sourcetype requires its own stanza.
 - What is specified inbetween the square brackets [`...`] will become the sourcetype name.
-- Recommended sourcetype naming convention is `<vendor>:<technology>:<category>` - for example, `cambio:cosmic:audit`.
+- Recommended sourcetype naming convention is `<vendor>:<solution>:<module>:<format>` - for example, `cambio:cosmic:birth:`.
 
 #### **6. Assign the Right Sourcetype to the Right Logs**
 
