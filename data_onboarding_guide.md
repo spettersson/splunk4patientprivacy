@@ -8,7 +8,7 @@ Rather than detailing configurations needed for every possible data source — w
 
 By going through this guide, you should have that "**Aha! Now I get it**" moment where (almost) everything clicks and you feel confident getting started. If that doesn't happen, then contact the authors (or your friendly neighborhood Splunk Solutions Engineer) right away.
 
-P.S. This guide does not remove the need for proper Splunk Education.
+Observe! This guide does not remove the need for proper Splunk Education.
 ## Data sources
 It is important to early on highlight that the use cases and dashboards in this repository depend on two data sources categories, i.e.:
 - EHR application data
@@ -23,7 +23,7 @@ It is important to early on highlight that the use cases and dashboards in this 
 
 ## Getting Data From EHR Applications Into Splunk
 
-Splunk can collect, index, search, correlate, and visualize any data from application, including logs from popular EHR applications such as Cosmic, Millenium, and EPIC.
+Splunk can collect, index, search, correlate, and visualize any data from application, including logs from popular EHR applications offered by vendors such as Cambio, Cerner, and EPIC.
 
 When onboarding logs from a new application, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally written to an index as individual events - where each event represents something that happened at a specific point in time.
 
@@ -205,7 +205,7 @@ EXTRACT-aUniqueIdentifierForThisFieldExtraction = ^(?P<my_field_name_1>\w+)\s(?P
 **Note:** 
 - `ÈXTRACT` is a type of field extraction. In addition, there are `REPORT` and `TRANSFORMS`. Although REPORT and TRANSFORMS only are used for special cases and thus not likely to be useful, it is possible to read about each type and their differences [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=There%20are%20three,in%20transforms.conf.).
 - The regular expression for each `EXTRACT` must include a capturing group. Only the portion that matches the capturing group will be assigned as the field value, and the group name will become the field name that can be referenced in a search.
-- No two field extractions can have the exact same group name, as it will result in field collision.
+- No capturing groups can have the same group name (i.e. field names) and that goes for both within the same and separate EXTRACT defintions, as it will result in field collision. Note that this is only the case for the same sourcetype, not for different sourcetypes.
 - Full explanation of how a field extraction can be defined with EXTRACT can be found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=EXTRACT%2D%3Cclass%3E%20%3D%20%5B%3Cregex%3E%7C%3Cregex%3E%20in%20%3Csrc_field%3E%5D).
 
 
