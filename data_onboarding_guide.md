@@ -137,11 +137,11 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 **Note**: 
 - Each sourcetype requires its own stanza.
 - What is specified inbetween the square brackets [`...`] will become the sourcetype name.
-- Splunk recommends the source type naming convention <vendor>:<product>:<technology>:<format>. Simplified, this follows the structure <vendor>:<application>:<module>:<logtype>. For example, cambio:cosmic:birth:access or cambio:cosmic:birth:activity categorize logs from the Cambio COSMIC Birth module based on their specific data type.
+- Splunk recommends the source type naming convention `<vendor>:<product>:<technology>:<format>`. Simplified, this follows the structure `<vendor>:<application>:<module>:<logtype>`. For example, cambio:cosmic:birth:access or cambio:cosmic:birth:activity categorize logs from the Cambio COSMIC Birth module based on their specific data type.
 
 #### **6. Assign the Right Sourcetype to the Right Logs**
 
-When Splunk receives logs, it needs information about which sourcetype to assign to which logs. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype metadata which subsequently is carried over with the logs when sent to Splunk. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the application in question. 
+When Splunk receives logs, it needs information about which sourcetype to assign to which logs. This is typically done by the collection mechanism (e.g., [Splunk Universal Forwarder](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Abouttheuniversalforwarder)/[HTTP Event Collector](https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector)) assigning sourcetype labels which subsequently is carried over with the logs when sent to Splunk. How this assignment is done depends on the collection mechanism used, which in turn depends on how logs can be accessed from the application in question. 
 
 A common scenario is that the application you want to collect logs from writes logs to multiple files in a human-readable format, which can then be collected by a Splunk Universal Forwarder (UF). A UF is a lightweight agent that tails log files, sending historical entries once and continuously forwarding any new log entries to Splunk. Unlike many other agents, a UF is designed to do minimal processing, focusing solely on reading log files and sending them unaltered to Splunk. 
 
