@@ -167,7 +167,7 @@ However, like any other tool, Splunk still requires a schema—the key differenc
 
 One major advantage of this approach is flexibility: if you need to modify how fields are extracted or formatted, you can simply redefine them and rerun the search—without needing to re-index the data.
 
-By using standardized field names (and values when applicable), you can effectively normalize data across different sources, making filtering, correlating, and analyzing events across vendors and applications seamless.
+By using standardized field names (and values when applicable), you can effectively normalize data across different sources, making filtering, correlating, and analyzing events across vendors, applications, and modules seamless.
 
 To create fields and normalize them, Splunk primarily relies on three main [knowledge object types](https://docs.splunk.com/Splexicon:Knowledgeobject):
 - [Field extraction](https://docs.splunk.com/Splexicon:Fieldextraction)
