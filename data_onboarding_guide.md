@@ -35,7 +35,7 @@ To handle the wide variety of log formats — whether from different application
 
 ### **What is a Sourcetype?**
 
-A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is metadata which instructs Splunk how to perform index-time processing, specifically by determining:
+A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is classification label which instructs Splunk how to perform index-time processing, specifically by determining:
 
 - How log entries are broken into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
