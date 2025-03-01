@@ -1,5 +1,5 @@
 ## **Introduction**
-Welcome to this Data Onboarding Guide! This document is designed to help you get the right data into Splunk and ensure it is properly parsed and normalized, making it fully compatible with the out-of-the-box use cases and dashboards included in this repository.
+Welcome to this Data Onboarding Guide! This document is designed to help you get the right data into Splunk and ensure it is properly parsed, structured, and normalized, making it fully compatible with the out-of-the-box use cases and dashboards included in this repository.
 
 Rather than detailing configurations needed for every possible data source — which would be impractical due to the wide variety of data sources — this guide focuses on:
 - Key steps in the data onboarding process
@@ -26,7 +26,7 @@ It is important to early on highlight that the use cases and dashboards in this 
 
 ## Getting Data From EHR Applications Into Splunk
 
-Splunk can collect, index, search, correlate, and visualize any data from application, including logs from popular EHR applications offered by vendors such as Cambio, Cerner, and EPIC.
+Splunk can collect, index, search, correlate, and visualize any data from any application, including logs from popular EHR applications offered by vendors such as Cambio, Cerner, and EPIC.
 
 When onboarding logs from a new application, it is crucial to provide Splunk with proper configurations to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally written to an index as individual events - where each event represents something that happened at a specific point in time.
 
@@ -35,12 +35,12 @@ To handle the wide variety of log formats — whether from different application
 
 ### **What is a Sourcetype?**
 
-A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is classification label which instructs Splunk how to perform index-time processing, specifically by determining:
+A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is classification label that holds a set of configurations which instructs Splunk how to perform index-time processing, specifically by determining:
 
 - How log entries are broken into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
-In addition, a sourcetype also influences search-time processing, helping Splunk structure and normalize logs (which is referred to as "events" once indexed) to ease filtering, correlation, and analysis. For a deeper dive into search-time processing and exactly what this means, see the "Normalization of Application Data" section.
+In addition, a sourcetype also influences search-time processing, helping Splunk structure and normalize logs (remember: logs are referred to as "events" once indexed) to ease filtering, correlation, and analysis. For a deeper dive into search-time processing and exactly what this means, see the "Normalization of Application Data" section.
 
 Not only this, sourcetypes also enable efficient searching and retrieval of events, allowing users to quickly filter and analyze specific data sources or subsets.
 
@@ -53,9 +53,9 @@ The first step is to understand what logs each application generates, where they
 -  Are the logs **structured** (csv, json, xml), **unstructured** (free-text), or a combination❓ 
 -  Does each log entry consist of a **single line** or **multiple lines**❓ 
 -  What **delimiter** separates log entries (i.e, what indicates the end and start of a new log entry)❓ 
--  What **format** does the timestamp have that indicates the point in time when the log entry was generated at source?
+-  What **format** does the timestamp have that indicates the point in time when the log entry was generated at source❓
 
-Additionally, it is essential to **categorize logs appropriately**. For example, an application might generate audit logs across multiple files with the same format, yet different logs may serve distinct purposes within the audit domain. By taking this into account, you can later easily filter events in Splunk to find the desired subset.
+Additionally, it is essential to **categorize logs appropriatel**y. Even within the same vendor, solution, and module combination, multiple log files may exist with the same format but belong to different categories. Proper categorization ensures that events can be easily filtered in Splunk, allowing users to efficiently find the desired subset of data.
 
 Rule of thumb when assigning sourcetypes: 
 | Application     | Format   | Category   | Sourcetype |
