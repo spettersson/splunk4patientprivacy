@@ -65,7 +65,7 @@ The first step is to understand what logs each application generates, where they
 Additionally, it is essential to consider the **content of the logs** to determine whether they fall into different categories and to categorize them appropriately. Even within the same vendor, application, and module combination, multiple sources (e.g., two log files) may share the same log format but contain different content, requiring them to be categorized separately. Proper categorization ensures that events can be easily filtered in Splunk, allowing users to efficiently find the desired subset of data.
 
 Rule of thumb when assigning sourcetypes: 
-| Vendor/Application/Module     | Format   | Category   | Sourcetype |
+| Vendor/Application/Module     | Log Format   | Category   | Sourcetype |
 |----------------|----------|------------|------------|
 | Same  | Different | Different  | Different  |
 | Same  | Same      | Different  | Different  |
@@ -144,7 +144,7 @@ MAX_TIMESTAMP_LOOKAHEAD = <integer>
 **Note**: 
 - Each sourcetype requires its own stanza.
 - What is specified inbetween the square brackets [`...`] will become the sourcetype name.
-- Splunk recommends the source type naming convention `<vendor>:<product>:<technology>:<format>`. Simplified, this follows the structure `<vendor>:<application>:<module>:<logtype>`. For example, cambio:cosmic:birth:access or cambio:cosmic:birth:activity categorize logs from the Cambio COSMIC Birth module based on their specific data type.
+- Splunk recommends the source type naming convention `<vendor>:<product>:<technology>:<format>`. Simplified, this follows the structure `<vendor>:<application>:<module>:<category>`. For example, cambio:cosmic:birth:access or cambio:cosmic:birth:activity categorize logs from the Cambio COSMIC Birth module based on their specific data type.
 
 #### **6. Assign the Right Sourcetype to the Right Logs**
 
