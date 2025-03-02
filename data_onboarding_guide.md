@@ -32,7 +32,7 @@ When onboarding logs from a new application, it is important to provide Splunk w
 
 Splunk also needs instructions on how to structure and normalize the logs for analysis. This process is referred to as **search-time processing**, which occurs from the moment a Splunk search is initiated until it has successfully completed.
 
-To handle the wide variety of log formats — whether from different applications or variations within the same application — Splunk assigns each log format a unique **sourcetype**, ensuring that index-time and search-time processing is tailored accordingly.
+To handle the wide variety of log formats — whether from different applications or variations within the same application — Splunk assigns each log format a unique **sourcetype**, ensuring that index-time and search-time processing instructions are tailored accordingly.
 
 
 ### **What is a Sourcetype?**
