@@ -30,6 +30,8 @@ Splunk can collect, index, search, correlate, and visualize any data from any ap
 
 When onboarding logs from a new application, it is crucial to provide Splunk with proper instructions to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally written to an index as individual events - where each event represents something that happened at a specific point in time.
 
+In addition, Splunk also need instruction for how to structure and normalize the logs. This process is referred to as **search-time processing**, which occurs between the moment that a Splunk search is initiated until it is completed.
+
 To handle the wide variety of log formats — whether from different applications or variations within the same application — Splunk assigns each log format a unique **sourcetype**, ensuring that index-time processing is tailored accordingly.
 
 
