@@ -1,5 +1,5 @@
 ## **Introduction**
-Welcome to this Data Onboarding Guide! This document is designed to help you get the right data into Splunk and ensure it is properly parsed, structured, and normalized, making it fully compatible with the out-of-the-box use cases and dashboards included in this repository.
+Welcome to this Data Onboarding Guide! This document is designed to help you get the right data into Splunk and ensure it is properly parsed, indexed, and normalized, making it fully compatible with the out-of-the-box use cases and dashboards included in this repository.
 
 Rather than detailing configurations needed for every possible data source — which would be impractical due to the wide variety of data sources — this guide focuses on:
 - Key steps in the data onboarding process
