@@ -108,7 +108,7 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-#### **4. Validate the Sourcetype**
+#### **4. Validate Index-time Configurations**
 
 It is recommended to always run tests to validate that each individual sourcetype works as intended before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
