@@ -44,7 +44,6 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is classification l
 
 In addition, a sourcetype also influences search-time processing, helping Splunk to structure and normalize logs (remember: logs are referred to as "events" once indexed) to ease filtering, correlation, and analysis. For a deeper dive into search-time processing and exactly what this means, see the "Normalization of Application Data" section.
 
-Not only this, sourcetypes also enable efficient searching and retrieval of events, allowing users to quickly filter and analyze specific data sources or subsets.
 
 ### **How is a Sourcetype Created?**
 
@@ -424,6 +423,4 @@ Lookup files are created csv format with a .csv extension in `./<my_TA>/lookups/
 LOOKUP-aUniqueIdentifierForThisLookup = action_lookup.csv action OUTPUT normalized_action AS action
 ```
 **Note:**
-- A full explanation for how to define a lookup in props.conf is found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=LOOKUP%2D%3Cclass%3E%20%3D%20%24TRANSFORM%20(%3Cmatch_field%3E%20(AS%20%3Cmatch_field_in_event%3E)%3F)%2B%20(OUTPUT%7COUTPUTNEW%20(%3Coutput_field%3E%20(AS%20%3Coutput_field_in_event%3E)%3F%20)%2B%20)%3F).
-
-
+- A full explanation for how to define a lookup in props.conf is found [here](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Propsconf#:~:text=LOOKUP%2D%3Cclass%3E%20%3D%20%24TRANSFORM%20(%3Cmatch_field%3E%20(AS%20%3Cmatch_field_in_event%3E)%3F)%2B%20(OUTPUT%7COUTPUTNEW%20(%3Coutput_field%3E%20(AS%20%3Coutput_field_in_event%3E)%3F%20)%2B%20)%3F).Not only this, sourcetypes also enable efficient searching and retrieval of events, allowing users to quickly filter and analyze specific data sources or subsets.
