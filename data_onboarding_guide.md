@@ -44,8 +44,9 @@ In addition, a sourcetype also influences search-time processing, helping Splunk
 
 Not only this, sourcetypes also enable efficient searching and retrieval of events, allowing users to quickly filter and analyze specific data sources or subsets.
 
-### **How is a Sourcetype Created and Assigned to the Right Logs?**
+### **How is a Sourcetype Created?**
 
+The creation of a sourcetype involves the work of defintion the sourcetype, dedice where to store it, and labeling the right logs with the right logs. 
 #### **1. Get to know your logs**
 
 The first step is to understand what logs each application generates, where they are stored, and in what format. When analyzing the **log formats**, it is important to consider the following:
