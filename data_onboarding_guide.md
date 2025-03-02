@@ -47,6 +47,7 @@ The process of creating a sourcetype involves the following fundamental steps:
 3. Define and validate search-time processing configurations.
 4. Store the sourcetype
 5. Assign the sourcetype
+6. Validate
 
 #### **1. Get to Know The Characteristics of Your Logs**
 
