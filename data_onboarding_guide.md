@@ -37,13 +37,7 @@ To handle the wide variety of log formats — whether from different application
 
 ### **What is a Sourcetype?**
 
-A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification label that holds a set of configurations which instructs Splunk how to perform index-time processing, specifically by determining:
-
-- How log entries are broken into individual events
-- How the timestamp is identified, extracted and assigned to each individual event
-
-In addition, a sourcetype also influences search-time processing, helping Splunk to structure and normalize logs (remember: logs are referred to as "events" once indexed) to ease filtering, correlation, and analysis. For a deeper dive into search-time processing and exactly what this means, see the "Normalization of Application Data" section.
-
+A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification label that holds a set of configurations which instructs Splunk how to perform index-time and search-time processing.
 
 ### **How is a Sourcetype Created?**
 
