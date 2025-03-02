@@ -46,8 +46,13 @@ Not only this, sourcetypes also enable efficient searching and retrieval of even
 
 ### **How is a Sourcetype Created?**
 
-The creation of a sourcetype involves the work of defintion the sourcetype, dedice where to store it, and labeling the right logs with the right logs. 
-#### **1. Get to know your logs**
+The process of creating a sourcetype involves the following fundamental steps:
+1. Get to know the logs
+2. Define and validate the sourcetype
+3. Store the sourcetype
+4. Assign the sourcetype
+
+#### **1. Get to know the logs**
 
 The first step is to understand what logs each application generates, where they are stored, and in what format. When analyzing the **log formats**, it is important to consider the following:
 
