@@ -48,12 +48,12 @@ In addition, a sourcetype also influences search-time processing, helping Splunk
 ### **How is a Sourcetype Created?**
 
 The process of creating a sourcetype involves the following fundamental steps:
-1. Get to know the logs
-2. Define and validate the sourcetype
+1. Get to know the characteristics of your logs.
+2. Define and validate index-time processing configurations.
 3. Store the sourcetype
 4. Assign the sourcetype
 
-#### **1. Get to know the logs**
+#### **1. Get to Know The Characteristics of Your Logs**
 
 The first step is to understand what logs each application generates, where they are stored, and in what format. When analyzing the **log formats**, it is important to consider the following:
 
