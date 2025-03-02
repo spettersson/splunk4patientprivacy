@@ -30,7 +30,7 @@ Splunk can collect, index, search, correlate, and visualize any data from any ap
 
 When onboarding logs from a new application, it is crucial to provide Splunk with proper instructions to ensure that logs are correctly parsed and indexed. This process is referred to as **index-time processing**, which occurs between the moment that Splunk initiates parsing of the logs until they finally written to an index as individual events - where each event represents something that happened at a specific point in time.
 
-In addition, Splunk also need instruction for how to structure and normalize the logs. This process is referred to as **search-time processing**, which occurs between the moment that a Splunk search is initiated until it has succeasfully completed.
+In addition, Splunk also need instructions for how to structure and normalize the logs. This process is referred to as **search-time processing**, which occurs between the moment that a Splunk search is initiated until it has successfully completed.
 
 To handle the wide variety of log formats — whether from different applications or variations within the same application — Splunk assigns each log format a unique **sourcetype**, ensuring that index-time and search-time processing is tailored accordingly.
 
@@ -42,7 +42,7 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is classification l
 - How log entries are broken into individual events
 - How the timestamp is identified, extracted and assigned to each individual event
 
-In addition, a sourcetype also influences search-time processing, helping Splunk to structure logs (remember: logs are referred to as "events" once indexed) in a normalized fashion to ease filtering, correlation, and analysis. For a deeper dive into search-time processing and exactly what this means, see the "Normalization of Application Data" section.
+In addition, a sourcetype also influences search-time processing, helping Splunk to structure and normalize logs (remember: logs are referred to as "events" once indexed) to ease filtering, correlation, and analysis. For a deeper dive into search-time processing and exactly what this means, see the "Normalization of Application Data" section.
 
 Not only this, sourcetypes also enable efficient searching and retrieval of events, allowing users to quickly filter and analyze specific data sources or subsets.
 
@@ -75,7 +75,7 @@ Rule of thumb when assigning sourcetypes:
 
 
 
-#### **2. Define How a Sourcetype Does Event Line-Breaking**
+#### **2. Index-time Processing: Define How a Sourcetype Does Event Line-Breaking**
 
 [Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw text and breaks it into individual events, ensuring that every complete log entry is indexed as a separate event.
 
@@ -96,7 +96,7 @@ SHOULD_LINEMERGE = false # Because we are dealing with single line log entries o
 TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exceed 10,000 bytes in size. 
 ```
 
-#### **3. Define How a Sourcetype Does Event Timestamp Assignment**
+#### **3. Index-time Processing: Define How a Sourcetype Does Event Timestamp Assignment**
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual event.
 
