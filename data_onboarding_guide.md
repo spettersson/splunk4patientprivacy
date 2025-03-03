@@ -46,12 +46,12 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification
 ### **How is a Sourcetype Created?**
 
 The process of creating a sourcetype involves the following fundamental steps:
-1. Familiarize yourself with the logs
-2. Define and validate index-time processing configurations.
-3. Define and validate search-time processing configurations.
-4. Store the sourcetype
-5. Assign the sourcetype
-6. Validate the sourcetype
+1. Familiarize yourself with the logs.
+2. Define and validate index-time processing.
+3. Define and validate search-time processing.
+4. Store the sourcetype.
+5. Assign the sourcetype.
+6. Validate the sourcetype.
 
 #### **1. Familiarize yourself with the logs**
 
@@ -64,7 +64,7 @@ The first step is to understand what logs each application generates, where they
 
 Additionally, it is essential to consider the **content of the logs** to determine whether they fall into different categories and to categorize them appropriately. Even within the same vendor, application, and module combination, multiple sources (e.g., two log files) may share the same log format but contain different content, requiring them to be categorized separately. Proper categorization ensures that events can be easily filtered in Splunk, allowing users to efficiently find the desired subset of data.
 
-Rule of thumb when assigning sourcetypes: 
+Rule of thumb when determining if two sources should be assigned the same (or different) sourcetype:
 | Vendor/Application/Module     | Log Format   | Category   | Sourcetype |
 |----------------|----------|------------|------------|
 | Same  | Different | Different  | Different  |
@@ -74,7 +74,9 @@ Rule of thumb when assigning sourcetypes:
 
 
 
-#### **2. Index-time Processing: Define How a Sourcetype Does Event Line-Breaking**
+#### **2. Index-time Processing**
+
+##### Define How a Sourcetype Does Event Line-Breaking
 
 [Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw text and breaks it into individual events, ensuring that every complete log entry is indexed as a separate event.
 
@@ -95,7 +97,7 @@ SHOULD_LINEMERGE = false # Because we are dealing with single line log entries o
 TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exceed 10,000 bytes in size. 
 ```
 
-#### **3. Index-time Processing: Define How a Sourcetype Does Event Timestamp Assignment**
+##### Define How a Sourcetype Does Event Timestamp Assignment
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual event.
 
@@ -112,9 +114,9 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-#### **4. Validate Index-time Configurations**
+##### Validate Index-time Processing
 
-It is recommended to always run tests to validate that each individual sourcetype works as intended before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
+It is recommended to run tests to validate that each individual sourcetype works as intended before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
@@ -122,7 +124,16 @@ It is recommended to always run tests to validate that each individual sourcetyp
 5. Enter **event timestamp assignment** configurations.
 6. Validate.
 
-#### **5. Create a Sourcetype**
+
+#### **5. Search-Time Processing**
+
+
+
+
+
+
+
+#### **6. Create a Sourcetype**
 
 It is recommended to define and store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a folder for configurations (and sometimes scripts) that when brought into Splunk extends it with additional functionality. Although add-ons can serve a variety of purposes, a **Technical Add-on (TA)** is specifically designed to assist with collecting, parsing, and normalizing data from specific sources.
 
