@@ -83,7 +83,7 @@ During index-time processing, Splunk performs:
 
 The configuration for these steps is explained in the sections below.
 
-##### Define How a Sourcetype Does Event Line-Breaking
+##### Define Event Line-Breaking
 
 [Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw text and breaks it into individual events, ensuring that every complete log entry is indexed as a separate event.
 
@@ -104,7 +104,7 @@ SHOULD_LINEMERGE = false # Because the log entries are single line only, line me
 TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exceed 10,000 bytes in size. 
 ```
 
-##### Define How a Sourcetype Does Event Timestamp Assignment
+##### Define Event Timestamp Assignment
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual event.
 
@@ -123,15 +123,15 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27
 
 ##### Validate Index-time Processing
 
-It is recommended to run tests to validate that the index-time processing works as intended before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
+It is recommended to run tests to validate that the index-time processing works as intended. This is easiest done via the "Add Data" wizard in Splunk Web.
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
-4. Enter **event event line-breaking** configurations (tip: first check if the default settings work).
-5. Enter **event timestamp assignment** configurations.
-6. Validate.
-
-
+4. Enter **Event Breaks** configurations (tip: first check if the default settings work).
+5. Enter **Timestamp** configurations.
+6. Click **Apply settings**
+7. Validate.
+8. Exit.
 
 
 #### **5. Search-Time Processing**
