@@ -29,8 +29,8 @@ It is important to early on highlight that the use cases and dashboards in this 
 Splunk can collect, index, search, correlate, and visualize **any data from any application**, including logs from popular EHR systems such as Cambio, Cerner, and Epic.
 
 When onboarding logs from a new application, it’s crucial to provide Splunk with the right instructions to ensure that each log entry is correctly processed. This involves two key stages:
-	1.	Index-time processing – This begins when Splunk receives the logs. During this stage, Splunk breaks logs into individual events, identifies, extracts and assigns a timestamp to each event, and applies necessary transformations before storing them in an index. Each event represents a single log entry providing information about something that happened at a specific point in time.
-	2.	Search-time processing – Once data is indexed, Splunk requires additional instructions to structure and normalize logs for analysis. This happens dynamically when a search is run, ensuring that relevant fields and patterns are extracted to make the data actionable.
+1. Index-time processing – This begins when Splunk receives the logs. During this stage, Splunk breaks logs into individual events, identifies, extracts and assigns a timestamp to each event, and applies necessary transformations before storing them in an index. Each event represents a single log entry providing information about something that happened at a specific point in time.
+2. Search-time processing – Once data is indexed, Splunk requires additional instructions to structure and normalize logs for analysis. This happens dynamically when a search is run, ensuring that relevant fields and patterns are extracted to make the data actionable.
 
 When onboarding logs from a new application, it is crucial to provide Splunk with the correct instructions to ensure each log entry is accurately parsed and indexed.
 
