@@ -76,10 +76,10 @@ Rule of thumb when determining if two sources should be assigned the same (or di
 
 #### **2. Index-time Processing**
 
-During index-time processing, Splunk:
+During index-time processing, Splunk performs:
 
-1. Breaks log entries into individual events
-2. Identifies, extracts, and assigns a timestamp to each individual event
+1. Event line-breaking: Breaks log entries into individual events
+2. Event timestamp assignment: Identifies, extracts, and assigns a timestamp to each individual event
 
 The configuration for these steps is explained in the sections below.
 
@@ -123,13 +123,15 @@ MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27
 
 ##### Validate Index-time Processing
 
-It is recommended to run tests to validate that each individual sourcetype works as intended before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
+It is recommended to run tests to validate that the index-time processing works as intended before applying it to production data. This is typically done in a separate Splunk environment dedicated to testing, but it can also be done via the "Add Data" wizard in Splunk Web
 1. Navigate to **Settings → Add Data** in Splunk Web.
 2. Click **Upload**.
 3. Click **Select File** and select a sample log file.
 4. Enter **event event line-breaking** configurations (tip: first check if the default settings work).
 5. Enter **event timestamp assignment** configurations.
 6. Validate.
+
+
 
 
 #### **5. Search-Time Processing**
