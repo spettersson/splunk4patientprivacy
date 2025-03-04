@@ -30,7 +30,7 @@ These data sources **complement each other** to provide a comprehensive foundati
 - **Authentication data** establishes access legitimacy and helps detect abnormal behavior.
 
 ### **Considerations on Log Quality**
-⚠️ **Important:** The **content and quality of logs may differ** depending on the **EHR application used**. Some logs provide **rich metadata with detailed access events**, while others may lack essential details. This variation can impact analytics and may require **alternative correlation methods** to fill gaps.
+⚠️ **Important:** The **content and quality of logs may differ** depending on the **EHR application used**. Some logs provide **rich metadata with detailed access events**, while others may lack essential details. This variation can impact analytics and may act as a show-stopper for certain use cases.
 
 ---
 
