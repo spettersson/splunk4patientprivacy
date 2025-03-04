@@ -25,10 +25,6 @@ Captures how and when employees authenticate to the system, including successful
 ### **How These Data Sources Work Together**
 These data sources **complement each other** to provide a comprehensive foundation for detecting anomalies, enforcing security policies, and supporting investigations:
 
-- **EHR logs** capture actions performed within the system.
-- **Identity data** provides context about user roles and permissions.
-- **Authentication data** establishes access legitimacy and helps detect abnormal behavior.
-
 ### **Considerations on Log Quality**
 ⚠️ **Important:** The **content and quality of logs may differ** depending on the **EHR application used**. Some logs provide **rich metadata with detailed access events**, while others may lack essential details. This variation can impact analytics and may act as a show-stopper for certain use cases.
 
