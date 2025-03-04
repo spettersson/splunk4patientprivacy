@@ -45,9 +45,9 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification
 
 The process of creating a sourcetype involves the following fundamental steps:
 1. Familiarize yourself with the logs.
-2. Define and validate index-time processing.
-3. Define and validate search-time processing.
-4. Store the sourcetype.
+2. Define and validate index-time processing for the sourcetype.
+3. Define and validate search-time processing for the sourcetype.
+4. Save the sourcetype.
 5. Assign the sourcetype.
 6. Validate the sourcetype.
 
@@ -72,16 +72,7 @@ Rule of thumb when determining if two sources should be assigned the same (or di
 
 
 
-#### **2. Index-time Processing**
-
-During index-time processing, Splunk performs:
-
-1. Event line-breaking: Breaks log entries into individual events
-2. Event timestamp assignment: Identifies, extracts, and assigns a timestamp to each individual event
-
-The configuration for these steps is explained in the sections below.
-
-##### Define Event Line-Breaking
+#### **2. Index-time Processing: Understand Event Line-Breaking**
 
 [Event line-breaking](https://docs.splunk.com/Documentation/Splunk/latest/Data/Configureeventlinebreaking) determines how Splunk processes raw text and breaks it into individual events, ensuring that every complete log entry is indexed as a separate event.
 
@@ -102,7 +93,7 @@ SHOULD_LINEMERGE = false # Because the log entries are single line only, line me
 TRUNCATE = 10000 # This is a default setting - sees to that an event cannot exceed 10,000 bytes in size. 
 ```
 
-##### Define Event Timestamp Assignment
+#### **3. Index-time Processing: Understand Event Timestamp Assignment**
 
 [Event timestamp assignment](https://docs.splunk.com/Documentation/Splunk/latest/Data/HowSplunkextractstimestamps) determines how Splunk identifies, extracts, and assigns a timestamp to each individual event.
 
@@ -119,7 +110,11 @@ TIME_FORMAT = %Y-%m-%dT%H:%M:%S.%6QZ  # Strptime indicating that the timestamp f
 MAX_TIMESTAMP_LOOKAHEAD = 27  # Indicating that the timestamp length is up to 27 characters.
 ```
 
-##### Validate Index-time Processing
+##### Define and Validate Index-time Processing
+
+It is recommended to define and store a sourcetype in a Splunk [add-on](https://docs.splunk.com/Documentation/Splunk/latest/Admin/Whatsanapp#:~:text=a%20performance%20bottleneck.-,Add%2Don,specific%20capabilities%20to%20assist%20in%20gathering%2C%20normalizing%2C%20and%20enriching%20data%20sources.,-An%20add%2Don). In simple terms, an add-on is a folder for configurations (and sometimes scripts) that when brought into Splunk extends it with additional functionality. Although add-ons can serve a variety of purposes, a **Technical Add-on (TA)** is specifically designed to assist with collecting, parsing, and normalizing data from specific sources.
+
+To create a 
 
 It is recommended to run tests to validate that the index-time processing works as intended. This is easiest done via the "Add Data" wizard in Splunk Web.
 1. Navigate to **Settings → Add Data** in Splunk Web.
