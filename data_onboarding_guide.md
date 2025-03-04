@@ -23,7 +23,7 @@ Links **employees to roles, departments, and organizational structures**, helpin
 Captures how and when employees authenticate to the system, including successful and failed login attempts, and multi-factor authentication events. This data helps identify suspicious access patterns, and most importantly, it acts as important evidence to secure accountability.
 
 ### **Considerations on Log Quality**
-⚠️ **Important:** The reality is that the **quality of logs may differ** depending on the **EHR application used**. Some logs may provide almost all metadata needed,  while others may lack essential details. This variation can impact analytics and could possibly act as a show-stopper for certain use cases (the analytics can never be better than the data used for it)..
+⚠️ **Important:** The reality is that the **quality of logs may differ** depending on the EHR application used. Some logs may provide almost all metadata needed,  while others may lack essential details. This variation can impact analytics and could possibly act as a show-stopper for certain use cases (the analytics can never be better than the data used for it)..
 
 ---
 
