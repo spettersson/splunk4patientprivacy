@@ -22,11 +22,8 @@ Links **employees to roles, departments, and organizational structures**, helpin
 ### **Authentication Data**
 Captures how and when employees authenticate to the system, including successful and failed login attempts, and multi-factor authentication events. This data helps identify suspicious access patterns, and most importantly, it acts as important evidence to secure accountability.
 
-### **How These Data Sources Work Together**
-These data sources **complement each other** to provide a comprehensive foundation for detecting anomalies, enforcing security policies, and supporting investigations:
-
 ### **Considerations on Log Quality**
-⚠️ **Important:** The **content and quality of logs may differ** depending on the **EHR application used**. Some logs provide **rich metadata with detailed access events**, while others may lack essential details. This variation can impact analytics and may act as a show-stopper for certain use cases.
+⚠️ **Important:** The reality is that the **content and quality of logs may differ** depending on the **EHR application used**. Some logs provide may provide almost all metadata needed,  while others may lack essential details. This variation can impact analytics and may act as a show-stopper for certain use cases.
 
 ---
 
