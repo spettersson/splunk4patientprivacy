@@ -20,7 +20,7 @@ Provides detailed insights into the **who, what, and when**, within the Electron
 Links **employees to roles, departments, and organizational structures**, helping to determine **whether access or actions align with a employee's expected responsibilities**. Additionally,  This data is crucial for understanding context, such as whether an individual should have access to certain patient records.
 
 ### **Authentication Data**
-Captures how and when users authenticate to the system, including logins, failed login attempts, and multi-factor authentication events. This data helps identify suspicious access patterns, unauthorized attempts, or abnormal login behaviors.
+Captures how and when employees authenticate to the system, including successful and failed login attempts, and multi-factor authentication events. This data helps identify suspicious access patterns, and most importantly, it acts as important evidence to secure accountability.
 
 ### **How These Data Sources Work Together**
 These data sources **complement each other** to provide a comprehensive foundation for detecting anomalies, enforcing security policies, and supporting investigations:
