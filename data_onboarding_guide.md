@@ -14,9 +14,12 @@ Observe! This guide does not remove the need for proper Splunk Education.
 To build a **complete picture** and ensure **accurate analytics**, it is essential to understand the key data sources required. The use cases and dashboards in this repository rely on three critical **data categories**:
 
 ### **EHR Application Data**
-Provides detailed insights into the **who, what, and when**, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by employees. 
+Provides detailed insights into the **who, what, and when**, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by user accounts. 
 
 ### **Identity Data**
+This data provides information about which user account is associated with which employee. It should also provide additional work related information its role and which care provider and work unit it belongs to, as well as personal infornation such as first and last name, home city, postal code and address, and goverment-issued ID number.
+
+
 Links **employees to roles, departments, and organizational structures**, helping to determine **whether access or actions align with a employee's expected responsibilities**. Additionally,  This data is crucial for understanding context, such as whether an individual should have access to certain patient records.
 
 ### **Authentication Data**
