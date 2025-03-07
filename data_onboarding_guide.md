@@ -28,11 +28,6 @@ Captures how and when employees authenticate to the system, including successful
 
 ---
 
-By ensuring the availability and integration of these data sources, organizations can establish a **robust analytics framework** for monitoring, security, and compliance.
-
-
-
-
 
 
 
