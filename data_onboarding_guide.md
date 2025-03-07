@@ -13,7 +13,7 @@ Observe! This guide does not remove the need for proper Splunk Education.
 
 To build a **complete picture** and ensure **accurate analytics**, it is essential to understand the key data sources required. The use cases and dashboards in this repository rely on three critical **data categories**:
 
-### **EHR Application Audit Data**
+### **EHR Audit Data**
 Provides detailed insights into the **who, what, and when**, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by user accounts. 
 
 ### **Identity Data**
