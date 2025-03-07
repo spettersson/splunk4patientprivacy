@@ -17,7 +17,10 @@ To build a **complete picture** and ensure **accurate analytics**, it is essenti
 Provides detailed insights into the **who, what, and when**, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by user accounts. 
 
 ### **Identity Data**
-This data provides information about which user account is associated with which employee. It should also provide additional work related information about the employee's role, and which care provider and work unit it belongs to, as well as personal infornation such as first and last name, home city, postal code and address, and government or organisation issued ID.
+This data provides context about employees, such as:
+1. which user account is linked to which employee
+2. work related information about the employee's role, and which care provider and work unit it belongs to
+3. personal infornation such as first and last name, home city, postal code and address, and government and organisation issued ID.
 
 
 ### **Authentication Data**
