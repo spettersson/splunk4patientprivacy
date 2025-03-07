@@ -18,9 +18,9 @@ Provides detailed insights into the **who, what, and when**, within the Electron
 
 ### **Identity Data**
 This data provides context about employees, such as:
-1. which user account is linked to which employee
-2. work related information about the employee's role, and which care provider and work unit it belongs to
-3. personal infornation such as first and last name, home city, postal code and address, and government and organisation issued ID.
+1. which user account is linked to which employee.
+2. work related information about the employee such as role, care provider and work unit.
+3. personal information about the employee, such as first and last name, home city, postal code and address, and government and organisation issued ID.
 
 
 ### **Authentication Data**
