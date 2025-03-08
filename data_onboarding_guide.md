@@ -11,7 +11,7 @@ By going through this guide, you should have that "**Aha! Now I get it**" moment
 Observe! This guide does not remove the need for proper Splunk Education.
 ## Data sources
 
-To establish deep insights into employee behaviour and proactively detect patient privacy violations, it is important to understand the key pieces of data needed. The use cases and dashboards in this repository rely on three critical **data categories**:
+To establish deep insights into employee behaviour and proactively detect policy violations, it is important to understand the key pieces of data needed. The use cases and dashboards in this repository rely on three critical **data categories**:
 
 ### **EHR Audit Data**
 Provides detailed insights into the **who, what, and when**, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by user accounts. 
