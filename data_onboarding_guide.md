@@ -20,7 +20,7 @@ Provides detailed insights into the **who, what, and when**, within the Electron
 
 This data provides context about employees, including:
 1.	User-Account Mapping – Identifies which user accounts are linked to each employee.
-2.	Work-Related Information – Includes details such as the employee’s role, care provider, work unit, and organization-issued ID.
+2.	Work-Related Information – Includes details such as the employee’s role, care provider and work unit associations, employment status, and organization-issued ID.
 3.	Personal Information – Covers personal details such as first and last name, home city, postal code, address, and government-issued ID.
 
 
