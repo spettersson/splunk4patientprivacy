@@ -14,14 +14,14 @@ Observe! This guide does not remove the need for proper Splunk Education.
 To establish deep insights into employee behaviour and proactively detect policy violations, it is important to understand the key pieces of data needed. Although different use cases may require different data, generally speaking, there are three **data categories** that are important to consider:
 
 ### **EHR Audit Data**
-Provides detailed insights into the **who, what, and when**, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by user accounts. 
+Provides details about the **who, what, and when**, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by user accounts. 
 
 ### **Identity Data**
 
 This data provides context about employees, including:
-1.	User-Account Mapping – Identifies which user accounts are linked to which employees.
-2.	Work-Related Information – Includes details such as the employee’s role, care provider and work unit associations, employment status, and organization-issued ID.
-3.	Personal Information – Covers personal details such as first and last name, home city, postal code, address, and government-issued ID.
+1.	User-Account Mapping – Which user accounts are linked to which employees.
+2.	Work-related information - An employee’s role, assigned care provider and work unit, employment status (start date/termination date), and organization-issued ID.
+3.	Personal Information – Coverspersonal details such as first and last name, home city, postal code, address, and government-issued ID.
 
 
 ### **Authentication Data**
