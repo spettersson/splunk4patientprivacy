@@ -20,7 +20,7 @@ Provides details about the who, what, and when, within the Electronic Health Rec
 
 This data provides context about employees, including:
 1.	User-Account Mapping – Which user accounts are linked to which employees.
-2.	Work-related information - An employee’s role, assigned care provider and work unit, employment status (start date/termination date), and organization-issued ID.
+2.	Work-related information - An employee’s role, assigned care provider and department, employment status (start date/termination date), and organization-issued ID.
 3.	Personal Information – Coverspersonal details such as first and last name, home city, postal code, address, and government-issued ID.
 
 
