@@ -14,7 +14,7 @@ Observe! This guide does not remove the need for proper Splunk Education.
 To establish deep insights into employee behaviour and proactively detect policy violations, it is important to understand the key pieces of data needed. Although different use cases may require different data, generally speaking, there are three **data categories** that are important to consider:
 
 ### **EHR Audit Data**
-Provides details about the **who, what, and when**, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by user accounts. 
+Provides details about the who, what, and when, within the Electronic Health Record (EHR) system. This includes log entries related to medical record access, modifications, and actions performed by user accounts. 
 
 ### **Identity Data**
 
