@@ -45,12 +45,11 @@ When onboarding logs from a new application, it’s crucial to provide Splunk wi
 
 To handle the wide variety of log formats—whether from different applications or variations within the same application—Splunk assigns each format a unique **sourcetype**. This ensures that index-time and search-time processing instructions are applied correctly, enabling accurate data ingestion and analysis.
 
-
-### **What is a Sourcetype?**
-
 A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification label that holds a set of configurations which instructs Splunk how to handle index-time and search-time processing for a given data source.
 
 
+### **Understand your data**
+The first step is to understand what logs each EHR system generates
 
 ### **How is a Sourcetype Created?**
 
