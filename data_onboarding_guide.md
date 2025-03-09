@@ -35,7 +35,7 @@ Captures how and when employees authenticate to the system, including successful
 
 
 
-## Getting Data From EHR Applications Into Splunk
+## Getting EHR Audit Data Into Splunk
 
 Splunk can collect, index, search, correlate, and visualize **any data from any application**, including logs from popular EHR systems such as Cambio, Cerner, and Epic.
 
