@@ -56,6 +56,7 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification
 
 The process of creating a sourcetype involves the following fundamental steps:
 1. Familiarize yourself with the logs.
+2. Create a Splunk Add-on.
 2. Define index-time processing for the sourcetype.
 3. Define search-time processing for the sourcetype.
 4. Validate the sourcetype.
