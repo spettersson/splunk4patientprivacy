@@ -1,3 +1,8 @@
+Lexicon
+*Use case = 
+*Dashboard =
+
+
 ## **Introduction**
 Welcome to this Data Onboarding Guide! This document is designed to help you get the right data into Splunk and ensure it is properly parsed, indexed, and normalized, making it fully compatible with the out-of-the-box use cases and dashboards included in this repository.
 
@@ -25,15 +30,11 @@ This data provides context about employees, including:
 
 
 ### **Authentication Data**
-Captures how and when employees authenticate to the system, including successful and failed login attempts, and multi-factor authentication events. This data helps identify suspicious access patterns, and most importantly, it acts as important evidence to secure accountability.
+Provides information about user account authenticans to the system, including the user involved, the authentication mechanism used, and whether the attempt was successful or not, and the reason behind any failure. This data helps identify suspicious access patterns, and most importantly, it acts as important evidence to secure accountability.
 
 ### **Considerations on Log Quality**
-⚠️ **Important:** The reality is that the **quality of logs may differ** depending on the EHR application used. Some logs may provide almost all metadata needed,  while others may lack essential details. This variation can impact analytics and could possibly act as a show-stopper for certain use cases (the analytics can never be better than the data used for it)..
-
+⚠️ **Important:** The reality is that the **quality of logs may differ** depending on the EHR application used. Some may provide almost all metadata needed,  while others may lack essential details. This variation can impact analytics and could possibly act as a show-stopper for certain use cases (the analytics can never be better than the data). 
 ---
-
-
-
 
 ## Getting EHR Audit Data Into Splunk
 
@@ -48,8 +49,24 @@ To handle the wide variety of log formats—whether from different applications 
 A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification label that holds a set of configurations which instructs Splunk how to handle index-time and search-time processing for a given data source.
 
 
-### **Understand your data**
-The first step is to understand what logs each EHR system generates
+### **What data is available and where does it live?**
+The first step is to understand what data each EHR system generates (we need to know if it log all actitivies that we want to monitor) and where are the logs located (gives us an idea of how Splunk can access the data) - for example, are logs written to local files on the host, or are they stored in a database, or a mix? This is important information as it determines the next step in the data onboarding process. 
+
+Although it is not guaranteed to be the case for you system, the likelihood is high that data is written either to local files or stored in a databse. Thus, these two pathways will be covered in the sections to come. 
+
+
+## Create a Splunk Technical Add-on
+Onboarding of a new data in Splunk should always begin with creating a Splunk Technical Add-on. <explain what an addon is and works>.
+
+Now, how a sourcetype should be defined depends on if data is located in local files or in a database.
+
+### Getting EHR data stored in local files into Splunk
+
+The process for getting data from local files:
+
+### Getting EHR data stored in a database into Splunk
+The process for getting
+
 
 ### **How is a Sourcetype Created?**
 
