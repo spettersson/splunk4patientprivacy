@@ -48,7 +48,7 @@ To handle the wide variety of log formats—whether from different applications 
 
 A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification label that holds a set of configurations which instructs Splunk how to handle index-time and search-time processing for a given data source.
 
-It is important to note that depending on the data origin and format, the
+It is important to note that depending on the data origin and format, these instructions may differ. 
 
 ### **What data is available and where does it live?**
 The first step is to understand what data each EHR system generates (we need to know if it log all actitivies that we want to monitor) and where are the logs located (gives us an idea of how Splunk can access the data) - for example, are logs written to local files on the host, or are they stored in a database, or a mix? This is important information as it determines the next step in the data onboarding process. 
