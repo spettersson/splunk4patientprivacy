@@ -19,7 +19,8 @@ To establish deep insights into employee behaviour and proactively detect policy
 
 ### **EHR Audit Data**
 
-Tracks the who, what, and when, within the Electronic Health Record (EHR) system, including access, modifications, and user actions. 
+Tracks the who, what, and when, within the Electronic Health Record (EHR) system, including access, modifications, and user actions.
+
 
 ### **Identity Data**
 
@@ -29,6 +30,7 @@ Provides employee context, including:
 * Personal Details – Name, address, family info, government-issued ID.
 ### **Authentication Data**
 Tracks who, how, and when users authenticate, helping detect suspicious access patterns.
+
 ---
 
 ## Getting EHR Audit Data Into Splunk
