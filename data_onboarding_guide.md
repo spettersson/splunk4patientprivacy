@@ -16,7 +16,7 @@ By going through this guide, you should have that "**Aha! Now I get it**" moment
 Observe! This guide does not remove the need for proper Splunk Education.
 ## Data sources
 
-To establish deep insights into employee behaviour and proactively detect policy violations, it is important to understand the key pieces of data needed. Although different use cases may require different data, generally speaking, there are three **data categories** that are important to consider:
+To establish deep insights into employee behaviour and proactively detect policy violations, it is important to understand the key pieces of data needed. Exactly where all these data pieces exist may differ, however, you should aim to get hold ofAlthough different use cases may require different data, generally speaking, there are three **data categories** that are important to consider.
 
 ### **EHR Audit Data**
 Tracks the who, what, and when, within the Electronic Health Record (EHR) system, including access, modifications, and user actions. 
@@ -29,8 +29,6 @@ Provides employee context, including:
 * Personal Details – Name, address, family info, government-issued ID.
 ### **Authentication Data**
 Provides information about the who, how, and when related to user authentications to identify suspicious access patterns.
-
-### **Considerations on Log Quality**
 
 ---
 
