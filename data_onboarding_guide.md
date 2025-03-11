@@ -24,7 +24,7 @@ Tracks the who, what, and when, within the Electronic Health Record (EHR) system
 ### **Identity Data**
 
 Provides employee context, including:
-* User-Account Mapping – Links employees to system accounts.
+* User-Account Mapping – Links employees to user accounts.
 * Work Information – Role, department, care provider assignment, employment status.
 * Personal Details – Name, address, family info, government-issued ID.
 ### **Authentication Data**
