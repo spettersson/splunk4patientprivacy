@@ -31,7 +31,7 @@ Provides employee context, including:
 Provides information about the who, how, and when related to user authentications to identify suspicious access patterns.
 
 ### **Considerations on Log Quality**
-⚠️ **Important:** The reality is that the **quality of logs may differ** depending on the EHR application used. Some may provide almost all metadata needed,  while others may lack essential details. This variation can impact analytics and could possibly act as a show-stopper for certain use cases (the analytics can never be better than the data). 
+
 ---
 
 ## Getting EHR Audit Data Into Splunk
