@@ -27,7 +27,8 @@ Provides employee context, including:
 * Work Information – Role, department, care provider assignment, employment status.
 * Personal Details – Name, address, family info, government-issued ID.
 ### **Authentication Data**
-Tracks who, how, and when users authenticate, helping detect suspicious access patterns.---
+Tracks who, how, and when users authenticate, helping detect suspicious access patterns.
+---
 
 ## Getting EHR Audit Data Into Splunk
 
