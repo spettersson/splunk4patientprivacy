@@ -20,5 +20,5 @@ tag=emraudit
 | lookup detection_metadata detection_id OUTPUT detection_name, detection_description, detection_type
 | lookup detection_risk detection_id OUTPUT risk_score
 | eval risk_score = risk_factor * risk_score
-| fields staff_* patient_*, matching_*, risk_*, detection_*
+| fields staff_*, patient_*, matching_*, risk_*, detection_*
 ```
