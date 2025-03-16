@@ -14,59 +14,57 @@ Rather than detailing configurations needed for every possible data source — w
 By going through this guide, you should have that "**Aha! Now I get it**" moment where (almost) everything clicks and you feel confident getting started. If that doesn't happen, then contact the authors (or your friendly neighborhood Splunk Solutions Engineer) right away.
 
 Observe! This guide does not remove the need for proper Splunk Education.
+
 ## Data sources
-To establish deep insights into employee behaviour and proactively detect policy violations, it is important to understand the key pieces of data needed. Although different use cases may require different data, generally speaking, there are three **data categories** that are important to consider.
+To establish deep insights into employee behaviour and proactively detect policy violations, it is important to understand the key data points needed. Although different use cases may require different data, generally speaking, there are three **data categories** that are important to consider.
 
-### **EHR Audit Data**
+### **EMR Audit Data**
 
-Tracks the who, what, and when, within the Electronic Health Record (EHR) system, including access, modifications, and user actions.
-
+Tracks the who, what, and when, within the Electronic Health Record (EMR) system, including access, modification, creation, and deletion of medical records.
 
 ### **Identity Data**
 
-Provides employee context, including:
+Provides employee information that enriched the EMR audit data, including:
 * User-Account Mapping – Links employees to user accounts.
 * Work Information – Role, department, care provider assignment, employment status.
 * Personal Details – Name, address, family info, government-issued ID.
+
 ### **Authentication Data**
 Tracks who, how, and when users authenticate, helping detect suspicious access patterns.
 
 ---
 
-## Getting EHR Audit Data Into Splunk
+## Getting EMR Audit Data Into Splunk
 
-Splunk can collect, index, search, correlate, and visualize **any data from any application**, including logs from popular EHR systems such as Cambio, Cerner, and Epic.
+Splunk can collect, index, search, correlate, and visualize **any data from any application**, including data from popular EMR systems such as Cambio, Cerner, and Epic. For simplicity and relevancy reasons, focus is henceforth dedicated to onboarding of data in the form of EMR audit logs.
 
-When onboarding logs from a new application, it’s crucial to provide Splunk with the right instructions to ensure that each log entry is correctly processed. This involves two key stages:
+When onboarding of audit logs from a new EMR application, it’s important to provide Splunk with the right instructions to ensure that each log entry is correctly processed. This involves two key stages:
 1. Index-time processing – This begins when Splunk receives the logs. During this stage, Splunk breaks log entries into individual events, assigns each event a timestamp, and applies necessary transformations before storing them in an index.
 2. Search-time processing – Once data is indexed, Splunk requires additional instructions to structure and normalize logs for analysis. This happens dynamically from the moment a search is initiated until it successfully completes.
 
-To handle the wide variety of log formats—whether from different applications or variations within the same application—Splunk assigns each format a unique **sourcetype**. This ensures that index-time and search-time processing instructions are applied correctly, enabling accurate data ingestion and analysis.
+To handle the wide variety of log formats—whether from different applications or variations within the same application—Splunk assigns each format a unique **sourcetype**. This ensures that index-time and search-time processing instructions are applied correctly, resulting in proper data onboarding and preparation
 
-A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification label that holds a set of configurations which instructs Splunk how to handle index-time and search-time processing for a given data source.
+A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification label that holds a set of configurations which instructs Splunk how to handle index-time and search-time processing for a given data source. However, depending on the data's origin and format, these instructions may differ. 
 
-It is important to note that depending on the data origin and format, these instructions may differ. 
+### Find out what EMR audit logs are available and where they live
 
-### **What data is available and where does it live?**
-The first step is to understand what data each EHR system generates (we need to know if it log all actitivies that we want to monitor) and where are the logs located (gives us an idea of how Splunk can access the data) - for example, are logs written to local files on the host, or are they stored in a database, or a mix? This is important information as it determines the next step in the data onboarding process. 
+Now is the time to find the answers to the following questions:
+1. which EMR application is data going to be onboarded from?f
+2. what audit logs does this EMR application generate? 
+3. where is the audit logs located (for example, files or database)? 
+4. what audit logs does the desired use cases require?
 
-Although it is not guaranteed to be the case for you system, the likelihood is high that data is written either to local files or stored in a databse. Thus, these two pathways will be covered in the sections to come. 
+By answering the questions above it should become clear if:
+1. the EMR application records all events (with the right quality) required for the desired use cases, and
+2. how Splunk can access and collect the desired data. 
 
 
-## Create a Splunk Technical Add-on
-Onboarding of a new data in Splunk should always begin with creating a Splunk Technical Add-on. <explain what an addon is and works>.
-
-Now, how a sourcetype should be defined depends on if data is located in local files or in a database.
-
-### Getting EHR data stored in local files into Splunk
-
-The process for getting data from local files:
-
-### Getting EHR data stored in a database into Splunk
+### EMR audit logs located in a database
 The process for getting
 
+### EMR audit logs located in files
 
-### **How is a Sourcetype Created?**
+The process for getting EMR audit data stored in 
 
 The process of creating a sourcetype involves the following fundamental steps:
 1. Familiarize yourself with the logs.
@@ -80,7 +78,7 @@ The process of creating a sourcetype involves the following fundamental steps:
 
 #### **1. Familiarize yourself with the logs**
 
-The first step is to understand what logs each application generates, where they are stored, and in what format. When analyzing the **log formats**, it is important to consider the following:
+Study the **format** of the audit logs while taking the following into consideration:
 
 -  Are the logs **structured**, **unstructured**, or a **combination**❓ 
 -  Does each log entry consist of a **single line** or **multiple lines**❓ 
