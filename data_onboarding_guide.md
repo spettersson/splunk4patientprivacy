@@ -24,13 +24,13 @@ Tracks the who, what, and when, within the Electronic Health Record (EMR) system
 
 ### **Identity Data**
 
-Provides employee information that enriched the EMR audit data, including:
+Provides context surrounding the employees, including:
 * User-Account Mapping – Links employees to user accounts.
-* Work Information – Role, department, care provider assignment, employment status.
+* Work Information – Role, department, care provider, employment status.
 * Personal Details – Name, address, family info, government-issued ID.
 
 ### **Authentication Data**
-Tracks who, how, and when users authenticate, helping detect suspicious access patterns.
+Tracks who, how, and when users authenticate, ensuring accountability and non-repudiation by providing verifiable proof of access attempts. This helps detect suspicious access patterns and prevents users from denying authentication actions.
 
 ---
 
@@ -49,10 +49,9 @@ A [sourcetype](https://docs.splunk.com/Splexicon:Sourcetype) is a classification
 ### Find out what EMR audit logs are available and where they live
 
 Now is the time to find the answers to the following questions:
-1. which EMR application is data going to be onboarded from?f
-2. what audit logs does this EMR application generate? 
+1. which EMR application is data going to be onboarded from?
+2. what audit logs does this EMR application generate? Do they provide sufficient information
 3. where is the audit logs located (for example, files or database)? 
-4. what audit logs does the desired use cases require?
 
 By answering the questions above it should become clear if:
 1. the EMR application records all events (with the right quality) required for the desired use cases, and
