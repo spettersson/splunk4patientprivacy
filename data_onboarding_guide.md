@@ -29,9 +29,6 @@ Provides context surrounding the employees, including:
 * Work Information – Role, department, care provider, employment status.
 * Personal Details – Name, address, family info, government-issued ID.
 
-### **Authentication Data**
-Tracks who, how, and when users authenticate, ensuring accountability and non-repudiation by providing verifiable proof of access attempts. This helps detect suspicious access patterns and prevents users from denying authentication actions.
-
 ---
 
 ## Getting EMR Audit Data Into Splunk
