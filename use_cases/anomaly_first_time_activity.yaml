@@ -26,17 +26,10 @@ prerequisites:
 how_to_implement:
 
   1. fields:
-      - Make sure each individual journal system has the following fields: staff_ID, patient_ID, care_provider_ID, care_unit_ID.
-      - Please check the 'Fields' section in data guidelines for more detailed information about how to set this up, which can be found here 
-        https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md.
+      - Make sure each individual journal system has, at minimum, following fields: staff_ID, patient_ID
 
-  2. event types:
-      - Make sure each individual journal system has its own unique event type, with all event types referencing the tag 'journalaccess'. 
-        Please check the 'Event types' section in the data guidelines for more detailed information about how to set this up, which can be found here
-        https://github.com/spettersson/splunk4patientprivacy/blob/main/data_guidelines.md).
-
-  3. indexes:
-      - Make sure that an index with the name 'anomaly_collection' exist.
+  2. indexes:
+      - Make sure that an index with the name 'alert_collection' exist.
       - The retention for this index should be configured according to your requirements/needs. 
       
   4. lookups:
@@ -51,7 +44,7 @@ search_1:
   title: Historical activity baseline
   description: Establishes a baseline of historical activity for the past 6 months.
   search: 
-    tag=journal earliest=-6mon latest=now
+    `audit_` earliest=-6mon latest=now
     | fields _time, staff_ID, patient_ID
     | stats latest(_time) as last_activity by staff_ID, patient_ID
     | table staff_ID, patient_ID, last_activity
