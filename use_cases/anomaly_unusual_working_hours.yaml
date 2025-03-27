@@ -35,7 +35,7 @@ search 2:
  | fields _time, staff_ID, patient_ID
  | eval hourOfDay = strptime(_time, "%H")
  | stats count by hourOfDay, staff_ID, patient_ID
- | lookup baseline_working_hours staff_ID hourOfDay OUTPUT historical_percent
+ | lookup baseline_working_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
  | where isnull(historical_percent) OR historical_percent<=1
  | eval detection_ID = "at02"
  | fields staff_ID, patient_ID, hourOfDay, historical_perc
