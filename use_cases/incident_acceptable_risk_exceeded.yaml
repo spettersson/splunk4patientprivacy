@@ -1,6 +1,6 @@
 name: acceptable risk exceeded
 type: incident-triggering
-use_case_ID: uc2
+detection_ID: at02
 purpose: 
 prerequisites: 
 - indexes: 
