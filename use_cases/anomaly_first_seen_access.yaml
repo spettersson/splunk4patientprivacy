@@ -12,10 +12,14 @@ prerequisites:
 - indexes: 
     anomaly_collection (explanation: an index where identified anomalies are stored as individual events.)
 - lookups: 
-    baseline_historical_activity (a lookup file that stores the last recorded interaction between employees and patients in a key-value format.)
+    baseline_historical_access (a lookup file that stores the last seen access between employees and patients.)
 - fields: 
-    staff_ID (a unique identifier for the employee that is consistent across all EMR applications, for example HSA-id or government-issued id.)
-    patient_ID (a unique identifier for the patient that is consistent across all EMR applications.)
+    staff_ID (mandatory; a unique identifier for the employee that is consistent across all EMR systems, for example HSA-id or government-issued id.)
+    patient_ID (mandatory; a unique identifier for the patient that is consistent across all EMR systems.)
+    care_unit_ID (optional)
+    work_unit_ID (optional)
+    care_provider_ID (optional)
+    
 - searches: 
     search_1
     search_2
@@ -31,8 +35,8 @@ how_to_implement:
       
   4. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
-      - Create a KVstore lookup with the name 'baseline_historical_access' with the fields
-      Import the lookup baseline_historical_activity.csv 
+      - Create a KVstore lookup with the name 'baseline_historical_access' with the fields: staff_ID, patient_ID, last_access
+      Import the lookup baseline_historical_access.csv 
         (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
         
   5. searches:
@@ -42,29 +46,29 @@ search_1:
   title: Historical access baseline
   description: Establishes a baseline of historical access for the past 6 months.
   search: 
-    `audit_` earliest=-6mon latest=now
+    tag=emraudit staff_ID=* patient_ID=* earliest=-6mon latest=now
     | fields _time, staff_ID, patient_ID
-    | stats latest(_time) as last_activity by staff_ID, patient_ID
-    | table staff_ID, patient_ID, last_activity
-    | outputlookup baseline_historical_activity
+    | stats latest(_time) as last_access by staff_ID, patient_ID
+    | table staff_ID, patient_ID, last_access
+    | outputlookup baseline_historical_access
   earliest_time: Leave empty (defined in search: earliest=-6mon).
   latest_time: Leave empty (defined in search: latest=now).
   schedule: N/A (Run manually before enabling search 2 and search 3).
 
 search_2:
   title: Historical activity updates
-  description: Incrementally updates the historical activity lookup on a daily basis.
+  description: Incrementally updates the historical access lookup on a daily basis.
   search: 
-    | inputlookup baseline_historical_activity
+    | inputlookup baseline_historical_access
     | append [
-        tag=journal earliest=-1d@d latest=@d
+        tag=emraudit staff_ID=* patient_ID=* earliest=-1d@d latest=@d
         | fields _time, staff_ID, patient_ID
-        | stats latest(_time) as last_activity by staff_ID, patient_ID
-        | table staff_ID, patient_ID, last_activity
+        | stats latest(_time) as last_access by staff_ID, patient_ID
+        | table staff_ID, patient_ID, last_access
       ]
-    | stats max(last_activity) as last_activity by staff_ID, patient_ID
-    | table staff_ID, patient_ID, last_activity
-    | outputlookup baseline_historical_activity
+    | stats max(last_access) as last_access by staff_ID, patient_ID
+    | table staff_ID, patient_ID, last_access
+    | outputlookup baseline_historical_access
   earliest_time: Leave empty (defined in search: earliest=-1d@d).
   latest_time: Leave empty (defined in search: latest=@d).
   schedule: 
@@ -76,23 +80,23 @@ search_3:
     (accounting for a 2-minute latency) but had no prior activity with that patient in the last 6 months. 
     If matched, an anomaly is triggered and stored as an event in the anomaly_collection index.
   search: 
-    tag=journal earliest=-12min@min latest=-2min@min
-    | fields _time, staff_ID, patient_ID, care_provider_ID, care_unit_ID
-    | stats earliest(_time) as last_activity values(care_provider_ID) as care_provider_ID values(care_unit_ID) as care_unit_ID 
+    tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+    | fields _time, staff_ID, patient_ID
+    | stats earliest(_time) as last_access values(care_provider_ID) as care_provider_ID values(department_ID) as care_unit_ID 
     by staff_ID, patient_ID
-    | lookup baseline_historical_activity staff_ID patient_ID OUTPUT last_activity AS baseline_last_activity
-    | eval time_since_last_activity = now() - baseline_last_activity
-    | eval anomaly = if(isnull(baseline_last_activity) OR time_since_last_activity >= 14515200 , "1", "0")
+    | lookup baseline_historical_access staff_ID patient_ID OUTPUT last_access AS baseline_last_access
+    | eval time_since_last_access = now() - baseline_last_access
+    | eval anomaly = if(isnull(baseline_last_access) OR time_since_last_access >= 14515200 , "1", "0")
     | where anomaly = "1"
-    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_activity) AS last_activity 
-    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_activity) AS baseline_last_activity 
+    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_access) AS last_access 
+    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_access) AS baseline_last_access 
     | eval anomaly_title = "First time activity"
-    | eval anomaly_description = "Employee ID ".staff_ID." engaged in activity related to Patient ID ".patient_ID." on ".last_activity.". The last recorded activity prior to that was on ".baseline_last_activity."."
+    | eval anomaly_description = "Employee ID ".staff_ID." engaged in activity related to Patient ID ".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".baseline_last_access."."
     | eval use_case_ID="uc1"
     | eval risk_score = "20"  # Adjust the risk score (scale: 0-100) based on anomaly severity.
     | addinfo
     | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time)
-    | fields use_case_ID, anomaly_ID, anomaly_title, anomaly_description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_activity, baseline_last_activity, info_search_time, info_min_time, info_max_time
+    | fields use_case_ID, anomaly_ID, anomaly_title, anomaly_description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_access, baseline_last_access, info_search_time, info_min_time, info_max_time
     | collect index=anomaly_collection sourcetype=patientprivacy_anomaly addinfo=false
   earliest_time: Leave empty (defined in search: earliest=-12min@min).
   latest_time: Leave empty (defined in search: latest=-2min@min).
