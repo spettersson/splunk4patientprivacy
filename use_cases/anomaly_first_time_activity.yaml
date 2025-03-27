@@ -1,30 +1,27 @@
-name: First time activity
+name: First Seen Activity
 type: Anomaly-triggering
 description:
-  This use case identifies employees who recently engaged in activity related to a patient 
-  without having any prior history of activity in the last 6 months.
-use_case_ID: 'uc1'
+  This use case identifies employees who recently accessed a patient medical record
+  without having any prior history of activity with the associated patient in the last 6 months.
+detection_ID: 'd1'
 prerequisites:
 - data_sources: 
-    Events from any journal system that records access to patient journals.
+    Events from any Electronic Medical Record (EMR) application that records access to patient medical records.
 - tags:
-    journalaccess (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
+    emraudit (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
 - indexes: 
-    anomaly_collection (explanation: An index where identified anomalies are stored as events.)
+    anomaly_collection (explanation: an index where identified anomalies are stored as individual events.)
 - lookups: 
-    baseline_historical_activity (a lookup file that stores the last recorded activity between employees and patients in a key-value format.)
+    baseline_historical_activity (a lookup file that stores the last recorded interaction between employees and patients in a key-value format.)
 - fields: 
-    staff_ID (a unique identifier for the employee.)
-    patient_ID (a unique identifier for the patient.)
-    care_provider_ID (a unique identifier for the care provider.)
-    care_unit_ID (a unique identifier for the care unit at the care provider.)
+    careworker_ID (a unique identifier for the employee that is consistent across all EMR applications, for example HSA-id or government-issued id. )
+    patient_ID (a unique identifier for the patient that is consistent across all EMR applications.)
 - searches: 
     search_1
     search_2
     search_3
 
 how_to_implement:
-
   1. fields:
       - Make sure each individual journal system has, at minimum, following fields: staff_ID, patient_ID
 
