@@ -1,15 +1,14 @@
 name: acceptable risk exceeded
 type: incident-triggering
+description: 
 detection_ID: at02
-purpose: 
 prerequisites: 
 - indexes: 
           anomaly_collection (explanation: an index where identified anomalies are stored as events)
-          incident_collection (explanation: an index where identified incidents are stored as events)
 - lookups: 
 - macros: 
 - fields: 
-          staff_ID
+          staff_ID 
           patient_ID
           risk_score
           use_case_ID
