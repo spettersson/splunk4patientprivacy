@@ -1,4 +1,4 @@
-name: acceptable risk exceeded
+name: Acceptable Risk Exceeded
 type: incident-triggering
 description: 
 detection_ID: it02
