@@ -8,7 +8,7 @@ prerequisites:
 - data_sources: 
     Events from any Electronic Medical Record (EMR) application that records access to patient medical records.
 - tags:
-    emraudit (explanation: a tag that references all events, despite data source, that falls into the category of journal records)
+    emraudit (explanation: a tag that references all events, despite what EMR application it originates from, that falls into the category of journal records)
 - indexes: 
     anomaly_collection (explanation: an index where identified anomalies are stored as individual events.)
 - lookups: 
