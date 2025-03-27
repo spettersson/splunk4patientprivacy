@@ -27,7 +27,7 @@ prerequisites:
 
 how_to_implement:
   1. fields:
-      - Make sure each individual journal system has, at minimum, the following fields: staff_ID, patient_ID
+      - Make sure each individual EMR system has, at minimum, the following fields: staff_ID, patient_ID
 
   2. indexes:
       - Make sure that an index with the name 'alert_collection' exist.
