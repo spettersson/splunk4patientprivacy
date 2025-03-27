@@ -15,19 +15,32 @@ prerequisites:
           search 1
 how_to_implement:
 
-search 1: 
+search 2: 
 - description: 
 - search: 
  tag=emraudit staff_ID=* patient_ID=* earliest=-7d
  | fields _time, staff_ID, patient_ID
  | eval hourOfDay = strptime(_time, "%H")
- | stats count by hourOfDay, staff_ID
+ | stats count by hourOfDay, staff_ID, patient_ID
  | lookup baseline_working_hours staff_ID hourOfDay OUTPUT historical_percent
  | where isnull(historical_percent) OR historical_percent<=1
  | eval detection_ID = "at02"
- | eval anomaly_title = "Unusual working hours"
- | eval anomaly_description = "Medical patient record accessed during hour of the day that is unusual for the specific employee"
- | eval 
+ | fields staff_ID, patient_ID, hourOfDay, historical_perc
+ 
+- time range picker: 
+- cron schedule: 
+
+search 2: 
+- description: 
+- search: 
+ tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+ | fields _time, staff_ID, patient_ID
+ | eval hourOfDay = strptime(_time, "%H")
+ | stats count by hourOfDay, staff_ID, patient_ID
+ | lookup baseline_working_hours staff_ID hourOfDay OUTPUT historical_percent
+ | where isnull(historical_percent) OR historical_percent<=1
+ | eval detection_ID = "at02"
+ | fields staff_ID, patient_ID, hourOfDay, historical_perc
  
 - time range picker: 
 - cron schedule: 
