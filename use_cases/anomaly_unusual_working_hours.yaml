@@ -17,6 +17,7 @@ how_to_implement:
 search 1: 
 - description: 
 - search: 
- tag=emraudit
+ tag=emraudit staff_ID=* patient_ID=*
+ 
 - time range picker: 
 - cron schedule: 
