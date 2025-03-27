@@ -1,6 +1,6 @@
-name: unusual working hours
+name: unusual access hours
 type: anomaly-triggering
-description: this detection identifies employees that access patient medical records during times of the day that are unusual based on historical behaviour.
+description: this detection identifies employees that access patient medical records during hours of the day that are unusual based on historical behaviour.
 detection_ID: at02
 prerequisites: 
 - indexes: 
