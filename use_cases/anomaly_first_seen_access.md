@@ -1,8 +1,8 @@
-name: First Seen Activity
+name: First Seen Access
 type: Anomaly-triggering
 description:
   This use case identifies employees who recently accessed a patient medical record
-  without having any prior history of activity with the associated patient in the last 6 months.
+  without having any prior history of access in the last 6 months.
 detection_ID: 'd1'
 prerequisites:
 - data_sources: 
@@ -23,7 +23,7 @@ prerequisites:
 
 how_to_implement:
   1. fields:
-      - Make sure each individual journal system has, at minimum, following fields: staff_ID, patient_ID
+      - Make sure each individual journal system has, at minimum, following fields: _time, staff_ID, patient_ID
 
   2. indexes:
       - Make sure that an index with the name 'alert_collection' exist.
@@ -38,8 +38,8 @@ how_to_implement:
       - Create and enable 'search_1', followed by 'search_2', followed by 'search_3'.
 
 search_1:
-  title: Historical activity baseline
-  description: Establishes a baseline of historical activity for the past 6 months.
+  title: Historical access baseline
+  description: Establishes a baseline of historical access for the past 6 months.
   search: 
     `audit_` earliest=-6mon latest=now
     | fields _time, staff_ID, patient_ID
@@ -70,7 +70,7 @@ search_2:
     cron_expression: "0 0 * * *"  # Runs daily at midnight.
 
 search_3:
-  title: First-time activity detection
+  title: First seen activity detection
   description: Identifies employees who interacted with a patient within the past 10-minute window 
     (accounting for a 2-minute latency) but had no prior activity with that patient in the last 6 months. 
     If matched, an anomaly is triggered and stored as an event in the anomaly_collection index.
