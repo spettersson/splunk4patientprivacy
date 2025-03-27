@@ -2,19 +2,19 @@ name: First Seen Access
 type: Anomaly-triggering
 description:
   This detection identifies employees who recently accessed a patient medical record
-  without having any prior history of access in the last 6 months.
+  without having any prior history of access in the last 6 months. For each match, an anomaly is triggered.
 detection_ID: 'd1'
 prerequisites:
 - data_sources: 
-    Events from any Electronic Medical Record (EMR) application that records access to patient medical records.
+    Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
 - tags:
-    emraudit (explanation: a tag that references all events, despite what EMR application it originates from, that falls into the category of journal records)
+    emraudit (explanation: A standardized tag used to identify all EMR audit logs, regardless of source system. These logs contain details about staff interactions with patient medical records.)
 - indexes: 
     anomaly_collection (explanation: an index where identified anomalies are stored as individual events.)
 - lookups: 
     baseline_historical_activity (a lookup file that stores the last recorded interaction between employees and patients in a key-value format.)
 - fields: 
-    careworker_ID (a unique identifier for the employee that is consistent across all EMR applications, for example HSA-id or government-issued id. )
+    staff_ID (a unique identifier for the employee that is consistent across all EMR applications, for example HSA-id or government-issued id.)
     patient_ID (a unique identifier for the patient that is consistent across all EMR applications.)
 - searches: 
     search_1
@@ -23,7 +23,7 @@ prerequisites:
 
 how_to_implement:
   1. fields:
-      - Make sure each individual journal system has, at minimum, following fields: _time, staff_ID, patient_ID
+      - Make sure each individual journal system has, at minimum, following fields: staff_ID, patient_ID
 
   2. indexes:
       - Make sure that an index with the name 'alert_collection' exist.
@@ -31,7 +31,8 @@ how_to_implement:
       
   4. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
-      - Import the lookup baseline_historical_activity.csv 
+      - Create a KVstore lookup with the name 'baseline_historical_access' with the fields
+      Import the lookup baseline_historical_activity.csv 
         (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
         
   5. searches:
