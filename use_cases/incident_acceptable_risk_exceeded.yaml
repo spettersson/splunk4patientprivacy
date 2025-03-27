@@ -1,7 +1,7 @@
 name: acceptable risk exceeded
 type: incident-triggering
 description: 
-detection_ID: at02
+detection_ID: it02
 prerequisites: 
 - indexes: 
           anomaly_collection (explanation: an index where identified anomalies are stored as events)
