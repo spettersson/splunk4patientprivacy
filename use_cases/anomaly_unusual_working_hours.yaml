@@ -23,7 +23,8 @@ search 1:
  | stats count by hourOfDay, staff_ID
  | lookup baseline_working_hours staff_ID hourOfDay OUTPUT historical_percent
  | where isnull(historical_percent) OR historical_percent<=1
- |  
+ | eval anomaly_title = "  "
+ | eval anomaly_description = "   "
  
 - time range picker: 
 - cron schedule: 
