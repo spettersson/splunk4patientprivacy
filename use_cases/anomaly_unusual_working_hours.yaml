@@ -17,5 +17,6 @@ how_to_implement:
 search 1: 
 - description: 
 - search: 
+ tag=emraudit
 - time range picker: 
 - cron schedule: 
