@@ -15,20 +15,18 @@ prerequisites:
           search 1
 how_to_implement:
 
-search 2: 
+search 1: 
 - description: 
 - search: 
- tag=emraudit staff_ID=* patient_ID=* earliest=-7d
- | fields _time, staff_ID, patient_ID
+ tag=emraudit staff_ID=* patient_ID=* earliest=-30d
+ | fields _time, staff_ID
  | eval hourOfDay = strptime(_time, "%H")
- | stats count by hourOfDay, staff_ID, patient_ID
- | lookup baseline_working_hours staff_ID hourOfDay OUTPUT historical_percent
- | where isnull(historical_percent) OR historical_percent<=1
- | eval detection_ID = "at02"
- | fields staff_ID, patient_ID, hourOfDay, historical_perc
+ | rare hourOfDay by staff_ID
+ | fields staff_ID, hourOfDay, percent
+ | outputlookup baseline_working_hours
  
-- time range picker: 
-- cron schedule: 
+- time range picker: N/A (the time window is set to the last 30 days via earliest=-30d in the search)
+- cron schedule: * * * * *
 
 search 2: 
 - description: 
