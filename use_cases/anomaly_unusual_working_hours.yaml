@@ -1,6 +1,6 @@
 name: unusual working hours
 type: anomaly-triggering
-purpose: this use case aims to identify employees that access patient medical records during times that are unusual based on historical behaviour.
+purpose: this detection identifies employees that access patient medical records during times of the day that are unusual based on historical behaviour.
 prerequisites: 
 - indexes: 
           anomaly_collection
