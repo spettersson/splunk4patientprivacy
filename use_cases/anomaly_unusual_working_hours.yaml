@@ -1,6 +1,7 @@
 name: unusual working hours
 type: anomaly-triggering
-purpose: this detection identifies employees that access patient medical records during times of the day that are unusual based on historical behaviour.
+description: this detection identifies employees that access patient medical records during times of the day that are unusual based on historical behaviour.
+detection_ID: at02
 prerequisites: 
 - indexes: 
           anomaly_collection
@@ -23,8 +24,10 @@ search 1:
  | stats count by hourOfDay, staff_ID
  | lookup baseline_working_hours staff_ID hourOfDay OUTPUT historical_percent
  | where isnull(historical_percent) OR historical_percent<=1
- | eval anomaly_title = "  "
- | eval anomaly_description = "   "
+ | eval detection_ID = "at02"
+ | eval anomaly_title = "Unusual working hours"
+ | eval anomaly_description = "Medical patient record accessed during hour of the day that is unusual for the specific employee"
+ | eval 
  
 - time range picker: 
 - cron schedule: 
