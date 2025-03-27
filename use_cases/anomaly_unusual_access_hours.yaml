@@ -18,7 +18,7 @@ how_to_implement:
 search 1: 
 - description: 
 - search: 
- tag=emraudit staff_ID=* patient_ID=* action IN (view, created, modified, deleted, exported) earliest=-30d
+ tag=emraudit staff_ID=* patient_ID=* earliest=-30d
  | fields _time, staff_ID
  | eval hourOfDay = strptime(_time, "%H")
  | rare hourOfDay by staff_ID
@@ -31,7 +31,7 @@ search 1:
 search 2: 
 - description: 
 - search: 
- tag=emraudit staff_ID=* patient_ID=* action IN (view, created, modified, deleted, exported) earliest=-12min@min latest=-2min@min
+ tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
  | fields _time, staff_ID, patient_ID
  | eval hourOfDay = strptime(_time, "%H")
  | stats count by hourOfDay, staff_ID, patient_ID
