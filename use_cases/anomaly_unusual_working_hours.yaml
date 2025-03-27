@@ -17,7 +17,13 @@ how_to_implement:
 search 1: 
 - description: 
 - search: 
- tag=emraudit staff_ID=* patient_ID=*
+ tag=emraudit staff_ID=* patient_ID=* earliest=-7d
+ | fields _time, staff_ID, patient_ID
+ | eval hourOfDay = strptime(_time, "%H")
+ | stats count by hourOfDay, staff_ID
+ | lookup baseline_working_hours staff_ID hourOfDay OUTPUT historical_percent
+ | where isnull(historical_percent) OR historical_percent<=1
+ |  
  
 - time range picker: 
 - cron schedule: 
