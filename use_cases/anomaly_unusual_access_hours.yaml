@@ -13,6 +13,7 @@ prerequisites:
           patient_ID
 - searches: 
           search 1
+          search 2
 how_to_implement:
 
 search 1: 
