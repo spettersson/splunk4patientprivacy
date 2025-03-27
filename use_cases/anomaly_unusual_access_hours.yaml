@@ -1,6 +1,6 @@
 name: unusual access hours
 type: anomaly-triggering
-description: this detection identifies employees that access patient medical records during hours of the day that are unusual based on historical behaviour. For each match, an anomaly is triggered.
+description: this detection identifies employees that access patient medical records during an hour of the day that are unusual based on historical behaviour. For each match, an anomaly is triggered.
 detection_ID: at02
 prerequisites: 
 - indexes: 
@@ -18,7 +18,7 @@ how_to_implement:
 search 1: 
 - description: 
 - search: 
- tag=emraudit staff_ID=* patient_ID=* earliest=-30d
+ tag=emraudit staff_ID=* patient_ID=* operation_type IN (access, earliest=-30d
  | fields _time, staff_ID
  | eval hourOfDay = strptime(_time, "%H")
  | rare hourOfDay by staff_ID
