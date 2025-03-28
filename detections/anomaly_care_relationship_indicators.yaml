@@ -1,7 +1,7 @@
-name: signs of care relationship
+name: care relationship indicators
 type: anomaly-triggering
 description: 
-          Looks for events that indicate that 
+          This detection for specific events that could potentially indicate that there exists a care relationship between the employee and patient. 
 detection_ID: at5
 severity: informational
 prerequisites:
@@ -10,11 +10,12 @@ prerequisites:
 - indexes: 
           anomaly_collection
 - lookups: 
-          baseline_access_hours
+          N/A
 - macros: 
 - fields: 
           staff_ID
           patient_ID
+          
 - searches: 
           search_1
           search_2
