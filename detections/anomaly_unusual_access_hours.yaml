@@ -3,7 +3,7 @@ type: anomaly-triggering
 description: 
           Looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access pattern. 
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
-          For each match, an anomaly is triggered.
+          For each match, an anomaly is created and stored as an event in index=anomaly_collection.
 detection_ID: ant2
 prerequisites:
 - data sources:
