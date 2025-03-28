@@ -1,4 +1,4 @@
-name: First Seen Access
+name: first seen access
 type: Anomaly-triggering
 description:
   This detection identifies employees who recently accessed a patient medical record
