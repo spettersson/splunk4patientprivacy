@@ -33,7 +33,7 @@ how_to_implement:
 search_1: 
 - description: 
 - search: 
-        tag=emraudit
+        tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
         | fields _time, staff_ID, patient_ID
         | stats count by staff_ID, patient_ID
         | lookup patientpii_lookup patient_ID OUTPUT patient_residential_street_name, patient_residential_street_number, patient_residential_postal_code
@@ -61,5 +61,7 @@ search_1:
         | eval anomaly_risk_score = anomaly_risk_factor * anomaly_risk_score
         | fields staff_*, patient_*, matching_*, detection_*, anomaly_*
         | collect index=anomaly_collection add_info=false
+- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
+- cron schedule: */10 * * * * 
         
         
