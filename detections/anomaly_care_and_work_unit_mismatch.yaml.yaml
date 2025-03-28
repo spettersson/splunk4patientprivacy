@@ -4,7 +4,7 @@ description:
         This detection looks for employees accessing patient medical records associated with a care unit 
         that does not match their assigned work unit. This mismatch may indicate access outside of the employee’s 
         clinical responsibility or team.
-detection_ID: at4
+detection_ID: ant4
 prerequisites: 
 - data sources:
         1. Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
@@ -48,7 +48,7 @@ search_1:
             matching_postal_code == "true", 1
         )			
         | addinfo
-        | eval detection_ID = "at4"
+        | eval detection_ID = "ant4"
         | eval detection_title = "matching residential information"
         | eval detection_description = "looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
         | eval anomaly_ID = md5(staff_ID.patient_ID.sid.info_search_time)
