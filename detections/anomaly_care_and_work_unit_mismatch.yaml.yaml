@@ -11,9 +11,9 @@ prerequisites:
 - indexes: 
         anomaly_collection
 - lookups: 
-        NULL
+        N/A
 - macros: 
-        NULL
+        N/A
 - fields: 
           staff_ID
           work_unit_ID
