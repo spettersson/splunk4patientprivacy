@@ -1,19 +1,16 @@
-The purpose of this repository is to help organizations harness the full power of Splunk to protect patient privacy by detecting and investigating potentially inappropriate access to patient medical records.
+# 🛡️ Patient Privacy Monitoring for Splunk
+
+The purpose of this repository is to help organizations harness the power of **Splunk** to protect patient privacy by detecting and investigating potentially inappropriate access to medical records.
 
 ## 📌 What You'll Find Here
 
-### 🔍 Detections
-**Detections** that designed to work together to surface incidents that potentially could indicate a violation of patient privacy. The detections fall into the following two categories:
+### 🔍 Detections  
+Detections built to work together to surface potential privacy violations. They fall into two categories:
 
-#### Observation Triggering
-- Detects designed to look for **behavior** by searching and correlating events to trigger observations.
-- Surfaces behaviour that range from informational to critical.
+- **Observation Triggering** – Identifies behaviors and patterns by searching and correlating events.  
+- **Alert Triggering** – Groups observations over time to raise high-confidence alerts.
 
-#### Alert Triggering
-- Correlates and **groups anomalies together** to trigger incidents.
-- Connects patterns of unusual behavior over time, helping to identify potential policy violations.
-
-### 📊 Dashboards
-- Prebuilt **Splunk dashboards** for presenting and investigating observation and alerts.
+### 📊 Dashboards  
+Prebuilt Splunk dashboards for visualizing, reviewing, and investigating observations and alerts.
 
 
