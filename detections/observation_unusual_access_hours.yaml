@@ -1,5 +1,7 @@
-name: unusual access hours
-type: observation-triggering
+name: 
+          unusual access hours
+type: 
+          observation-triggering
 description: 
           Looks for employees accessing patient medical records during unusual hours of the day, based on their historical access pattern. 
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
@@ -33,8 +35,10 @@ search_1:
           | rare hourOfDay by staff_ID
           | fields staff_ID, hourOfDay, percent
           | outputlookup baseline_access_hours
-- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
-- cron schedule: * * * * *
+- time range picker: 
+          N/A (the time window for the search is defined in the search itself via the earliest and latest options).
+- cron schedule: 
+          * * * * *
 
 search_2: 
 - description: 
