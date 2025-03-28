@@ -1,7 +1,6 @@
 name: First Seen Access
 type: Observation-triggering
-description:
-          This detection looks for employees who recently accessed a patient medical record
+description: This detection looks for employees who recently accessed a patient medical record
           without having any prior history with that paitent in the last 6 months. For each match, 
           an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs1
@@ -49,8 +48,8 @@ search_1:
           | stats latest(_time) as last_access by staff_ID, patient_ID
           | table staff_ID, patient_ID, last_access
           | outputlookup baseline_historical_access
-  earliest_time: Leave empty (defined in search: earliest=-6mon).
-  latest_time: Leave empty (defined in search: latest=now).
+  earliest_time: Leave empty (defined in search via earliest option).
+  latest_time: Leave empty (defined in search via latest option).
   schedule: N/A (Run manually before enabling search 2 and search 3).
 
 search_2:
@@ -66,8 +65,8 @@ search_2:
           | stats max(last_access) as last_access by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_access
           | outputlookup baseline_historical_access
-  earliest_time: Leave empty (defined in search: earliest=-1d@d).
-  latest_time: Leave empty (defined in search: latest=@d).
+  earliest_time: Leave empty (defined in search via earliest option).
+  latest_time: Leave empty (defined in search via latest option).
   schedule: 
     cron_expression: "0 0 * * *"  # Runs daily at midnight.
 
@@ -95,7 +94,7 @@ For each match, an observation is triggered and stored as an event in the observ
           | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, staff_ID, patient_ID, last_access, historical_last_access
           | collect index=observation_collection sourcetype=emraudit_observation addinfo=false
-  earliest_time: Leave empty (defined in search: earliest=-12min@min).
-  latest_time: Leave empty (defined in search: latest=-2min@min).
+  earliest_time: Leave empty (defined in search via earliest option).
+  latest_time: Leave empty (defined in search via latest option).
   schedule: 
     cron_expression: "*/10 * * * *" # Runs every 10 minutes, 24/7.
