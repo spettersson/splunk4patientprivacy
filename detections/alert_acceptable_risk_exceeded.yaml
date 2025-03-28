@@ -15,7 +15,7 @@ prerequisites:
           staff_ID 
           patient_ID
           risk_score
-          use_case_ID
+          detection_ID
           observation_ID
 - searches: 
           search 1
@@ -26,7 +26,7 @@ search 1:
 - description: 
 - search: 
           index=observation_collection earliest=-24h
-          | stats sum(risk_score) as risk_score dc(use_case_ID) as distinct_observations count as total_observations values(observation_ID) as observation_ID values(patient_ID) as patient_ID by staff_ID
+          | stats sum(risk_score) as risk_score dc(detection_ID) as distinct_observations count as total_observations values(observation_ID) as observation_ID values(patient_ID) as patient_ID by staff_ID
           | eval observation_ID = mvjoin(observation_ID,",")
           | eval patient_ID = mvjoin(patient_ID,",")
           | eval alert_title = ""
