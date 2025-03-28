@@ -1,7 +1,7 @@
 name: unusual access hours
 type: anomaly-triggering
 description: 
-          looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access pattern. 
+          Looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access pattern. 
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
           For each match, an anomaly is triggered.
 detection_ID: at2
