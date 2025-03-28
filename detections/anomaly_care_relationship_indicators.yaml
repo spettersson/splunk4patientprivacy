@@ -4,6 +4,7 @@ description:
           This detection looks for specific signals that may indicate the existence of a legitimate care relationship between 
           an employee and a patient. While it does not represent suspicious behavior, it provides important context when grouping 
           anomalies to surface alerts, and/or when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour.
+          For each match, an anomaly is created and stored as an event in index=anomaly_collection.
 detection_ID: ant5
 severity: informational
 prerequisites:
