@@ -41,5 +41,6 @@ search_1:
           | eval observation_risk_score = 0
           | fields detection_*, observation_*, info_*, staff_ID, patient_ID, care_provider_ID, action, target_Type, clinical_event_type
           | collect index=observation_collection addinfo=false
-- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
 - cron schedule: */10 * * * *
