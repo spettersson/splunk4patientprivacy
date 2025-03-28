@@ -6,6 +6,8 @@ detection_ID: obs6
 prerequisites:
 - data sources:
           EMR audit logs
+- tags: 
+          emraudit
 - indexes: 
           observation_collection (=where identified observations are stored as individual events)
 - fields: 
