@@ -12,8 +12,8 @@ prerequisites:
           staff_ID
           patient_ID
 - searches: 
-          search 1
-          search 2
+          search_1
+          search_2
 how_to_implement:
 
 search_1: 
