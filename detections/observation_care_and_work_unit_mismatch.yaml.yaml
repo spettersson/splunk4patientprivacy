@@ -1,7 +1,6 @@
-name: mismatch between care unit and work unit
-type: observation-triggering
-description: 
-        This detection looks for employees accessing patient medical records associated with a care unit 
+name: Mismatch Between Care unit and Work Unit
+type: Observation-triggering
+description: This detection looks for employees accessing patient medical records associated with a care unit 
         that does not match their assigned work unit. This mismatch may indicate access outside of the employee’s 
         clinical responsibility or team. For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs4
@@ -26,10 +25,11 @@ prerequisites:
         search_1
         
 how_to_implement:
+
 search_1: 
+- title: 
 - description: 
-- search: 
-        tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
         | fields _time, staff_ID, patient_ID
         | stats count by staff_ID, patient_ID
         | lookup patientpii_lookup patient_ID OUTPUT patient_residential_street_name, patient_residential_street_number, patient_residential_postal_code
