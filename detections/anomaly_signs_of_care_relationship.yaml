@@ -1,1 +1,53 @@
+name: signs of care relationship
+type: anomaly-triggering
+description: 
+          Looks for events that indicate that 
+detection_ID: at5
+prerequisites:
+- data sources:
+          
+- indexes: 
+          anomaly_collection
+- lookups: 
+          baseline_access_hours
+- macros: 
+- fields: 
+          staff_ID
+          patient_ID
+- searches: 
+          search_1
+          search_2
+how_to_implement:
 
+search_1: 
+- description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) for further use in search_2 to detect anomalies.
+- search: 
+ tag=emraudit staff_ID=* patient_ID=* earliest=-30d
+ | fields _time, staff_ID
+ | eval hourOfDay = strptime(_time, "%H")
+ | rare hourOfDay by staff_ID
+ | fields staff_ID, hourOfDay, percent
+ | outputlookup baseline_access_hours
+- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
+- cron schedule: * * * * *
+
+search_2: 
+- description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour (percent ≤ 1 or null), an anomaly is created and stored in the index=anomaly_collection.
+- search: 
+ tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+ | fields _time, staff_ID, patient_ID
+ | eval hourOfDay = strptime(_time, "%H")
+ | stats count by hourOfDay, staff_ID, patient_ID
+ | lookup baseline_access_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
+ | where isnull(historical_percent) OR historical_percent<=1
+ | addinfo
+ | eval detection_ID = "at2"
+ | eval detection_title = "unusual access hours"
+ | eval detection_description = "looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access patterns."
+ | eval anomaly_ID = md5(staff_ID.patient_ID.hourOfDay.sid.info_search_time)
+ | eval anomaly_message = "staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
+ | eval anomaly_risk_score = 10
+ | fields staff_ID, patient_ID, hourOfDay, detection_*, anomaly_*, info_*
+ | collect anomaly_collection add_info=false
+- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
+- cron schedule: */10 * * * * 
