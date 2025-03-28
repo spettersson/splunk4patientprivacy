@@ -3,7 +3,7 @@ type: anomaly-triggering
 description:
           This detection looks for employees who recently accessed a patient medical record
           without having any prior history with that paitent in the last 6 months. For each match, an anomaly is triggered.
-detection_ID: at1
+detection_ID: ant1
 prerequisites:
 - data_sources: 
     Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
@@ -89,14 +89,15 @@ search_3:
     | eval anomaly = if(isnull(historical_last_access) OR time_since_last_access >= 14515200 , "1", "0")
     | where anomaly = "1"
     | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_access) AS last_access 
-    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_access) AS historical_last_access 
-    | eval anomaly_title = "First seen access"
-    | eval anomaly_description = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
-    | eval detection_ID="at1"
-    | eval risk_score = "20"  # Adjust the risk score (scale: 0-100) based on anomaly severity.
+    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(historical_last_access) AS historical_last_access 
     | addinfo
-    | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time)
-    | fields detection_ID, anomaly_ID, anomaly_title, anomaly_description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_access, baseline_last_access, info_search_time, info_min_time, info_max_time
+    | eval detection_title = "First seen access"
+    | eval detection_description = ""
+    | eval detection_ID="ant1"
+    | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time
+    | eval anomaly_message = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
+    | eval anomaly_risk_score = "20"
+    | fields detection_*, anomaly_*, info_*, care_*, staff_ID, patient_ID, last_access, historical_last_access
     | collect index=anomaly_collection sourcetype=emraudit_anomaly addinfo=false
   earliest_time: Leave empty (defined in search: earliest=-12min@min).
   latest_time: Leave empty (defined in search: latest=-2min@min).
