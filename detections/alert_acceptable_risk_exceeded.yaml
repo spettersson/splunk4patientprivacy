@@ -8,8 +8,6 @@ prerequisites:
 - indexes: 
           observation_collection (=where identified observations are stored as individual events)
           alert_collection (=where triggered alerts are stored as individual events)
-- lookups: 
-- macros: 
 - fields: 
           staff_ID 
           patient_ID
