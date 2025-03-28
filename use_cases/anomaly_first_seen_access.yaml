@@ -3,7 +3,7 @@ type: Anomaly-triggering
 description:
   This detection identifies employees who recently accessed a patient medical record
   without having any prior history with that paitent in the last 6 months. For each match, an anomaly is triggered.
-detection_ID: at1
+detection_ID: at01
 prerequisites:
 - data_sources: 
     Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
