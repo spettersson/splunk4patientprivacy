@@ -18,10 +18,8 @@ prerequisites:
 - tags: 
         emraudit
 - searches: 
-        search_1
-        
+        search_1        
 how_to_implement:
-
 search_1: 
 - title: 
 - description: 
