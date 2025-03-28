@@ -1,4 +1,6 @@
 
+search_1: 
+descripti
 tag=emraudit
 | fields _time, staff_ID, patient_ID
 | stats count by staff_ID, patient_ID
@@ -8,14 +10,14 @@ tag=emraudit
 | eval patient_residential_address_and_postal_code = patient_residential_street_name + patient_residential_street_number + patient_postal_code
 | eval patient_residential_street_name_and_postal_code = patient_residential_street_name + patient_postal_code
 | eval staff_residential_street_name_and_postal_code = staff_residential_street_name + staff_postal_code
-| eval matching_address = if(staff_residential_address == patient_residential_address, "true", "false")
-| eval matching_street_name = if(staff_residential_street_name == patient_residential_street_name, "true", "false")
+| eval matching_address = if(staff_residential_address_and_postal_code == patient_residential_address_and_postal_code, "true", "false")
+| eval matching_street_name = if(staff_residential_street_name_and_postal_code  == patient_residential_street_name_and_postal_code , "true", "false")
 | eval matching_postal_code = if(staff_residential_postal_code == patient_residential_postal_code, "true", "false")
 | where matching_address="true" OR matching_street_name="true" OR matching_postal_code="true"
-| eval risk_factor = case(
-    matching_address_and_postal_code == "true", 2, 
-    matching_street_name_and_postal_code == "true", 1.5,
-    matching_postal_code == "true", 1.25, 
+| eval anomaly_risk_factor = case(
+    matching_address == "true", 10, 
+    matching_street_name == "true", 3,
+    matching_postal_code == "true", 1, 
     true(), 1
 )			
 | addinfo
@@ -26,7 +28,7 @@ tag=emraudit
  | eval anomaly_message = "staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
  | eval anomaly_risk_score = 10
  
-| eval risk_score = risk_factor * risk_score
+| eval anomaly_risk_score = anomaly_risk_factor * anomaly_risk_score
 | fields staff_*, patient_*, matching_*, risk_*, detection_*
 
 
