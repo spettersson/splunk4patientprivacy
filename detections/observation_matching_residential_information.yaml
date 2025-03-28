@@ -7,8 +7,8 @@ detection_ID: obs3
 author: Simon Pettersson, Splunk
 prerequisites: 
 - data sources:
-        1. EMR audit logs
-        2. Staff and patient residential information
+        EMR audit logs
+        Staff and patient residential information
 - indexes: 
         observation_collection
 - lookups: 
