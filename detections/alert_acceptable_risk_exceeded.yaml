@@ -1,8 +1,8 @@
 name: Risk Threshold Exceeded
 type: Alert Triggering
-description: This detection groups observations generated the last 24 hours by staff_ID and patient_ID respectively, and aggregates the total 
-          risk_score contributed by each observation. When the cumulative risk score for a specific employee or patient exceeds 
-          a level of 100, an alert is created and stored as an event in index=alert_collection. 
+description: This detection groups observations from the past 24 hours by staff_ID and patient_ID, and aggregates 
+          the total risk_score contributed by each. When the cumulative risk score for a specific employee or patient exceeds 
+          100, an alert is generated and stored as an event in the alert_collection index. 
 detection_ID: ale1
 prerequisites: 
 - indexes: 
@@ -22,15 +22,16 @@ how_to_implement:
 search 1: 
 - description: 
 - search: index=observation_collection earliest=-24h
-          | stats sum(risk_score) as risk_score dc(detection_ID) as distinct_observations count as total_observations values(observation_ID) as observation_ID values(patient_ID) as patient_ID by staff_ID
+          | stats sum(observation_risk_score) as total_risk_score dc(detection_ID) as distinct_observations count as total_observations values(observation_ID) as observation_ID values(patient_ID) as patient_ID by staff_ID
+          | where total_risk_score > 100 
           | eval observation_ID = mvjoin(observation_ID,",")
           | eval patient_ID = mvjoin(patient_ID,",")
-          | eval alert_title = ""
-          | eval alert_description = ""
           | addinfo
           | eval detection_ID = "ale1"
-          | eval detection_title = ""
-          | eval alert_ID = md5(incident_description.info_search_time)
+          | eval detection_title = "Risk Threshold Exceeded"
+          | eval detection_description = ""
+          | eval alert_ID = md5(incident_description.sid.info_search_time)
+          | eval alert_title = ""
           | eval alert_message = ""
           | fields detection_*, alert_*, info_*, staff_ID, patient_ID, distinct_observations, total_observations
           | collect index=alert_collection addinfo=false
