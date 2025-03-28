@@ -29,9 +29,7 @@ how_to_implement:
 
 search_1: 
 - description: 
-          
-- search: 
-          tag=emraudit (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
+- search: tag=emraudit (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
           | fields _time, staff_ID, patient_ID, care_provider_ID, action, target_type, clinical_event_type
           | stats count by staff_ID, patient_ID, care_provider_ID, action, target_type, clinical_event_type
           | addinfo
