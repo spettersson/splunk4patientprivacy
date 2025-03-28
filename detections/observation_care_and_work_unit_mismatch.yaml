@@ -1,5 +1,5 @@
 name: Mismatch Between Care unit and Work Unit
-type: Observation Identifier
+type: Observation Triggering
 description: This detection looks for employees accessing patient medical records associated with a care unit 
         that does not match their assigned work unit. This mismatch may indicate access outside of the employee’s 
         clinical responsibility or team. For each match, an observation is created and stored as an event in index=observation_collection.
