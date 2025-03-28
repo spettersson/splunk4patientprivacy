@@ -15,7 +15,6 @@ prerequisites:
           search_1
           search_2
 how_to_implement:
-
 search_1: 
 - title: 
 - description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
