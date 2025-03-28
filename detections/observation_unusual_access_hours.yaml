@@ -48,10 +48,10 @@ search_2:
           | where isnull(historical_percent) OR historical_percent<=1
           | addinfo
           | eval detection_ID = "obs2"
-          | eval detection_title = "unusual access hours"
-          | eval detection_description = "looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access patterns."
+          | eval detection_title = "Unusual Access Hours"
+          | eval detection_description = "Looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access patterns."
           | eval observation_ID = md5(staff_ID.patient_ID.hourOfDay.sid.info_search_time)
-          | eval observation_message = "staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
+          | eval observation_message = "Staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
           | eval observation_risk_score = 10
           | fields staff_ID, patient_ID, hourOfDay, detection_*, observation_*, info_*
           | collect observation_collection add_info=false
