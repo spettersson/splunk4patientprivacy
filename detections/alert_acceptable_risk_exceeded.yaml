@@ -1,7 +1,7 @@
 name: risk threshold exceeded
 type: alert-triggering
 description: 
-detection_ID: alert02
+detection_ID: alt1
 prerequisites: 
 - indexes: 
           anomaly_collection (explanation: an index where triggered anomalies are stored as individual events)
@@ -26,7 +26,7 @@ search 1:
           | stats sum(risk_score) as risk_score dc(use_case_ID) as distinct_anomalies count as total_anomalies values(anomaly_ID) as anomaly_ID values(patient_ID) as patient_ID by staff_ID
           | eval anomaly_ID = mvjoin(anomaly_ID,",")
           | eval patient_ID = mvjoin(patient_ID,",")
-          | eval use_case_ID = "uc2"
+          | eval use_case_ID = "alt1"
           | eval incident_title = ""
           | eval incident_description = ""
           | addinfo
