@@ -57,5 +57,6 @@ search_1:
         | eval observation_risk_score = observation_risk_factor * observation_risk_score
         | fields staff_*, patient_*, matching_*, detection_*, observation_*
         | collect index=observation_collection add_info=false
-- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options)
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
 - cron schedule: */10 * * * * (run once every 10th minute, every hour, every day of the week)
