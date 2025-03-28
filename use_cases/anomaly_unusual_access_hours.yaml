@@ -16,8 +16,8 @@ prerequisites:
           search 2
 how_to_implement:
 
-search 1: 
-- description: 
+search_1: 
+- description: This search analyzes audit logs from the past 30 days to build a baseline of access hours for each staff member. It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) to be used in search_2 to detect anomalies.
 - search: 
  tag=emraudit staff_ID=* patient_ID=* earliest=-30d
  | fields _time, staff_ID
@@ -28,13 +28,13 @@ search 1:
 - time range picker: N/A (the time window is set to the last 30 days via earliest=-30d in the search)
 - cron schedule: * * * * *
 
-search 2: 
-- description: 
+search_2: 
+- description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour (percent ≤ 1 or null), an anomaly is created and stored in the index=anomaly_collection.
 - search: 
  tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
  | fields _time, staff_ID, patient_ID
  | eval hourOfDay = strptime(_time, "%H")
- | stats earliest(_time) as first_access count by hourOfDay, staff_ID, patient_ID
+ | stats count by hourOfDay, staff_ID, patient_ID
  | lookup baseline_access_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
  | where isnull(historical_percent) OR historical_percent<=1
  | addinfo
