@@ -1,9 +1,9 @@
 name: first seen access
-type: anomaly-triggering
+type: observation-triggering
 description:
           This detection looks for employees who recently accessed a patient medical record
           without having any prior history with that paitent in the last 6 months. For each match, 
-          an anomaly is created and stored as an event in index=anomaly_collection.
+          an observation is created and stored as an event in index=observation_collection.
 detection_ID: ant1
 prerequisites:
 - data_sources: 
@@ -11,7 +11,7 @@ prerequisites:
 - tags:
     emraudit (explanation: A standardized tag used to identify all EMR audit logs, regardless of source system. These logs contain details about staff interactions with patient medical records.)
 - indexes: 
-    anomaly_collection (explanation: an index where identified anomalies are stored as individual events.)
+    observation_collection (explanation: an index where identified anomalies are stored as individual events.)
 - lookups: 
     baseline_historical_access (a lookup file that stores the last seen access between employees and patients.)
 - fields: 
@@ -76,10 +76,10 @@ search_2:
     cron_expression: "0 0 * * *"  # Runs daily at midnight.
 
 search_3:
-  title: anomaly - first seen access
+  title: observation - first seen access
   description: Identifies employees who accessed a patient medical record within the past 10-minute window 
     (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
-    For each match, an anomaly is triggered and stored as an event in the anomaly_collection index.
+    For each match, an observation is triggered and stored as an event in the observation_collection index.
   search: 
     tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
     | fields _time, staff_ID, patient_ID
@@ -87,19 +87,19 @@ search_3:
     by staff_ID, patient_ID
     | lookup baseline_historical_access staff_ID patient_ID OUTPUT last_access AS historical_last_access
     | eval time_since_last_access = now() - historical_last_access
-    | eval anomaly = if(isnull(historical_last_access) OR time_since_last_access >= 14515200 , "1", "0")
-    | where anomaly = "1"
+    | eval observation = if(isnull(historical_last_access) OR time_since_last_access >= 14515200 , "1", "0")
+    | where observation = "1"
     | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_access) AS last_access 
     | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(historical_last_access) AS historical_last_access 
     | addinfo
     | eval detection_title = "First seen access"
     | eval detection_description = ""
     | eval detection_ID="ant1"
-    | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time
-    | eval anomaly_message = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
-    | eval anomaly_risk_score = "20"
-    | fields detection_*, anomaly_*, info_*, care_*, staff_ID, patient_ID, last_access, historical_last_access
-    | collect index=anomaly_collection sourcetype=emraudit_anomaly addinfo=false
+    | eval observation_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time
+    | eval observation_message = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
+    | eval observation_risk_score = "20"
+    | fields detection_*, observation_*, info_*, care_*, staff_ID, patient_ID, last_access, historical_last_access
+    | collect index=observation_collection sourcetype=emraudit_observation addinfo=false
   earliest_time: Leave empty (defined in search: earliest=-12min@min).
   latest_time: Leave empty (defined in search: latest=-2min@min).
   schedule: 
