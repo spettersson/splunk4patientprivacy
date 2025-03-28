@@ -19,7 +19,7 @@ prerequisites:
           clinical_event_type
           care_provider_ID
 - tags:
-          emraudit (explanation: identifies all EMR audit logs, regardless of source system. These logs contain details about staff interactions with patient medical records.)
+          emraudit (explanation: identifies all EMR audit logs, regardless of source system)
           prescription (explanation: identifies EMR audit logs where a staff member prescribes or orders medication for a patient, regardless of source system) 
           diagnosis (explanation: identifies EMR audit logs where a staff member adds/updates/removes a diagnosis for a patient, regardless of source system) 
           encounter (explanation: identifies EMR audit logs tied to patient encounters, including outpatient visits, inpatient admissions, or consultations, regardless of source system) 
