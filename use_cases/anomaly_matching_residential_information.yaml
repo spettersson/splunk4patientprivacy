@@ -58,5 +58,6 @@ search_1:
         | eval anomaly_risk_score = 10
         | eval anomaly_risk_score = anomaly_risk_factor * anomaly_risk_score
         | fields staff_*, patient_*, matching_*, detection_*, anomaly_*
+        | collect index=anomaly_collection add_info=false
         
         
