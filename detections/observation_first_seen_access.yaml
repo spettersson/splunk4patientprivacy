@@ -4,7 +4,7 @@ description:
           This detection looks for employees who recently accessed a patient medical record
           without having any prior history with that paitent in the last 6 months. For each match, 
           an observation is created and stored as an event in index=observation_collection.
-detection_ID: ant1
+detection_ID: obs1
 prerequisites:
 - data_sources: 
     Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
@@ -94,7 +94,7 @@ search_3:
     | addinfo
     | eval detection_title = "First seen access"
     | eval detection_description = ""
-    | eval detection_ID="ant1"
+    | eval detection_ID="obs1"
     | eval observation_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time
     | eval observation_message = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
     | eval observation_risk_score = "20"
