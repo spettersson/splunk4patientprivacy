@@ -26,15 +26,12 @@ prerequisites:
 how_to_implement:
   1. fields:
       - Make sure each individual EMR system has, at minimum, the following fields: staff_ID, patient_ID
-
   2. indexes:
       - Make sure that an index with the name 'alert_collection' exist.
       - The retention for this index should be configured according to your requirements/needs. 
-      
   4. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
-      - Create a KVstore lookup with the name 'baseline_historical_access' with the fields: staff_ID, patient_ID, last_access.
-        
+      - Create a KVstore lookup with the name 'baseline_historical_access' with the fields: staff_ID, patient_ID, last_access. 
   5. searches:
       - Create and enable 'search_1', followed by 'search_2', followed by 'search_3'.     
 search_1:
