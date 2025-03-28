@@ -1,0 +1,104 @@
+name: first seen access
+type: Anomaly-triggering
+description:
+  This detection identifies employees who recently accessed a patient medical record
+  without having any prior history with that paitent in the last 6 months. For each match, an anomaly is triggered.
+detection_ID: at1
+prerequisites:
+- data_sources: 
+    Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
+- tags:
+    emraudit (explanation: A standardized tag used to identify all EMR audit logs, regardless of source system. These logs contain details about staff interactions with patient medical records.)
+- indexes: 
+    anomaly_collection (explanation: an index where identified anomalies are stored as individual events.)
+- lookups: 
+    baseline_historical_access (a lookup file that stores the last seen access between employees and patients.)
+- fields: 
+    staff_ID (mandatory; a unique identifier for the employee that is consistent across all EMR systems, for example HSA-id or government-issued id.)
+    patient_ID (mandatory; a unique identifier for the patient that is consistent across all EMR systems.)
+    care_unit_ID (optional)
+    work_unit_ID (optional)
+    care_provider_ID (optional)
+    
+- searches: 
+    search_1
+    search_2
+    search_3
+
+how_to_implement:
+  1. fields:
+      - Make sure each individual EMR system has, at minimum, the following fields: staff_ID, patient_ID
+
+  2. indexes:
+      - Make sure that an index with the name 'alert_collection' exist.
+      - The retention for this index should be configured according to your requirements/needs. 
+      
+  4. lookups:
+      - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
+      - Create a KVstore lookup with the name 'baseline_historical_access' with the fields: staff_ID, patient_ID, last_access
+      Import the lookup baseline_historical_access.csv 
+        (https://github.com/spettersson/splunk4patientprivacy/blob/cc1ba2159eadc166eee0226790126da16d50f608/lookups/baseline_historical_baseline.csv).
+        
+  5. searches:
+      - Create and enable 'search_1', followed by 'search_2', followed by 'search_3'.
+      
+search_1:
+  title: Historical access baseline
+  description: Establishes a baseline of historical access for the past 6 months.
+  search: 
+    tag=emraudit staff_ID=* patient_ID=* earliest=-6mon latest=now
+    | fields _time, staff_ID, patient_ID
+    | stats latest(_time) as last_access by staff_ID, patient_ID
+    | table staff_ID, patient_ID, last_access
+    | outputlookup baseline_historical_access
+  earliest_time: Leave empty (defined in search: earliest=-6mon).
+  latest_time: Leave empty (defined in search: latest=now).
+  schedule: N/A (Run manually before enabling search 2 and search 3).
+
+search_2:
+  title: Historical activity updates
+  description: Incrementally updates the historical access lookup on a daily basis.
+  search: 
+    | inputlookup baseline_historical_access
+    | append [
+        tag=emraudit staff_ID=* patient_ID=* earliest=-1d@d latest=@d
+        | fields _time, staff_ID, patient_ID
+        | stats latest(_time) as last_access by staff_ID, patient_ID
+        | fields staff_ID, patient_ID, last_access
+      ]
+    | stats max(last_access) as last_access by staff_ID, patient_ID
+    | fields staff_ID, patient_ID, last_access
+    | outputlookup baseline_historical_access
+  earliest_time: Leave empty (defined in search: earliest=-1d@d).
+  latest_time: Leave empty (defined in search: latest=@d).
+  schedule: 
+    cron_expression: "0 0 * * *"  # Runs daily at midnight.
+
+search_3:
+  title: anomaly - first seen access
+  description: Identifies employees who accessed a patient medical record within the past 10-minute window 
+    (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
+    For each match, an anomaly is triggered and stored as an event in the anomaly_collection index.
+  search: 
+    tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+    | fields _time, staff_ID, patient_ID
+    | stats earliest(_time) as last_access values(care_provider_ID) as care_provider_ID values(department_ID) as care_unit_ID 
+    by staff_ID, patient_ID
+    | lookup baseline_historical_access staff_ID patient_ID OUTPUT last_access AS historical_last_access
+    | eval time_since_last_access = now() - historical_last_access
+    | eval anomaly = if(isnull(historical_last_access) OR time_since_last_access >= 14515200 , "1", "0")
+    | where anomaly = "1"
+    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_access) AS last_access 
+    | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_access) AS historical_last_access 
+    | eval anomaly_title = "First seen access"
+    | eval anomaly_description = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
+    | eval detection_ID="at1"
+    | eval risk_score = "20"  # Adjust the risk score (scale: 0-100) based on anomaly severity.
+    | addinfo
+    | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time)
+    | fields detection_ID, anomaly_ID, anomaly_title, anomaly_description, risk_score, care_provider_ID, care_unit_ID, staff_ID, patient_ID, last_access, baseline_last_access, info_search_time, info_min_time, info_max_time
+    | collect index=anomaly_collection sourcetype=emraudit_anomaly addinfo=false
+  earliest_time: Leave empty (defined in search: earliest=-12min@min).
+  latest_time: Leave empty (defined in search: latest=-2min@min).
+  schedule: 
+    cron_expression: "*/10 * * * *" # Runs every 10 minutes, 24/7.
