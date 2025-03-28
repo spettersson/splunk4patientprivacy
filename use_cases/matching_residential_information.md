@@ -1,6 +1,6 @@
 ``` init
 tag=emraudit
-| fields staff_ID, patient_ID
+| fields _time, staff_ID, patient_ID
 | stats count by staff_ID, patient_ID
 | lookup patientpii_lookup patient_ID OUTPUT residential_street_name AS patient_residential_street_name, residential_street_number AS patient_residential_street_number, residential_postal_code AS patient_residential_postal_code, government_issued_id
 | lookup staffpii_lookup staff_ID OUTPUT residential_street_name AS staff_residential_street_name, residential_street_number AS staff_residential_street_number, residential_postal_code AS staff_residential_postal_code, government_issued_id
