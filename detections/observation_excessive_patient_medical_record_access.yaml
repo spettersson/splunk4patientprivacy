@@ -1,1 +1,115 @@
+name: Excessive Patient Medical Record Access
+type: Observation-triggering
+description: Looks for e
+          For each match, an observation is created and stored as an event in index=observation_collection.
+detection_ID: obs6
+prerequisites:
+- data sources:
+          EMR audit logs
+- indexes: 
+          observation_collection (=where identified observations are stored as individual events)
+- fields: 
+          staff_ID
+          patient_ID
+- searches: 
+          search_1
+          search_2
+how_to_implement:
 
+search_1: 
+- title: 
+- description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
+          It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) 
+          for further use in search_2 to detect anomalies.
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-30d
+          | fields _time, staff_ID
+          | eval hourOfDay = strptime(_time, "%H")
+          | rare hourOfDay by staff_ID
+          | fields staff_ID, hourOfDay, percent
+          | outputlookup baseline_access_hours
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
+- cron schedule: * * * * *
+
+search_2: 
+- title: 
+- description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
+          member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour 
+          (percent ≤ 1 or null), an observation is created and stored in the index=observation_collection.
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+          | fields _time, staff_ID, patient_ID
+          | eval hourOfDay = strptime(_time, "%H")
+          | stats count by hourOfDay, staff_ID, patient_ID
+          | lookup baseline_access_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
+          | where isnull(historical_percent) OR historical_percent<=1
+          | addinfo
+          | eval detection_ID = "obs2"
+          | eval detection_title = "Unusual Access Hours"
+          | eval detection_description = "Looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access patterns."
+          | eval observation_ID = md5(staff_ID.patient_ID.hourOfDay.sid.info_search_time)
+          | eval observation_message = "Staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
+          | eval observation_risk_score = 10
+          | fields staff_ID, patient_ID, hourOfDay, detection_*, observation_*, info_*
+          | collect observation_collection add_info=false
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
+- cron_schedule: */10 * * * * name: Unusual Access Hours
+type: Observation-triggering
+description: Looks for employees accessing patient medical records during unusual hours of the day, based on their historical access pattern. 
+          Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
+          For each match, an observation is created and stored as an event in index=observation_collection.
+detection_ID: obs2
+prerequisites:
+- data sources:
+          EMR audit logs
+- indexes: 
+          observation_collection (=where identified observations are stored as individual events)
+- lookups: 
+          baseline_access_hours
+- macros: 
+- fields: 
+          staff_ID
+          patient_ID
+- searches: 
+          search_1
+          search_2
+how_to_implement:
+
+search_1: 
+- title: 
+- description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
+          It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) 
+          for further use in search_2 to detect anomalies.
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-30d
+          | fields _time, staff_ID
+          | eval hourOfDay = strptime(_time, "%H")
+          | rare hourOfDay by staff_ID
+          | fields staff_ID, hourOfDay, percent
+          | outputlookup baseline_access_hours
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
+- cron schedule: * * * * *
+
+search_2: 
+- title: 
+- description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
+          member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour 
+          (percent ≤ 1 or null), an observation is created and stored in the index=observation_collection.
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+          | fields _time, staff_ID, patient_ID
+          | eval hourOfDay = strptime(_time, "%H")
+          | stats count by hourOfDay, staff_ID, patient_ID
+          | lookup baseline_access_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
+          | where isnull(historical_percent) OR historical_percent<=1
+          | addinfo
+          | eval detection_ID = "obs2"
+          | eval detection_title = "Unusual Access Hours"
+          | eval detection_description = "Looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access patterns."
+          | eval observation_ID = md5(staff_ID.patient_ID.hourOfDay.sid.info_search_time)
+          | eval observation_message = "Staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
+          | eval observation_risk_score = 10
+          | fields staff_ID, patient_ID, hourOfDay, detection_*, observation_*, info_*
+          | collect observation_collection add_info=false
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
+- cron_schedule: */10 * * * * 
