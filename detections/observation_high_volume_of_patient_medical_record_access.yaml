@@ -1,6 +1,6 @@
-name: Excessive Patient Medical Record Access
+name: High Volume of Patient Medical Record Access
 type: Observation Identifier
-description: Looks for e
+description: This detections looks for 
           For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs6
 author: Simon Pettersson, Splunk
