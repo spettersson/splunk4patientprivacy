@@ -5,6 +5,7 @@ description: This detection looks for specific signals that may indicate the exi
           observations to surface alerts, and also be valuable when investigating alerts, helping to distinguish between acceptable and 
           unacceptable behaviour. For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs5
+author: Simon Pettersson, Splunk
 prerequisites:
 - data sources:
           EMR audit logs
