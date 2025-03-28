@@ -14,8 +14,6 @@ prerequisites:
 - lookups: 
         patientpii_lookup
         staffpii_lookup
-- macros: 
-        NULL
 - fields: 
         staff_ID
         staff_residential_street_name
