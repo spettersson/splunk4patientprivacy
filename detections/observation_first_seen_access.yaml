@@ -65,17 +65,16 @@ search_2:
           | stats max(last_access) as last_access by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_access
           | outputlookup baseline_historical_access
-  earliest_time: Leave empty (defined in search via earliest option).
-  latest_time: Leave empty (defined in search via latest option).
-  schedule: 
-    cron_expression: "0 0 * * *"  # Runs daily at midnight.
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
+- cron_expression: "0 0 * * *"  # Runs daily at midnight.
 
 search_3:
-  title: Observation - First Seen Access
-  description: Identifies employees who accessed a patient medical record within the past 10-minute window 
-(accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
-For each match, an observation is triggered and stored as an event in the observation_collection index.
-  search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+- title: Observation - First Seen Access
+- description: Identifies employees who accessed a patient medical record within the past 10-minute window 
+          (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
+          For each match, an observation is triggered and stored as an event in the observation_collection index.
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
           | fields _time, staff_ID, patient_ID
           | stats earliest(_time) as last_access values(care_provider_ID) as care_provider_ID values(department_ID) as care_unit_ID 
           by staff_ID, patient_ID
@@ -94,7 +93,6 @@ For each match, an observation is triggered and stored as an event in the observ
           | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, staff_ID, patient_ID, last_access, historical_last_access
           | collect index=observation_collection sourcetype=emraudit_observation addinfo=false
-  earliest_time: Leave empty (defined in search via earliest option).
-  latest_time: Leave empty (defined in search via latest option).
-  schedule: 
-    cron_expression: "*/10 * * * *" # Runs every 10 minutes, 24/7.
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
+- cron_expression: "*/10 * * * *" # Runs every 10 minutes, 24/7.
