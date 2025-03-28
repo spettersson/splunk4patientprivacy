@@ -35,15 +35,18 @@ search 2:
  tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
  | fields _time, staff_ID, patient_ID
  | eval hourOfDay = strptime(_time, "%H")
- | stats count by hourOfDay, staff_ID, patient_ID
+ | stats earliest(_time) as first_access count by hourOfDay, staff_ID, patient_ID
  | lookup baseline_access_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
  | where isnull(historical_percent) OR historical_percent<=1
+ | addinfo
  | eval detection_ID = "at02"
  | eval detection_title = "unusual access hours"
  | eval detection_description = "looks for employees accessing patient medical records during unusual hours of the day, based on their own historical behavior"
- | eval anomaly_ID = ""
- | eval anomaly_message = ""
- | fields staff_ID, patient_ID, detection_*, anomaly_*
+ | eval anomaly_ID = md5(staff_ID.patient_ID.hourOfDay.sid.info_search_time)
+ | eval anomaly_message = "staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." at ".first_access."." This is unusual for the employee during this hour of the day."
+ | eval anomaly_risk_score = 10
+ | fields staff_ID, patient_ID, detection_*, anomaly_*, info_*
+ | collect anomaly_collection add_info=false
  
 - time range picker: 
 - cron schedule: 
