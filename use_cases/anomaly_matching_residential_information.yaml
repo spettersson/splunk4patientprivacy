@@ -57,6 +57,6 @@ search_1:
         | eval anomaly_message = "staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
         | eval anomaly_risk_score = 10
         | eval anomaly_risk_score = anomaly_risk_factor * anomaly_risk_score
-        | fields staff_*, patient_*, matching_*, risk_*, detection_*
+        | fields staff_*, patient_*, matching_*, detection_*, anomaly_*
         
         
