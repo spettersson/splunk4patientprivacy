@@ -6,7 +6,7 @@ description: Looks for employees accessing patient medical records during unusua
 detection_ID: obs2
 prerequisites:
 - data sources:
-          1. EMR audit logs
+          EMR audit logs
 - indexes: 
           observation_collection
 - lookups: 
