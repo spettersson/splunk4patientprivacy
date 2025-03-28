@@ -4,6 +4,7 @@ description: This detection looks for employees who recently accessed a patient 
           without having any prior history with that paitent in the last 6 months. For each match, 
           an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs1
+author: Simon Pettersson, Splunk
 prerequisites:
 - data_sources: 
           EMR audit logs
