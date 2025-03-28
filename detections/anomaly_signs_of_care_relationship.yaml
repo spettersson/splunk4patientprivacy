@@ -3,6 +3,7 @@ type: anomaly-triggering
 description: 
           Looks for events that indicate that 
 detection_ID: at5
+severity: informational
 prerequisites:
 - data sources:
           
