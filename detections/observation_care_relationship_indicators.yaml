@@ -11,9 +11,6 @@ prerequisites:
           1. EMR audit logs
 - indexes: 
           observation_collection
-- lookups: 
-          N/A
-- macros: 
 - fields: 
           staff_ID
           patient_ID
