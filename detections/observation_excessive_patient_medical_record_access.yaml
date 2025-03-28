@@ -1,5 +1,5 @@
 name: Excessive Patient Medical Record Access
-type: Observation-triggering
+type: Observation Identifier
 description: Looks for e
           For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs6
