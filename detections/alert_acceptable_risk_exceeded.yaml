@@ -1,13 +1,13 @@
 name: risk threshold exceeded
 type: alert-triggering
 description: 
-          This detection groups anomalies generated the last 24 hours by staff_ID and patient_ID respectively, and aggregates the total 
-          risk_score contributed by each anomaly. When the cumulative risk score for a specific employee or patient exceeds 
+          This detection groups observations generated the last 24 hours by staff_ID and patient_ID respectively, and aggregates the total 
+          risk_score contributed by each observation. When the cumulative risk score for a specific employee or patient exceeds 
           a level of 100, an alert is created and stored as an event in index=alert_collection. 
 detection_ID: alt1
 prerequisites: 
 - indexes: 
-          anomaly_collection (explanation: an index where triggered anomalies are stored as individual events)
+          observation_collection (explanation: an index where triggered observations are stored as individual events)
           alert_collection (explanation: an index where triggered alerts are stored as individual events)
 - lookups: 
 - macros: 
@@ -16,18 +16,18 @@ prerequisites:
           patient_ID
           risk_score
           use_case_ID
-          anomaly_ID
+          observation_ID
 - searches: 
           search 1
 how_to_implement:
-          1. create an index called 'anomaly_collection' and 'incident_collection'. 
+          1. create an index called 'observation_collection' and 'incident_collection'. 
           5. create 'search 1' as a report and then schedule it according to the instructions. 
 search 1: 
 - description: 
 - search: 
-          index=anomaly_collection earliest=-24h
-          | stats sum(risk_score) as risk_score dc(use_case_ID) as distinct_anomalies count as total_anomalies values(anomaly_ID) as anomaly_ID values(patient_ID) as patient_ID by staff_ID
-          | eval anomaly_ID = mvjoin(anomaly_ID,",")
+          index=observation_collection earliest=-24h
+          | stats sum(risk_score) as risk_score dc(use_case_ID) as distinct_observations count as total_observations values(observation_ID) as observation_ID values(patient_ID) as patient_ID by staff_ID
+          | eval observation_ID = mvjoin(observation_ID,",")
           | eval patient_ID = mvjoin(patient_ID,",")
           | eval alert_title = ""
           | eval alert_description = ""
@@ -36,7 +36,7 @@ search 1:
           | eval detection_title = ""
           | eval alert_ID = md5(incident_description.info_search_time)
           | eval alert_message = ""
-          | fields detection_*, alert_*, info_*, staff_ID, patient_ID, distinct_anomalies, total_anomalies
+          | fields detection_*, alert_*, info_*, staff_ID, patient_ID, distinct_observations, total_observations
           | collect index=alert_collection addinfo=false
 - time range picker: 
 - cron schedule: 
