@@ -4,7 +4,8 @@ description:
 detection_ID: it02
 prerequisites: 
 - indexes: 
-          anomaly_collection (explanation: an index where identified anomalies are stored as events)
+          anomaly_collection (explanation: an index where triggered anomalies are stored as individual events)
+          alert_collection (explanation: an index where triggered alerts are stored as individual events)
 - lookups: 
 - macros: 
 - fields: 
@@ -31,6 +32,6 @@ search 1:
           | addinfo
           | eval incident_ID = md5(incident_description.info_search_time)
           | fields incident_ID, incident_title, incident_description, staff_ID, patient_ID, distinct_anomalies, total_anomalies, anomaly_ID, info_search_time, info_min_time, info_max_time
-          | collect index=incident_collection addinfo=false
+          | collect index=alert_collection addinfo=false
 - time range picker: 
 - cron schedule: 
