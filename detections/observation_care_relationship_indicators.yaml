@@ -3,7 +3,7 @@ type: observation-triggering
 description: 
           This detection looks for specific signals that may indicate the existence of a legitimate care relationship between 
           an employee and a patient. While it does not represent suspicious behavior, it provides important context when grouping 
-          anomalies to surface alerts, and/or when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour.
+          observations to surface alerts, and/or when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour.
           For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs5
 prerequisites:
@@ -27,7 +27,7 @@ search_1:
 - description: 
           This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
           It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) for 
-          further use in search_2 to detect anomalies.
+          further use in search_2 to detect observations.
 - search: 
           tag=emraudit staff_ID=* patient_ID=* earliest=-30d
           | fields _time, staff_ID
