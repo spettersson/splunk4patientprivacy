@@ -1,5 +1,5 @@
-name: matching residential information
-type: observation-triggering
+name: Matching Residential Information
+type: Observation-triggering
 description: This detection looks for employees who access patient medical records where there is a potential residential link between the 
         staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
         For each match, an observation is created and stored as an event in index=observation_collection.
