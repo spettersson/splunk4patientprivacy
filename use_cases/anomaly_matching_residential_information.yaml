@@ -1,3 +1,21 @@
+name: matching residential information
+type: anomaly-triggering
+description: looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
+prerequisites: 
+- indexes: 
+        anomaly_collection
+- lookups: 
+        patientpii_lookup
+        staffpii_lookup
+- macros: 
+        NULL
+- fields: 
+          staff_ID
+          patient_ID
+- searches: 
+          search_1
+
+how_to_implement:
 
 search_1: 
 - description: 
@@ -24,7 +42,7 @@ search_1:
         | addinfo
          | eval detection_ID = "at03"
          | eval detection_title = "matching residential information"
-         | eval detection_description = "looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
+         | eval detection_description = "looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
          | eval anomaly_ID = md5(staff_ID.patient_ID.sid.info_search_time)
          | eval anomaly_message = "staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
          | eval anomaly_risk_score = 10
