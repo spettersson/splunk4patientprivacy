@@ -9,7 +9,7 @@ prerequisites:
 - data sources:
           EMR audit logs
 - indexes: 
-          observation_collection
+          observation_collection (=where identified observations are stored as individual events)
 - fields: 
           staff_ID
           patient_ID
