@@ -12,7 +12,16 @@ prerequisites:
         NULL
 - fields: 
           staff_ID
+          staff_residential_street_name
+          staff_residential_street_number
+          staff_residential_postal_code
+          
           patient_ID
+          patient_residential_street_name
+          patient_residential_street_number
+          patient_residential_postal_code
+- tags: 
+        emraudit
 - searches: 
           search_1
 
@@ -24,8 +33,8 @@ search_1:
         tag=emraudit
         | fields _time, staff_ID, patient_ID
         | stats count by staff_ID, patient_ID
-        | lookup patientpii_lookup patient_ID OUTPUT residential_street_name AS patient_residential_street_name, residential_street_number AS patient_residential_street_number, residential_postal_code AS patient_residential_postal_code, government_issued_id
-        | lookup staffpii_lookup staff_ID OUTPUT residential_street_name AS staff_residential_street_name, residential_street_number AS staff_residential_street_number, residential_postal_code AS staff_residential_postal_code, government_issued_id
+        | lookup patientpii_lookup patient_ID OUTPUT patient_residential_street_name, patient_residential_street_number, patient_residential_postal_code
+        | lookup staffpii_lookup staff_ID OUTPUT staff_residential_street_name, staff_residential_street_number, staff_residential_postal_code
         | eval staff_residential_address_and_postal_code = staff_residential_street_name + staff_residential_street_number + staff_postal_code
         | eval patient_residential_address_and_postal_code = patient_residential_street_name + patient_residential_street_number + patient_postal_code
         | eval patient_residential_street_name_and_postal_code = patient_residential_street_name + patient_postal_code
