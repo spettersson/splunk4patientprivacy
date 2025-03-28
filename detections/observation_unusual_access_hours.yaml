@@ -7,7 +7,7 @@ description:
 detection_ID: obs2
 prerequisites:
 - data sources:
-          
+          1. EMR audit logs
 - indexes: 
           observation_collection
 - lookups: 
