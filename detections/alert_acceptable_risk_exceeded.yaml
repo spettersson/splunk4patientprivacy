@@ -1,5 +1,5 @@
 name: Risk Threshold Exceeded
-type: Alert Detector
+type: Alert Triggering
 description: This detection groups observations generated the last 24 hours by staff_ID and patient_ID respectively, and aggregates the total 
           risk_score contributed by each observation. When the cumulative risk score for a specific employee or patient exceeds 
           a level of 100, an alert is created and stored as an event in index=alert_collection. 
