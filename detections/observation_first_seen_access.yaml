@@ -1,5 +1,5 @@
 name: first seen access
-type: anomaly-triggering
+type: observation-triggering
 description:
           This detection looks for employees who recently accessed a patient medical record
           without having any prior history with that paitent in the last 6 months. For each match, an anomaly is triggered.
