@@ -1,7 +1,7 @@
-name: Acceptable Risk Exceeded
-type: incident-triggering
+name: risk threshold exceeded
+type: alert-triggering
 description: 
-detection_ID: it02
+detection_ID: alert02
 prerequisites: 
 - indexes: 
           anomaly_collection (explanation: an index where triggered anomalies are stored as individual events)
