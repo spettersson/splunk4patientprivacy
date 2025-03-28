@@ -1,10 +1,10 @@
 name: matching residential information
 type: observation-triggering
-description: 
-        This detection looks for employees who access patient medical records where there is a potential residential link between the 
+description: This detection looks for employees who access patient medical records where there is a potential residential link between the 
         staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
         For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs3
+author: Simon Pettersson, Splunk
 prerequisites: 
 - data sources:
         1. EMR audit logs
@@ -17,15 +17,15 @@ prerequisites:
 - macros: 
         NULL
 - fields: 
-          staff_ID
-          staff_residential_street_name
-          staff_residential_street_number
-          staff_residential_postal_code
+        staff_ID
+        staff_residential_street_name
+        staff_residential_street_number
+        staff_residential_postal_code
           
-          patient_ID
-          patient_residential_street_name
-          patient_residential_street_number
-          patient_residential_postal_code
+        patient_ID
+        patient_residential_street_name
+        patient_residential_street_number
+        patient_residential_postal_code
 - tags: 
         emraudit
 - searches: 
@@ -33,10 +33,10 @@ prerequisites:
 
 how_to_implement:
 
-search_1: 
+search_1:
+- tile: 
 - description: 
-- search: 
-        tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
         | fields _time, staff_ID, patient_ID
         | stats count by staff_ID, patient_ID
         | lookup patientpii_lookup patient_ID OUTPUT patient_residential_street_name, patient_residential_street_number, patient_residential_postal_code
@@ -50,9 +50,9 @@ search_1:
         | eval matching_postal_code = if(staff_residential_postal_code == patient_residential_postal_code, "true", "false")
         | where matching_address="true" OR matching_street_name="true" OR matching_postal_code="true"
         | eval observation_risk_factor = case(
-            matching_address == "true", 10, 
-            matching_street_name == "true", 3,
-            matching_postal_code == "true", 1
+        matching_address == "true", 10, 
+        matching_street_name == "true", 3,
+        matching_postal_code == "true", 1
         )			
         | addinfo
         | eval detection_ID = "obs3"
