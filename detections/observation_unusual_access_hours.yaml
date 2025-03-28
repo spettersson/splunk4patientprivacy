@@ -1,5 +1,5 @@
-name: unusual access hours
-type: observation-triggering
+name: Unusual Access Hours
+type: Observation-triggering
 description: Looks for employees accessing patient medical records during unusual hours of the day, based on their historical access pattern. 
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
           For each match, an observation is created and stored as an event in index=observation_collection.
@@ -25,8 +25,7 @@ search_1:
 - description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
           It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) 
           for further use in search_2 to detect anomalies.
-- search: 
-          tag=emraudit staff_ID=* patient_ID=* earliest=-30d
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-30d
           | fields _time, staff_ID
           | eval hourOfDay = strptime(_time, "%H")
           | rare hourOfDay by staff_ID
@@ -41,8 +40,7 @@ search_2:
 - description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
           member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour 
           (percent ≤ 1 or null), an observation is created and stored in the index=observation_collection.
-- search: 
-          tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
           | fields _time, staff_ID, patient_ID
           | eval hourOfDay = strptime(_time, "%H")
           | stats count by hourOfDay, staff_ID, patient_ID
