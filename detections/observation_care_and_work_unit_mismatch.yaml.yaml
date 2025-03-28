@@ -59,4 +59,4 @@ search_1:
         | collect index=observation_collection add_info=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
-- cron schedule: */10 * * * * (run once every 10th minute, every hour, every day of the week)
+- cron_schedule: */10 * * * * (run once every 10th minute, every hour, every day of the week)
