@@ -7,7 +7,7 @@ description:
 detection_ID: at4
 prerequisites: 
 - data sources:
-        Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
+        1. Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
 - indexes: 
         anomaly_collection
 - lookups: 
