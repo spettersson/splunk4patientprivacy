@@ -35,4 +35,4 @@ search 1:
           | fields detection_*, alert_*, info_*, staff_ID, patient_ID, distinct_observations, total_observations
           | collect index=alert_collection addinfo=false
 - time range picker: 
-- cron schedule: 
+- cron_schedule: 
