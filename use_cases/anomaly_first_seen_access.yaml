@@ -3,7 +3,7 @@ type: Anomaly-triggering
 description:
   This detection identifies employees who recently accessed a patient medical record
   without having any prior history with that paitent in the last 6 months. For each match, an anomaly is triggered.
-detection_ID: at01
+detection_ID: at1
 prerequisites:
 - data_sources: 
     Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
@@ -92,7 +92,7 @@ search_3:
     | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(baseline_last_access) AS historical_last_access 
     | eval anomaly_title = "First seen access"
     | eval anomaly_description = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
-    | eval detection_ID="at01"
+    | eval detection_ID="at1"
     | eval risk_score = "20"  # Adjust the risk score (scale: 0-100) based on anomaly severity.
     | addinfo
     | eval anomaly_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time)
