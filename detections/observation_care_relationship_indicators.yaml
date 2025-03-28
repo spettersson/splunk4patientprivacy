@@ -1,5 +1,5 @@
-name: care relationship indicators
-type: observation-triggering
+name: Care Relationship Indicators
+type: Observation-triggering
 description: 
           This detection looks for specific signals that may indicate the existence of a legitimate care relationship between 
           an employee and a patient. While it does not represent suspicious behavior, it can provide valuable input to the logic used to group
