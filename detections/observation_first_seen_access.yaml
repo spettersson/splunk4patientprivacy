@@ -19,7 +19,6 @@ prerequisites:
           patient_ID 
           care_unit_ID 
           care_provider_ID 
-    
 - searches: 
           search_1
           search_2
@@ -85,7 +84,7 @@ search_3:
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_access) AS last_access 
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(historical_last_access) AS historical_last_access 
           | addinfo
-          | eval detection_title = "First seen access"
+          | eval detection_title = "First Seen Access"
           | eval detection_description = ""
           | eval detection_ID="obs1"
           | eval observation_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time
