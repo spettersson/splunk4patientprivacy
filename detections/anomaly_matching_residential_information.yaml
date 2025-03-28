@@ -46,8 +46,7 @@ search_1:
         | eval anomaly_risk_factor = case(
             matching_address == "true", 10, 
             matching_street_name == "true", 3,
-            matching_postal_code == "true", 1, 
-            true(), 1
+            matching_postal_code == "true", 1
         )			
         | addinfo
         | eval detection_ID = "at3"
