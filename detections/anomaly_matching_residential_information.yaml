@@ -3,7 +3,7 @@ type: anomaly-triggering
 description: 
         This detection looks for employees who access patient medical records where there is a potential residential link between the 
         staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
-detection_ID: at3
+detection_ID: ant3
 prerequisites: 
 - data sources:
         1. Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
@@ -54,7 +54,7 @@ search_1:
             matching_postal_code == "true", 1
         )			
         | addinfo
-        | eval detection_ID = "at3"
+        | eval detection_ID = "ant3"
         | eval detection_title = "matching residential information"
         | eval detection_description = "looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
         | eval anomaly_ID = md5(staff_ID.patient_ID.sid.info_search_time)
