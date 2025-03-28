@@ -3,7 +3,7 @@ type: anomaly-triggering
 description: 
         This detection looks for employees accessing patient medical records associated with a care unit 
         that does not match their assigned work unit. This mismatch may indicate access outside of the employee’s 
-        clinical responsibility or team.
+        clinical responsibility or team. For each match, an anomaly is created and stored as an event in index=anomaly_collection.
 detection_ID: ant4
 prerequisites: 
 - data sources:
