@@ -1,7 +1,6 @@
 name: unusual access hours
 type: observation-triggering
-description: 
-          Looks for employees accessing patient medical records during unusual hours of the day, based on their historical access pattern. 
+description: Looks for employees accessing patient medical records during unusual hours of the day, based on their historical access pattern. 
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
           For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs2
@@ -22,8 +21,8 @@ prerequisites:
 how_to_implement:
 
 search_1: 
-- description: 
-          This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
+- title: 
+- description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
           It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) 
           for further use in search_2 to detect anomalies.
 - search: 
@@ -37,8 +36,8 @@ search_1:
 - cron schedule: * * * * *
 
 search_2: 
-- description: 
-          This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
+- title: 
+- description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
           member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour 
           (percent ≤ 1 or null), an observation is created and stored in the index=observation_collection.
 - search: 
