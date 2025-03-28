@@ -1,6 +1,9 @@
 name: risk threshold exceeded
 type: alert-triggering
 description: 
+          This detection groups anomalies generated the last 24 hours by staff_ID and patient_ID respectively, and aggregates the total 
+          risk_score associated with each. When the cumulative risk score exceeds 
+          a predefined threshold, an alert is created and stored as an event in index=alert_collection. 
 detection_ID: alt1
 prerequisites: 
 - indexes: 
