@@ -7,7 +7,7 @@ description: This detection looks for specific signals that may indicate the exi
 detection_ID: obs5
 prerequisites:
 - data sources:
-          1. EMR audit logs
+          EMR audit logs
 - indexes: 
           observation_collection
 - fields: 
