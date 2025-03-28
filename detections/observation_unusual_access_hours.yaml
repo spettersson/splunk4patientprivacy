@@ -59,4 +59,4 @@ search_2:
           | collect observation_collection add_info=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
-- cron schedule: */10 * * * * 
+- cron_schedule: */10 * * * * 
