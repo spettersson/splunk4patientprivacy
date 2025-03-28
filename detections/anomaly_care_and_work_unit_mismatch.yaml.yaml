@@ -24,7 +24,6 @@ prerequisites:
         emraudit
 - searches: 
           search_1
-
 how_to_implement:
 
 search_1: 
@@ -58,5 +57,5 @@ search_1:
         | eval anomaly_risk_score = anomaly_risk_factor * anomaly_risk_score
         | fields staff_*, patient_*, matching_*, detection_*, anomaly_*
         | collect index=anomaly_collection add_info=false
-- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
-- cron schedule: */10 * * * * 
+- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options)
+- cron schedule: */10 * * * * (run once every 10th minute, every hour, every day of the week)
