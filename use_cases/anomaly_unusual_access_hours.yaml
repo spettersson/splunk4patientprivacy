@@ -17,7 +17,7 @@ prerequisites:
 how_to_implement:
 
 search_1: 
-- description: This search analyzes audit logs from the past 30 days to build a baseline of access hours for each staff member. It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) to be used in search_2 to detect anomalies.
+- description: This search builds a baseline of access hours for each staff member. It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) to be used in search_2 to detect anomalies.
 - search: 
  tag=emraudit staff_ID=* patient_ID=* earliest=-30d
  | fields _time, staff_ID
