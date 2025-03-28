@@ -50,7 +50,7 @@ search_1:
           | outputlookup baseline_historical_access
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
-- cron_expression: N/A (Run manually before enabling search 2 and search 3).
+- cron_schedule: N/A (Run manually before enabling search 2 and search 3).
 
 search_2:
   title: Baseline - Incremental Updates of Historical Access
@@ -67,7 +67,7 @@ search_2:
           | outputlookup baseline_historical_access
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
-- cron_expression: "0 0 * * *"  # Runs daily at midnight.
+- cron_schedule: "0 0 * * *"  # Runs daily at midnight.
 
 search_3:
 - title: Observation - First Seen Access
@@ -95,4 +95,4 @@ search_3:
           | collect index=observation_collection sourcetype=emraudit_observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
-- cron_expression: "*/10 * * * *" # Runs every 10 minutes, 24/7.
+- cron_schedule: "*/10 * * * *" # Runs every 10 minutes, 24/7.
