@@ -4,6 +4,7 @@ description: Looks for employees accessing patient medical records during unusua
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
           For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs2
+author: Simon Pettersson, Splunk
 prerequisites:
 - data sources:
           EMR audit logs
