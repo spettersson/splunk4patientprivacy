@@ -8,7 +8,7 @@ prerequisites:
 - data sources:
         EMR Audit logs
 - indexes: 
-        observation_collection
+        observation_collection (=where identified observations are stored as individual events)
 - lookups: 
         N/A
 - macros: 
