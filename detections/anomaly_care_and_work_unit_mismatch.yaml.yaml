@@ -15,15 +15,15 @@ prerequisites:
 - macros: 
         N/A
 - fields: 
-          staff_ID
-          work_unit_ID
+        staff_ID
+        work_unit_ID
           
-          patient_ID
-          care_unit_ID
+        patient_ID
+        care_unit_ID
 - tags: 
         emraudit
 - searches: 
-          search_1
+        search_1
 how_to_implement:
 
 search_1: 
