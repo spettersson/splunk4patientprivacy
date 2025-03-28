@@ -6,7 +6,7 @@ description: This detection looks for employees accessing patient medical record
 detection_ID: obs4
 prerequisites: 
 - data sources:
-        1. Audit Logs from any Electronic Medical Record (EMR) system that records staff access to patient medical records.
+        EMR Audit logs
 - indexes: 
         observation_collection
 - lookups: 
