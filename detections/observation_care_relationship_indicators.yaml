@@ -27,7 +27,7 @@ search_1:
 - description: 
           
 - search: 
-          tag=emraudit (tag=prescription OR tag=diagnosis OR tag=encouter) earliest=-12min@min latest=-2min@min
+          tag=emraudit (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
           | fields _time, staff_ID, patient_ID, care_provider_ID, action, target_type, clinical_event_type
           | stats count by staff_ID, patient_ID, care_provider_ID, action, target_type, clinical_event_type
           | addinfo
@@ -36,8 +36,8 @@ search_1:
           | eval detection_description = "Looks for specific signals that may indicate the existence of a legitimate care relationship between employee and patient."
           | eval observation_ID = md5(staff_ID.patient_ID.target_type.clinical_event_type.sid.info_search_time)
           | eval observation_message = "staff_ID=".staff_ID." performed action '".action."' on target_type '".target_type."' and the clinical_event_type '".clinical_event_type."'."
-          | eval observation_risk_score = "0"
-          | fields detection_*, observation_*, info_*, 
+          | eval observation_risk_score = 0
+          | fields detection_*, observation_*, info_*, staff_ID, patient_ID, care_provider_ID, action, target_Type, clinical_event_type
           | collect index=observation_collection addinfo=false
 - time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
 - cron schedule: */10 * * * *
