@@ -1,12 +1,12 @@
 name: unusual access hours
 type: anomaly-triggering
-description: this detection identifies employees that access patient medical records during an hour of the day that are unusual based on historical behaviour. For each match, an anomaly is triggered.
+description: looks for employees accessing patient medical records during unusual hours of the day, based on their own historical behavior. Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. For each match, an anomaly is triggered.
 detection_ID: at02
 prerequisites: 
 - indexes: 
           anomaly_collection
 - lookups: 
-          baseline_working_hours
+          baseline_access_hours
 - macros: 
 - fields: 
           staff_ID
@@ -24,7 +24,7 @@ search 1:
  | eval hourOfDay = strptime(_time, "%H")
  | rare hourOfDay by staff_ID
  | fields staff_ID, hourOfDay, percent
- | outputlookup baseline_working_hours
+ | outputlookup baseline_access_hours
  
 - time range picker: N/A (the time window is set to the last 30 days via earliest=-30d in the search)
 - cron schedule: * * * * *
@@ -36,10 +36,14 @@ search 2:
  | fields _time, staff_ID, patient_ID
  | eval hourOfDay = strptime(_time, "%H")
  | stats count by hourOfDay, staff_ID, patient_ID
- | lookup baseline_working_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
+ | lookup baseline_access_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
  | where isnull(historical_percent) OR historical_percent<=1
  | eval detection_ID = "at02"
- | fields staff_ID, patient_ID, hourOfDay, historical_perc
+ | eval detection_title = "unusual access hours"
+ | eval detection_description = "looks for employees accessing patient medical records during unusual hours of the day, based on their own historical behavior"
+ | eval anomaly_ID = ""
+ | eval anomaly_message = ""
+ | fields staff_ID, patient_ID, detection_*, anomaly_*
  
 - time range picker: 
 - cron schedule: 
