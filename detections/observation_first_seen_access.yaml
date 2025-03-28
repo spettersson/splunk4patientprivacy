@@ -41,16 +41,16 @@ how_to_implement:
       - Create and enable 'search_1', followed by 'search_2', followed by 'search_3'.
       
 search_1:
-  title: Baseline - Backfill of Historical Access 
-  description: Establishes a baseline of historical access for the past 6 months.
-  search: tag=emraudit staff_ID=* patient_ID=* earliest=-6mon latest=now
+- title: Baseline - Backfill of Historical Access 
+- description: Establishes a baseline of historical access for the past 6 months.
+- search: tag=emraudit staff_ID=* patient_ID=* earliest=-6mon latest=now
           | fields _time, staff_ID, patient_ID
           | stats latest(_time) as last_access by staff_ID, patient_ID
           | table staff_ID, patient_ID, last_access
           | outputlookup baseline_historical_access
-  earliest_time: Leave empty (defined in search via earliest option).
-  latest_time: Leave empty (defined in search via latest option).
-  schedule: N/A (Run manually before enabling search 2 and search 3).
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
+- cron_expression: N/A (Run manually before enabling search 2 and search 3).
 
 search_2:
   title: Baseline - Incremental Updates of Historical Access
