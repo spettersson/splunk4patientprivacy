@@ -3,6 +3,8 @@ type: anomaly-triggering
 description: looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
 detection_ID: at3
 prerequisites: 
+- data sources:
+        
 - indexes: 
         anomaly_collection
 - lookups: 
