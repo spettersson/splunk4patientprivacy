@@ -6,7 +6,6 @@ description:
           anomalies to surface alerts, and/or when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour.
           For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: ant5
-severity: informational
 prerequisites:
 - data sources:
           
