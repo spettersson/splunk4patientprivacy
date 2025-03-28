@@ -9,6 +9,8 @@ prerequisites:
 - data sources:
         EMR audit logs
         Staff and patient residential information
+- tags: 
+        emraudit
 - indexes: 
         observation_collection (=where identified observations are stored as individual events)
 - lookups: 
@@ -24,13 +26,9 @@ prerequisites:
         patient_residential_street_name
         patient_residential_street_number
         patient_residential_postal_code
-- tags: 
-        emraudit
 - searches: 
           search_1
-
 how_to_implement:
-
 search_1:
 - tile: 
 - description: 
