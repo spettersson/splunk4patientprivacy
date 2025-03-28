@@ -4,7 +4,7 @@ description:
           Looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access pattern. 
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
           For each match, an anomaly is triggered.
-detection_ID: at2
+detection_ID: ant2
 prerequisites:
 - data sources:
           
@@ -43,7 +43,7 @@ search_2:
  | lookup baseline_access_hours staff_ID hourOfDay OUTPUT percent AS historical_percent
  | where isnull(historical_percent) OR historical_percent<=1
  | addinfo
- | eval detection_ID = "at2"
+ | eval detection_ID = "ant2"
  | eval detection_title = "unusual access hours"
  | eval detection_description = "looks for employees accessing patient medical records during unusual hours of the day, based on their own historical access patterns."
  | eval anomaly_ID = md5(staff_ID.patient_ID.hourOfDay.sid.info_search_time)
