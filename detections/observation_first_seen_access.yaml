@@ -6,7 +6,7 @@ description: This detection looks for employees who recently accessed a patient 
 detection_ID: obs1
 prerequisites:
 - data_sources: 
-          1. EMR audit logs
+          EMR audit logs
 - tags:
           emraudit (=identifies all EMR audit logs, regardless of source system)
 - indexes: 
