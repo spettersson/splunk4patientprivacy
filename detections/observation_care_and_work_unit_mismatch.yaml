@@ -7,6 +7,8 @@ detection_ID: obs4
 prerequisites: 
 - data sources:
         EMR Audit logs
+- tags: 
+        emraudit
 - indexes: 
         observation_collection (=where identified observations are stored as individual events)
 - fields: 
@@ -15,8 +17,6 @@ prerequisites:
           
         patient_ID
         care_unit_ID
-- tags: 
-        emraudit
 - searches: 
         search_1        
 how_to_implement:
