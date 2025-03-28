@@ -1,4 +1,4 @@
-``` init
+
 tag=emraudit
 | fields _time, staff_ID, patient_ID
 | stats count by staff_ID, patient_ID
@@ -21,4 +21,3 @@ tag=emraudit
 | lookup detection_risk detection_id OUTPUT risk_score
 | eval risk_score = risk_factor * risk_score
 | fields staff_*, patient_*, matching_*, risk_*, detection_*
-```
