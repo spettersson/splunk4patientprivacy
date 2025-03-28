@@ -10,7 +10,7 @@ prerequisites:
         EMR audit logs
         Staff and patient residential information
 - indexes: 
-        observation_collection
+        observation_collection (=where identified observations are stored as individual events)
 - lookups: 
         patientpii_lookup
         staffpii_lookup
