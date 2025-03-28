@@ -1,7 +1,7 @@
 name: matching residential information
 type: anomaly-triggering
 description: looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
-detection_ID: at03
+detection_ID: at3
 prerequisites: 
 - indexes: 
         anomaly_collection
@@ -41,7 +41,7 @@ search_1:
             true(), 1
         )			
         | addinfo
-         | eval detection_ID = "at03"
+         | eval detection_ID = "at3"
          | eval detection_title = "matching residential information"
          | eval detection_description = "looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
          | eval anomaly_ID = md5(staff_ID.patient_ID.sid.info_search_time)
