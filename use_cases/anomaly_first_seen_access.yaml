@@ -2,7 +2,7 @@ name: First Seen Access
 type: Anomaly-triggering
 description:
   This detection identifies employees who recently accessed a patient medical record
-  without having any prior history of access in the last 6 months for that specific patient. For each match, an anomaly is triggered.
+  without having any prior history with that paitent in the last 6 months. For each match, an anomaly is triggered.
 detection_ID: 'at1'
 prerequisites:
 - data_sources: 
