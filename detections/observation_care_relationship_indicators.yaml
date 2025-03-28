@@ -5,7 +5,7 @@ description:
           an employee and a patient. While it does not represent suspicious behavior, it provides important context when grouping 
           anomalies to surface alerts, and/or when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour.
           For each match, an observation is created and stored as an event in index=observation_collection.
-detection_ID: ant5
+detection_ID: obs5
 prerequisites:
 - data sources:
           
@@ -24,13 +24,23 @@ prerequisites:
 how_to_implement:
 
 search_1: 
-- description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) for further use in search_2 to detect anomalies.
+- description: 
+          This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
+          It identifies the least commonly used hours (rare) by staff_ID and stores the results in a lookup table (baseline_access_hours) for 
+          further use in search_2 to detect anomalies.
 - search: 
- tag=emraudit staff_ID=* patient_ID=* earliest=-30d
- | fields _time, staff_ID
- | eval hourOfDay = strptime(_time, "%H")
- | rare hourOfDay by staff_ID
- | fields staff_ID, hourOfDay, percent
- | outputlookup baseline_access_hours
+          tag=emraudit staff_ID=* patient_ID=* earliest=-30d
+          | fields _time, staff_ID
+          | eval hourOfDay = strptime(_time, "%H")
+          | rare hourOfDay by staff_ID
+          | addinfo
+          | eval detection_ID = "obs5"
+          | eval detection_title = "care relationship indicators"
+          | eval detection_description = "Looks for specific signals that may indicate the existence of a legitimate care relationship between"
+          | eval observation_ID = md5(staff_ID.patient_ID.hourOfDay.sid.info_search_time)
+          | eval observation_message = "staff_ID=".staff_ID." accessed a patient medical record associated to patient_ID=".patient_ID." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
+          | eval observation_risk_score = 10
+          | fields staff_ID, hourOfDay, percent
+          | outputlookup baseline_access_hours
 - time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
 - cron schedule: * * * * *
