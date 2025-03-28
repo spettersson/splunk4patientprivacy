@@ -1,6 +1,9 @@
 name: mismatch between care unit and work unit
 type: anomaly-triggering
-description: this detection looks for instances where employees access patient medical records associated with a care unit that does not match their assigned work unit. This mismatch may indicate access outside of the employee’s clinical responsibility or team.
+description: 
+        This detection looks for instances where employees access patient medical records associated with a care unit 
+        that does not match their assigned work unit. This mismatch may indicate access outside of the employee’s 
+        clinical responsibility or team.
 detection_ID: at4
 prerequisites: 
 - data sources:
