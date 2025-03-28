@@ -5,7 +5,9 @@ description:
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
           For each match, an anomaly is triggered.
 detection_ID: at2
-prerequisites: 
+prerequisites:
+- data sources:
+          
 - indexes: 
           anomaly_collection
 - lookups: 
