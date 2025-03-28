@@ -32,7 +32,8 @@ search_1:
           | rare hourOfDay by staff_ID
           | fields staff_ID, hourOfDay, percent
           | outputlookup baseline_access_hours
-- time range picker: N/A (the time window for the search is defined in the search itself via the earliest and latest options).
+- earliest_time: Leave empty (defined in search via earliest option).
+- latest_time: Leave empty (defined in search via latest option).
 - cron schedule: * * * * *
 
 search_2: 
