@@ -29,12 +29,14 @@ search 1:
           | stats sum(risk_score) as risk_score dc(use_case_ID) as distinct_anomalies count as total_anomalies values(anomaly_ID) as anomaly_ID values(patient_ID) as patient_ID by staff_ID
           | eval anomaly_ID = mvjoin(anomaly_ID,",")
           | eval patient_ID = mvjoin(patient_ID,",")
-          | eval use_case_ID = "alt1"
-          | eval incident_title = ""
-          | eval incident_description = ""
+          | eval alert_title = ""
+          | eval alert_description = ""
           | addinfo
-          | eval incident_ID = md5(incident_description.info_search_time)
-          | fields incident_ID, incident_title, incident_description, staff_ID, patient_ID, distinct_anomalies, total_anomalies, anomaly_ID, info_search_time, info_min_time, info_max_time
+          | eval detection_ID = "alt1"
+          | eval detection_title = ""
+          | eval alert_ID = md5(incident_description.info_search_time)
+          | eval alert_message = ""
+          | fields detection_*, alert_*, info_*, staff_ID, patient_ID, distinct_anomalies, total_anomalies
           | collect index=alert_collection addinfo=false
 - time range picker: 
 - cron schedule: 
