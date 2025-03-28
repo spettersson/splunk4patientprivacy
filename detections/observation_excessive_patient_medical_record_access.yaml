@@ -3,6 +3,7 @@ type: Observation-triggering
 description: Looks for e
           For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs6
+author: Simon Pettersson, Splunk
 prerequisites:
 - data sources:
           EMR audit logs
