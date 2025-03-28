@@ -8,11 +8,11 @@ prerequisites:
 - data_sources: 
           1. EMR audit logs
 - tags:
-    emraudit (explanation: A standardized tag used to identify all EMR audit logs, regardless of source system. These logs contain details about staff interactions with patient medical records.)
+    emraudit (=identifies all EMR audit logs, regardless of source system)
 - indexes: 
-    observation_collection (explanation: an index where identified anomalies are stored as individual events.)
+    observation_collection (=an index where identified anomalies are stored as individual events)
 - lookups: 
-    baseline_historical_access (a lookup file that stores the last seen access between employees and patients.)
+    baseline_historical_access (=a lookup file that stores the last seen access between employees and patients)
 - fields: 
           staff_ID 
           work_unit_ID
