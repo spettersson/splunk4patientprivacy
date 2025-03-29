@@ -1,7 +1,7 @@
 name: First Seen Access
 type: Observation Triggering
 description: This detection looks for employees who recently accessed a patient medical record
-          without having any prior history with that paitent in the last 6 months. For each match, 
+          without having any prior history with that patient in the last 6 months. For each match, 
           an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs1
 author: Simon Pettersson, Splunk
