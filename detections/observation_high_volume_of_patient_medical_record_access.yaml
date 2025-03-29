@@ -1,7 +1,7 @@
-name: High Volume of UniquePatient Medical Record Access
+name: High Volume of Unique Patient Medical Record Access
 type: Observation Triggering
 description: This detections looks for staff members that access a high volume of distinct patient medical journals in 
-          a short time period. For each match, an observation is created and stored as an event in 
+          a short time period compared to their peers. For each match, an observation is created and stored as an event in 
           index=observation_collection.
 detection_ID: obs6
 author: Simon Pettersson, Splunk
@@ -14,21 +14,21 @@ prerequisites:
           observation_collection (=where identified observations are stored as individual events)
 - fields: 
           staff_ID
+          work_unit_ID
           patient_ID
 - searches: 
           search_1
-          search_2
 how_to_implement:
 search_1: 
 - title: 
 - description: 
 - search: tag=emraudit staff_ID=* patient_ID=* earliest=-30d
-          | fields _time, staff_ID, patient_ID
-          | eventstats 
-          | eval hourOfDay = strptime(_time, "%H")
-          | rare hourOfDay by staff_ID
-          | fields staff_ID, hourOfDay, percent
-          | outputlookup baseline_access_hours
+          | fields _time, staff_ID, patient_ID, work_unit_ID
+          | bin _time span=1h
+          | stats dc(patient_ID) as dc_patient_ID by _time, staff_ID, work_unit_ID
+          | eventstats perc95(dc_patient_ID) as perc95_dc_patient_ID by work_unit_ID
+          | where _time > relative_time(_time, "-1h")
+          | where dc_patient_ID > perc95_dc_patient_ID  
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
 - cron schedule: * * * * *
