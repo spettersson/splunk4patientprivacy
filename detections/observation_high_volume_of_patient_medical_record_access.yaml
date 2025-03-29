@@ -15,6 +15,7 @@ prerequisites:
 - fields: 
           staff_ID
           work_unit_ID
+          care_provider_ID
           patient_ID
 - searches: 
           search_1
