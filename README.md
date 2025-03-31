@@ -7,8 +7,8 @@ The purpose of this repository is to help organizations harness the power of **S
 ### 🔍 Detections  
 Detections built to work together to identify staff members and patients with high risk. They fall into two categories:
 
-- **Observation Triggering** – Searching and correlates events to identify observations, where each observation indicated an interesting behaviour.
-- **Alert Triggering** – Groups observations over time and makes a risk assessment, raising high-confidence alerts.
+- **Observation Triggering** – Correlates events to detect observations, where each observation reflect a notable behaviour.
+- **Alert Triggering** – Aggregates observations and assesses risk, to generate high-fidelity alerts.
 
 ### 📊 Dashboards  
 Prebuilt Splunk dashboards for visualizing, reviewing, and investigating observations and alerts.
