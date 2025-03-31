@@ -8,7 +8,7 @@ The purpose of this repository is to help organizations harness the power of **S
 Detections built to work together to surface potential privacy violations. They fall into two categories:
 
 - **Observation Triggering** – Searching and correlates events to identify observations, which indicate a notable behaviour.
-- **Alert Triggering** – Groups observations over time to raise high-confidence alerts.
+- **Alert Triggering** – Groups observations over time and makes a risk assessment, raising high-confidence alerts.
 
 ### 📊 Dashboards  
 Prebuilt Splunk dashboards for visualizing, reviewing, and investigating observations and alerts.
