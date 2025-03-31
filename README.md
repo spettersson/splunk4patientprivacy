@@ -5,7 +5,7 @@ The purpose of this repository is to help organizations harness the power of **S
 ## 📌 What You'll Find Here
 
 ### 🔍 Detections  
-Detections built to work together to surface potential privacy violations. They fall into two categories:
+Detections built to work together to surface patients and staff members with high risk. They fall into two categories:
 
 - **Observation Triggering** – Searching and correlates events to identify observations, which indicate a notable behaviour.
 - **Alert Triggering** – Groups observations over time and makes a risk assessment, raising high-confidence alerts.
