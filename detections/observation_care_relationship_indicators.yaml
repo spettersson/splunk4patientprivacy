@@ -1,7 +1,7 @@
 name: Care Relationship Indicators
 type: Observation Triggering
 description: This detection looks for specific signals that may indicate the existence of a legitimate care relationship between 
-          an employee and a patient. While it does not represent suspicious behavior, it can provide valuable input to the logic used to group
+          staff and a patient. While it may not represent suspicious behavior, it can provide valuable input to the logic used to group
           observations to surface alerts, and also be valuable when investigating alerts, helping to distinguish between acceptable and 
           unacceptable behaviour. For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs5
