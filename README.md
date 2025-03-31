@@ -7,7 +7,7 @@ The purpose of this repository is to help organizations harness the power of **S
 ### 🔍 Detections  
 Detections built to work together to surface potential privacy violations. They fall into two categories:
 
-- **Observation Triggering** – Identifies interesting behaviors by searching and correlating events, resulting in observations.
+- **Observation Triggering** – Searching and correlates events to identify observations, which indicate a notable behaviour.
 - **Alert Triggering** – Groups observations over time to raise high-confidence alerts.
 
 ### 📊 Dashboards  
