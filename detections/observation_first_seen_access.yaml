@@ -39,7 +39,7 @@ how_to_implement:
 search_1:
 - title: Baseline - Backfill of Historical Access 
 - description: Establishes a baseline of historical access for the past 6 months.
-- search: tag=auditevent tag=patientrecord user_id=* patient_id=* earliest=-6mon latest=now
+- search: tag=auditevent tag=patientrecord earliest=-6mon latest=now
           | fields _time, user_id, patient_id
           | stats latest(_time) as last_access by user_id, patient_id
           | table user_id, patient_id, last_access
@@ -52,7 +52,7 @@ search_2:
 - description: Incrementally updates the historical access lookup on a daily basis.
 - search: | inputlookup baseline_historical_access
           | append [
-          tag=auditevent tag=patientrecord user_id=* patient_id=* earliest=-1d@d latest=@d
+          tag=auditevent tag=patientrecord earliest=-1d@d latest=@d
           | fields _time, user_id, patient_id
           | stats latest(_time) as last_access by user_id, patient_id
           | fields user_id, patient_id, last_access
@@ -68,7 +68,7 @@ search_3:
 - description: Identifies employees who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
           For each match, an observation is triggered and stored as an event in the observation index.
-- search: tag=auditevent tag=patientrecord user_id=* patient_id=* earliest=-12min@min latest=-2min@min
+- search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id
           | stats earliest(_time) as last_access values(care_provider_ID) as care_provider_ID values(department_ID) as care_unit_ID 
           by user_id, patient_id
