@@ -1,9 +1,9 @@
 name: Care Relationship Indicators
 type: Observation Triggering
 description: This detection looks for specific signals that may indicate the existence of a legitimate care relationship between 
-          staff and a patient. While it may not represent suspicious behavior, it can provide valuable input to the logic used to group
-          observations to surface alerts, and also be valuable when investigating alerts, helping to distinguish between acceptable and 
-          unacceptable behaviour. For each match, an observation is created and stored as an event in index=observation_collection.
+          users and patients. It can provide valuable input to the logic used to group observations to surface alerts, and also 
+          be valuable when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour. 
+          For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs5
 author: Simon Pettersson, Splunk
 prerequisites:
@@ -11,6 +11,7 @@ prerequisites:
           EHR audit events from any source system
 - tags:
           auditevent (=identifies all EHR audit events, regardless of source system)
+          patientrecord (=identifies all EHR audit events involving patient records specifically, regardless of source system
           prescription (=identifies EHR audit events where a staff member prescribes or orders medication for a patient, regardless of source system) 
           diagnosis (=identifies EHR audit events where a staff member adds/updates/removes a diagnosis for a patient, regardless of source system) 
           encounter (=identifies EHR audit events tied to patient encounters, regardless of source system) 
@@ -18,11 +19,9 @@ prerequisites:
           observation_collection (=where identified observations are stored as individual events)
 - fields: 
           user_id (=a unique identifier for the user taking an active role in the event or activity that is logged)
-          patient_id (=a unique identifier for the patient that is the subject of the data used/created/updated/deleted during the activity)
-          action (=indicator for type of action performed during the event that generated the audit - for example, create, read, update, delete, execute)
-          action_outcome
+          patient_id (=a unique identifier for the patient that is the subject of the data created/read/updated/deleted during the activity)
+          action (=indicator for type of action performed during the event that generated the audit - for example, create, read, update, delete)
           action_detail 
-
           
           target_type
           clinical_event_type
@@ -33,15 +32,15 @@ how_to_implement:
 search_1: 
 - title: 
 - description: 
-- search: tag=auditevent (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
+- search: tag=auditevent tag=patientrecord (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id, care_provider_ID, action, target_type, clinical_event_type
           | stats count by user_id, patient_id, care_provider_ID, action, target_type, clinical_event_type
           | addinfo
           | eval detection_ID = "obs5"
           | eval detection_title = "Care Relationship Indicators"
-          | eval detection_description = "Looks for specific signals that may indicate the existence of a legitimate care relationship between practitioners and patients."
+          | eval detection_description = "Looks for specific signals that may indicate the existence of a legitimate care relationship between users and patients."
           | eval observation_ID = md5(user_id.patient_id.target_type.clinical_event_type.sid.info_search_time)
-          | eval observation_message = "Practitioner=".user_id." performed action='".action."' on target_type '".target_type."' and the clinical_event_type '".clinical_event_type."'."
+          | eval observation_message = "User=".user_id." with role=".user_role." performed action='".action."' on target_type '".target_type."' and the clinical_event_type '".clinical_event_type."'."
           | eval observation_risk_score = 0
           | fields detection_*, observation_*, info_*, user_id, patient_id, care_provider_ID, action, target_Type, clinical_event_type
           | collect index=observation_collection addinfo=false
