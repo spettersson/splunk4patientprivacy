@@ -16,20 +16,20 @@ prerequisites:
           staff_ID
           work_unit_ID
           care_provider_ID
-          patient_ID
+          patient
 - searches: 
           search_1
 how_to_implement:
 search_1: 
 - title: 
 - description: 
-- search: tag=auditevent staff_ID=* patient_ID=* earliest=-30d
-          | fields _time, staff_ID, patient_ID, work_unit_ID
+- search: tag=auditevent staff_ID=* patient=* earliest=-30d
+          | fields _time, staff_ID, patient, work_unit_ID
           | bin _time span=1h
-          | stats dc(patient_ID) as dc_patient_ID by _time, staff_ID, work_unit_ID
-          | eventstats perc95(dc_patient_ID) as perc95_dc_patient_ID by work_unit_ID
+          | stats dc(patient) as dc_patient by _time, staff_ID, work_unit_ID
+          | eventstats perc95(dc_patient) as perc95_dc_patient by work_unit_ID
           | where _time > relative_time(_time, "-1h")
-          | where dc_patient_ID > perc95_dc_patient_ID  
+          | where dc_patient > perc95_dc_patient  
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
 - cron schedule: * * * * *
