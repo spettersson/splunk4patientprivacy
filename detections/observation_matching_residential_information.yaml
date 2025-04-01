@@ -7,7 +7,7 @@ detection_ID: obs3
 author: Simon Pettersson, Splunk
 prerequisites: 
 - data sources:
-        EHR audit events
+        EHR audit events from any source
         Staff and patient residential information
 - tags: 
         auditevent
