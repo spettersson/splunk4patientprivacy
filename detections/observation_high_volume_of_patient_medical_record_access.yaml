@@ -7,9 +7,9 @@ detection_ID: obs6
 author: Simon Pettersson, Splunk
 prerequisites:
 - data sources:
-          EMR audit logs
+          EHR audit events from any source
 - tags: 
-          emraudit (=identifies all EMR audit logs, regardless of source system)
+          auditevent (=identifies all EHR audit logs, regardless of source system)
 - indexes: 
           observation_collection (=where identified observations are stored as individual events)
 - fields: 
@@ -23,7 +23,7 @@ how_to_implement:
 search_1: 
 - title: 
 - description: 
-- search: tag=emraudit staff_ID=* patient_ID=* earliest=-30d
+- search: tag=auditevent staff_ID=* patient_ID=* earliest=-30d
           | fields _time, staff_ID, patient_ID, work_unit_ID
           | bin _time span=1h
           | stats dc(patient_ID) as dc_patient_ID by _time, staff_ID, work_unit_ID
