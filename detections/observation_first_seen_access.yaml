@@ -10,8 +10,9 @@ prerequisites:
           EHR audit events from any source system
 - tags:
           auditevents (=identifies all EHR audit events, regardless of source system)
+          patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
 - indexes: 
-          observation (=an index where identified anomalies are stored as individual events)
+          observation (=an index where identified observations are stored as individual events)
 - lookups: 
           baseline_historical_access (=a lookup file that stores the last seen access between employees and patients)
 - fields: 
