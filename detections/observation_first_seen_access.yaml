@@ -17,7 +17,7 @@ prerequisites:
 - fields: 
           staff_ID 
           work_unit_ID
-          patient_ID 
+          patient 
           care_unit_ID 
           care_provider_ID 
 - searches: 
@@ -26,22 +26,22 @@ prerequisites:
           search_3
 how_to_implement:
   1. fields:
-      - Make sure each individual EHR system has, at minimum, the following fields: staff_ID, patient_ID
+      - Make sure each individual EHR system has, at minimum, the following fields: staff_ID, patient
   2. indexes:
       - Make sure that an index with the name 'alert_collection' exist.
       - The retention for this index should be configured according to your requirements/needs. 
   4. lookups:
       - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
-      - Create a KVstore lookup with the name 'baseline_historical_access' with the fields: staff_ID, patient_ID, last_access. 
+      - Create a KVstore lookup with the name 'baseline_historical_access' with the fields: staff_ID, patient, last_access. 
   5. searches:
       - Create and enable 'search_1', followed by 'search_2', followed by 'search_3'.     
 search_1:
 - title: Baseline - Backfill of Historical Access 
 - description: Establishes a baseline of historical access for the past 6 months.
-- search: tag=ehraudit staff_ID=* patient_ID=* earliest=-6mon latest=now
-          | fields _time, staff_ID, patient_ID
-          | stats latest(_time) as last_access by staff_ID, patient_ID
-          | table staff_ID, patient_ID, last_access
+- search: tag=ehraudit staff_ID=* patient=* earliest=-6mon latest=now
+          | fields _time, staff_ID, patient
+          | stats latest(_time) as last_access by staff_ID, patient
+          | table staff_ID, patient, last_access
           | outputlookup baseline_historical_access
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
@@ -51,13 +51,13 @@ search_2:
 - description: Incrementally updates the historical access lookup on a daily basis.
 - search: | inputlookup baseline_historical_access
           | append [
-          tag=ehraudit staff_ID=* patient_ID=* earliest=-1d@d latest=@d
-          | fields _time, staff_ID, patient_ID
-          | stats latest(_time) as last_access by staff_ID, patient_ID
-          | fields staff_ID, patient_ID, last_access
+          tag=ehraudit staff_ID=* patient=* earliest=-1d@d latest=@d
+          | fields _time, staff_ID, patient
+          | stats latest(_time) as last_access by staff_ID, patient
+          | fields staff_ID, patient, last_access
           ]
-          | stats max(last_access) as last_access by staff_ID, patient_ID
-          | fields staff_ID, patient_ID, last_access
+          | stats max(last_access) as last_access by staff_ID, patient
+          | fields staff_ID, patient, last_access
           | outputlookup baseline_historical_access
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
@@ -67,11 +67,11 @@ search_3:
 - description: Identifies employees who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
           For each match, an observation is triggered and stored as an event in the observation_collection index.
-- search: tag=ehraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
-          | fields _time, staff_ID, patient_ID
+- search: tag=ehraudit staff_ID=* patient=* earliest=-12min@min latest=-2min@min
+          | fields _time, staff_ID, patient
           | stats earliest(_time) as last_access values(care_provider_ID) as care_provider_ID values(department_ID) as care_unit_ID 
-          by staff_ID, patient_ID
-          | lookup baseline_historical_access staff_ID patient_ID OUTPUT last_access AS historical_last_access
+          by staff_ID, patient
+          | lookup baseline_historical_access staff_ID patient OUTPUT last_access AS historical_last_access
           | eval time_since_last_access = now() - historical_last_access
           | eval observation = if(isnull(historical_last_access) OR time_since_last_access >= 14515200 , "1", "0")
           | where observation = "1"
@@ -81,10 +81,10 @@ search_3:
           | eval detection_title = "First Seen Access"
           | eval detection_description = ""
           | eval detection_ID="obs1"
-          | eval observation_ID = md5(staff_ID.patient_ID.last_interaction.sid.info_search_time
-          | eval observation_message = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
+          | eval observation_ID = md5(staff_ID.patient.last_interaction.sid.info_search_time
+          | eval observation_message = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient=".patient." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
           | eval observation_risk_score = "20"
-          | fields detection_*, observation_*, info_*, care_*, staff_ID, patient_ID, last_access, historical_last_access
+          | fields detection_*, observation_*, info_*, care_*, staff_ID, patient, last_access, historical_last_access
           | collect index=observation_collection sourcetype=ehraudit_observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
