@@ -45,7 +45,7 @@ search_1:
           | eval observation_message = "User=".user_id." with role=".user_role." performed action='".action."' on target_type '".target_type."' and the clinical_event_type '".clinical_event_type."'."
           | eval observation_risk_score = 0
           | fields detection_*, observation_*, info_*, user_id, patient_id, care_provider_ID, action, target_Type, clinical_event_type
-          | collect index=observation_collection addinfo=false
+          | collect index=observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
 - cron_schedule: */10 * * * *
