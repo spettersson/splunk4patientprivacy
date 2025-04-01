@@ -18,11 +18,11 @@ prerequisites:
 - indexes: 
           observation (=where identified observations are stored as individual events)
 - fields: 
-          user_id (=unique identifier for the staff member taking an active role in the event or activity that is logged)
+          user_id (=unique identifier for the user taking an active role in the event or activity that is logged)
           patient_id (=unique identifier for the patient that is the subject of the data accessed during the activity)
-          type (=classification of the general type of event that occurred)
+          type (=the type of event that occurred)
           subtype (=a more specific description of what happened in the event)
-          action (=type of action performed during the event that generated the audit - for example, create, read, update, delete)
+          action (=the type of action performed during the event that generated the audit - for example, create, read, update, delete)
           object (=name of the specific instance of data or object that have been accessed)
           object_id (=unique identifier for the specific instance of data or object that have been accessed)
           object_category (=category for the specific instance of data or object that have been accessed)
