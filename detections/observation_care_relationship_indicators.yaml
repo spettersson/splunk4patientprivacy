@@ -8,17 +8,17 @@ detection_ID: obs5
 author: Simon Pettersson, Splunk
 prerequisites:
 - data sources:
-          EMR audit logs
+          EHR audit events from any source
 - tags:
-          emraudit (=identifies all EMR audit logs, regardless of source system)
-          prescription (=identifies EMR audit logs where a staff member prescribes or orders medication for a patient, regardless of source system) 
-          diagnosis (=identifies EMR audit logs where a staff member adds/updates/removes a diagnosis for a patient, regardless of source system) 
-          encounter (=identifies EMR audit logs tied to patient encounters, regardless of source system) 
+          auditevent (=identifies all EHR audit events, regardless of source system)
+          prescription (=identifies EHR audit events where a staff member prescribes or orders medication for a patient, regardless of source system) 
+          diagnosis (=identifies EHR audit events where a staff member adds/updates/removes a diagnosis for a patient, regardless of source system) 
+          encounter (=identifies EHR audit events tied to patient encounters, regardless of source system) 
 - indexes: 
           observation_collection (=where identified observations are stored as individual events)
 - fields: 
           staff_ID
-          patient_ID
+          patient
           action
           target_type
           clinical_event_type
@@ -29,17 +29,17 @@ how_to_implement:
 search_1: 
 - title: 
 - description: 
-- search: tag=emraudit (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
-          | fields _time, staff_ID, patient_ID, care_provider_ID, action, target_type, clinical_event_type
-          | stats count by staff_ID, patient_ID, care_provider_ID, action, target_type, clinical_event_type
+- search: tag=auditevent (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
+          | fields _time, staff_ID, patient, care_provider_ID, action, target_type, clinical_event_type
+          | stats count by staff_ID, patient, care_provider_ID, action, target_type, clinical_event_type
           | addinfo
           | eval detection_ID = "obs5"
           | eval detection_title = "Care Relationship Indicators"
           | eval detection_description = "Looks for specific signals that may indicate the existence of a legitimate care relationship between employee and patient."
-          | eval observation_ID = md5(staff_ID.patient_ID.target_type.clinical_event_type.sid.info_search_time)
+          | eval observation_ID = md5(staff_ID.patient.target_type.clinical_event_type.sid.info_search_time)
           | eval observation_message = "staff_ID=".staff_ID." performed action '".action."' on target_type '".target_type."' and the clinical_event_type '".clinical_event_type."'."
           | eval observation_risk_score = 0
-          | fields detection_*, observation_*, info_*, staff_ID, patient_ID, care_provider_ID, action, target_Type, clinical_event_type
+          | fields detection_*, observation_*, info_*, staff_ID, patient, care_provider_ID, action, target_Type, clinical_event_type
           | collect index=observation_collection addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
