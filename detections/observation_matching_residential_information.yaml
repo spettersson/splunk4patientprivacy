@@ -7,10 +7,10 @@ detection_ID: obs3
 author: Simon Pettersson, Splunk
 prerequisites: 
 - data sources:
-        EMR audit logs
+        EHR audit events
         Staff and patient residential information
 - tags: 
-        emraudit
+        auditevent
 - indexes: 
         observation_collection (=where identified observations are stored as individual events)
 - lookups: 
@@ -32,7 +32,7 @@ how_to_implement:
 search_1:
 - tile: 
 - description: 
-- search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+- search: tag=auditevent staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
         | fields _time, staff_ID, patient_ID
         | stats count by staff_ID, patient_ID
         | lookup patientpii_lookup patient_ID OUTPUT patient_residential_street_name, patient_residential_street_number, patient_residential_postal_code
