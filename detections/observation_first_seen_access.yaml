@@ -9,7 +9,7 @@ prerequisites:
 - data_sources: 
           EHR audit events from any source
 - tags:
-          ehraudit (=identifies all EHR audit logs, regardless of source system)
+          ehraudit (=identifies all EHR audit events, regardless of source system)
 - indexes: 
           observation_collection (=an index where identified anomalies are stored as individual events)
 - lookups: 
