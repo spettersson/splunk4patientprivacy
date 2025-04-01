@@ -7,7 +7,7 @@ detection_ID: obs1
 author: Simon Pettersson, Splunk
 prerequisites:
 - data_sources: 
-          EHR audit events from any source
+          EHR audit events from any source system
 - tags:
           auditevents (=identifies all EHR audit events, regardless of source system)
 - indexes: 
