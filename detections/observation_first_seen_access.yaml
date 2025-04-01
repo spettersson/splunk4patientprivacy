@@ -7,9 +7,9 @@ detection_ID: obs1
 author: Simon Pettersson, Splunk
 prerequisites:
 - data_sources: 
-          EMR audit logs
+          EHR audit events from any source
 - tags:
-          emraudit (=identifies all EMR audit logs, regardless of source system)
+          ehraudit (=identifies all EHR audit logs, regardless of source system)
 - indexes: 
           observation_collection (=an index where identified anomalies are stored as individual events)
 - lookups: 
@@ -26,7 +26,7 @@ prerequisites:
           search_3
 how_to_implement:
   1. fields:
-      - Make sure each individual EMR system has, at minimum, the following fields: staff_ID, patient_ID
+      - Make sure each individual EHR system has, at minimum, the following fields: staff_ID, patient_ID
   2. indexes:
       - Make sure that an index with the name 'alert_collection' exist.
       - The retention for this index should be configured according to your requirements/needs. 
@@ -38,7 +38,7 @@ how_to_implement:
 search_1:
 - title: Baseline - Backfill of Historical Access 
 - description: Establishes a baseline of historical access for the past 6 months.
-- search: tag=emraudit staff_ID=* patient_ID=* earliest=-6mon latest=now
+- search: tag=ehraudit staff_ID=* patient_ID=* earliest=-6mon latest=now
           | fields _time, staff_ID, patient_ID
           | stats latest(_time) as last_access by staff_ID, patient_ID
           | table staff_ID, patient_ID, last_access
@@ -51,7 +51,7 @@ search_2:
 - description: Incrementally updates the historical access lookup on a daily basis.
 - search: | inputlookup baseline_historical_access
           | append [
-          tag=emraudit staff_ID=* patient_ID=* earliest=-1d@d latest=@d
+          tag=ehraudit staff_ID=* patient_ID=* earliest=-1d@d latest=@d
           | fields _time, staff_ID, patient_ID
           | stats latest(_time) as last_access by staff_ID, patient_ID
           | fields staff_ID, patient_ID, last_access
@@ -67,7 +67,7 @@ search_3:
 - description: Identifies employees who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
           For each match, an observation is triggered and stored as an event in the observation_collection index.
-- search: tag=emraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
+- search: tag=ehraudit staff_ID=* patient_ID=* earliest=-12min@min latest=-2min@min
           | fields _time, staff_ID, patient_ID
           | stats earliest(_time) as last_access values(care_provider_ID) as care_provider_ID values(department_ID) as care_unit_ID 
           by staff_ID, patient_ID
@@ -85,7 +85,7 @@ search_3:
           | eval observation_message = "Employee ID ".staff_ID." has accessed a patient medical record associated to patient_ID=".patient_ID." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
           | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, staff_ID, patient_ID, last_access, historical_last_access
-          | collect index=observation_collection sourcetype=emraudit_observation addinfo=false
+          | collect index=observation_collection sourcetype=ehraudit_observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
 - cron_schedule: "*/10 * * * *" # Runs every 10 minutes, 24/7.
