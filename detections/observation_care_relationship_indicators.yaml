@@ -18,8 +18,8 @@ prerequisites:
           observation_collection (=where identified observations are stored as individual events)
 - fields: 
           staff_ID
-          patient
-          action
+          patient (=the patient is the subject of the data used/created/updated/deleted during the activity)
+          action (=indicator for type of action performed during the event that generated the audit)
           target_type
           clinical_event_type
           care_provider_ID
