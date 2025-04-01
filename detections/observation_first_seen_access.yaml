@@ -66,7 +66,7 @@ search_3:
 - title: Observation - First Seen Access
 - description: Identifies employees who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
-          For each match, an observation is triggered and stored as an event in the observation_collection index.
+          For each match, an observation is triggered and stored as an event in the observation index.
 - search: tag=ehraudit user_id=* patient_id=* earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id
           | stats earliest(_time) as last_access values(care_provider_ID) as care_provider_ID values(department_ID) as care_unit_ID 
@@ -85,7 +85,7 @@ search_3:
           | eval observation_message = "User ".user_id." has accessed a patient medical record associated to patient=".patient_id." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
           | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, user_id, patient_id, last_access, historical_last_access
-          | collect index=observation_collection sourcetype=ehraudit_observation addinfo=false
+          | collect index=observation sourcetype=ehraudit_observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
 - cron_schedule: "*/10 * * * *" # Runs every 10 minutes, 24/7.
