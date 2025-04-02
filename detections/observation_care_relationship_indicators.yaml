@@ -10,15 +10,15 @@ prerequisites:
 - data sources:
           EHR audit events from any source system
 - tags:
-          auditevent (=identifies all EHR audit events, regardless of source system)
-          patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
-          prescription (=identifies EHR audit events where a users prescribes or orders medication for a patient, regardless of source system) 
-          diagnosis (=identifies EHR audit events where users adds/updates/removes a diagnosis for a patient, regardless of source system) 
-          encounter (=identifies EHR audit events tied to patient encounters, regardless of source system) 
+          auditevent (explanation: identifies all EHR audit events, regardless of source system)
+          patientrecord (explanation: identifies all EHR audit events associated with patient records access, regardless of source system)
+          prescription (explanation: identifies EHR audit events where a users prescribes or orders medication for a patient, regardless of source system) 
+          diagnosis (explanation: identifies EHR audit events where users adds/updates/removes a diagnosis for a patient, regardless of source system) 
+          encounter (explanation: identifies EHR audit events tied to patient encounters, regardless of source system) 
 - indexes: 
           observation (=where identified observations are stored as individual events)
 - fields: 
-          user_id (=unique identifier for the user taking an active role in the event or activity that is logged)
+          user_id (explanation: unique identifier for the user taking an active role in the event or activity that is logged; mapping to FHIR element id AuditEvent.agent.who.identifier), 
           patient_id (=unique identifier for the patient that is the subject of the data accessed during the activity)
           type (=the type of event that occurred)
           subtype (=a more specific description of what happened in the event)
