@@ -16,8 +16,8 @@ prerequisites:
           diagnosis (explanation: identifies EHR audit events where users adds/updates/removes a diagnosis for a patient, regardless of source system) 
           encounter (explanation: identifies EHR audit events tied to patient encounters, regardless of source system) 
 - indexes: 
-          observation (=where identified observations are stored as individual events)
-- fields (note: some fields will be present in the EHR audit events itself, others will come from enrichments from other sources): 
+          observation (explanation: where identified observations are stored as individual events)
+- fields (note: some fields will be present in the EHR audit events itself, others will be present by enriching the events with information from other sources): 
           user_id (explanation: unique identifier for the user taking an active role in the event or activity that is logged; mapping to FHIR element id AuditEvent.agent.who.identifier), 
           patient_id (explanation: unique identifier for the patient that is the subject of the data accessed during the activity)
           type (explanation: the type of event that occurred)
