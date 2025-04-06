@@ -19,6 +19,7 @@ prerequisites:
           observation (explanation: where identified observations are stored as individual events)
 - fields (note: some fields will be present in the EHR audit events itself, others will be present by enriching the events with information from other sources): 
 	user_id (explanation: unique identifier for the user taking an active role in the event or activity that is logged; mapping to FHIR element id AuditEvent.agent.who.identifier)
+ 	user_role (explanation:  ; mapping to FHIR element id AuditEvent.agent.role)
 	patient_id (explanation: unique identifier for the patient that is the subject of the data accessed during the activity; mapping to FHIR element id AuditEvent.patient.reference)
 	type (explanation: the type of event that occurred; mapping to FHIR element id AuditEvent.category)
 	subtype (explanation: a more specific description of what happened in the event; mapping to FHIR element id AuditEvent.code)
@@ -26,8 +27,6 @@ prerequisites:
 	object (explanation: name of the specific instance of data or object that has been accessed; mapping to FHIR element id AuditEvent.entity.what.display)
 	object_id (explanation: unique identifier for the specific instance of data or object that has been accessed; mapping to FHIR element id AuditEvent.entity.what.reference)
 	object_category (explanation: category for the specific instance of data or object that has been accessed; mapping to FHIR element id AuditEvent.entity.type)
-
-          care_provider_ID
 - searches: 
           search_1
 how_to_implement:
