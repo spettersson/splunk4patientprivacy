@@ -8,7 +8,7 @@ author: Simon Pettersson, Splunk
 prerequisites: 
 - data sources:
         EHR audit events from any source
-        Staff and patient residential information
+        Medical staff and patient residential information
 - tags:
           auditevent (=identifies all EHR audit events, regardless of source system)
           patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
