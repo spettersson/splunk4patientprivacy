@@ -14,14 +14,9 @@ prerequisites:
 - indexes: 
           observation (where identified observations are stored as individual events)
 - fields: 
-          action (type of action performed during the event - e.g., create, read, update, delete)
           user_id (identifier of the user who performed the action)
-          department_id (identifier of the department 
+          department_id
           patient_id (identifier of the patient whose medical record the action was performed on)
-          type (high-level category of the event)
-          subtype (more granular description about the event)
-          object (human-readable name of what specifically was accessed)
-          object_changes (attributes and values that were added, updated, or removed on the object)
           care_provider_id (identifier of the care provider associated with the event)
 - searches: 
           search_1
