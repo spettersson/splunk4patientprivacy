@@ -56,7 +56,7 @@ search_1:
         | addinfo
         | eval detection_ID = "obs3"
         | eval detection_title = "matching residential information"
-        | eval detection_description = "looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
+        | eval detection_description = "Looks for staff members who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
         | eval observation_ID = md5(user_id.patient_id.sid.info_search_time)
         | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the staff member during this hour of the day."
         | eval observation_risk_score = 10
