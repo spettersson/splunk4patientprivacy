@@ -12,12 +12,13 @@ prerequisites:
           auditevent (identifies all EHR audit events, regardless of source system)
           patientrecord (identifies all EHR audit events associated with patient records access, regardless of source system)
 - indexes: 
-          observation_collection (=where identified observations are stored as individual events)
+          observation_collection (where identified observations are stored as individual events)
 - lookups: 
           baseline_access_hours
 - fields: 
           user_id
           patient_id
+          care_provider_id
 - searches: 
           search_1
           search_2
@@ -42,9 +43,9 @@ search_2:
           member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour 
           (percent ≤ 1 or null), an observation is created and stored in the index=observation_collection.
 - search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
-          | fields _time, user_id, patient_id
+          | fields _time, user_id, patient_id, care_provider_id
           | eval hourOfDay = strptime(_time, "%H")
-          | stats count by hourOfDay, user_id, patient_id
+          | stats count by hourOfDay, user_id, patient_id, care_provider_id
           | lookup baseline_access_hours user_id hourOfDay OUTPUT percent AS historical_percent
           | where isnull(historical_percent) OR historical_percent<=1
           | addinfo
@@ -54,7 +55,7 @@ search_2:
           | eval observation_ID = md5(user_id.patient_id.sid.info_search_time)
           | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
           | eval observation_risk_score = 10
-          | fields user_id, patient_id, hourOfDay, detection_*, observation_*, info_*
+          | fields user_id, patient_id, care_provider_id, hourOfDay, detection_*, observation_*, info_*
           | collect index=observation sourcetype=observation add_info=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
