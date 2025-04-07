@@ -2,7 +2,7 @@ name: Unusual Access Hours
 type: Observation Triggering
 description: Looks for employees accessing patient medical records during unusual hours of the day, based on historical access pattern. 
           Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
-          For each match, an observation is created and stored as an event in index=observation_collection.
+          For each match, an observation is created and stored as an event in index=observation.
 detection_ID: obs2
 author: Simon Pettersson, Splunk
 prerequisites:
@@ -12,7 +12,7 @@ prerequisites:
           auditevent (=identifies all EHR audit events, regardless of source system)
           patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
 - indexes: 
-          observation_collection (=where identified observations are stored as individual events)
+          observation (=where identified observations are stored as individual events)
 - lookups: 
           baseline_access_hours
 - fields: 
@@ -41,7 +41,7 @@ search_2:
 - title: 
 - description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
           member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour 
-          (percent ≤ 1 or null), an observation is created and stored in the index=observation_collection.
+          (percent ≤ 1 or null), an observation is created and stored in the index=observation.
 - search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id, care_provider_id
           | eval hourOfDay = strftime(_time, "%H")
