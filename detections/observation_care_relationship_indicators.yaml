@@ -19,14 +19,15 @@ prerequisites:
           observation (explanation: where identified observations are stored as individual events)
 - fields (note: some fields will be present in the EHR audit events itself, others will be present by enriching the events with information from other sources): 
 	user_id (explanation: unique identifier for the user taking an active role in the event or activity that is logged; mapping to FHIR element id AuditEvent.agent.who.identifier)
+	user_name (explanation: human-readable name of the user taking an active role in the event or activity that is logged; mapping to FHIR element id AuditEvent.agent.who.display)
 	user_role (explanation: describes the user’s role or function (e.g., physician, nurse, admin), indicating their competency in the context of the event; mapping to FHIR element id AuditEvent.agent.role)
 	patient_id (explanation: unique identifier for the patient that is the subject of the data accessed during the activity; mapping to FHIR element id AuditEvent.patient.reference)
-	type (explanation: a general classification of the event that occurred; mapping to FHIR element id AuditEvent.category)
-	subtype (explanation: a more specific detail about the event ; mapping to FHIR element id AuditEvent.code)
+	type (explanation: general classification of the event that occurred; mapping to FHIR element id AuditEvent.category)
+	subtype (explanation: more specific detail about the event; mapping to FHIR element id AuditEvent.code)
 	action (explanation: the type of action performed during the event that generated the audit (e.g., create, read, update, delete); mapping to FHIR element id AuditEvent.action)
-	object (explanation: a human-readable name of the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.what.display)
-	object_id (explanation: a unique identifier for the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.what.reference)
-	object_category (explanation: a categorization of the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.type)
+	object (explanation: human-readable name of the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.what.display)
+	object_id (explanation: unique identifier for the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.what.reference)
+	object_category (explanation: categorization of the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.type)
 - searches: 
           search_1
 how_to_implement:
