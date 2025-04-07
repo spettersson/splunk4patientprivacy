@@ -42,7 +42,7 @@ search_1:
           | eval observation_id = md5(user_id.patient_id.sid.info_search_time)
           | eval observation_message = "User=" . user_id . " performed action=" . action . " on object=" . object . " (details=" . subtype . ") for patient=" . patient_id
           | eval observation_risk_score = 0
-          | fields detection_*, observation_*, info_*, user_id, patient_id, care_provider_ID, action, object*
+          | fields detection_*, observation_*, info_*, user_id, patient_id, care_provider_ID, action, object*, type, subtype
           | collect index=observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
