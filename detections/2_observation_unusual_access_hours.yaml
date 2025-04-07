@@ -1,8 +1,7 @@
 name: Unusual Access Hours
 type: Observation Triggering
 description: Looks for staff members accessing patient medical records during unusual hours of the day, based on historical access pattern. 
-          Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member. 
-          For each match, an observation is created and stored as an event in index=observation.
+          Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member.
 detection_id: obs2
 author: Simon Pettersson, Splunk
 prerequisites:
