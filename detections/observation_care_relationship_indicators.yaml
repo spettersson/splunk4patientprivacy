@@ -23,7 +23,7 @@ prerequisites:
 	patient_id (explanation: unique identifier for the patient that is the subject of the data accessed during the activity; mapping to FHIR element id AuditEvent.patient.reference)
 	type (explanation: a general classification of the event that occurred; mapping to FHIR element id AuditEvent.category)
 	subtype (explanation: a more specific detail about the event ; mapping to FHIR element id AuditEvent.code)
-	action (explanation: the type of action performed during the event that generated the audit - for example, create, read, update, delete; mapping to FHIR element id AuditEvent.action)
+	action (explanation: the type of action performed during the event that generated the audit (e.g., create, read, update, delete); mapping to FHIR element id AuditEvent.action)
 	object (explanation: a human-readable name of the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.what.display)
 	object_id (explanation: a unique identifier for the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.what.reference)
 	object_category (explanation: a categorization of the object associated with the action performed; mapping to FHIR element id AuditEvent.entity.type)
