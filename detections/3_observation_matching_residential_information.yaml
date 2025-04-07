@@ -1,6 +1,6 @@
 name: Matching Residential Information
 type: Observation Triggering
-description: This detection looks for employees who access patient medical records where there is a potential residential link between the 
+description: This detection looks for staff members who access patient medical records where there is a potential residential link between the 
         staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
         For each match, an observation is created and stored as an event in index=observation_collection.
 detection_ID: obs3
@@ -8,7 +8,7 @@ author: Simon Pettersson, Splunk
 prerequisites: 
 - data sources:
         EHR audit events from any source
-        Medical staff and patient residential information
+        Staff member and patient residential information
 - tags:
           auditevent (=identifies all EHR audit events, regardless of source system)
           patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
@@ -58,7 +58,7 @@ search_1:
         | eval detection_title = "matching residential information"
         | eval detection_description = "looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
         | eval observation_ID = md5(user_id.patient_id.sid.info_search_time)
-        | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the medical staff during this hour of the day."
+        | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the staff member during this hour of the day."
         | eval observation_risk_score = 10
         | eval observation_risk_score = observation_risk_factor * observation_risk_score
         | fields user_*, patient_*, matching_*, detection_*, observation_*, careprovider_id
