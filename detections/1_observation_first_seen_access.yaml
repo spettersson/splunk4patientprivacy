@@ -1,6 +1,6 @@
 name: First Seen Access
 type: Observation Triggering
-description: This detection looks for medical staff who recently accessed a patient medical record
+description: This detection looks for staff members who recently accessed a patient medical record
           without having any prior history with that patient in the last 6 months. For each match, 
           an observation is created and stored as an event in index=observation.
 detection_id: obs1
@@ -68,7 +68,7 @@ search_2:
 - cron_schedule: 0 0 * * *  # Runs daily at midnight.
 search_3:
 - title: Observation - First Seen Access
-- description: Identifies medical staff who accessed a patient medical record within the past 10-minute window 
+- description: Identifies staff members who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
           For each match, an observation is triggered and stored as an event in the observation index.
 - search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
