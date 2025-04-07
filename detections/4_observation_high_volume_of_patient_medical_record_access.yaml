@@ -1,8 +1,7 @@
 name: High Volume of Patient Medical Record Access
 type: Observation Triggering
 description: This detections looks for staff members that access a high volume of distinct patient medical records in 
-          a short time period compared to their peers. For each match, an observation is created and stored as an event in 
-          index=observation.
+          a short time period compared to their peers.
 detection_id: obs4
 author: Simon Pettersson, Splunk
 prerequisites:
