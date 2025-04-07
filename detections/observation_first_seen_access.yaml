@@ -1,6 +1,6 @@
 name: First Seen Access
 type: Observation Triggering
-description: This detection looks for staff members who recently accessed a patient medical record
+description: This detection looks for medical staff who recently accessed a patient medical record
           without having any prior history with that patient in the last 6 months. For each match, 
           an observation is created and stored as an event in index=observation.
 detection_ID: obs1
@@ -48,7 +48,7 @@ search_1:
 - latest_time: Leave empty (defined in search via latest option).
 - cron_schedule: N/A (Run manually before enabling search 2 and search 3).
 search_2:
-- title: Baseline - Incremental Updates of Historical Access
+- title: Baseline - Incremental Update of Historical Access
 - description: Incrementally updates the historical access lookup on a daily basis.
 - search: | inputlookup baseline_historical_access
           | append [
@@ -62,10 +62,10 @@ search_2:
           | outputlookup baseline_historical_access
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
-- cron_schedule: "0 0 * * *"  # Runs daily at midnight.
+- cron_schedule: 0 0 * * *  # Runs daily at midnight.
 search_3:
 - title: Observation - First Seen Access
-- description: Identifies employees who accessed a patient medical record within the past 10-minute window 
+- description: Identifies medical staff who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
           For each match, an observation is triggered and stored as an event in the observation index.
 - search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
@@ -83,10 +83,10 @@ search_3:
           | eval detection_description = ""
           | eval detection_ID="obs1"
           | eval observation_ID = md5(user_id.patient_id.last_interaction.sid.info_search_time
-          | eval observation_message = "User ".user_id." has accessed a patient medical record associated to patient=".patient_id." on ".last_access.". The last recorded activity prior to that was on ".historical_last_access."."
+          | eval observation_message = "User ".user_id." has accessed a patient medical record associated to patient=".patient_id." on ".last_access.". The last recorded access prior to that was on ".historical_last_access."."
           | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, user_id, patient_id, last_access, historical_last_access
           | collect index=observation sourcetype=auditevent_observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
-- cron_schedule: "*/10 * * * *" # Runs every 10 minutes, 24/7.
+- cron_schedule: */10 * * * * # Runs every 10 minutes, 24/7.
