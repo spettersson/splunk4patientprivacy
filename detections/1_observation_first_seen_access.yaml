@@ -83,7 +83,7 @@ search_3:
           | eval detection_title = "First Seen Access"
           | eval detection_description = ""
           | eval detection_id="obs1"
-          | eval observation_id = md5(user_id.patient_id.last_interaction.sid.info_search_time
+          | eval observation_id = md5(sid.info_search_time)
           | eval observation_message = "User ".user_id." has accessed a patient medical record associated to patient=".patient_id." on ".last_access.". The last recorded access prior to that was on ".historical_last_access."."
           | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, user_id, patient_id, last_access, historical_last_access
