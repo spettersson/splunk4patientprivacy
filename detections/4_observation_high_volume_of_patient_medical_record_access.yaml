@@ -3,7 +3,7 @@ type: Observation Triggering
 description: This detections looks for medical staff that access a high volume of distinct patient medical records in 
           a short time period compared to their peers. For each match, an observation is created and stored as an event in 
           index=observation.
-detection_ID: obs4
+detection_id: obs4
 author: Simon Pettersson, Splunk
 prerequisites:
 - data sources:
