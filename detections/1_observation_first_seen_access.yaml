@@ -16,14 +16,14 @@ prerequisites:
 - lookups: 
           baseline_historical_access (=a lookup file that stores the last seen access between employees and patients)
 - fields: 
- 	action (type of action performed during the event - e.g., create, read, update, delete)
-  	user_id (identifier of the user who performed the action)
- 	patient_id (identifier of the patient whose medical record the action was performed on)
-   	type (high-level category of the event)
-    	subtype (more granular description about the event)
-   	object (human-readable name of what specifically was accessed)
-    	object_changes (attributes and values that were added, updated, or removed on the object)
-  	care_provider_id (identifier of the care provider associated with the event)
+ 	action (=type of action performed during the event - e.g., create, read, update, delete)
+  	user_id (=identifier of the user who performed the action)
+ 	patient_id (=identifier of the patient whose medical record the action was performed on)
+   	type (=high-level event category)
+    	subtype (=more granular event description)
+   	object (=human-readable name of what specifically was accessed)
+    	object_changes (=attributes and values that were added, updated, or removed on the object)
+  	care_provider_id (=identifier of the care provider associated with the event)
 - searches: 
           search_1
           search_2
