@@ -13,7 +13,7 @@ prerequisites:
         auditevent
         patientrecord
 - indexes: 
-        observation (=where identified observations are stored as individual events)
+        observation (where identified observations are stored as individual events)
 - lookups: 
         patientpii_lookup
         staffpii_lookup
@@ -27,6 +27,8 @@ prerequisites:
         patient_residential_street_name
         patient_residential_street_number
         patient_residential_postal_code
+
+        careprovider_id
 - searches: 
           search_1
 how_to_implement:
@@ -34,8 +36,8 @@ search_1:
 - tile: 
 - description: 
 - search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
-        | fields _time, user_id, patient_id
-        | stats count by user_id, patient_id
+        | fields _time, user_id, patient_id, careprovider_id
+        | stats count by user_id, patient_id, careprovider_id
         | lookup patientpii_lookup patient_id OUTPUT patient_residential_street_name, patient_residential_street_number, patient_residential_postal_code
         | lookup staffpii_lookup user_id OUTPUT staff_residential_street_name, staff_residential_street_number, staff_residential_postal_code
         | eval staff_residential_address_and_postal_code = staff_residential_street_name + staff_residential_street_number + staff_postal_code
@@ -56,11 +58,11 @@ search_1:
         | eval detection_title = "matching residential information"
         | eval detection_description = "looks for employees who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
         | eval observation_ID = md5(user_id.patient_id.sid.info_search_time)
-        | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the employee during this hour of the day."
+        | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the medical staff during this hour of the day."
         | eval observation_risk_score = 10
         | eval observation_risk_score = observation_risk_factor * observation_risk_score
-        | fields staff_*, patient_*, matching_*, detection_*, observation_*
-        | collect index=observation_collection add_info=false
+        | fields user_*, patient_*, matching_*, detection_*, observation_*, careprovider_id
+        | collect index=observation add_info=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
 - cron_schedule: */10 * * * * 
