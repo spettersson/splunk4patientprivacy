@@ -1,6 +1,6 @@
 name: High Volume of Patient Medical Record Access
 type: Observation Triggering
-description: This detections looks for medical staff that access a high volume of distinct patient medical records in 
+description: This detections looks for staff members that access a high volume of distinct patient medical records in 
           a short time period compared to their peers. For each match, an observation is created and stored as an event in 
           index=observation.
 detection_id: obs4
@@ -34,7 +34,7 @@ search_1:
           | addinfo
           | eval detection_id = "obs4"
           | eval detection_title = "High Volume of Patient Medical Record Access"
-          | eval detection_description = "Looks for medical staff that access a high volume of distinct patient medical records in a short time period compared to their peers."
+          | eval detection_description = "Looks for staff members that access a high volume of distinct patient medical records in a short time period compared to their peers."
           | eval observation_id = md5(user_id.patient_id.sid.info_search_time)
           | eval observation_message = "User=". user_id." accessed ".dc_patient." unique patient medical records ". the last 1 hour, which is high compared to peers in the same department."
           | eval observation_risk_score = 40
