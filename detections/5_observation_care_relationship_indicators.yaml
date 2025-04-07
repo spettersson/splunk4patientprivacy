@@ -1,7 +1,7 @@
 name: Care Relationship Indicators
 type: Observation Triggering
 description: This detection looks for specific signals that (may) indicate the existence of a legitimate care relationship between 
-          medical staff and patients. It can provide valuable input to the decision whether a group of observations should trigger an alert or not, and also 
+          staff members and patients. It can provide valuable input to the decision whether a group of observations should trigger an alert or not, and also 
           be valuable when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour. 
           For each match, an observation is created and stored as an event in index=observation_collection.
 detection_id: obs5
@@ -38,7 +38,7 @@ search_1:
           | addinfo
           | eval detection_id = "obs5"
           | eval detection_title = "Care Relationship Indicators"
-          | eval detection_description = "Looks for specific signals that may indicate the existence of a legitimate care relationship between medical staff and patients."
+          | eval detection_description = "Looks for specific signals that may indicate the existence of a legitimate care relationship between staff members and patients."
           | eval observation_id = md5(user_id.patient_id.sid.info_search_time)
           | eval observation_message = "User=" . user_id . " performed action=" . action . " on object=" . object . " (details=" . subtype . ") for patient=" . patient_id
           | eval observation_risk_score = 0
