@@ -88,7 +88,7 @@ search_3:
           | eval observation_message = "User ".user_id." has accessed a patient medical record associated to patient=".patient_id." on ".last_access.". The last recorded access prior to that was on ".historical_last_access."."
           | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, user_id, patient_id, last_access, historical_last_access
-          | collect index=observation sourcetype=auditevent_observation addinfo=false
+          | collect index=observation sourcetype=observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
 - cron_schedule: */10 * * * * # Runs every 10 minutes, 24/7.
