@@ -3,7 +3,7 @@ type: Observation Triggering
 description: This detection looks for medical staff who recently accessed a patient medical record
           without having any prior history with that patient in the last 6 months. For each match, 
           an observation is created and stored as an event in index=observation.
-detection_ID: obs1
+detection_id: obs1
 author: Simon Pettersson, Splunk
 prerequisites:
 - data_sources: 
@@ -16,11 +16,14 @@ prerequisites:
 - lookups: 
           baseline_historical_access (=a lookup file that stores the last seen access between employees and patients)
 - fields: 
-          user_id 
-          work_unit_ID
-          patient_id 
-          care_unit_ID 
-          care_provider_ID 
+ 	action (type of action performed during the event - e.g., create, read, update, delete)
+  	user_id (identifier of the user who performed the action)
+ 	patient_id (identifier of the patient whose medical record the action was performed on)
+   	type (high-level category of the event)
+    	subtype (more granular description about the event)
+   	object (human-readable name of what specifically was accessed)
+    	object_changes (attributes and values that were added, updated, or removed on the object)
+  	care_provider_id (identifier of the care provider associated with the event)
 - searches: 
           search_1
           search_2
@@ -69,9 +72,8 @@ search_3:
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient in the last 6 months. 
           For each match, an observation is triggered and stored as an event in the observation index.
 - search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
-          | fields _time, user_id, patient_id
-          | stats earliest(_time) as last_access values(care_provider_ID) as care_provider_ID values(department_ID) as care_unit_ID 
-          by user_id, patient_id
+          | fields _time, user_id, patient_id, care_provider_id
+          | stats earliest(_time) as last_access by user_id, patient_id, care_provider_id
           | lookup baseline_historical_access user_id patient_id OUTPUT last_access AS historical_last_access
           | eval time_since_last_access = now() - historical_last_access
           | eval observation = if(isnull(historical_last_access) OR time_since_last_access >= 14515200 , "1", "0")
@@ -81,8 +83,8 @@ search_3:
           | addinfo
           | eval detection_title = "First Seen Access"
           | eval detection_description = ""
-          | eval detection_ID="obs1"
-          | eval observation_ID = md5(user_id.patient_id.last_interaction.sid.info_search_time
+          | eval detection_id="obs1"
+          | eval observation_id = md5(user_id.patient_id.last_interaction.sid.info_search_time
           | eval observation_message = "User ".user_id." has accessed a patient medical record associated to patient=".patient_id." on ".last_access.". The last recorded access prior to that was on ".historical_last_access."."
           | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, user_id, patient_id, last_access, historical_last_access
