@@ -1,6 +1,6 @@
 name: High Volume of Unique Patient Medical Record Access
 type: Observation Triggering
-description: This detections looks for staff members that access a high volume of distinct patient medical journals in 
+description: This detections looks for medical staff that access a high volume of distinct patient medical records in 
           a short time period compared to their peers. For each match, an observation is created and stored as an event in 
           index=observation.
 detection_ID: obs6
@@ -9,13 +9,14 @@ prerequisites:
 - data sources:
           EHR audit events from any source
 - tags:
-          auditevent (=identifies all EHR audit events, regardless of source system)
-          patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
+          auditevent (identifies all EHR audit events, regardless of source system)
+          patientrecord (identifies all EHR audit events associated with patient records access, regardless of source system)
 - indexes: 
-          observation_collection (=where identified observations are stored as individual events)
+          observation (where identified observations are stored as individual events)
 - fields: 
  	action (type of action performed during the event - e.g., create, read, update, delete)
   	user_id (identifier of the user who performed the action)
+          department_id (identifier of the department 
  	patient_id (identifier of the patient whose medical record the action was performed on)
    	type (high-level category of the event)
     	subtype (more granular description about the event)
@@ -29,10 +30,10 @@ search_1:
 - title: 
 - description: 
 - search: tag=auditevent tag=patientrecord earliest=-30d
-          | fields _time, user_id, patient, work_unit_ID
+          | fields _time, user_id, patient_id, department_id
           | bin _time span=1h
-          | stats dc(patient) as dc_patient by _time, user_id, work_unit_ID
-          | eventstats perc95(dc_patient) as perc95_dc_patient by work_unit_ID
+          | stats dc(patient_id) as dc_patient by _time, user_id, department_id
+          | eventstats perc95(dc_patient) as perc95_dc_patient by department_id
           | where _time > relative_time(_time, "-1h")
           | where dc_patient > perc95_dc_patient  
 - earliest_time: Leave empty (defined in search via earliest option).
