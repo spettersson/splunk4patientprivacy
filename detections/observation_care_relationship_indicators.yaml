@@ -18,14 +18,14 @@ prerequisites:
 - indexes: 
           observation (explanation: where identified observations are stored as individual events)
 - fields (note: some fields will be present in the EHR audit events itself, others will be present by enriching the events with information from other sources): 
-	user_id (who performed the action)
- 	action (CRUD-like indicator: read, update, create, delete)
- 	patient_id (who the action was performed on)
-   	type (high-level event category)
-    	subtype (more granular event details)
-   	object (human-readable name of what was accessed)
-    	object_attributes
-  	care_provider_id
+ 	action (type of action performed during the event - e.g., create, read, update, delete)
+  	user_id (identifier of the user who performed the action)
+ 	patient_id (identifier of the patient whose medical record the action was performed on)
+   	type (high-level category of the event)
+    	subtype (more granular description about the event)
+   	object (human-readable name of what specifically was accessed)
+    	object_changes (attributes and values that were added, updated, or removed on the object)
+  	care_provider_id (identifier of the care provider associated with the event)
 - searches: 
           search_1
 how_to_implement:
@@ -33,16 +33,16 @@ search_1:
 - title: 
 - description: 
 - search: tag=auditevent tag=patientrecord (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
-          | fields _time, user_id, patient_id, care_provider_id, action, object
-          | stats count by user_id, patient_id, care_provider_id, action, object, type, subtype
+          | fields _time, user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
+          | stats count by user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
           | addinfo
           | eval detection_id = "obs5"
           | eval detection_title = "Care Relationship Indicators"
           | eval detection_description = "Looks for specific signals that may indicate the existence of a legitimate care relationship between medical staff and patients."
           | eval observation_id = md5(user_id.patient_id.sid.info_search_time)
-          | eval observation_message = "User=".user_id." "
+          | eval observation_message = "User=" . user_id . " performed action=" . action . " on object=" . object . " (details=" . subtype . ") for patient=" . patient_id
           | eval observation_risk_score = 0
-          | fields detection_*, observation_*, info_*, user_id, patient_id, care_provider_ID, action, target_Type, clinical_event_type
+          | fields detection_*, observation_*, info_*, user_id, patient_id, care_provider_ID, action, object*
           | collect index=observation addinfo=false
 - earliest_time: Leave empty (defined in search via earliest option).
 - latest_time: Leave empty (defined in search via latest option).
