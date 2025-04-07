@@ -40,7 +40,7 @@ search_2:
 - title: 
 - description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
           member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour 
-          (percent ≤ 1 or null), an observation is created and stored in the index=observation.
+          (percent ≤ 1 or null), an observation is created and stored as an event in index=observation.
 - search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id, care_provider_id
           | eval hourOfDay = strftime(_time, "%H")
