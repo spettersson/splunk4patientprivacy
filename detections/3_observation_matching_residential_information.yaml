@@ -10,10 +10,10 @@ prerequisites:
         EHR audit events from any source
         Staff and patient residential information
 - tags:
-          auditevent (identifies all EHR audit events, regardless of source system)
-          patientrecord (identifies all EHR audit events associated with patient records access, regardless of source system)
+          auditevent (=identifies all EHR audit events, regardless of source system)
+          patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
 - indexes: 
-        observation (where identified observations are stored as individual events)
+        observation (=where identified observations are stored as individual events)
 - lookups: 
         patientpii_lookup
         staffpii_lookup
