@@ -1,13 +1,13 @@
 name: Risk Threshold Exceeded
 type: Alert Triggering
-description: This detection groups observations from the past 24 hours by staff_ID and patient_ID, and aggregates 
-          the total risk_score contributed by each. When the cumulative risk score for a specific employee or patient exceeds 
-          100, an alert is generated and stored as an event in the alert_collection index. 
+description: This detection groups observations from the past 24 hours by staff member, and aggregates 
+          the total risk_score contributed by each observation. When the cumulative risk score for a specific exceeds 
+          100, an alert is generated and stored as an event in index=alert. 
 detection_ID: ale1
 prerequisites: 
 - indexes: 
-          observation_collection (=where identified observations are stored as individual events)
-          alert_collection (=where triggered alerts are stored as individual events)
+          observation (=where identified observations are stored as individual events)
+          alert (=where triggered alerts are stored as individual events)
 - fields: 
           staff_ID 
           patient_ID
@@ -17,11 +17,9 @@ prerequisites:
 - searches: 
           search 1
 how_to_implement:
-          1. create an index called 'observation_collection' and 'incident_collection'. 
-          2. create 'search 1' as a report and then schedule it according to the instructions. 
 search 1: 
 - description: 
-- search: index=observation_collection earliest=-24h
+- search: index=observation earliest=-24h
           | stats sum(observation_risk_score) as total_risk_score dc(detection_ID) as distinct_observations count as total_observations values(observation_ID) as observation_ID values(patient_ID) as patient_ID by staff_ID
           | where total_risk_score > 100 
           | eval observation_ID = mvjoin(observation_ID,",")
@@ -30,9 +28,9 @@ search 1:
           | eval detection_ID = "ale1"
           | eval detection_title = "Risk Threshold Exceeded"
           | eval detection_description = ""
-          | eval alert_ID = md5(incident_description.sid.info_search_time)
+          | eval alert_ID = md5(sid.info_search_time)
           | eval alert_title = ""
-          | eval alert_message = ""
+          | eval alert_message = "24h risk threshold exceeded for staff=".staff_ID
           | fields detection_*, alert_*, info_*, staff_ID, patient_ID, distinct_observations, total_observations
           | collect index=alert_collection addinfo=false
 - time range picker: 
