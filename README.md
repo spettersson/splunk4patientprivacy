@@ -1,6 +1,6 @@
 # 🛡️ Protecting Patient Privacy with Splunk
 
-The purpose of this repository is to help organizations harness the power of **Splunk Enterprise Security** to protect patient privacy by detecting and investigating potentially inappropriate access to medical records.
+The purpose of this repository is to help organizations harness the power of **Splunk** to protect patient privacy by detecting and investigating potentially inappropriate access to medical records.
 
 ## 📌 What You'll Find Here
 
