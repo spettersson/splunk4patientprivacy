@@ -1,3 +1,6 @@
+# Available Detections
+A list of out-of-box detections available is presented below.
+
 ### Observation triggering: 
 1. First Seen Access
 2. Unusual Access Hours
