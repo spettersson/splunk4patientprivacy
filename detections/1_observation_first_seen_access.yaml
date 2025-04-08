@@ -1,9 +1,15 @@
 name: First Seen Access
-type: Observation
 description: This detection looks for staff members who recently accessed a patient medical record
           without having any prior history with that patient in the last 6 months.
-detection_id: obs1
+id: b04be6e5-2002-4349-8742-52111635b8f5
+version: 1
 author: Simon Pettersson, Splunk
+type: Anomaly
+status: experimental
+description: This detection looks for staff members who recently accessed a patient medical record
+          without having any prior history with that patient in the last 6 months.
+search: 
+how_to_implement: 
 prerequisites:
 - data_sources: 
           EHR audit events from any source system
