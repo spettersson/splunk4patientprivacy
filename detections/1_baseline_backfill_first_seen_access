@@ -4,3 +4,6 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
+description:
+search:
+how_to_implement: 
