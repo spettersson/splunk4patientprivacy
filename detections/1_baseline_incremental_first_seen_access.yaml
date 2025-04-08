@@ -1,4 +1,4 @@
-name: Baseline Backfill - First Seen Access
+name: Baseline Incremental - First Seen Access
 id: b04be6e5-2002-4349-8742-52333635b8f5
 version: 1
 author: Simon Pettersson, Splunk
