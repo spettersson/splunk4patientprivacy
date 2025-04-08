@@ -2,15 +2,15 @@
 
 The purpose of this repository is to help organizations harness the power of the market-leading SIEM **Splunk Enterprise Security** to protect the confidentiality, integrity, and availability of patient data, and ensure policy compliance. 
 
-## 📌 What You'll Find Here
+## 📌 What Type Of Content You Will Find Here
 
 ### 🔍 Detections  
-Detections designed to work together to identify staff members and patients with elevated risk that may potentially indicate an incident. They fall into two categories:
+A collection of detections designed to work together to surface staff members and patients with elevated risk — potentially indicating a privacy or security incident. Detections are organized into two categories:
 
-- **Observation** – Correlates events to detect observations, where each observation reflects a notable behaviour - i.e., something worth observing but that not necessarily is a sign of a policy violation.
-- **Alert** – Aggregates observations and assesses risk, to generate high-fidelity alerts.
+- **Event-based detections** –  Correlate events to identify intermediate findings that reflects a notable behavior. An observation may not be an incident on its own, but it’s worth tracking.
+- **Finding-based detections** – Group related observations and assess risk to generate findings. A finding is a higher-confidence alert that may indicate an actual incident.
 
 ### 📊 Dashboards  
-Prebuilt Splunk dashboards for visualizing, reviewing, and investigating observations and alerts.
+Prebuilt Splunk dashboards that complement the out-of-box dashboards provided by Splunk Enterprise Security.
 
 
