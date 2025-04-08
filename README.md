@@ -2,7 +2,7 @@
 
 Welcome to the Splunk Patient Privacy Content.
 
-This project will access to patient privacy content to help harness the power of the market-leading SIEM **Splunk Enterprise Security** to protect the confidentiality, integrity, and availability of patient data, and ensure policy compliance. 
+This project will provide access to patient privacy content to help harness the power of the market-leading SIEM **Splunk Enterprise Security** to protect the confidentiality, integrity, and availability of patient data, and ensure policy compliance. 
 
 ## 📌 What Type Of Content You Will Find Here
 
