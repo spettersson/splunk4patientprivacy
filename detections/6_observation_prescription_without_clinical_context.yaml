@@ -1,5 +1,5 @@
 name: Prescription Without Clinical Context
-type: Observation Triggering
+type: Observation
 description: This detection looks for staff members that prescribe medication to patients that  
 detection_id: obs5
 author: Simon Pettersson, Splunk
