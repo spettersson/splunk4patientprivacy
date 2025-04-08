@@ -1,6 +1,6 @@
 # 🛡️ Protecting Patient Privacy with Splunk
 
-The purpose of this repository is to help organizations harness the power of the market-leading SIEM **Splunk Enterprise Security** to protect the confidentiality, integrity, and availability of patient data.
+The purpose of this repository is to help organizations harness the power of the market-leading SIEM **Splunk Enterprise Security** to protect the confidentiality, integrity, and availability of patient data, and ensure policy compliance. 
 
 ## 📌 What You'll Find Here
 
