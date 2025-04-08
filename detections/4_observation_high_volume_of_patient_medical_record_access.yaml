@@ -1,5 +1,5 @@
 name: High Volume of Patient Medical Record Access
-type: Observation Triggering
+type: Observation
 description: This detections looks for staff members that access a high volume of distinct patient medical records in 
           a short time period compared to their peers.
 detection_id: obs4
