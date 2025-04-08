@@ -4,6 +4,15 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description:
-search:
+description: Incrementally updates the historical access lookup on a daily basis.
+search: | inputlookup baseline_historical_access
+          | append [
+          tag=auditevent tag=patientrecord earliest=-1d@d latest=@d
+          | fields _time, user_id, patient_id
+          | stats latest(_time) as last_access by user_id, patient_id
+          | fields user_id, patient_id, last_access
+          ]
+          | stats max(last_access) as last_access by user_id, patient_id
+          | fields user_id, patient_id, last_access
+          | outputlookup baseline_historical_access
 how_to_implement: 
