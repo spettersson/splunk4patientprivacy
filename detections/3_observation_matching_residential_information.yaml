@@ -1,5 +1,5 @@
 name: Matching Residential Information
-type: Observation Triggering
+type: Observation
 description: This detection looks for staff members who access patient medical records where there is a potential residential link between the 
         staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
 detection_ID: obs3
