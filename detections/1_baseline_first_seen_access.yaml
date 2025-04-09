@@ -8,18 +8,18 @@ description: This search incrementally updates the history of what staff member 
           record, and when, on a daily basis. 
 data_source: EHR audit data
 search: tag=auditevent tag=patientrecord
-          | fields _time, user_id, patient_id
-          | stats latest(_time) as last_access by user_id, patient_id
+          | fields _time, user_id, patient_id, care_provider_id
+          | stats latest(_time) as last_access by user_id, patient_id, care_provider_id
           | inputlookup append=true baseline_historical_access
-          | stats max(last_access) as last_access by user_id, patient_id
+          | stats max(last_access) as last_access by user_id, patient_id, care_provider_id
           | where last_access > relative_time(now(), "-6month")
-          | fields user_id, patient_id, last_access
+          | fields user_id, patient_id, last_access, care_provider_id
           | outputlookup baseline_historical_access
 scheduling:
   cron_schedule: '15 0 * * *'
   earliest_time: -1d@d
   latest_time: @d
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
-          The data must have the fields user_id and patient_id, as well. Moreover, it is recommended to first run the search included 
-          in '1_baseline_backfill_first_seen_access.yaml' to get the full 6 month history.
+          The data must have the fields user_id, patient_id, and care_provider_id, as well. Moreover, it is recommended to first 
+          run the search included in '1_baseline_backfill_first_seen_access.yaml' to get the full 6 month history.
 
