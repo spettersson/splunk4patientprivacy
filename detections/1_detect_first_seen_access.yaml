@@ -7,6 +7,7 @@ status: experimental
 description: Identifies staff members who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient 
           in the last 6 months.
+data_source:
 search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id, care_provider_id
           | stats earliest(_time) as last_access by user_id, patient_id, care_provider_id
