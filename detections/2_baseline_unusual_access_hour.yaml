@@ -1,13 +1,16 @@
 name: Baseline - Unusual Access Hours
-id: b04be6e5-2002-4349-8742-52335635b8f5
+id: b04be6e5-2002-4349-8742-52335635u8f5
 version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: Establishes a baseline of historical access for the past 6 months.
-search: tag=auditevent tag=patientrecord earliest=-6mon latest=now
-          | fields _time, user_id, patient_id
-          | stats latest(_time) as last_access by user_id, patient_id
-          | table user_id, patient_id, last_access
-          | outputlookup baseline_historical_access
+description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
+          It identifies the least commonly used hours (rare) by user and stores the results in a lookup table (baseline_access_hours) 
+          for further use in search_2 to detect anomalies.
+search: tag=auditevent tag=patientrecord earliest=-30d
+          | fields _time, user_id
+          | eval hourOfDay = strftime(_time, "%H")
+          | rare hourOfDay by user_id
+          | fields user_id, hourOfDay, percent
+          | outputlookup baseline_access_hours
 how_to_implement: 
