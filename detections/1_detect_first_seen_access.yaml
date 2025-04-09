@@ -6,7 +6,7 @@ type: Anomaly
 status: experimental
 description: Identifies staff members who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient 
-          in the last 6 months.
+          in the last 6 months. This could be a sign of that there is no existing care relationship.
 data_source:
 search: tag=auditevent tag=patientrecord
           | fields _time, user_id, patient_id, care_provider_id
