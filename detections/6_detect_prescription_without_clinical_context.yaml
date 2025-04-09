@@ -5,5 +5,6 @@ author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
 description: 
+data_source:
 search:
 how_to_implement: 
