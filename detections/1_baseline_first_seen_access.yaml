@@ -7,8 +7,7 @@ status: experimental
 description: This search incrementally updates the history of what staff member has accessed what patient medical 
           record, and when, on a daily basis. 
 data_source:
-search: 
-          tag=auditevent tag=patientrecord
+search: tag=auditevent tag=patientrecord
           | fields _time, user_id, patient_id
           | stats latest(_time) as last_access by user_id, patient_id
           | inputlookup append=true baseline_historical_access
