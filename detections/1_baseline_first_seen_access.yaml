@@ -5,6 +5,7 @@ author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
 description: Incrementally updates the historical access lookup on a daily basis.
+data_source:
 search: | inputlookup baseline_historical_access
           | append [
           tag=auditevent tag=patientrecord earliest=-1d@d latest=@d
