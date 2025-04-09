@@ -28,8 +28,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User=$user_id$ has accessed a patient medical record associated to patient=$patient_id$ on $last_access$. 
-            The last recorded access prior to that was on $historical_last_access$.
+  message: User=$user_id$ has accessed a patient medical record during hourOfDay=$hourOfDay$, which is rare for this specific user.
   risk_objects:
   - field: user_id
     type: user
