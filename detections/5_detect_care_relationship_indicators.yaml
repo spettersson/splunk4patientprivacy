@@ -1,37 +1,13 @@
 name: Care Relationship Indicators
-type: Observation
-description: This detection looks for specific signals that (may) indicate the existence of a legitimate care relationship between 
+id: b04be6e5-2u02-4349-8742-52111635y8f5
+version: 1
+author: Simon Pettersson, Splunk
+type: Anomaly
+status: experimental
+description: This search looks for specific signals that (may) indicate the existence of a legitimate care relationship between 
           staff members and patients. It can provide valuable input to the decision whether a group of observations should trigger an alert or not, and also 
           be valuable when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour.
-detection_id: obs5
-author: Simon Pettersson, Splunk
-prerequisites:
-- data sources:
-          EHR audit events from any source system
-- tags:
-          auditevent (explanation: identifies all EHR audit events, regardless of source system)
-          patientrecord (explanation: identifies all EHR audit events associated with patient records access, regardless of source system)
-          prescription (explanation: identifies EHR audit events where a users prescribes or orders medication for a patient, regardless of source system) 
-          diagnosis (explanation: identifies EHR audit events where users adds/updates/removes a diagnosis for a patient, regardless of source system) 
-          encounter (explanation: identifies EHR audit events tied to patient encounters, regardless of source system) 
-- indexes: 
-          observation (explanation: where identified observations are stored as individual events)
-- fields (note: some fields will be present in the EHR audit events itself, others will be present by enriching the events with information from other sources): 
- 	action (=type of action performed during the event - e.g., create, read, update, delete)
-  	user_id (=identifier of the user who performed the action)
- 	patient_id (=identifier of the patient whose medical record the action was performed on)
-   	type (=high-level event category)
-    	subtype (=more granular event description)
-   	object (=human-readable name of what specifically was accessed)
-    	object_changes (=attributes and values that were added, updated, or removed on the object)
-  	care_provider_id (=identifier of the care provider associated with the event)
-- searches: 
-          search_1
-how_to_implement:
-search_1: 
-- title: 
-- description: 
-- search: tag=auditevent tag=patientrecord (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
+search: tag=auditevent tag=patientrecord (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
           | stats count by user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
           | addinfo
@@ -43,6 +19,26 @@ search_1:
           | eval observation_risk_score = 0
           | fields detection_*, observation_*, info_*, user_id, patient_id, care_provider_id, action, object*, type, subtype
           | collect index=observation sourcetype=observation addinfo=false
-- earliest_time: Leave empty (defined in search via earliest option).
-- latest_time: Leave empty (defined in search via latest option).
-- cron_schedule: */10 * * * *
+how_to_implement: 
+                              prerequisites:
+                              - data sources:
+                                        EHR audit events from any source system
+                              - tags:
+                                        auditevent (explanation: identifies all EHR audit events, regardless of source system)
+                                        patientrecord (explanation: identifies all EHR audit events associated with patient records access, regardless of source system)
+                                        prescription (explanation: identifies EHR audit events where a users prescribes or orders medication for a patient, regardless of source system) 
+                                        diagnosis (explanation: identifies EHR audit events where users adds/updates/removes a diagnosis for a patient, regardless of source system) 
+                                        encounter (explanation: identifies EHR audit events tied to patient encounters, regardless of source system) 
+                              - indexes: 
+                                        observation (explanation: where identified observations are stored as individual events)
+                              - fields (note: some fields will be present in the EHR audit events itself, others will be present by enriching the events with information from other sources): 
+                               	action (=type of action performed during the event - e.g., create, read, update, delete)
+                                	user_id (=identifier of the user who performed the action)
+                               	patient_id (=identifier of the patient whose medical record the action was performed on)
+                                 	type (=high-level event category)
+                                  	subtype (=more granular event description)
+                                 	object (=human-readable name of what specifically was accessed)
+                                  	object_changes (=attributes and values that were added, updated, or removed on the object)
+                                	care_provider_id (=identifier of the care provider associated with the event)
+                              - searches: 
+                                        search_1
