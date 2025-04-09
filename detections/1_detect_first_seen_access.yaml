@@ -29,3 +29,18 @@ how_to_implement: This search requires you to ingest EHR audit data that has the
           The data must have the fields user_id, patient_id, and care_provider_id, as well. Moreover, in order for the search
           to work, the lookup file baseline_historical_access needs to be populated which is done via 1_baseline_backfill_first_seen_access
           and 1_baseline_first_seen_access.
+drilldown_searches:
+- name: View the detection results
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User=$user_id$ has accessed a patient medical record associated to patient=$patient_id$ on $last_access$. 
+            The last recorded access prior to that was on $historical_last_access$.
+  risk_objects:
+  - field: user_id
+    type: user
+    score: 80
+  - field: patient_id
+    type: patient
+    score: 80
