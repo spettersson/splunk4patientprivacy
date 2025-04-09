@@ -7,6 +7,7 @@ status: experimental
 description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
           It identifies the least common hours by user and stores the results in a lookup table (baseline_access_hours), which subsequently
           utilized in the detection '2_detect_unusual_access_hours'.
+data_source:
 search: tag=auditevent tag=patientrecord earliest=-30d
           | fields _time, user_id
           | eval hourOfDay = strftime(_time, "%H")
