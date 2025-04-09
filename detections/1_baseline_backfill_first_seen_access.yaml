@@ -12,5 +12,6 @@ search: tag=auditevent tag=patientrecord earliest=-6mon latest=now
           | stats latest(_time) as last_access by user_id, patient_id
           | table user_id, patient_id, last_access
           | outputlookup baseline_historical_access
-how_to_implement: Run this search once to get the 6 month history, then implement '1_baseline_first_seen_access' to ensure that
-          the history is incrementally updated on a daily basis. 
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
+          The data must have the fields user_id and patient_id, as well. Moreover, this search should only be run once to
+          populate the history.
