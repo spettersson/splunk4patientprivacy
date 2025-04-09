@@ -5,7 +5,7 @@ author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
 description: This search incrementally updates the history of what staff member has accessed what patient medical 
-          record, and when, on a daily basis. 
+          record, and when, on a daily basis, and removes any history older than 6 month.
 data_source: EHR audit data
 search: tag=auditevent tag=patientrecord
           | fields _time, user_id, patient_id, care_provider_id
