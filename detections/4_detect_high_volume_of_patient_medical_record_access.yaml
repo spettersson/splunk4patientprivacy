@@ -1,29 +1,12 @@
 name: High Volume of Patient Medical Record Access
-type: Observation
+id: b04be6e5-2u02-4149-8742-52111635y8f5
+version: 1
+author: Simon Pettersson, Splunk
+type: Anomaly
+status: experimental
 description: This detections looks for staff members that access a high volume of distinct patient medical records in 
           a short time period compared to their peers.
-detection_id: obs4
-author: Simon Pettersson, Splunk
-prerequisites:
-- data sources:
-          EHR audit events from any source
-- tags:
-          auditevent (=identifies all EHR audit events, regardless of source system)
-          patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
-- indexes: 
-          observation (=where identified observations are stored as individual events)
-- fields: 
-          user_id (=identifier of the user who performed the action)
-          department_id
-          patient_id (=identifier of the patient whose medical record the action was performed on)
-          care_provider_id (=identifier of the care provider associated with the event)
-- searches: 
-          search_1
-how_to_implement:
-search_1: 
-- title: 
-- description: 
-- search: tag=auditevent tag=patientrecord earliest=-30d
+search: tag=auditevent tag=patientrecord earliest=-30d
           | fields _time, user_id, patient_id, department_id
           | bin _time span=1h
           | stats dc(patient_id) as dc_patient by _time, user_id, department_id
@@ -31,13 +14,24 @@ search_1:
           | where _time > relative_time(_time, "-1h")
           | where dc_patient > perc95_dc_patient  
           | addinfo
-          | eval detection_id = "obs4"
           | eval detection_title = "High Volume of Patient Medical Record Access"
           | eval detection_description = "Looks for staff members that access a high volume of distinct patient medical records in a short time period compared to their peers."
-          | eval observation_id = md5(user_id.patient_id.sid.info_search_time)
           | eval observation_message = "User=". user_id." accessed ".dc_patient." unique patient medical records ". the last 1 hour, which is high compared to peers in the same department."
           | eval observation_risk_score = 40
-          | collect index=observation sourcetype=observation addinfo=false          
-- earliest_time: Leave empty (defined in search via earliest option).
-- latest_time: Leave empty (defined in search via latest option).
-- cron schedule: * * * * *
+how_to_implement:
+                                        prerequisites:
+                                        - data sources:
+                                                  EHR audit events from any source
+                                        - tags:
+                                                  auditevent (=identifies all EHR audit events, regardless of source system)
+                                                  patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
+                                        - indexes: 
+                                                  observation (=where identified observations are stored as individual events)
+                                        - fields: 
+                                                  user_id (=identifier of the user who performed the action)
+                                                  department_id
+                                                  patient_id (=identifier of the patient whose medical record the action was performed on)
+                                                  care_provider_id (=identifier of the care provider associated with the event)
+                                        - searches: 
+                                                  search_1
+
