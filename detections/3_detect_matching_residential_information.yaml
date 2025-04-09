@@ -1,40 +1,13 @@
 name: Matching Residential Information
-type: Observation
-description: This detection looks for staff members who access patient medical records where there is a potential residential link between the 
-        staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship.
-detection_ID: obs3
+id: b04be6e5-2u72-4349-8742-52111635y8f5
+version: 1
 author: Simon Pettersson, Splunk
-prerequisites: 
-- data sources:
-        EHR audit events from any source
-        Staff member and patient residential information
-- tags:
-          auditevent (=identifies all EHR audit events, regardless of source system)
-          patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
-- indexes: 
-        observation (=where identified observations are stored as individual events)
-- lookups: 
-        patientpii_lookup
-        staffpii_lookup
-- fields: 
-        user_id
-        staff_residential_street_name
-        staff_residential_street_number
-        staff_residential_postal_code
-          
-        patient_id
-        patient_residential_street_name
-        patient_residential_street_number
-        patient_residential_postal_code
-
-        careprovider_id
-- searches: 
-          search_1
-how_to_implement:
-search_1:
-- tile: 
-- description: 
-- search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
+type: Anomaly
+status: experimental
+description: This detection looks for staff members who access patient medical records where there is a potential residential 
+        link between the staff member and the patient. A match on residential address, street name, or postal code may 
+        indicate a personal relationship.
+search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
         | fields _time, user_id, patient_id, careprovider_id
         | stats count by user_id, patient_id, careprovider_id
         | lookup patientpii_lookup patient_id OUTPUT patient_residential_street_name, patient_residential_street_number, patient_residential_postal_code
@@ -62,8 +35,30 @@ search_1:
         | eval observation_risk_score = observation_risk_factor * observation_risk_score
         | fields user_*, patient_*, matching_*, detection_*, observation_*, careprovider_id
         | collect index=observation sourcetype=observation add_info=false
-- earliest_time: Leave empty (defined in search via earliest option).
-- latest_time: Leave empty (defined in search via latest option).
-- cron_schedule: */10 * * * * 
-        
-        
+how_to_implement:
+                        prerequisites: 
+                        - data sources:
+                                EHR audit events from any source
+                                Staff member and patient residential information
+                        - tags:
+                                  auditevent (=identifies all EHR audit events, regardless of source system)
+                                  patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
+                        - indexes: 
+                                observation (=where identified observations are stored as individual events)
+                        - lookups: 
+                                patientpii_lookup
+                                staffpii_lookup
+                        - fields: 
+                                user_id
+                                staff_residential_street_name
+                                staff_residential_street_number
+                                staff_residential_postal_code
+                                  
+                                patient_id
+                                patient_residential_street_name
+                                patient_residential_street_number
+                                patient_residential_postal_code
+                        
+                                careprovider_id
+                        - searches: 
+                                  search_1
