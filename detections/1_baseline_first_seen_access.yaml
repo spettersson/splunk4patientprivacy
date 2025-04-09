@@ -13,6 +13,7 @@ search:
           | stats latest(_time) as last_access by user_id, patient_id
           | inputlookup append=true baseline_historical_access
           | stats max(last_access) as last_access by user_id, patient_id
+          | where last_access > relative_time(now(), "-6month")
           | fields user_id, patient_id, last_access
           | outputlookup baseline_historical_access
 scheduling:
