@@ -4,7 +4,8 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: This search incrementally updates the baseline_historical_access lookup file on a daily basis.
+description: This search incrementally updates the history of what staff member has accessed what patient medical 
+          record, and when, on a daily basis. 
 data_source:
 search: 
           tag=auditevent tag=patientrecord
