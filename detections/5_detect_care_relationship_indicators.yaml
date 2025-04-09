@@ -7,6 +7,7 @@ status: experimental
 description: This search looks for specific signals that (may) indicate the existence of a legitimate care relationship between 
           staff members and patients. It can provide valuable input to the decision whether a group of observations should trigger an alert or not, and also 
           be valuable when investigating alerts, helping to distinguish between acceptable and unacceptable behaviour.
+data_source:
 search: tag=auditevent tag=patientrecord (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
           | stats count by user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
