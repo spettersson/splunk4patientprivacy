@@ -6,7 +6,7 @@ type: Anomaly
 status: experimental
 description: This detection looks for staff members who access patient medical records where there is a potential residential 
         link between the staff member and the patient. A match on residential address, street name, or postal code may 
-        indicate a personal relationship.
+        indicate a relationship outside of work.
 search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
         | fields _time, user_id, patient_id, careprovider_id
         | stats count by user_id, patient_id, careprovider_id
@@ -25,16 +25,12 @@ search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
         matching_street_name == "true", 3,
         matching_postal_code == "true", 1
         )			
-        | addinfo
-        | eval detection_ID = "obs3"
         | eval detection_title = "matching residential information"
         | eval detection_description = "Looks for staff members who access patient medical records where there is a potential residential link between the staff member and the patient. A match on residential address, street name, or postal code may indicate a personal relationship."
-        | eval observation_ID = md5(user_id.patient_id.sid.info_search_time)
         | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the staff member during this hour of the day."
         | eval observation_risk_score = 10
         | eval observation_risk_score = observation_risk_factor * observation_risk_score
         | fields user_*, patient_*, matching_*, detection_*, observation_*, careprovider_id
-        | collect index=observation sourcetype=observation add_info=false
 how_to_implement:
                         prerequisites: 
                         - data sources:
