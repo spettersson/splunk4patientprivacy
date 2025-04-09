@@ -26,39 +26,6 @@ scheduling:
   earliest_time: -12min@min
   latest_time: -2min@min
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
-          The data must have the fields user_id and patient_id, wheras care_provider_id is recommended. Moreover, 
-
-          
-                              - data_sources: 
-                                        EHR audit events from any source system
-                              - tags:
-                                        auditevent (=identifies all EHR audit events, regardless of source system)
-                                        patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
-                              - indexes: 
-                                        observation (=an index where identified observations are stored as individual events)
-                              - lookups: 
-                                        baseline_historical_access (=a lookup file that stores the last seen access between employees and patients)
-                              - fields: 
-                                        action (=type of action performed during the event - e.g., create, read, update, delete)
-                                	user_id (=identifier of the user who performed the action)
-                               	patient_id (=identifier of the patient whose medical record the action was performed on)
-                                 	type (=high-level event category)
-                                  	subtype (=more granular event description)
-                                 	object (=human-readable name of what specifically was accessed)
-                                  	object_changes (=attributes and values that were added, updated, or removed on the object)
-                                	care_provider_id (=identifier of the care provider associated with the event)
-                              - searches: 
-                                        search_1
-                                        search_2
-                                        search_3
-                              how_to_implement:
-                                1. fields:
-                                    - Make sure each individual EHR system has, at minimum, the following fields: user_id, patient_id
-                                2. indexes:
-                                    - Make sure that an index with the name 'observation' exist.
-                                    - The retention for this index should be configured according to your requirements/needs. 
-                                4. lookups:
-                                    - Download and install Splunk App for Lookup File Editing (https://splunkbase.splunk.com/app/1724).
-                                    - Create a KVstore lookup with the name 'baseline_historical_access' with the fields: user_id, patient_id, last_access. 
-                                5. searches:
-                                    - Create and enable 'search_1', followed by 'search_2', followed by 'search_3'.
+          The data must have the fields user_id, patient_id, and care_provider_id, as well. Moreover, in order for the search
+          to work, the lookup file baseline_historical_access needs to be populated which is done via 1_baseline_backfill_first_seen_access
+          and 1_baseline_first_seen_access.
