@@ -4,16 +4,19 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: Incrementally updates the historical access lookup on a daily basis.
+description: This search incrementally updates the baseline_historical_access lookup file on a daily basis.
 data_source:
-search: | inputlookup baseline_historical_access
-          | append [
-          tag=auditevent tag=patientrecord earliest=-1d@d latest=@d
+search: 
+          tag=auditevent tag=patientrecord
           | fields _time, user_id, patient_id
           | stats latest(_time) as last_access by user_id, patient_id
-          | fields user_id, patient_id, last_access
-          ]
+          | inputlookup append=true baseline_historical_access
           | stats max(last_access) as last_access by user_id, patient_id
           | fields user_id, patient_id, last_access
           | outputlookup baseline_historical_access
-how_to_implement: 
+scheduling:
+  cron_schedule: '15 0 * * *'
+  earliest_time: -1d@d
+  latest_time: @d
+how_to_implement: Before enabling this search, first run the search included in '1_baseline_backfill_first_seen_access.yaml' to get the full 6 month history.
+
