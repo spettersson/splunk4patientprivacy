@@ -4,11 +4,12 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: Establishes a baseline of historical access for the past 6 months.
+description: This search establishes a baseline of historical access for the past 6 months.
 data_source:
 search: tag=auditevent tag=patientrecord earliest=-6mon latest=now
           | fields _time, user_id, patient_id
           | stats latest(_time) as last_access by user_id, patient_id
           | table user_id, patient_id, last_access
           | outputlookup baseline_historical_access
-how_to_implement: 
+how_to_implement: Run this search once to do the backfill, then implement '1_baseline_first_seen_access' to ensure that
+          the baseline is incrementally updated on a daily basis. 
