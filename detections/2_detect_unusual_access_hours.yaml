@@ -19,21 +19,21 @@ search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
           | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the staff member during this hour of the day."
           | eval observation_risk_score = 10
           | fields user_id, patient_id, care_provider_id, hourOfDay, detection_*, observation_*, info_*
-how_to_implement: 
-                    prerequisites:
-                    - data sources:
-                              EHR audit events from any source
-                    - tags:
-                              auditevent (=identifies all EHR audit events, regardless of source system)
-                              patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
-                    - indexes: 
-                              observation (=where identified observations are stored as individual events)
-                    - lookups: 
-                              baseline_access_hours
-                    - fields: 
-                              user_id
-                              patient_id
-                              care_provider_id
-                    - searches: 
-                              search_1
-                              search_2
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
+          The data must have the fields user_id, patient_id, and care_provider_id, as well. Moreover, in order for the search
+          to work, the lookup file baseline_access_hours needs to be populated which is done via 2_baseline_unusual_access_hours.
+drilldown_searches:
+- name: View the detection results
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User=$user_id$ has accessed a patient medical record associated to patient=$patient_id$ on $last_access$. 
+            The last recorded access prior to that was on $historical_last_access$.
+  risk_objects:
+  - field: user_id
+    type: user
+    score: 80
+  - field: patient_id
+    type: patient
+    score: 80
