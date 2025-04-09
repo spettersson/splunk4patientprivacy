@@ -19,5 +19,7 @@ scheduling:
   cron_schedule: '15 0 * * *'
   earliest_time: -1d@d
   latest_time: @d
-how_to_implement: Before enabling this search, first run the search included in '1_baseline_backfill_first_seen_access.yaml' to get the full 6 month history.
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
+          The data must have the fields user_id and patient_id, as well. Moreover, it is recommended to first run the search included 
+          in '1_baseline_backfill_first_seen_access.yaml' to get the full 6 month history.
 
