@@ -6,7 +6,7 @@ type: Baseline
 status: experimental
 description: This search establishes a history of what staff member has accessed what patient medical 
           record, and when, during the last 6 months. The history is stored in the lookup file baseline_historical_access.
-data_source:
+data_source: EHR audit data
 search: tag=auditevent tag=patientrecord earliest=-6mon latest=now
           | fields _time, user_id, patient_id
           | stats latest(_time) as last_access by user_id, patient_id
