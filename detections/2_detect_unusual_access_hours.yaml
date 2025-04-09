@@ -1,61 +1,38 @@
 name: Unusual Access Hours
-type: Observation
-description: Looks for staff members accessing patient medical records during unusual hours of the day, based on historical access pattern. 
-          Access is considered unusual if it occurs during an hour that is rare or not previously observed for the individual staff member.
-detection_id: obs2
+id: b04be6e5-2002-4349-8742-52111635y8f5
+version: 1
 author: Simon Pettersson, Splunk
-prerequisites:
-- data sources:
-          EHR audit events from any source
-- tags:
-          auditevent (=identifies all EHR audit events, regardless of source system)
-          patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
-- indexes: 
-          observation (=where identified observations are stored as individual events)
-- lookups: 
-          baseline_access_hours
-- fields: 
-          user_id
-          patient_id
-          care_provider_id
-- searches: 
-          search_1
-          search_2
-how_to_implement:
-search_1: 
-- title: 
-- description: This search creates and maintains a baseline of access hours to patient medical records for each staff member. 
-          It identifies the least commonly used hours (rare) by user and stores the results in a lookup table (baseline_access_hours) 
-          for further use in search_2 to detect anomalies.
-- search: tag=auditevent tag=patientrecord earliest=-30d
-          | fields _time, user_id
-          | eval hourOfDay = strftime(_time, "%H")
-          | rare hourOfDay by user_id
-          | fields user_id, hourOfDay, percent
-          | outputlookup baseline_access_hours
-- earliest_time: Leave empty (defined in search via earliest option).
-- latest_time: Leave empty (defined in search via latest option).
-- cron schedule: * * * * *
-search_2: 
-- title: 
-- description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
+type: Anomaly
+status: experimental
+description: This search runs continuously to detect accesses to patient records during hours that are unusual for the staff 
           member, based on the baseline built by search_1. If an access occurs at a rare or previously unseen hour 
-          (percent ≤ 1 or null), an observation is created and stored as an event in index=observation.
-- search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
+          (percent ≤ 1 or null), an observation is created and stored as an event in index=risk.
+search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id, care_provider_id
           | eval hourOfDay = strftime(_time, "%H")
           | stats count by hourOfDay, user_id, patient_id, care_provider_id
           | lookup baseline_access_hours user_id hourOfDay OUTPUT percent AS historical_percent
           | where isnull(historical_percent) OR historical_percent<=1
-          | addinfo
-          | eval detection_ID = "obs2"
           | eval detection_title = "Unusual Access Hours"
           | eval detection_description = "Looks for staff members members accessing patient medical records during unusual hours of the day, based on their own historical access patterns."
-          | eval observation_ID = md5(user_id.patient_id.sid.info_search_time)
           | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the staff member during this hour of the day."
           | eval observation_risk_score = 10
           | fields user_id, patient_id, care_provider_id, hourOfDay, detection_*, observation_*, info_*
-          | collect index=observation sourcetype=observation add_info=false
-- earliest_time: Leave empty (defined in search via earliest option).
-- latest_time: Leave empty (defined in search via latest option).
-- cron_schedule: */10 * * * * 
+how_to_implement: 
+                    prerequisites:
+                    - data sources:
+                              EHR audit events from any source
+                    - tags:
+                              auditevent (=identifies all EHR audit events, regardless of source system)
+                              patientrecord (=identifies all EHR audit events associated with patient records access, regardless of source system)
+                    - indexes: 
+                              observation (=where identified observations are stored as individual events)
+                    - lookups: 
+                              baseline_access_hours
+                    - fields: 
+                              user_id
+                              patient_id
+                              care_provider_id
+                    - searches: 
+                              search_1
+                              search_2
