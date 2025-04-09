@@ -4,7 +4,8 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: This search establishes a history of what staff member has accessed what patient medical record, and when, for the past 6 months.
+description: This search establishes a history of what staff member has accessed what patient medical 
+          record, and when, for the past 6 months.
 data_source:
 search: tag=auditevent tag=patientrecord earliest=-6mon latest=now
           | fields _time, user_id, patient_id
