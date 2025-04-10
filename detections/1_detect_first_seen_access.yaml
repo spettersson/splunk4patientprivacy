@@ -4,7 +4,7 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: Identifies staff members who accessed a patient medical record within the past 10-minute window 
+description: This search identifies staff members who accessed a patient medical record within the past 10-minute window 
           (accounting for a 2-minute latency) but has not accessed anything associated with that patient 
           in the last 6 months. This could indicate that there is no existing care relationship.
 data_source: EHR audit data
