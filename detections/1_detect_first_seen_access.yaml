@@ -17,9 +17,6 @@ search: tag=auditevent tag=patientrecord
           | where observation = "1"
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_access) AS last_access 
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(historical_last_access) AS historical_last_access 
-          | eval observation_message = "User ".user_id." has accessed a patient medical record associated to patient=".patient_id." on ".last_access.". The last recorded access prior to that was on ".historical_last_access."."
-
-          | eval observation_risk_score = "20"
           | fields detection_*, observation_*, info_*, care_*, user_id, patient_id, last_access, historical_last_access
 scheduling:
   cron_schedule: '*/10 * * * *'
@@ -40,7 +37,7 @@ rba:
   risk_objects:
   - field: user_id
     type: user
-    score: 80
+    score: 20
   - field: patient_id
     type: patient
-    score: 80
+    score: 20
