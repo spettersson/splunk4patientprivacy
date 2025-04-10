@@ -13,4 +13,5 @@ search: tag=auditevent tag=patientrecord earliest=-30d
           | rare hourOfDay by user_id
           | fields user_id, hourOfDay, percent
           | outputlookup baseline_access_hours
-how_to_implement: 
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
+          The data must have the field user_id, as well. Moreover, run this search once
