@@ -14,10 +14,6 @@ search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
           | stats count by hourOfDay, user_id, patient_id, care_provider_id
           | lookup baseline_access_hours user_id hourOfDay OUTPUT percent AS historical_percent
           | where isnull(historical_percent) OR historical_percent<=1
-          | eval detection_title = "Unusual Access Hours"
-          | eval detection_description = "Looks for staff members members accessing patient medical records during unusual hours of the day, based on their own historical access patterns."
-          | eval observation_message = "User=".user_id." accessed a patient medical record associated to patient=".patient_id." during hour ".hourOfDay." This is unusual for the staff member during this hour of the day."
-          | eval observation_risk_score = 10
           | fields user_id, patient_id, care_provider_id, hourOfDay, detection_*, observation_*, info_*
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
           The data must have the fields user_id, patient_id, and care_provider_id, as well. Moreover, in order for the search
@@ -32,7 +28,7 @@ rba:
   risk_objects:
   - field: user_id
     type: user
-    score: 80
+    score: 10
   - field: patient_id
     type: patient
-    score: 80
+    score: 10
