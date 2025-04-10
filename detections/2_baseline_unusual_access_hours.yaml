@@ -6,7 +6,7 @@ type: Baseline
 status: experimental
 description: This search identifies the least common hours of the day that staff members access patient medical records. The
           result is stored in the lookup file baseline_access_hours.
-data_source: EHR audit data
+data_source: EHR audit data from any source
 search: tag=auditevent tag=patientrecord earliest=-30d
           | fields _time, user_id
           | eval hourOfDay = strftime(_time, "%H")
