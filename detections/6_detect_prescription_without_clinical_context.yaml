@@ -5,6 +5,6 @@ author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
 description: 
-data_source:
+data_source: EHR Audit Data
 search:
 how_to_implement: 
