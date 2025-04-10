@@ -5,8 +5,7 @@ author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
 description: This search runs continuously to detect staff members accessing patient medical records during hours of the day 
-          that are unusual for the staff member. If an access occurs at a rare or previously unseen hour 
-          (percent ≤ 1 or null), an intermediate finding is created and stored as an event in index=risk.
+          that are unusual (percent ≤ 1 or null) for the staff member.
 data_source: EHR audit data
 search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
           | fields _time, user_id, patient_id, care_provider_id
