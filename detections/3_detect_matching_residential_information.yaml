@@ -9,25 +9,17 @@ description: This search looks for staff members who access patient medical reco
         indicate a relationship outside of work.
 data_source: EHR audit data, Identity data
 search: tag=auditevent tag=patientrecord earliest=-12min@min latest=-2min@min
-        | fields _time, user_id, patient_id, careprovider_id
-        | stats count by user_id, patient_id, careprovider_id
-        | lookup patientpii_lookup patient_id OUTPUT patient_residential_street_name, patient_residential_street_number, patient_residential_postal_code
-        | lookup staffpii_lookup user_id OUTPUT staff_residential_street_name, staff_residential_street_number, staff_residential_postal_code
-        | eval staff_residential_address_and_postal_code = staff_residential_street_name + staff_residential_street_number + staff_postal_code
-        | eval patient_residential_address_and_postal_code = patient_residential_street_name + patient_residential_street_number + patient_postal_code
-        | eval patient_residential_street_name_and_postal_code = patient_residential_street_name + patient_postal_code
-        | eval staff_residential_street_name_and_postal_code = staff_residential_street_name + staff_postal_code
-        | eval matching_address = if(staff_residential_address_and_postal_code == patient_residential_address_and_postal_code, "true", "false")
-        | eval matching_street_name = if(staff_residential_street_name_and_postal_code  == patient_residential_street_name_and_postal_code , "true", "false")
-        | eval matching_postal_code = if(staff_residential_postal_code == patient_residential_postal_code, "true", "false")
-        | where matching_address="true" OR matching_street_name="true" OR matching_postal_code="true"
-        | eval observation_risk_factor = case(
-        matching_address == "true", 10, 
-        matching_street_name == "true", 3,
-        matching_postal_code == "true", 1
-        )			
-        | eval observation_risk_score = observation_risk_factor * observation_risk_score
-        | fields user_*, patient_*, matching_*, detection_*, observation_*, careprovider_id
+        | fields _time, user_id, patient_id, department_id, careprovider_id,  postal_code, street_name, street_number
+        |  eval street = street_name." ".street_number
+        | stats values(postal_code) as postal_code,  values(street) as street  values(street_name) as street_name count by user_id, patient_id, department_id, care_provider_id
+        | eval mvcount_postal_code = mvcount(postal_code)
+        | eval mvcount_street = mvcount(street)
+        | eval mvcount_street_name = mvcount(street_name)
+        | where mvcount_postal_code==1 AND (mvcount_street==1 OR mvcount_street_name==1)
+        | eval matching_postal_code = if(mvcount_postal_code=="1", "true", "false")
+        | eval matching_street = if(mvcount_street==1, "true", "false")
+        | eval matching_street_name = if(mvcount_street_name==1, "true", "false")
+        | fields user_id, patient_id, department_id, care_provider_id, matching_*
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
