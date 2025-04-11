@@ -8,7 +8,7 @@ description: This search runs continuously to detect staff members who access pa
         address information matching that of the patient. A match on full address, street name, or postal code 
         may indicate a potential relationship outside of a professional context.
 data_source: EHR audit data, Identity data
-search: tag=auditevent tag=patientrecord
+search: tag=patientrecord
         | fields _time, user_id, patient_id, department_id, careprovider_id,  postal_code, street_name, street_number
         |  eval street = street_name." ".street_number
         | stats values(postal_code) as postal_code,  values(street) as street  values(street_name) as street_name count by user_id, patient_id, department_id, care_provider_id
