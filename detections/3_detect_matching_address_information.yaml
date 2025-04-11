@@ -4,7 +4,7 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search identifies staff members who access patient medical records and have 
+description: This search runs continuously to detect staff members who access patient medical records and have 
         address information matching that of the patient. A match on full address, street name, or postal code 
         may indicate a potential relationship outside of a professional context.
 data_source: EHR audit data, Identity data
