@@ -4,9 +4,9 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search looks for staff members who access patient medical records where there is a potential residential 
-        link between the staff member and the patient. A match on residential address, street name, or postal code may 
-        indicate a relationship outside of work.
+description: This search identifies staff members who access patient medical records and have 
+        address information matching that of the patient. A match on full address, street name, or postal code 
+        may indicate a potential relationship outside of a professional context.
 data_source: EHR audit data, Identity data
 search: tag=auditevent tag=patientrecord
         | fields _time, user_id, patient_id, department_id, careprovider_id,  postal_code, street_name, street_number
@@ -33,7 +33,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message:  User=$user_id$ has residential information that matches patient=$patient_id$
+  message:  User=$user_id$ has address information matching that of patient=$patient_id$
   risk_objects: 
   - field: user_id
     type: user
