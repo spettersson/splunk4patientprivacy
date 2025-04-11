@@ -7,7 +7,7 @@ status: experimental
 description: This search runs continuously to detect staff members that access a high volume of distinct patient 
           medical records in a short time period compared to their peers.
 data_source: EHR audit data
-search: tag=auditevent tag=patientrecord earliest=-30d
+search: tag=patientrecord earliest=-30d
           | fields _time, user_id, patient_id, department_id, care_provider_id
           | bin _time span=1h
           | stats dc(patient_id) as dc_patient by _time, user_id, department_id, care_provider_id
