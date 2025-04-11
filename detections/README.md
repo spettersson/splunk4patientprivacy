@@ -6,4 +6,4 @@ A list of out-of-box detections available is presented below.
 3. Matching Address Information
 4. High Volume of Patient Medical Record Access
 5. Care Relationship Indicators
-6. Prescription Without Clinical Context
+6. Unexpected Prescription
