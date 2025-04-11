@@ -14,7 +14,7 @@ search: tag=auditevent tag=patientrecord earliest=-30d
           | eventstats perc95(dc_patient) as perc95_dc_patient by department_id, care_provider_id
           | where _time > relative_time(_time, "-1h")
           | where dc_patient > perc95_dc_patient
-          | fields user_id, department_id, care_provider_id,  dc_patient
+          | fields user_id, patient_id, department_id, care_provider_id,  dc_patient
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
           The data must have the fields user_id, patient_id, department_id, and care_provider_id, as well. 
 drilldown_searches:
