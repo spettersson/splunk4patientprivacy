@@ -8,10 +8,14 @@ description: This search runs continuously to detect specific signals that indic
           relationship between staff members and patients. It can provide valuable input to whether recent observations 
           surroundings a staff member is legimitate or not.
 data_source: EHR audit data
-search: tag=auditevent tag=patientrecord (tag=prescription OR tag=diagnosis OR tag=encounter) earliest=-12min@min latest=-2min@min
+search: tag=auditevent tag=patientrecord (tag=medication OR tag=diagnostic OR tag=procedure OR tag=condition OR tag=allergy)
           | fields _time, user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
           | stats count by user_id, patient_id, department_id, care_provider_id, action, object, object_changes, type, subtype
           | fields detection_*, observation_*, info_*, user_id, patient_id, care_provider_id, action, object*, type, subtype
+scheduling:
+  cron_schedule: '*/10 * * * *'
+  earliest_time: -12min@min
+  latest_time: -2min@min
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
           The data must have the fields user_id, patient_id, action, object, object_change, type, subtype, department_id, and 
           care_provider_id, as well. 
