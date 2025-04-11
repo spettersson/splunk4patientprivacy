@@ -4,7 +4,7 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: This search establishes a history of what staff member has accessed what patient medical 
+description: This search should be run once to establish a history of what staff member has accessed what patient medical 
           record, and when, during the last 6 months. The established history is stored in the lookup file 
           baseline_historical_access.
 data_source: EHR audit data
