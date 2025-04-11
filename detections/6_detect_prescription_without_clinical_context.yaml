@@ -6,7 +6,7 @@ type: Anomaly
 status: experimental
 description: This search runs continously to detect 
 data_source: EHR Audit Data
-search: tag=medication
+search: tag=medication OR tag=diagnostic OR tag=procedure
         | fields _time, user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
 scheduling:
   cron_schedule: '*/10 * * * *'
