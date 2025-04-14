@@ -32,7 +32,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User=$user_id$ has accessed a patient medical record associated to patient=$patient_id$ on $last_access$. This
+  message: message: User=$user_id$ has accessed a patient medical record associated to patient=$patient_id$ on $last_access$. This
           is the first time in 6 month.
   risk_objects:
   - field: user_id
