@@ -7,7 +7,7 @@ status: experimental
 description: This search runs continuously to detect staff members prescribing medication to patients without 
         evidence of prior activity that would typically justify the prescription. 
 data_source: EHR Audit Data
-search: tag=medication tag=appointment
+search: tag=medication tag=appointment tag=encounter
         | fields _time, user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
 scheduling:
   cron_schedule: '*/10 * * * *'
