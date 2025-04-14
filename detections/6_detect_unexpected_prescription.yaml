@@ -9,7 +9,7 @@ description: This search runs continuously to detect staff members prescribing m
         potentially suspicious prescriptions issued without a recent encounter, diagnostic result, or documented 
         condition — signaling cases where a legitimate care relationship may be missing.   
 data_source: EHR Audit Data
-search: tag=medication 
+search: tag=medication tag=appointment
         | fields _time, user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
 scheduling:
   cron_schedule: '*/10 * * * *'
