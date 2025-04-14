@@ -25,8 +25,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User=$user_id$ performed action=$action$ on object=$object$ (details=$subtype$) for patient=$patient_id$
-  risk_objects:
+  message: User $user_id$ performed clinical activity of type "$type$" and subtype "$subtype$" involving patient $patient_id$
+  risk_objects: 
   - field: user_id
     type: user
     score: 0
