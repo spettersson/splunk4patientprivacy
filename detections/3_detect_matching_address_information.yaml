@@ -19,6 +19,7 @@ search: tag=patientrecord
         | eval matching_postal_code = if(mvcount_postal_code=="1", "true", "false")
         | eval matching_street = if(mvcount_street==1, "true", "false")
         | eval matching_street_name = if(mvcount_street_name==1, "true", "false")
+        | where matching_postal_code = "true"
         | eval risk_score = case(
         matching_address == "true", 100,
         matching_street_name == "true", 30,
@@ -30,7 +31,7 @@ scheduling:
   earliest_time: -12min@min
   latest_time: -2min@min
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord, and 
-        identify data that provides the necessary residential information. The data must have the fields user_id, patient_id, 
+        identify data that provides the necessary address information. The data must have the fields user_id, patient_id, 
         department_id, and care_provider_id, as well. 
 drilldown_searches:
 - name: View the detection results
