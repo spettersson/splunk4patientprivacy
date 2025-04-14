@@ -19,7 +19,12 @@ search: tag=patientrecord
         | eval matching_postal_code = if(mvcount_postal_code=="1", "true", "false")
         | eval matching_street = if(mvcount_street==1, "true", "false")
         | eval matching_street_name = if(mvcount_street_name==1, "true", "false")
-        | fields user_id, patient_id, department_id, care_provider_id, matching_*
+        | eval risk_score = case(
+        matching_address == "true", 100,
+        matching_street_name == "true", 30,
+        matching_postal_code == "true", 10
+        )
+        | fields user_id, patient_id, department_id, care_provider_id, matching_*, risk_score
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
