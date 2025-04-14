@@ -13,11 +13,11 @@ search: tag=patientrecord
           | stats earliest(_time) as last_access by user_id, patient_id, care_provider_id
           | lookup baseline_historical_access user_id patient_id OUTPUT last_access AS historical_last_access
           | eval time_since_last_access = now() - historical_last_access
-          | eval observation = if(isnull(historical_last_access) OR time_since_last_access >= 14515200 , "1", "0")
-          | where observation = "1"
+          | eval isOutlier = if(isnull(historical_last_access) OR time_since_last_access >= 14515200 , "true", "false")
+          | where isOutlier = "true"
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_access) AS last_access 
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(historical_last_access) AS historical_last_access 
-          | fields detection_*, observation_*, info_*, care_*, user_id, patient_id, last_access, historical_last_access
+          | fields user_id, patient_id, care_provider_id, last_access, historical_last_access
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
