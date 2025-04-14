@@ -5,9 +5,7 @@ author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
 description: This search runs continuously to detect staff members prescribing medication to patients without 
-        evidence of prior activity that would typically justify the prescription. It helps identify 
-        potentially suspicious prescriptions issued without a recent encounter, diagnostic result, or documented 
-        condition — signaling cases where a legitimate care relationship may be missing.   
+        evidence of prior activity that would typically justify the prescription. 
 data_source: EHR Audit Data
 search: tag=medication tag=appointment
         | fields _time, user_id, patient_id, care_provider_id, action, object, object_changes, type, subtype
