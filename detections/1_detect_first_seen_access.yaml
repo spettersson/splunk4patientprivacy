@@ -9,7 +9,7 @@ description: This search runs continuously to detect staff members who accessed 
           This could indicate that there is no existing care relationship.
 data_source: EHR audit data
 search: tag=patientrecord
-          | fields _time, user_id, patient_id, care_provider_id
+          | fields user_id, patient_id, care_provider_id
           | stats earliest(_time) as last_access by user_id, patient_id, care_provider_id
           | lookup baseline_historical_access user_id patient_id OUTPUT last_access AS historical_last_access
           | eval time_since_last_access = now() - historical_last_access
