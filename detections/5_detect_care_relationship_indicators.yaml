@@ -8,7 +8,7 @@ description: This search runs continuously to detect specific signals that indic
           relationship between staff members and patients. It can provide valuable input to whether recent activity
           is legimitate or not.
 data_source: EHR audit data
-search: tag=medication OR tag=diagnostic OR tag=procedure  OR tag=condition OR tag=allergy
+search: tag=medication OR tag=diagnostic OR tag=procedure OR tag=condition OR tag=allergy
           | fields user_id, patient_id, department_id, care_provider_id, type, subtype
           | stats count by user_id, patient_id, department_id, care_provider_id, type, subtype
           | fields user_id, patient_id, department_id, care_provider_id, type, subtype         
