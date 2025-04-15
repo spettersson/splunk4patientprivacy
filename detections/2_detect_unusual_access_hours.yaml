@@ -9,12 +9,12 @@ description: This search runs continuously to detect staff members accessing pat
           their normal pattern, or not at all.
 data_source: EHR audit data
 search: tag=patientrecord
-          | fields _time, user_id, patient_id, care_provider_id
+          | fields _time, user_id, patient_id, care_unit_id, care_provider_id
           | eval hourOfDay = strftime(_time, "%H")
-          | stats count by hourOfDay, user_id, patient_id, care_provider_id
+          | stats count by hourOfDay, user_id, patient_id, care_unit_id, care_provider_id
           | lookup baseline_access_hours user_id hourOfDay OUTPUT percent AS historical_percent
           | where isnull(historical_percent) OR historical_percent<=1
-          | fields user_id, patient_id, care_provider_id, hourOfDay, historical_percent
+          | fields user_id, patient_id, care_unit_id, care_provider_id, hourOfDay, historical_percent
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
