@@ -10,13 +10,13 @@ data_source: EHR activity data
 search: (tag=medication_request intent=order) 
         (tag=appointment status=fulfilled) (tag=encounter status=completed)
         | eval type=case(
-        tag="medication_request" AND intent="order", "medication_prescribed",
+        tag="medication_request" AND intent="order", "medication_ordered",
         tag="appointment" AND status="fulfilled", "appointment_fullfilled",
         tag="encounter" AND status="completed", "encounter_completed",
         true(),null()
         )
         | reverse 
-        | streamstats values(type) as values_type reset_after="("type=\"medication_prescribed\"")" by user_id, patient_id, care_provider_id
+        | streamstats values(type) as values_type reset_after="("type=\"medication_ordered\"")" by user_id, patient_id, care_provider_id
         | reverse
         | search values_type="appointment_fullfilled" and values_type="encounter_completed"
 scheduling:
