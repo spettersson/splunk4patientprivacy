@@ -4,8 +4,9 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: This search runs continuously to identify activities that should precede an 
-staff members prescribing medication to patients. Each activity is sent and stored in dedicated index. 
+description: This search runs continuously to identify events that should typically precede a 
+  staff member prescribing medication to a patient. These activities, such as completed encounters 
+  or fulfilled appointments, are extracted and stored in a dedicated summary index for downstream detection use.
 data_source: EHR activity data
 search: 
 scheduling:
