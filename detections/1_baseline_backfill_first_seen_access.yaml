@@ -10,7 +10,8 @@ description: This search should run once to establish a history of what staff me
 data_source: EHR audit data
 search: tag=patientrecord earliest=-6mon latest=now
           | fields user_id, patient_id, care_provider_id
-          | stats latest(_time) as last_access by user_id, patient_id, care_provider_id
+          | stats latest(_time) as last_access count by user_id, patient_id, care_provider_id
+          | where count > 10
           | table user_id, patient_id, last_access, care_provider_id
           | outputlookup baseline_historical_access
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
