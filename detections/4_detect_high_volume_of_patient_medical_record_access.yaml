@@ -8,22 +8,22 @@ description: This search runs continuously to detect staff members that access a
           medical records in a short time period compared to their peers.
 data_source: EHR audit data
 search: tag=patientrecord earliest=-30d
-          | fields _time, user_id, patient_id, department_id, care_provider_id
+          | fields _time, user_id, patient_id, care_unit_id, care_provider_id
           | bin _time span=1h
-          | stats dc(patient_id) as dc_patient by _time, user_id, department_id, care_provider_id
-          | eventstats perc95(dc_patient) as perc95_dc_patient by department_id, care_provider_id
+          | stats dc(patient_id) as dc_patient by _time, user_id, care_unit_id, care_provider_id
+          | eventstats perc95(dc_patient) as perc95_dc_patient by care_unit_id, care_provider_id
           | where _time > relative_time(_time, "-1h")
           | where dc_patient > perc95_dc_patient
-          | fields user_id, patient_id, department_id, care_provider_id,  dc_patient
+          | fields user_id, patient_id, care_*,  dc_patient
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
-          The data must have the fields user_id, patient_id, department_id, and care_provider_id, as well. 
+          The data must have the fields user_id, patient_id, care_unit_id, and care_provider_id, as well. 
 drilldown_searches:
 - name: View the detection results
   search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message:  User=$user_id accessed $dc_patient$ distinct patient medical records during the last 1 hour, which is high compared to peers in the same department.
+  message:  User=$user_id accessed $dc_patient$ distinct patient medical records during the last 1 hour, which is high compared to peers in the same care unit.
   risk_objects:
   - field: user_id
     type: user
