@@ -6,7 +6,7 @@ type: Anomaly
 status: experimental
 description: This search runs continuously to detect staff members prescribing medication to patients without 
         evidence of prior activity that would typically justify the prescription. 
-data_source: EHR audit data
+data_source: EHR activity data
 search: (tag=medication tag=order) 
         (tag=appointment status=fulfilled) (tag=encounter status=completed)
         | fields user_id, patient_id, care_unit_id, care_provider_id 
