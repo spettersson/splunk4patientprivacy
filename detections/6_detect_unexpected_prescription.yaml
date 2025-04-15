@@ -10,7 +10,7 @@ data_source: EHR activity data
 search: (tag=medication_request intent=order) 
         (tag=appointment status=fulfilled) (tag=encounter status=completed)
         | eval type=case(
-        tag="medical_request" AND type="intent_order", "medication_prescribed",
+        tag="medication_request" AND intent="order", "medication_prescribed",
         tag="appointment" AND status="fulfilled", "appointment_fullfilled",
         tag="encounter" AND status="completed", "encounter_completed",
         true(),null()
