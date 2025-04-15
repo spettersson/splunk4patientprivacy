@@ -4,7 +4,8 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: This search runs continuously to detect staff members prescribing medication to patients without 
+description: This search runs continuously to identify activities that should precede an 
+staff members prescribing medication to patients without 
         evidence of prior activity that would typically justify the prescription.
 data_source: EHR activity data
 search: (tag=medication_request intent=order) 
