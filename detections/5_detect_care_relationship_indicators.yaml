@@ -9,9 +9,9 @@ description: This search runs continuously to detect specific signals that indic
           is legimitate or not.
 data_source: EHR audit data
 search: tag=medication OR tag=diagnostic OR tag=procedure OR tag=condition OR tag=allergy OR tag=encounter
-          | fields user_id, patient_id, department_id, care_provider_id, type, subtype
-          | stats count by user_id, patient_id, department_id, care_provider_id, type, subtype
-          | fields user_id, patient_id, department_id, care_provider_id, type, subtype         
+          | fields user_id, patient_id, care_unit_id, care_provider_id, type, subtype
+          | stats count by user_id, patient_id, care_unit_id, care_provider_id, type, subtype
+          | fields user_id, patient_id, care_*, type, subtype         
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
