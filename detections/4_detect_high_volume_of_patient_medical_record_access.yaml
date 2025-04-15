@@ -8,7 +8,7 @@ description: This search runs continuously to detect staff members that access a
           medical records in a short time period compared to their peers.
 data_source: EHR audit data
 search: tag=patientrecord earliest=-30d
-          | fields _time, user_id, patient_id, care_unit_id, care_provider_id
+          | fields user_id, patient_id, care_unit_id, care_provider_id
           | bin _time span=1h
           | stats dc(patient_id) as dc_patient by _time, user_id, care_unit_id, care_provider_id
           | eventstats perc95(dc_patient) as perc95_dc_patient by care_unit_id, care_provider_id
