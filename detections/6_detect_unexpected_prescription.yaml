@@ -9,6 +9,7 @@ description: This search runs continuously to detect staff members prescribing m
 data_source: EHR activity data
 search: (tag=medication_request intent=order) 
         (tag=appointment status=fulfilled) (tag=encounter status=completed)
+        | fields user_id, patient_id, care_unit_id, care_provider_id, tag, intent, status
         | eval type=case(
         tag="medication_request" AND intent="order", "medication_ordered",
         tag="appointment" AND status="fulfilled", "appointment_fullfilled",
@@ -16,9 +17,11 @@ search: (tag=medication_request intent=order)
         true(),null()
         )
         | reverse 
-        | streamstats values(type) as values_type reset_after="("type=\"medication_ordered\"")" by user_id, patient_id, care_provider_id
+        | streamstats values(type) as values_type reset_after="("type=\"medication_ordered\"")" by user_id, patient_id, encounter_id, care_unit_id, care_provider_id
         | reverse
-        | search values_type="appointment_fullfilled" and values_type="encounter_completed"
+        | search values_type!="appointment_fullfilled" and values_type!="encounter_completed"
+        |
+        | fields user_id, patient_id, care_unit_id, care_provider_id, 
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
