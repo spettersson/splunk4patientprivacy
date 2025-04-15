@@ -7,7 +7,7 @@ status: experimental
 description: This search runs continuously to detect specific signals that indicate the existence of a legitimate care 
           relationship between staff members and patients. It can provide valuable input to whether recent activity
           is legimitate or not.
-data_source: EHR audit data
+data_source: EHR activity data
 search: tag=medication OR tag=diagnostic OR tag=procedure OR tag=condition OR tag=allergy OR tag=encounter
           | fields user_id, patient_id, care_unit_id, care_provider_id, type, subtype
           | stats count by user_id, patient_id, care_unit_id, care_provider_id, type, subtype
