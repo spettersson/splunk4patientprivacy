@@ -7,7 +7,7 @@ status: experimental
 description: This search runs continuously to detect staff members that access a high volume of distinct patient 
           medical records in a short time period compared to their peers.
 data_source: EHR audit data
-search: tag=patientrecord earliest=-30d
+search: tag=patientrecord
           | fields user_id, patient_id, work_unit_id, care_provider_id
           | bin _time span=1h
           | stats dc(patient_id) as dc_patient by _time, user_id, work_unit_id, care_provider_id
@@ -15,6 +15,10 @@ search: tag=patientrecord earliest=-30d
           | where _time > relative_time(_time, "-1h")
           | where dc_patient > perc95_dc_patient
           | fields user_id, patient_id, work_unit_id, care_provider_id,  dc_patient
+scheduling:
+  cron_schedule: '*/30 * * * *'
+  earliest_time: -30d
+  latest_time: now
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
           The data must have the fields user_id, patient_id, work_unit_id, and care_provider_id, as well. 
 drilldown_searches:
