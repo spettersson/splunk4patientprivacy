@@ -9,30 +9,30 @@ description: This search runs continuously to detect staff members who access pa
         may indicate a potential relationship outside of a professional context.
 data_source: EHR audit data, Identity data
 search: tag=patientrecord
-        | fields _time, user_id, patient_id, department_id, careprovider_id,  postal_code, street_name, street_number
-        |  eval street = street_name." ".street_number
-        | stats values(postal_code) as postal_code,  values(street) as street  values(street_name) as street_name count by user_id, patient_id, department_id, care_provider_id
+        | fields user_id, patient_id, care_unit_id, care_provider_id,  postal_code, street_name, street_number
+        | eval full_address = street_name." ".street_number
+        | stats values(postal_code) as postal_code,  values(full_address) as full_address  values(street_name) as street_name count by user_id, patient_id, care_unit_id, care_provider_id
         | eval mvcount_postal_code = mvcount(postal_code)
-        | eval mvcount_street = mvcount(street)
+        | eval mvcount_full_address = mvcount(full_address)
         | eval mvcount_street_name = mvcount(street_name)
-        | where mvcount_postal_code==1 AND (mvcount_street==1 OR mvcount_street_name==1)
+        | where mvcount_postal_code==1 AND (mvcount_full_address==1 OR mvcount_street_name==1)
         | eval matching_postal_code = if(mvcount_postal_code=="1", "true", "false")
-        | eval matching_street = if(mvcount_street==1, "true", "false")
+        | eval matching_full_address = if(mvcount_full_address==1, "true", "false")
         | eval matching_street_name = if(mvcount_street_name==1, "true", "false")
         | where matching_postal_code = "true"
         | eval risk_score = case(
-        matching_address == "true", 100,
+        matching_full_address == "true", 100,
         matching_street_name == "true", 30,
         matching_postal_code == "true", 10
         )
-        | fields user_id, patient_id, department_id, care_provider_id, matching_*, risk_score
+        | fields user_id, patient_id, care_*, matching_*, risk_score
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
   latest_time: -2min@min
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord, and 
         identify data that provides the necessary address information. The data must have the fields user_id, patient_id, 
-        department_id, and care_provider_id, as well. 
+        care_unit_id, and care_provider_id, as well. 
 drilldown_searches:
 - name: View the detection results
   search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
