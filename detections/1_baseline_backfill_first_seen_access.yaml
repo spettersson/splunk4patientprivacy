@@ -9,7 +9,7 @@ description: This search should run once to establish a history of what staff me
           baseline_historical_access.
 data_source: EHR audit data
 search: tag=patientrecord earliest=-6mon latest=now
-          | fields _time, user_id, patient_id, care_provider_id
+          | fields user_id, patient_id, care_provider_id
           | stats latest(_time) as last_access by user_id, patient_id, care_provider_id
           | table user_id, patient_id, last_access, care_provider_id
           | outputlookup baseline_historical_access
