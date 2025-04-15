@@ -7,7 +7,7 @@ status: experimental
 description: This search runs continuously to identify activities that would normally 
 happen before a staff member prescribes medication to a patient — such as completed 
 encounters or fulfilled appointments. These activities are saved to a summary index and 
-used by the detection ‘6_detection_unexpected_prescription’.
+used by the search in '6_detection_unexpected_prescription'.
 data_source: EHR activity data
 search: 
 scheduling:
