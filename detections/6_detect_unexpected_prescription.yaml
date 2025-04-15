@@ -7,17 +7,19 @@ status: experimental
 description: This search runs continuously to detect staff members prescribing medication to patients without 
         evidence of prior activity that would typically justify the prescription.
 data_source: EHR activity data
-search: (tag=medical_request intent=order) 
+search: (tag=medication_request intent=order) 
         (tag=appointment status=fulfilled) (tag=encounter status=completed)
         | eval type=case(
-        tag=="medical_request" AND type=="intent_order", "prescription",
-        tag=="appointment" AND status=="fulfilled", "appointment_fullfilled",
-        tag=="encounter" AND status=="completed", "encounter_completed",
+        tag="medical_request" AND type="intent_order", "medication_prescribed",
+        tag="appointment" AND status="fulfilled", "appointment_fullfilled",
+        tag="encounter" AND status="completed", "encounter_completed",
         true(),null()
         )
         | reverse 
-        | streamstats last(type) as type 
-        | stats count by user_id, patient_id
+        | streamstats last(type) as prev_type by user_id, patient_id, care_provider_id
+
+
+
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
