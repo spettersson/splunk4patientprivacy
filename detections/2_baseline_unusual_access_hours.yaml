@@ -8,10 +8,10 @@ description: This search runs continuously to identify the least common hours of
           patient medical records. The result is stored in the lookup file baseline_access_hours.
 data_source: EHR audit data from any source
 search: tag=patientrecord earliest=-30d
-          | fields _time, user_id
+          | fields _time, user_id, care_unit_id, care_provider_id
           | eval hourOfDay = strftime(_time, "%H")
-          | rare hourOfDay by user_id
-          | fields user_id, hourOfDay, percent
+          | rare hourOfDay by user_id, care_unit_id, care_provider_id
+          | fields user_id, hourOfDay, percent, care_unit_id, care_provider_id
           | outputlookup baseline_access_hours
 scheduling:
   cron_schedule: '0 5 * * *'
