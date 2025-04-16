@@ -12,7 +12,8 @@ description: This search runs on a scheduled basis to identify activities that w
 data_source: EHR activity data
 search: (tag=appointment type=appointment status=fulfilled) OR
         (tag=encounter type=encounter status=finished)
-        | stats count by _time, user_id, patient_id, type, appointment_id, encounter_id, status
+        | stats values(encounter_id) AS encounter_id values(appointment_id) AS appointment_id count by _time, user_id, patient_id, type, status
+        | fields user_id, patient_id, type, status, encounter_id, appointment_id
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -10min@min
