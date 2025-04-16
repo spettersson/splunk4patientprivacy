@@ -4,11 +4,11 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: This search runs on a scheduled basis to identify activities that would normally happen before 
-          a staff member prescribes medication to a patient — such as appointments and encounters. 
-          These activities are saved as individual events in a summary index. This approach allow us to efficently
-          correlate recent prescriptions with historical activities, which is done in the search in 
-          6_ehr_unexpected_prescription. 
+description: This search runs on a scheduled basis to identify typical activities that precede 
+          a staff member prescribing medication to a patient — such as fulfilled appointments and 
+          completed encounters. These activities are saved as individual events in a summary index. 
+          This enables efficient correlation between recent prescriptions and historical context, 
+          which is leveraged in the 6_ehr_unexpected_prescription search.
 data_source: EHR activity data
 search: (tag=appointment type=appointment status=fulfilled) OR
         (tag=encounter type=encounter status=finished)
