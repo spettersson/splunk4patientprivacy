@@ -8,7 +8,7 @@ description: This search runs continuously to detect specific signals that indic
           relationship between staff members and patients. It can provide valuable input to whether recent activity
           is legimitate or not.
 data_source: EHR activity data
-search:   (tag=medication type=medication_request status=completed) OR
+search:   (tag=medication type=medication_request intent=order status=completed) OR
           (tag=diagnostic type=diagnostic_report status=final) OR 
           (tag=procedure status=completed) OR 
           (tag=encounter status=completed)
