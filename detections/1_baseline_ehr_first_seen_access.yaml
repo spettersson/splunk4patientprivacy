@@ -8,7 +8,7 @@ description: This search runs on a scheduled basis to update the history of what
           record, and when, and removes any history older than 6 month. The updated history is stored in 
           the lookup file baseline_historical_access.
 data_source: EHR audit data
-search: tag=patientrecord
+search: tag=medicalrecord
           | fields user_id, patient_id, care_provider_id
           | stats latest(_time) as last_access by user_id, patient_id, care_provider_id
           | inputlookup append=true baseline_historical_access
@@ -20,7 +20,7 @@ scheduling:
   cron_schedule: '15 0 * * *'
   earliest_time: -1d@d
   latest_time: @d
-how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and medicalrecord. 
           The data must have the fields user_id, patient_id, and care_provider_id, as well. Moreover, it is 
           recommended to first run the search included in '1_baseline_backfill_first_seen_access.yaml' to get 
           the full 6 month history.
