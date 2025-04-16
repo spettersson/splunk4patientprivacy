@@ -4,7 +4,7 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: This search runs continuously to identify the least common hours of the day that staff members access 
+description: This search runs on a scheduled basis to identify the least common hours of the day that staff members access 
           patient medical records. The result is stored in the lookup file baseline_access_hours.
 data_source: EHR audit data from any source
 search: tag=patientrecord
