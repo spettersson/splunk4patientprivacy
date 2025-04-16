@@ -5,7 +5,7 @@ author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
 description: This search runs continuously to detect clinical signals that indicate a legitimate 
-          care relationship between staff members and patients. The results provide valuable evidence when 
+          care relationship between staff members and patients. This can act as valuable evidence when 
           assessing whether a staff member’s access to patient records is legitimate.
 data_source: EHR activity data
 search:   (tag=medication type=medication_request intent=order status=completed) OR
