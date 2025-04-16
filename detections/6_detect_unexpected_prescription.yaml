@@ -17,11 +17,11 @@ search: (tag=medication_request intent=order)
         true(),null()
         )
         | reverse 
-        | streamstats values(type) as values_type reset_after="("type=\"medication_ordered\"")" by user_id, patient_id, encounter_id, care_unit_id, care_provider_id
+        | streamstats values(type) as values_type reset_after="("type=\"medication_ordered\"")" by user_id, patient_id, care_provider_id
         | reverse
         | search values_type!="appointment_fullfilled" and values_type!="encounter_completed"
-        |
-        | fields user_id, patient_id, care_unit_id, care_provider_id, 
+        | stats count by user_id, patient_id, care_provider_id
+        | fields user_id, patient_id, care_provider_id
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
