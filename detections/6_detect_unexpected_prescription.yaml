@@ -7,8 +7,8 @@ status: experimental
 description: This search runs continuously to detect staff members prescribing medication to patients without 
         evidence of prior activity that would typically justify the prescription.
 data_source: EHR activity data
-search: (tag=medication_request intent=order) 
-        (tag=appointment status=fulfilled) (tag=encounter status=completed)
+search: (tag=medication type=medication_request intent=order status=completed) 
+        (tag=appointment status=completed) (tag=encounter status=completed)
         | fields user_id, patient_id, care_unit_id, care_provider_id, tag, intent, status
         | eval type=case(
         tag="medication_request" AND intent="order", "medication_ordered",
