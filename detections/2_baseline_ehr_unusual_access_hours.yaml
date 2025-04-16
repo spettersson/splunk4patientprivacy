@@ -7,7 +7,7 @@ status: experimental
 description: This search runs on a scheduled basis to identify the least common hours of the day that staff members access 
           patient medical records. The result is stored in the lookup file baseline_access_hours.
 data_source: EHR audit data from any source
-search: tag=patientrecord
+search: tag=medicalrecord
           | fields _time, user_id, work_unit_id, care_provider_id
           | eval hourOfDay = strftime(_time, "%H")
           | rare hourOfDay by user_id, care_unit_id, care_provider_id
@@ -17,5 +17,5 @@ scheduling:
   cron_schedule: '0 5 * * *'
   earliest_time: -30d
   latest_time: now
-how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and medicalrecord. 
           The data must have the field user_id, as well.
