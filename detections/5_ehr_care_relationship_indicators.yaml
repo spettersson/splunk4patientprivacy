@@ -8,10 +8,10 @@ description: This search runs on a scheduled basis to detect clinical signals th
           care relationship between staff members and patients. This can act as valuable evidence when 
           assessing whether a staff member’s access to patient records is legitimate.
 data_source: EHR activity data
-search:   (tag=medication type=medication_request intent=order status=completed) OR
+search:   (tag=medication type=medication_order status=completed) OR
           (tag=diagnostic type=diagnostic_report status=completed) OR 
-          (tag=procedure status=completed) OR 
-          (tag=encounter status=completed)
+          (tag=procedure type=procedure status=completed) OR 
+          (tag=encounter type=encounter status=completed)
           | fields user_id, patient_id, care_unit_id, care_provider_id, type, subtype, status
           | stats count by user_id, patient_id, care_unit_id, care_provider_id, type, subtype, status
           | fields user_id, patient_id, care_*, type, subtype, status        
