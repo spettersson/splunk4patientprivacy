@@ -40,7 +40,7 @@ rba:
   risk_objects:
   - field: user_id
     type: user
-    score: 10
+    score: 40
   - field: patient_id
     type: patient
-    score: 10
+    score: 40
