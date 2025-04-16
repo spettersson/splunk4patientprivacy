@@ -8,7 +8,7 @@ description: This search runs on a scheduled basis to detect staff members who a
         address information matching that of the patient. A match on full address, street name, or postal code 
         may indicate a potential relationship outside of a professional context.
 data_source: EHR audit data, Identity data
-search: tag=patientrecord
+search: tag=medicalrecord
         | fields user_id, patient_id, care_unit_id, care_provider_id,  postal_code, street_name, street_number
         | eval full_address = street_name." ".street_number
         | stats values(postal_code) as postal_code,  values(full_address) as full_address  values(street_name) as street_name count by user_id, patient_id, care_unit_id, care_provider_id
@@ -30,7 +30,7 @@ scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
   latest_time: -2min@min
-how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord, and 
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and medicalrecord, and 
         identify data that provides the necessary address information. The data must have the fields user_id, patient_id, 
         care_unit_id, and care_provider_id, as well. 
 drilldown_searches:
