@@ -22,6 +22,7 @@ search: (tag=medication type=medication_request intent=order status=completed) O
         | reverse
         | search values_type!="appointment_completed" and values_type!="encounter_completed"
         | stats latest_time(eval(type="medication_ordered")) as time_medication_ordered count by user_id, patient_id, care_provider_id
+        | convert time_format="%Y-%m-%d %H:%M:%S" ctime(time_medication_ordered) as time_medication_ordered
         | fields user_id, patient_id, care_provider_id, time_medication_ordered
 scheduling:
   cron_schedule: '*/10 * * * *'
