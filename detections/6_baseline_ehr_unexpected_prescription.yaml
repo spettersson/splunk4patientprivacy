@@ -6,12 +6,13 @@ type: Baseline
 status: experimental
 description: This search runs on a scheduled basis to identify activities that would normally happen before 
           a staff member prescribes medication to a patient — such as appointments and encounters. 
-          These activities are saved as individual events in a summary index and used by the search in 
-          6_detect_unexpected_prescription.
+          These activities are saved as individual events in a summary index. This approach allow us to efficently
+          correlate recent prescriptions with historical activities, which is done in the search in 
+          6_ehr_unexpected_prescription. 
 data_source: EHR activity data
-search: (tag=appointment appointment_id=* status=fulfilled) OR
-        (tag=encounter encounter_id=* appointment_id=* status=finished)
-        | stats count by _time, user_id, patient_id, appointment_id 
+search: (tag=appointment type=appointment status=fulfilled) OR
+        (tag=encounter type=encounter status=finished)
+        | stats count by _time, user_id, patient_id, type, appointment_id, encounter_id, status
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -10min@min
