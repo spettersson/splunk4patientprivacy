@@ -4,7 +4,7 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search runs continuously to detect staff members accessing patient medical records 
+description: This search runs on a scheduled basis to detect staff members accessing patient medical records 
           during hours that are unusual — meaning activity that occurs during times making up ≤ 1% of 
           their normal pattern, or not at all.
 data_source: EHR audit data
