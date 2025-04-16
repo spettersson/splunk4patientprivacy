@@ -4,10 +4,10 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search runs continuously to detect staff members who accessed a specific 
-          patient’s medical record for the first time in 6 months by referencing the history stored in 
-          baseline_historical_access. This could indicate that there is no existing care relationship 
-          between the staff member and the patient.
+description: This search runs continuously to detect staff members accessing a specific patient’s 
+          medical record for the first time in six months, based on historical data stored in 
+          baseline_historical_access. Such access may indicate the absence of an existing care 
+          relationship between the staff member and the patient.
 data_source: EHR audit data
 search: tag=patientrecord
           | fields user_id, patient_id, care_provider_id
