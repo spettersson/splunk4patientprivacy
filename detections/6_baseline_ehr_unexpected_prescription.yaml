@@ -9,7 +9,7 @@ description: This search runs on a scheduled basis to identify activities that w
           These activities are saved as individual events in a summary index and used by the search in 
           6_detect_unexpected_prescription.
 data_source: EHR activity data
-search: (tag=appointment type=* appointment_id=* status=fulfilled) OR
+search: (tag=appointment appointment_id=* status=fulfilled) OR
         (tag=encounter appointment_id=* status=completed)
 scheduling:
   cron_schedule: '*/10 * * * *'
