@@ -35,7 +35,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User=$user_id$ has successfully prescribed medication to patient=$patient_id$, without the expected prio 
+  message: User=$user_id$ has successfully prescribed medication to patient=$patient_id$ at $time_medication_ordered$, 
+  without the expected preceding activities.
   risk_objects:
   - field: user_id
     type: user
