@@ -4,13 +4,13 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search runs continuously to detect staff members prescribing medication to patients without 
+description: This search runs on a scheduled basis to detect staff members prescribing medication to patients without 
         evidence of prior activity that would typically justify the prescription.
 data_source: EHR activity data
 search: (tag=medication type=medication_request intent=order status=completed) OR
         (tag=appointment status=completed) OR
         (tag=encounter status=completed)
-        | fields user_id, patient_id, care_unit_id, care_provider_id, tag, intent, status
+        | fields user_id, patient_id, care_unit_id, care_provider_id, tag, intent, status, request_id
         | eval type=case(
         tag="medication_request" AND intent="order" AND status="completed", "medication_ordered",
         tag="appointment" AND status="completed", "appointment_completed",
@@ -21,9 +21,9 @@ search: (tag=medication type=medication_request intent=order status=completed) O
         | streamstats values(type) as values_type reset_after="("type=\"medication_ordered\"")" by user_id, patient_id, care_provider_id
         | reverse
         | search values_type!="appointment_completed" and values_type!="encounter_completed"
-        | stats latest_time(eval(type="medication_ordered")) as time_medication_ordered count by user_id, patient_id, care_provider_id
+        | stats latest_time(eval(type="medication_ordered")) as time_medication_ordered count by user_id, patient_id, request_id, care_provider_id
         | convert time_format="%Y-%m-%d %H:%M:%S" ctime(time_medication_ordered) as time_medication_ordered
-        | fields user_id, patient_id, care_provider_id, time_medication_ordered
+        | fields user_id, patient_id, request_id, care_provider_id, time_medication_ordered
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
