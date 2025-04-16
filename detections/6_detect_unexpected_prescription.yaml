@@ -21,8 +21,8 @@ search: (tag=medication type=medication_request intent=order status=completed) O
         | streamstats values(type) as values_type reset_after="("type=\"medication_ordered\"")" by user_id, patient_id, care_provider_id
         | reverse
         | search values_type!="appointment_completed" and values_type!="encounter_completed"
-        | stats count by user_id, patient_id, care_provider_id
-        | fields user_id, patient_id, care_provider_id
+        | stats latest_time(eval(type="medication_ordered")) as time_medication_ordered count by user_id, patient_id, care_provider_id
+        | fields user_id, patient_id, care_provider_id, time_medication_ordered
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
@@ -34,7 +34,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message:  
+  message: User=$user_id$ has successfully prescribed medication to patient=$patient_id$, without the expected prio 
   risk_objects:
   - field: user_id
     type: user
