@@ -9,7 +9,12 @@ description: This search runs on a scheduled basis to detect staff members presc
 data_source: EHR activity data
 search: tag=medication type=medication_prescription status=completed 
         | stats values(encounter_id) as encounter_id values(reason) as reason values(medication_id) as medication_id 
-        count by user_id, patient_id, prescription_id, care_provider_id
+        count by user_id, patient_id, prescription_id, care_provider_id 
+        | appendcols encounter_id [
+                                  (tag=encounter type=encounter status=completed encounter_id=*) OR
+                                  (tag=appointment type=appointment status=fulfilled encounter_id=*) OR
+
+                                  ]
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -12min@min
