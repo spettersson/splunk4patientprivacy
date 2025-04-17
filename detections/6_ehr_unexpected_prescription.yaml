@@ -7,14 +7,9 @@ status: experimental
 description: This search runs on a scheduled basis to detect staff members prescribing medication to patients without 
         evidence of prior activity that would typically justify the prescription.
 data_source: EHR activity data
-search: tag=medication type=medication_request intent=order status=completed 
-        | stats count by user_id, patient_id, encounter_id, request_id
-        | join encounter_id [
-                                index=blabal
-        | where 
-]
-        
-        
+search: tag=medication type=medication_prescription status=completed 
+        | stats values(encounter_id) as encounter_id values(reason) as reason values(medication_id) as medication_id 
+        count by user_id, patient_id, prescription_id, care_provider_id
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -12min@min
