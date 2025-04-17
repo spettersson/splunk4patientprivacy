@@ -8,7 +8,7 @@ description: This search runs on a scheduled basis to detect staff members presc
         evidence of prior activity that would typically justify the prescription.
 data_source: EHR activity data
 search: tag=medication type=medication_prescription status=completed 
-        | stats values(encounter_id) as encounter_id values(reason) as reason values(medication_id) as medication_id 
+        | stats values(prescription_group_id) AS prescription_group_id values(encounter_id) AS encounter_id values(reason) AS reason values(medication_id) AS medication_id 
         count by user_id, patient_id, prescription_id, care_provider_id 
         | appendcols encounter_id [
                                   (tag=encounter type=encounter status=completed encounter_id=*) OR
