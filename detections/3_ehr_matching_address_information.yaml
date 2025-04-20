@@ -7,7 +7,7 @@ status: experimental
 description: This search runs on a scheduled basis to detect staff members who access patient medical records and have 
         address information matching that of the patient. A match on full address, street name, or postal code 
         may indicate a potential relationship outside of a professional context.
-data_source: EHR audit data, Identity data
+data_source: EHR audit data
 search: tag=medicalrecord
         | fields user_id, patient_id, care_unit_id, care_provider_id,  postal_code, street_name, street_number
         | eval full_address = street_name." ".street_number
