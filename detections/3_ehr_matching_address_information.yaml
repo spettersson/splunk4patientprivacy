@@ -8,7 +8,7 @@ description: This search runs on a scheduled basis to detect staff members who a
         address information matching that of the patient. A match on full address, street name, or postal code 
         may indicate a potential relationship outside of a professional context.
 data_source: EHR audit data
-search: tag=medicalrecord
+search: tag=auditevent
         | fields user_id, patient_id, care_unit_id, care_provider_id,  postal_code, street_name, street_number
         | eval full_address = street_name." ".street_number
         | stats values(postal_code) as postal_code,  values(full_address) as full_address  values(street_name) as street_name count by user_id, patient_id, care_unit_id, care_provider_id
