@@ -1,4 +1,4 @@
-name: Baseline - EHR Unexpected Prescription
+name: Baseline 2 - EHR Unexpected Prescription
 id: b04be6e5-2u02-4349-8742-52145635y8f5
 version: 1
 author: Simon Pettersson, Splunk
@@ -10,10 +10,9 @@ description: This search runs on a scheduled basis to identify typical activitie
           This enables efficient correlation between recent prescriptions and historical context, 
           which is leveraged in the 6_ehr_unexpected_prescription search.
 data_source: EHR activity data
-search: (tag=appointment type=appointment status=fulfilled) OR
-        (tag=encounter type=encounter status=finished)
-        | stats values(encounter_id) AS encounter_id values(appointment_id) AS appointment_id count by _time, user_id, patient_id, type, status
-        | fields user_id, patient_id, type, status, encounter_id, appointment_id
+search: (tag=encounter type=encounter status=finished)
+          | fields user_id, patient_id, type, status, encounter_id, care_episode_id, care_team_id, care_provider_id
+          
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -10min@min
