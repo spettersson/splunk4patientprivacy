@@ -8,7 +8,7 @@ description: This search runs on a scheduled basis to detect staff members acces
           during hours that are unusual — meaning activity that occurs during times making up ≤ 1% of 
           their normal pattern, or not at all.
 data_source: EHR audit data
-search: tag=medicalrecord
+search: tag=auditevent
           | fields user_id, patient_id, work_unit_id, care_provider_id
           | eval hourOfDay = strftime(_time, "%H")
           | stats count by hourOfDay, user_id, patient_id, work_unit_id, care_provider_id
