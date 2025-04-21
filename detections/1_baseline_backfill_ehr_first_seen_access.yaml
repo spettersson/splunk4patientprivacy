@@ -8,7 +8,7 @@ description: This search should be run adhoc (only once) to establish a history 
           patient medical record, and when, during the last 6 months. The established history is stored in the lookup file 
           baseline_historical_access.
 data_source: EHR audit data
-search: tag=medicalrecord earliest=-6mon latest=now
+search: tag=auditevent earliest=-6mon latest=now
           | fields user_id, patient_id, care_provider_id
           | stats latest(_time) as last_access count by user_id, patient_id, care_provider_id
           | where count > 10
