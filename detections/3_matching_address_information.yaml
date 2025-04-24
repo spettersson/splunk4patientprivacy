@@ -1,27 +1,26 @@
-name: EHR Matching Address Information
+name: Matching Address Information
 id: b04be6e5-2u72-4349-8742-52111635y8f5
 version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
 description: This search runs on a scheduled basis to detect staff members who access patient medical records and have 
-        address information matching that of the patient. A match on full address, street name, or postal code 
+        address information matching that of the patient. A match on address, street name, or postal code 
         may indicate a potential relationship outside of a professional context.
 data_source: EHR audit data
 search: tag=auditevent
-        | fields user_id, patient_id, care_unit_id, care_provider_id,  postal_code, street_name, street_number
-        | eval full_address = street_name." ".street_number
-        | stats values(postal_code) as postal_code,  values(full_address) as full_address  values(street_name) as street_name count by user_id, patient_id, care_unit_id, care_provider_id
+        | fields user_id, patient_id, care_unit_id, care_provider_id, postal_code, address, street_name
+        | stats values(postal_code) as postal_code,  values(address) as address  values(street_name) as street_name count by user_id, patient_id, care_unit_id, care_provider_id
         | eval mvcount_postal_code = mvcount(postal_code)
-        | eval mvcount_full_address = mvcount(full_address)
+        | eval mvcount_address = mvcount(address)
         | eval mvcount_street_name = mvcount(street_name)
-        | where mvcount_postal_code==1 AND (mvcount_full_address==1 OR mvcount_street_name==1)
+        | where mvcount_postal_code==1 AND (mvcount_address==1 OR mvcount_street_name==1)
         | eval matching_postal_code = if(mvcount_postal_code=="1", "true", "false")
-        | eval matching_full_address = if(mvcount_full_address==1, "true", "false")
+        | eval matching_address = if(mvcount_address==1, "true", "false")
         | eval matching_street_name = if(mvcount_street_name==1, "true", "false")
         | where matching_postal_code = "true"
         | eval risk_score = case(
-        matching_full_address == "true", 100,
+        matching_address == "true", 100,
         matching_street_name == "true", 30,
         matching_postal_code == "true", 10
         )
