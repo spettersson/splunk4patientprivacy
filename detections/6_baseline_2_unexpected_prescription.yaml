@@ -10,9 +10,7 @@ description: This search runs on a scheduled basis to identify typical activitie
           This enables efficient correlation between recent prescriptions and historical context, 
           which is leveraged in the 6_ehr_unexpected_prescription search.
 data_source: EHR activity data
-search: (tag=encounter type=encounter status=finished)
-          | fields user_id, patient_id, type, status, encounter_id, care_episode_id, care_team_id, care_provider_id
-          
+search:   
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -10min@min
