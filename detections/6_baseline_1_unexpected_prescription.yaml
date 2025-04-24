@@ -8,7 +8,7 @@ description: This search runs on a scheduled basis to identify typical activitie
           a staff member prescribing medication to a patient — such as fulfilled appointments and 
           completed encounters. These activities are saved as individual events in a summary index. 
           This enables efficient correlation between recent prescriptions and historical context, 
-          which is leveraged in the 6_ehr_unexpected_prescription search.
+          which is leveraged in the 6_unexpected_prescription search.
 data_source: EHR activity data
 search: 
 scheduling:
