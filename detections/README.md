@@ -7,6 +7,9 @@ A list of out-of-box detections available is presented below.
 4. Matching Address Information
 5. Care Relationship Indicators
 6. High Volume of Changes Compared to Peers
+
+
+
 7. Excessive Delete Actions
 8. First Seen Export Action
 9. Role Change Made
