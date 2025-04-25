@@ -8,12 +8,14 @@ description: This search runs on a scheduled basis to count the number of change
             medical records by staff members.
 data_source: EHR audit data
 search: tag=patientchange
-            | fields user_id, patient_id, action, object, object_id, object_attrs, care_unit_id, work_unit_id
-            | bin _time span=1h 
-            | stats count as change_count values(patient_id) as patient_id by _time, user_id, work_unit_id
-            | lookup baseline_changes user_id, work_unit_id OUTPUT historical_change_count
-
-
+            | fields user_id, patient_id, work_unit_id
+            | bin _time span=1h
+            | stats count values(patient_id) as patient_id by _time, user_id, work_unit_id
+            | lookup baseline_change user_id, work_unit_id OUTPUT historical_avg, historical_stdev
+            | eval upper_bound = historical_avg + (2 * historical_stdev)
+            | eval isAnomaly = if(count > upper_bound, 1, 0)
+            | where isAnomaly = 1 
+            | fields user_id, work_unit_id, patient_id, count, historical_avg, historical_stdev, upper_bound, isAnomaly
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -12min@min
