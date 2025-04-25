@@ -10,7 +10,7 @@ description: This search runs on a scheduled basis to detect staff members acces
 data_source: EHR audit data
 search: tag=auditevent 
         | fields user_id, user_role, user_role_id, user_role_active, user_role_period, patient_id
-        | stats values(user_role_active) AS user_role_active values(user_role_period) AS user_role_period count by user_id, user_role, user_role_id, patient_id
+        | stats values(user_role_active) AS user_role_active values(user_role_period) AS user_role_period count by _time, user_id, user_role, user_role_id, patient_id
         | eval user_role_period_epoch = strptime(user_role_period, "%Y-%m-%d %H:%M:%S")
         | where user_role_active = "false" OR (user_role_period_epoch < _time)
         | fields user_id, user_role, user_role_id, user_role_active, user_role_period, patient_id, count
