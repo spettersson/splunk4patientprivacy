@@ -9,9 +9,9 @@ data_source: EHR audit data
 search: tag=auditevent 
         | fields user_id, patient_id
         | bin _time span=1h
-        | stats dc(_time) as dc_hours by user_id 
+        | stats values(patient_id) as patient_id dc(_time) as dc_hours by user_id 
         | where dc_hours > 12 
-        | fields user_id, dc_hours
+        | fields user_id, patient_id, dc_hours
 scheduling:
   cron_schedule: '25 * * * *'
   _index_earliest: -60min@min
