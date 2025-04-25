@@ -4,10 +4,10 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Baseline
 status: experimental
-description: This search runs on a scheduled basis to create a baseline of the least common hours of the day that staff 
-          members access patient medical records. The result is stored in the lookup file baseline_access_hours and later 
-          used in the unusual_access_hours detection to identify staff members accessing patient medical records during hours 
-          that are unusual.
+description: This search runs on a scheduled basis to create a baseline of the least common hours 
+          during which staff members access patient medical records. The baseline is stored in the 
+          lookup file baseline_access_hours and is later used in the unusual_access_hours detection 
+          to identify access events occurring during statistically uncommon hours.
 data_source: EHR audit data from any source
 search: tag=auditevent
           | fields _time, user_id, work_unit_id, care_provider_id
