@@ -18,15 +18,14 @@ scheduling:
   cron_schedule: '*/60 * * * *'
   _index_earliest: -12min@min
   _index_latest: -2min@min
-how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent.
 drilldown_searches:
 - name: View the detection results
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  search: '%original_detection_search% | search  user_id = "$user_id$" patient_id = "$patient_id$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $user_id$ has successfully prescribed medication to patient $patient_id$ at $time_medication_ordered$, 
-  without the expected preceding activities.
+  message: 
   risk_objects:
   - field: user_id
     type: user
