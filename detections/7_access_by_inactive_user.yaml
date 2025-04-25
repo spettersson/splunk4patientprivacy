@@ -4,11 +4,12 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search runs on a scheduled basis to detect staff members that access 
-prescribing medication to patients without 
-        evidence of prior activity that would typically justify the prescription.
+description: This search runs on a scheduled basis to detect staff members accessing patient medical records 
+        despite having an inactive role. This is done by assessing whethether the role either is
+        marked as inactive, or if the defined period of the role as ended.
 data_source: EHR audit data
-search: 
+search: tag=auditevent 
+        | fields user_id, user_role, user_role_id, patient_id, 
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -12min@min
