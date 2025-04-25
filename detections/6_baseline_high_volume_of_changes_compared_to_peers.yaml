@@ -7,7 +7,7 @@ status: experimental
 description: This search runs on a scheduled basis to create a baseline of change activity. 
             It does so by calculating the average and standard deviation of hourly changes to patient medical 
             records by staff members, grouped by unit or department. This baseline is later used in 
-            6_high_volume_of_changes_compared_to_peers to define a dynamic threshold for 
+            high_volume_of_changes_compared_to_peers to define a dynamic threshold for 
             identifying staff members whose change activity is unusually high compared to their peers.
 data_source: EHR audit data
 search: tag=patientchange
