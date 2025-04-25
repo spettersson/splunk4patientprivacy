@@ -6,10 +6,13 @@ type: Anomaly
 status: experimental
 description: This search runs on a scheduled basis to detect staff members accessing patient medical records 
         despite having an inactive role. This is done by assessing whethether the role either is
-        marked as inactive, or if the defined period of the role as ended.
+        marked as inactive, or if the defined period of the role has ended.
 data_source: EHR audit data
 search: tag=auditevent 
-        | fields user_id, user_role, user_role_id, patient_id, 
+        | fields user_id, user_role, user_role_id, user_role_active, user_role_period, patient_id
+        | stats values(user_role_active) AS user_role_active values(user_role_period) AS user_role_period count by user_id, user_role, user_role_id, patient_id
+        | eval period = strptime(period, "%Y-%m-%d %H:%M:%S")
+        | where user_role_active = "false" OR (period < _time)
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -12min@min
