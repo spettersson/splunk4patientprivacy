@@ -11,11 +11,11 @@ description: This search run on a scheduled basis to detect staff members access
 data_source: EHR audit data
 search: tag=auditevent
           | fields user_id, patient_id, work_unit_id, care_provider_id
-          | stats values(work_unit_id) as work_unit_id values(care_provider_id) as care_provider_id earliest(_time) as last_access by user_id, patient_id, care_provider_id
+          | stats values(work_unit_id) as work_unit_id values(care_provider_id) as care_provider_id earliest(_time) as last_access by user_id, patient_id
           | lookup baseline_historical_access user_id patient_id OUTPUT last_access AS historical_last_access
           | eval time_since_last_access = now() - historical_last_access
-          | eval isOutlier = if(isnull(historical_last_access), "true", "false")
-          | where isOutlier = "true"
+          | eval isAnomaly = if(isnull(historical_last_access), 1, 0)
+          | where isAnonaly = 0
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(last_access) AS last_access 
           | convert timeformat="%Y-%m-%d %H:%M:%S" ctime(historical_last_access) AS historical_last_access 
           | fields user_id, patient_id, work_unit_id, care_provider_id, last_access
