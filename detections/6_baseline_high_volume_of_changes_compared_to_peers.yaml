@@ -15,7 +15,7 @@ search: tag=patientchange
             | eventstats count by _time, user_id
             | stats avg(count) as historical_avg stdev(count) as historical_stdev by work_unit_id
             | fields user_id, historical_avg, historical_stdev
-            | outputlookup baseline_changes
+            | outputlookup baseline_change
 scheduling:
   cron_schedule: '0 17 * * *'
   earliest: -30d
