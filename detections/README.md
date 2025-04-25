@@ -7,7 +7,8 @@ A list of out-of-box detections available is presented below.
 4. Excessive Patient Medical Record Access
 5. Excessive Hours with Activity
 6. Access By Inactive User
-7. Care Relationship Indicators
-8. Unexpected Prescription
-9. Excessive Delete Actions
-10. First Seen Export Action
+7. Role Change Made
+8. Care Relationship Indicators
+9. Unexpected Prescription
+10. Excessive Delete Actions
+11. First Seen Export Action
