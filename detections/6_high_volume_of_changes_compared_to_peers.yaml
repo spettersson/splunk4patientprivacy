@@ -5,7 +5,7 @@ author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
 description: This search runs on a scheduled basis to identify staff members who make 
-            an unusually high number of changes to patient medical records, compared to 
+            an unusually high number of hourly changes to patient medical records, compared to 
             their peers within the same unit or department. This is done by leveraging the 
             baseline created by baseline_high_volume_of_changes_compared_to_peers.
 data_source: EHR audit data
