@@ -10,7 +10,7 @@ data_source: EHR audit data from any source
 search: tag=auditevent
           | fields _time, user_id, work_unit_id, care_provider_id
           | eval hourOfDay = strftime(_time, "%H")
-          | rare hourOfDay by user_id, care_unit_id, care_provider_id
+          | rare hourOfDay by user_id, work_unit_id, care_provider_id
           | fields user_id, hourOfDay, percent, work_unit_id, care_provider_id
           | outputlookup baseline_access_hours
 scheduling:
