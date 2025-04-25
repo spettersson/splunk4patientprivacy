@@ -6,7 +6,8 @@ type: Anomaly
 status: experimental
 description: This search runs on a scheduled basis to detect staff members accessing patient medical records 
           during hours that are unusual — meaning activity that occurs during times making up ≤ 1% of 
-          their normal pattern, or not at all.
+          their normal pattern, or not at all. This is done by leveraging the baseline created by 
+          baseline_unusual_access_hours.
 data_source: EHR audit data
 search: tag=auditevent
           | fields user_id, patient_id, work_unit_id, care_provider_id
