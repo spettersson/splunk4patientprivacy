@@ -1,0 +1,30 @@
+name: High Volume of Changes Compared to Peers
+id: b04be6e5-2u02-4349-8742-59111635y8f5
+version: 1
+author: Simon Pettersson, Splunk
+type: Anomaly
+status: experimental
+description: This search runs on a scheduled basis to detect staff members that make a high volume of change to
+            patient medical records that exceed what is normal compared to peers within the same department.
+data_source: EHR audit data
+search: tag=auditevent tag=change
+scheduling:
+  cron_schedule: '*/10 * * * *'
+  _index_earliest: -12min@min
+  _index_latest: -2min@min
+how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and patientrecord. 
+drilldown_searches:
+- name: View the detection results
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User $user_id$ has successfully prescribed medication to patient $patient_id$ at $time_medication_ordered$, 
+  without the expected preceding activities.
+  risk_objects:
+  - field: user_id
+    type: user
+    score: 40
+  - field: patient_id
+    type: patient
+    score: 40
