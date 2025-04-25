@@ -16,8 +16,8 @@ search: tag=auditevent
         | fields user_id, user_role, user_role_id, user_role_active, user_role_period, patient_id, count
 scheduling:
   cron_schedule: '25 * * * *'
-  earliest: -62min@min
-  latest: -2min@min
+  _index_earliest: -60min@min
+  _index_latest: @min
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent.
 drilldown_searches:
 - name: View the detection results
