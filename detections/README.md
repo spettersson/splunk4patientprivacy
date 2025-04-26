@@ -7,12 +7,12 @@ A list of out-of-box detections available is presented below.
 4. Matching Address Information
 5. Care Relationship Indicators
 6. High Volume of Changes Compared to Peers
+7. Access By Inactive User
+8. Excessive Hours with Activity
 
 
+9. Excessive Delete Actions
+10. First Seen Export
+11. Role Change Made
+12. Excessive Role Changes Made
 
-7. Excessive Delete Actions
-8. First Seen Export
-9. Role Change Made
-10. Excessive Role Changes Made
-11. Excessive Hours with Activity
-12. Access By Inactive User
