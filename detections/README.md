@@ -9,9 +9,10 @@ A list of out-of-box detections available is presented below.
 6. High Volume of Changes Compared to Peers
 7. Access By Inactive User
 8. Excessive Hours with Activity
+9. Access Restriction Enforced
 
 
 
-9. Role Change Made
-10. Excessive Role Changes Made
+10. Role Change Made
+11. Excessive Role Changes Made
 
