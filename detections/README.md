@@ -11,8 +11,7 @@ A list of out-of-box detections available is presented below.
 8. Excessive Hours with Activity
 
 
-9. Excessive Delete Actions
-10. First Seen Export
-11. Role Change Made
-12. Excessive Role Changes Made
+
+9. Role Change Made
+10. Excessive Role Changes Made
 
