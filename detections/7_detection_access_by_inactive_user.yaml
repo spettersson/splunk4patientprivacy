@@ -1,4 +1,4 @@
-name: Access by Inactive User
+name: Detection - Access by Inactive User
 id: b04be6e5-2u02-4349-8742-59111635y8f5
 version: 1
 author: Simon Pettersson, Splunk
