@@ -1,4 +1,4 @@
-name: Detection - Care Relationship Indicators
+name: Detection - Care Relationship Indicator
 id: b04be6e5-2p02-4349-8742-52111635y8f5
 version: 1
 author: Simon Pettersson, Splunk
@@ -36,3 +36,5 @@ rba:
   - field: patient_id
     type: patient
     score: 0
+tags:
+  type: care relationship indicator
