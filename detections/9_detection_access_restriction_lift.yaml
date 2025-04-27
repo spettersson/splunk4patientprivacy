@@ -11,7 +11,7 @@ description: This search runs on a scheduled basis to detect staff members who i
 data_source: EHR audit data
 search: tag=accessrestriction action_restriction_status=lift
         | fields user_id, patient_id, action_restriction_type, action_restriction_status, work_unit_id, care_unit_id 
-        | stats count by _time, user_id, patient_id, action_restriction_type, action_restriction_status, work_unit_id, care_unit_id
+        | stats count by _time, user_id, patient_id, action_restriction_type, work_unit_id, care_unit_id
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -12min@min
@@ -23,7 +23,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: 
+  message: User $user_id$ initiated a lift of an $action_restriction_type$ access restriction associated to patient $patient_id$
   risk_objects:
   - field: user_id
     type: user
