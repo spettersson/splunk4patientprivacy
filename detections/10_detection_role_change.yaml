@@ -10,7 +10,7 @@ description: This search runs on a scheduled basis to detect role changes made t
         correlated with other anomalies.
 data_source: EHR audit data
 search: tag=role_change
-        | fields src_user_id, dst_user_id, action, role_id, role_period, role_active
+        | fields user_id, action, role_id, role_period, role_active, function_id, function_period, function_active
         | stats count by src_user_id, dst_user_id, role_id, role_period, role_active
 scheduling:
   cron_schedule: '25 * * * *'
@@ -27,7 +27,7 @@ rba:
   risk_objects:
   - field: user_id
     type: user
-    score: 40
+    score: 0
   - field: patient_id
     type: patient
-    score: 40
+    score: 0
