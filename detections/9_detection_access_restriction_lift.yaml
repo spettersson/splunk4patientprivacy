@@ -7,7 +7,7 @@ status: experimental
 description: This search runs on a scheduled basis to detect staff members who initiate the 
           lifting of an internal or external access restriction. A lift should only occur either 
           upon a patient’s request or in emergency situations. Thus, such events should be correlated with 
-          other such events observatinos to validate its legitimacy. 
+          other such events observations to validate its legitimacy. 
 data_source: EHR audit data
 search: tag=auditevent type=access_restriction action=modified
         | fields user_id, patient_id, access_restriction_type, reason, care_department_id, care_unit_id, care_provider_id
