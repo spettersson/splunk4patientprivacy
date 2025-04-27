@@ -37,4 +37,4 @@ rba:
     type: patient
     score: 0
 tags:
-  type: care relationship indicator
+  observation_type: care relationship indicator
