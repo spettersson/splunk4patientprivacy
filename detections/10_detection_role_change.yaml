@@ -1,27 +1,20 @@
-name: Detection - Access by Inactive User
+name: Detection - Role Change
 id: b04be6e5-2u02-4349-8742-59111635y8f5
 version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search runs on a scheduled basis to detect staff members accessing patient medical records 
-        despite having an inactive role. This is done by assessing whethether the user's role either is
-        marked as inactive, or if the defined period of the role has ended.
+description: This search runs on a scheduled basis to detect 
 data_source: EHR audit data
-search: tag=auditevent 
-        | fields user_id, user_role, user_role_id, user_role_active, user_role_period, patient_id
-        | stats values(user_role_active) AS user_role_active values(user_role_period) AS user_role_period count by _time, user_id, user_role, user_role_id, patient_id
-        | eval user_role_period_epoch = strptime(user_role_period, "%Y-%m-%d %H:%M:%S")
-        | where user_role_active=0 OR (user_role_period_epoch < _time)
-        | fields user_id, user_role, user_role_id, user_role_active, user_role_period, patient_id, count
+search: 
 scheduling:
   cron_schedule: '25 * * * *'
   _index_earliest: -60min@min
   _index_latest: @min
-how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent.
+how_to_implement:
 drilldown_searches:
 - name: View the detection results
-  search: '%original_detection_search% | search  user_id = "$user_id$" patient_id = "$patient_id$"'
+  search: '%original_detection_search% | search  user_id = "$user_id$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
