@@ -4,9 +4,11 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search runs on a scheduled basis to detect 
+description: This search runs on a scheduled basis to detect role changes made to staff members. This allow
 data_source: EHR audit data
-search: 
+search: tag=auditevents type=role_change
+        | fields src_user_id, dst_user_id, role_id, role_period, role_active
+        | stats count by src_user_id, dst_user_id, role_id, role_period, role_active
 scheduling:
   cron_schedule: '25 * * * *'
   _index_earliest: -60min@min
