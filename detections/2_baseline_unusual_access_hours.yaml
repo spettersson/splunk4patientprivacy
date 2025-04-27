@@ -18,6 +18,6 @@ search: tag=auditevent
 scheduling:
   cron_schedule: '0 5 * * *'
   earliest_time: -30d
-  latest_time: now
+  latest_time: 0
 how_to_implement: This search requires you to ingest EHR audit data that has the tags auditevent and medicalrecord. 
           The data must have the field user_id, as well.
