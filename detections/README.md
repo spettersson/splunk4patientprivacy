@@ -13,6 +13,6 @@ A list of out-of-box detections available is presented below.
 
 
 
-10. Role Change Made
+10. Role Change
 11. Excessive Role Changes Made
 
