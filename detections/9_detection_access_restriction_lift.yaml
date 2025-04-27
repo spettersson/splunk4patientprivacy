@@ -10,9 +10,10 @@ description: This search runs on a scheduled basis to detect staff members who i
           although noteworthy, and should therefore be correlated with other observations to 
           validate its legitimacy.
 data_source: EHR audit data
-search: tag=accessrestriction action_restriction_status=lift
-        | fields user_id, patient_id, action_restriction_type, action_restriction_status, work_unit_id, care_unit_id 
-        | stats count by _time, user_id, patient_id, action_restriction_type, work_unit_id, care_unit_id
+search: tag=auditevent type=lift status=success
+        | fields user_id, patient_id, access_restriction_type, reason, care_unit_id 
+        | stats count by _time, user_id, patient_id, access_restriction_type, care_unit_id
+        
 scheduling:
   cron_schedule: '*/10 * * * *'
   _index_earliest: -12min@min
