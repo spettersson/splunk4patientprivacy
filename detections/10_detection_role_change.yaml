@@ -4,10 +4,12 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search runs on a scheduled basis to detect role changes made to staff members. This allow
+description: This search runs on a scheduled basis to detect role changes made to staff members. 
+        This includes events such as the addition or removal of a role, as well as temporary or permanent 
+        functional extensions of an existing role
 data_source: EHR audit data
-search: tag=auditevents type=role_change
-        | fields src_user_id, dst_user_id, role_id, role_period, role_active
+search: tag=role_change
+        | fields src_user_id, dst_user_id, action, role_id, role_period, role_active
         | stats count by src_user_id, dst_user_id, role_id, role_period, role_active
 scheduling:
   cron_schedule: '25 * * * *'
