@@ -9,7 +9,8 @@ description: This search runs on a scheduled basis to detect clinical signals th
           assessing whether a staff member’s access to patient records is legitimate.
 data_source: EHR audit data
 search: tag=auditevent action=sign
-          | fields user_id, patient_id, care_department_id, care_unit_id, care_provider_id   
+          | fields user_id, patient_id, care_department_id, care_unit_id, care_provider_id 
+          | stats count values(care_department_id) as care_department_id values(care_unit_id) as care_unit_id values(care_provider_id) as care_provider_id by user_id, patient_id  
 scheduling:
   cron_schedule: '*/10 * * * *'
   earliest_time: -12min@min
