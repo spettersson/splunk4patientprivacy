@@ -1,4 +1,4 @@
-name: Detection - Role Change
+name: Detection - Cosmic Role Change
 id: b04be6e5-2u02-4349-8742-59111635y8f5
 version: 1
 author: Simon Pettersson, Splunk
@@ -25,9 +25,9 @@ drilldown_searches:
 rba:
   message: 
   risk_objects:
-  - field: user_id
+  - field: src_user_id
     type: user
     score: 0
-  - field: patient_id
+  - field: dst_user_id
     type: patient
     score: 0
