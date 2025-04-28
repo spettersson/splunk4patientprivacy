@@ -6,7 +6,7 @@ type: Anomaly
 status: experimental
 description: This search runs on a scheduled basis to detect role changes made to staff members in Cambio Cosmic. This 
         includes events such as addition or removal of roles, as well as temporary or permanent function-based
-        access of an existing role. In a healthcare environment, staff member should only have access to what is required 
+        access associated with an existing role. In a healthcare environment, staff member should only have access to what is required 
         to perform its duties. Therefore, monitoring role changes is critical to ensure compliance with access control 
         policies and to identify potential signs of unauthorized or inappropriate access. The surfaced role changes can be 
         correlated with other observations to support the detection of access misuse or security incidents.
