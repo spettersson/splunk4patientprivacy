@@ -9,10 +9,10 @@ A list of out-of-box detections available is presented below.
 6. High Volume of Changes Compared to Peers
 7. Access By Inactive User
 8. Excessive Hours with Activity
-9. Access Restriction Lift
+9. Cosmic Access Restriction Lift
 
 
 
-10. Role Change
+10. Cosmic Role Change
 11. Excessive Role Changes Made
 
