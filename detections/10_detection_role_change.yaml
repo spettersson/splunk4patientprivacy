@@ -11,7 +11,7 @@ description: This search runs on a scheduled basis to detect role changes made t
 data_source: EHR audit data
 search: tag=role_change
         | fields src_user_id, dst_user_id, role_id, action, care_department_id, function_id
-        | stats count by _time, src_user_id, dst_user_id, role_id, action, care_department_id, function_id
+        | stats values(role_id) as role_id values(function_id) as function_id count by _time, src_user_id, dst_user_id, action, care_department_id
 scheduling:
   cron_schedule: '25 * * * *'
   _index_earliest: -60min@min
