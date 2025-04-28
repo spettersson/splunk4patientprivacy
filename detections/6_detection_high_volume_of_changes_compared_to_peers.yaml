@@ -6,7 +6,7 @@ type: Anomaly
 status: experimental
 description: This search runs on a scheduled basis to detect staff members who make 
             an unusually high number of hourly changes to patient medical records, compared to 
-            their peers within the same department, care unit, and care provider. This is done by leveraging the 
+            their peers within the same care department, care unit, and care provider. This is done by leveraging the 
             baseline created by baseline_high_volume_of_changes_compared_to_peers.
 data_source: EHR audit data
 search: tag=patientchange
