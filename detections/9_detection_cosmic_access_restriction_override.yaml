@@ -6,8 +6,8 @@ type: Anomaly
 status: experimental
 description: This search runs on a scheduled basis to detect staff members who initiate an override
           of an internal or external access restriction in Cambio Cosmic. An override should only occur either 
-          upon a patient’s request or in emergency situations. Thus, such events should be correlated with 
-          other such events observations to validate its legitimacy. 
+          upon a patient’s request or in emergency situations. The surfaced overrides can be 
+          correlated with other observations to support the detection of access misuse or security incidents.
 data_source: EHR audit data
 search: tag=auditevent type=access_restriction action=modified
         | fields user_id, patient_id, access_restriction_type, reason, care_department_id, care_unit_id, care_provider_id
