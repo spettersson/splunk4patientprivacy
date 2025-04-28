@@ -4,12 +4,14 @@ version: 1
 author: Simon Pettersson, Splunk
 type: Anomaly
 status: experimental
-description: This search runs on a scheduled basis to detect role changes made to staff members. This 
+description: This search runs on a scheduled basis to detect role changes made to staff members in Cambio Cosmic. This 
         includes events such as addition or removal of roles, as well as temporary or permanent function-based
-        access of an existing role. This anomaly is informational and may provide important context when 
-        correlated with other anomalies.
+        access of an existing role. In a healthcare environment, staff member should only have access to what is required 
+        to perform its duties. Therefore, monitoring role changes is critical to ensure compliance with access control 
+        policies and to identify potential signs of unauthorized or inappropriate access. The surfaced role changes can be 
+        correlated with other observations to support the detection of access misuse or security incidents.
 data_source: EHR audit data
-search: tag=role_change
+search: tag=role_change `cambio-cosmic-events`
         | fields src_user_id, dst_user_id, role_id, action, care_department_id, care_unit_id, care_provider_id, function_id
         | stats values(role_id) as role_id values(function_id) as function_id count by _time, src_user_id, dst_user_id, action, care_department_id, care_unit_id, care_provider_id
 scheduling:
