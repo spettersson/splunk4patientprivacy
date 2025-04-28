@@ -8,7 +8,7 @@ description: This search runs on a scheduled basis to detect clinical signals th
           care relationship between staff members and patients. This can act as valuable evidence when 
           assessing whether a staff member’s access to patient records is legitimate.
 data_source: EHR audit data
-search: tag=ehr action=sign
+search: tag=auditevent action=sign
           | fields user_id, patient_id, care_department_id, care_unit_id, care_provider_id   
 scheduling:
   cron_schedule: '*/10 * * * *'
