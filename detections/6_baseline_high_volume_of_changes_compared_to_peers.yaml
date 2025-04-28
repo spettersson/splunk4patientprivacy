@@ -6,15 +6,15 @@ type: Baseline
 status: experimental
 description: This search runs on a scheduled basis to create a baseline of normal change activity. It 
             calculates the average and standard deviation of hourly changes to patient medical records 
-            by staff members, grouped by unit or department. The resulting baseline is stored in the lookup 
-            file baseline_change and is later used in the high_volume_of_changes_compared_to_peers detection 
-            to detect individuals whose activity is unusually high compared to their peers.
+            by staff members, grouped by care_department_id, care_unit_id, and care_provider_id. The resulting baseline 
+            is stored in the lookup file baseline_change and is later used in the high_volume_of_changes_compared_to_peers 
+            detection to detect individuals whose activity is unusually high compared to their peers.
 data_source: EHR audit data
 search: tag=patientchange
-            | fields user_id, work_unit_id
+            | fields user_id, care_department_id, care_unit_id, care_provider_id
             | bin _time span=1h
             | eventstats count by _time, user_id
-            | stats avg(count) as historical_avg stdev(count) as historical_stdev by work_unit_id
+            | stats avg(count) as historical_avg stdev(count) as historical_stdev by care_department_id, care_unit_id, care_provider_id
             | fields user_id, historical_avg, historical_stdev
             | outputlookup baseline_change
 scheduling:
