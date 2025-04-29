@@ -3,7 +3,7 @@ A list of out-of-box detections available is presented below.
 
 1. First Seen Access
 2. Unusual Access Hours
-3. Excessive Patient Medical Record Access
+3. High Volume of Patient Medical Record Access Compared to Peers
 4. Matching Address Information
 5. Care Relationship Indicators
 6. High Volume of Changes Compared to Peers
