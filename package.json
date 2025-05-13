@@ -1,0 +1,41 @@
+{
+  "name": "@splunk/patient-privacy",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "format": "git ls-files | grep -E \"\\.(jsx?|css)$\" | xargs prettier --write",
+    "format:verify": "git ls-files | grep -E \"\\.(jsx?|css)$\" | xargs prettier --list-different",
+    "lint": "lerna run lint --no-sort",
+    "setup": "yarn && lerna run build",
+    "start": "lerna run start --stream --no-sort --concurrency 100",
+    "test": "lerna run test --stream --no-sort"
+  },
+  "devDependencies": {
+    "lerna": "^2.9.0",
+    "prettier": "^2.0.5"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "@splunk/dashboard-context": "^27.5.0",
+    "@splunk/dashboard-core": "^27.5.0",
+    "@splunk/dashboard-presets": "^27.5.0",
+    "@splunk/dashboard-types": "^27.5.0",
+    "@splunk/react-ui": "^4.39.0",
+    "@splunk/splunk-utils": "^3.1.0",
+    "@splunk/themes": "^0.22.0",
+    "@splunk/visualization-context": "^26.4.1",
+    "ajv": "^8.17.1",
+    "ajv-errors": "^3.0.0",
+    "lodash": "^4.17.21",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-icons": "^5.4.0",
+    "styled-components": "^5.3.11"
+  }
+}

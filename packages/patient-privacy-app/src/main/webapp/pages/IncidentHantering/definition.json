@@ -1,0 +1,67 @@
+{
+  "title": "Incident Management",
+  "description": "Dashboard displaying incident details using NextGenIncidentTabell.",
+  "dataSources": {
+    "incident_search": {
+      "type": "ds.search",
+      "options": {
+        "query": "index=avvikelser | rename Detection_Name as titel | rename Anomaly_ID as incident_ID | rename Anomaly_Message as beskrivning | rename Staff_ID as personal_ID | rename Patient_ID as patient_ID | eval time_since_trigger = now() - _time | eval SLA_threshold = `sla-incident-threshold` | eval sla = SLA_threshold - time_since_trigger | `sla-transformation(sla)` | sort - _time | rename _time as Tidpunkt | convert timeformat=\"%Y-%m-%d %H:%M:%S\" ctime(Tidpunkt) as tidpunkt | table * | join type=left incident_ID [search index=incidentuppdatering | stats latest(updated_status) as status by incident_ID | fields status, incident_ID] | eval status = if(isnull(status), \"Ej utredd\", status) | `justera-sla-sett-till-status(sla)` | join type=left incident_ID [search index=_internal server=\"smtp.gmail.com:587\"  | stats count as antal_paminnelser by incident_ID | fields incident_ID, antal_paminnelser] | fillnull value=\"0\" antal_paminnelser | table tidpunkt, titel, beskrivning, incident_ID, personal_ID, patient_ID, status, sla, antal_paminnelser | rename tidpunkt as Tidpunkt, titel AS Titel, beskrivning AS Beskrivning, incident_ID AS \"Larm ID\", patient_ID AS \"Patient ID\", personal_ID AS \"Personal ID\", sla AS SLA, status AS Status, antal_paminnelser AS \"Påminnelser\"",
+        "queryParameters": {
+          "earliest": "0",
+          "latest": "now"
+        }
+      }
+    }
+  },
+
+  "tokens": {
+    "incident_ID": {
+      "type": "string",
+      "default": ""
+    },
+    "status": {
+      "type": "string",
+      "default": ""
+    },
+    "note": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "visualizations": {
+    "incident_table": {
+      "type": "splunk.NextGenIncidentTabell",
+      "title": "Incident Table",
+      "dataSources": {
+        "primary": "incident_search",
+        "updateIncident": "update_incident_search"
+      },
+      "options": {
+        "enableFilters": true,
+        "sortableColumns": true
+      }
+    }
+  },
+  "layout": {
+    "type": "grid",
+    "options": {
+      "display": "auto",
+      "width": 1440,
+      "height": 1024,
+      "backgroundColor": "#f5f5f5"
+    },
+    "structure": [
+      {
+        "item": "incident_table",
+        "type": "block",
+        "position": {
+          "x": 30,
+          "y": 100,
+          "w": 1380,
+          "h": 600
+        }
+      }
+    ],
+    "globalInputs": []
+  }
+}

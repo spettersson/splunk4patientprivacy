@@ -1,0 +1,1293 @@
+
+<dashboard version="2" theme="light">
+    <label>Översikt</label>
+    <description>Denna arbetsyta är framtagen för att tillhandahålla en översiktsbild av patient integritet hos Region Stockholm</description>
+    <definition><![CDATA[
+{
+	"visualizations": {
+		"viz_d12yaMCa": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_KTfoJ4k4"
+			},
+			"title": "",
+			"options": {
+				"majorFontSize": 80,
+				"backgroundColor": "transparent",
+				"majorColor": "#000000"
+			}
+		},
+		"viz_3L8Cpm5D": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "**Händelser**",
+				"fontSize": "custom",
+				"customFontSize": 25,
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_1IYxF8KY": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_VAizwf0a_ds_WXPCpLwf_ds_KTfoJ4k4"
+			},
+			"title": "",
+			"options": {
+				"majorFontSize": 100,
+				"backgroundColor": "transparent",
+				"majorColor": "#000000"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.switchToTab",
+					"options": {
+						"tabId": "layout_28niR1d5"
+					}
+				}
+			]
+		},
+		"viz_DyFBAOhy": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_w3Qzes8i_ds_KTfoJ4k4"
+			},
+			"title": "",
+			"options": {
+				"majorFontSize": 100,
+				"backgroundColor": "transparent",
+				"majorColor": "#000000"
+			}
+		},
+		"viz_UT0VEM3K": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "#0F2C57"
+			}
+		},
+		"viz_MMbTJF8a": {
+			"type": "splunk.image",
+			"options": {
+				"preserveAspectRatio": true,
+				"src": "splunk-enterprise-kvstore://672cc4eca564e46d4608fef2"
+			}
+		},
+		"viz_y9kfMMRu": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "**Översiktbild av aktuellt läge för patient integritet hos Region Stockholm**",
+				"fontSize": "custom",
+				"customFontSize": 50,
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_Kg1cg4ud": {
+			"type": "splunk.image",
+			"options": {
+				"src": "splunk-enterprise-kvstore://672cc955a564e46d4608fefa"
+			}
+		},
+		"viz_JkByK2pN": {
+			"type": "splunk.image",
+			"options": {
+				"src": "splunk-enterprise-kvstore://672cc955a564e46d4608fefa"
+			}
+		},
+		"viz_vgQySpxq": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "**Vårdgivare**",
+				"fontSize": "custom",
+				"customFontSize": 25,
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_5Jx1q8ai": {
+			"type": "splunk.image",
+			"options": {
+				"src": "splunk-enterprise-kvstore://672cc955a564e46d4608fefa"
+			}
+		},
+		"viz_tdckiLOZ": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "**Vårdanställd**",
+				"fontSize": "custom",
+				"customFontSize": 25,
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_AGtdND8o": {
+			"type": "splunk.rectangle",
+			"options": {
+				"fillColor": "#ffffff",
+				"strokeColor": "transparent"
+			}
+		},
+		"viz_9MXEAhlu": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "Antalet vårdgivare som är involverade i en eller flera händelser.",
+				"fontSize": "custom",
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_WexXXZ6d": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "Antalet händelser där en vårdanställd interagerat med en patient.",
+				"fontSize": "custom",
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_e7S0lQey": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "Antalet anställda inom vården som är involverade i en eller flera händelser.",
+				"fontSize": "custom",
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_aInOQjz2": {
+			"type": "splunk.image",
+			"options": {
+				"src": "splunk-enterprise-kvstore://672cc955a564e46d4608fefa"
+			}
+		},
+		"viz_j2hOWIFW": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_V4ZWKduj_ds_VAizwf0a_ds_WXPCpLwf_ds_KTfoJ4k4"
+			},
+			"title": "",
+			"options": {
+				"majorFontSize": 100,
+				"backgroundColor": "transparent",
+				"majorColor": "#000000"
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.switchToTab",
+					"options": {
+						"tabId": "layout_DRxuPvRT"
+					}
+				}
+			]
+		},
+		"viz_7HmcOuX5": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "**Patient**",
+				"fontSize": "custom",
+				"customFontSize": 25,
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_AHnjVzdu": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "Antalet patienter som är involverade i en eller  flera händelser.",
+				"fontSize": "custom",
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_wWqvzoZY": {
+			"type": "splunk.image",
+			"options": {
+				"preserveAspectRatio": true,
+				"src": "splunk-enterprise-kvstore://672cdd75a564e46d4608ff01"
+			}
+		},
+		"viz_s1d2gCOK": {
+			"type": "splunk.image",
+			"options": {
+				"preserveAspectRatio": true,
+				"src": "splunk-enterprise-kvstore://672cdd7ca564e46d4608ff02"
+			}
+		},
+		"viz_d3jiioT4": {
+			"type": "splunk.image",
+			"options": {
+				"preserveAspectRatio": true,
+				"src": "splunk-enterprise-kvstore://672dca0fa564e46d4608ff03"
+			}
+		},
+		"viz_R3aBsfRh": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "**Händelser**",
+				"fontSize": "custom",
+				"customFontSize": 25,
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_KCjimPZo": {
+			"type": "splunk.table",
+			"dataSources": {
+				"primary": "ds_k6kh6PSO_ds_5QRAp04M"
+			},
+			"title": "",
+			"options": {
+				"columnFormat": {
+					"avvikelse": {
+						"width": 470
+					},
+					"Avvikelse": {
+						"width": 400
+					},
+					"#": {
+						"width": 60
+					},
+					"Antal": {
+						"data": "> table | seriesByName(\"Antal\") | formatByType(AntalColumnFormatEditorConfig)",
+						"align": "auto",
+						"headerAlign": "auto",
+						"textOverflow": "break-word",
+						"rowColors": "> table | seriesByName(\"Antal\") | pick(AntalRowColorsEditorConfig)",
+						"rowBackgroundColors": "> table | seriesByName(\"Antal\") | rangeValue(AntalRowBackgroundColorsEditorConfig)"
+					},
+					"count": {
+						"data": "> table | seriesByName(\"count\") | formatByType(countColumnFormatEditorConfig)",
+						"align": "auto",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Patient ID": {
+						"width": 60
+					}
+				},
+				"tableFormat": {
+					"headerAlign": "left",
+					"align": "left",
+					"rowBackgroundColors": "> table | seriesByIndex(0) | pick(tableAltRowBackgroundColorsByBackgroundColor)",
+					"headerBackgroundColor": "> backgroundColor | setColorChannel(tableHeaderBackgroundColorConfig)",
+					"rowColors": "> rowBackgroundColors | maxContrast(tableRowColorMaxContrast)",
+					"headerColor": "> headerBackgroundColor | maxContrast(tableRowColorMaxContrast)"
+				},
+				"fontSize": "large",
+				"backgroundColor": "#ffffff",
+				"count": 20,
+				"showInternalFields": false
+			},
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"showProgressBar": false,
+			"showLastUpdated": false,
+			"context": {
+				"AntalColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": false,
+						"unitPosition": "after"
+					}
+				},
+				"AntalRowColorsEditorConfig": [
+					"#ffffff"
+				],
+				"AntalRowBackgroundColorsEditorConfig": [
+					{
+						"value": "#64ff33",
+						"to": 20
+					},
+					{
+						"value": "#669922",
+						"from": 20,
+						"to": 40
+					},
+					{
+						"value": "#CBA700",
+						"from": 40,
+						"to": 60
+					},
+					{
+						"value": "#D94E17",
+						"from": 60,
+						"to": 80
+					},
+					{
+						"value": "#ff0000",
+						"from": 80
+					}
+				],
+				"countColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": false,
+						"unitPosition": "after"
+					}
+				}
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.linkToSearch",
+					"options": {
+						"query": "index=journal sourcetype=cosmic_accesslog CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_SSN IN ($Patient_SSN_token|s$)  \n| table _time, Patient_ID, Staff_ID, CosmicUI\n| convert timeformat=\"%Y-%m-%d %H:%M:%S\" ctime(_time) as Tidpunkt\n| rename Staff_ID as Vårdanställd_ID, CosmicUI as Aktivitet\n| table Tidpunkt, Vårdanställd_ID, Patient_ID, Aktivitet",
+						"earliest": "auto",
+						"latest": "auto",
+						"type": "custom",
+						"newTab": true
+					}
+				}
+			]
+		},
+		"viz_mVBcJvrP": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "Denna tabell visar de händelser där en vårdanställd interagerat med en patient under det valda tidsfönstret. ",
+				"fontSize": "custom",
+				"fontColor": "#000000"
+			}
+		},
+		"viz_tWplw52q": {
+			"type": "splunk.image",
+			"options": {
+				"preserveAspectRatio": true,
+				"src": "splunk-enterprise-kvstore://672e1a14a564e46d4608ffdd"
+			}
+		},
+		"viz_YdshQqE0": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "**Incidenter**",
+				"fontSize": "custom",
+				"customFontSize": 25,
+				"fontColor": "#0F2C57"
+			}
+		},
+		"viz_JZID6AH3": {
+			"type": "splunk.area",
+			"dataSources": {
+				"primary": "ds_EsKNosgb_ds_k6kh6PSO_ds_5QRAp04M"
+			},
+			"title": "",
+			"options": {
+				"yAxisTitleVisibility": "hide",
+				"xAxisTitleVisibility": "hide",
+				"seriesColorsByField": {
+					"Kritisk": "#dc4e41"
+				}
+			},
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"showProgressBar": false,
+			"showLastUpdated": false,
+			"context": {
+				"AntalColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": false,
+						"unitPosition": "after"
+					}
+				},
+				"AntalRowColorsEditorConfig": [
+					"#ffffff"
+				],
+				"AntalRowBackgroundColorsEditorConfig": [
+					{
+						"value": "#64ff33",
+						"to": 20
+					},
+					{
+						"value": "#669922",
+						"from": 20,
+						"to": 40
+					},
+					{
+						"value": "#CBA700",
+						"from": 40,
+						"to": 60
+					},
+					{
+						"value": "#D94E17",
+						"from": 60,
+						"to": 80
+					},
+					{
+						"value": "#ff0000",
+						"from": 80
+					}
+				],
+				"countColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": false,
+						"unitPosition": "after"
+					}
+				}
+			},
+			"eventHandlers": []
+		},
+		"viz_pCMTGTDt": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "Denna tabell visar de incidenter som identifierats under det valda tidsfönstret.",
+				"fontSize": "custom",
+				"fontColor": "#000000"
+			}
+		},
+		"viz_6DqHHVFJ": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "Inga incidenter är detekterade.",
+				"fontSize": "custom",
+				"customFontSize": 50
+			}
+		},
+		"viz_GSq39loa": {
+			"type": "splunk.singlevalue",
+			"options": {
+				"splitByLayout": "trellis",
+				"trellisBackgroundColor": "transparent",
+				"trellisMinColumnWidth": 20,
+				"trellisColumns": 4,
+				"backgroundColor": "#89D4FA",
+				"majorColor": "#000000",
+				"trendColor": "#000000"
+			},
+			"dataSources": {
+				"primary": "ds_ZiVnhX7g"
+			},
+			"title": "",
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"eventHandlers": [
+				{
+					"type": "drilldown.customUrl",
+					"options": {
+						"url": "http://16.170.227.180:8000/en-US/app/patient-privacy-app/IncidentHantering?tab=layout_1",
+						"newTab": true
+					}
+				}
+			]
+		}
+	},
+	"dataSources": {
+		"ds_KTfoJ4k4": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=cosmic_accesslog CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats count",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_100"
+		},
+		"ds_VAizwf0a_ds_WXPCpLwf_ds_KTfoJ4k4": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype IN (\"cosmic_accesslog\", \"cosmic_activitylog\") CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats dc(Staff_ID) as Staff_ID_dc",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				},
+				"enableSmartSources": true
+			},
+			"name": "Search_1 copy 2"
+		},
+		"ds_WPrdsA0f_ds_5QRAp04M": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=cosmic_accesslog CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$) Staff_Name IN ($Staff_Name_token|s$)   \n| stats values(WorkingUnit_Name) as WorkingUnit_Name count by Patient_ID, Patient_SSN, Patient_Name, Patient_City, Patient_Region, Patient_ZipCode, Patient_Address, CareProvider_Name\n| fields - count\n| join type=left Patient_ID\n    [ search index = avvikelser CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$) Staff_Name IN ($Staff_Name_token|s$)   \n    | stats values(Detection_Name) as Detection_Name sum(Risk_Score) as Risk_Score count by Patient_ID\n    | fields Patient_ID, Detection_Name, Risk_Score, count]\n| sort - Risk_Score, count, Patient_ID\n| eval count = if(isnull(count), \"0\", count)\n| eval Risk_Score = if(isnull(Risk_Score), \"0\", Risk_Score)\n| eval Risk_Score = tonumber(Risk_Score)\n| rename Patient_City as Stad, Patient_Name as Namn, Patient_Region as Stadsdel, Patient_SSN as \"Person- nummer\", Patient_ZipCode as \"Post- nummer\", Patient_Address as Adress, Patient_ID as \"ID\", Risk_Score as \"Total riskpoäng\", count as \"Antal Avvikelser\", CareProvider_Name as \"Vårdgivare\", WorkingUnit_Name as \"Vårdenhet\", Detection_Name as \"Avvikelse- typer\"\n",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_2 copy 1"
+		},
+		"ds_w3Qzes8i_ds_KTfoJ4k4": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype IN (\"cosmic_accesslog\", \"cosmic_activitylog\") CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats dc(CareProvider_Name)",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_1 copy 4"
+		},
+		"ds_V4ZWKduj_ds_VAizwf0a_ds_WXPCpLwf_ds_KTfoJ4k4": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype IN (\"cosmic_accesslog\", \"cosmic_activitylog\") CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats dc(Patient_ID) as Patient_ID_dc\n| fields Patient_ID_dc",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				},
+				"enableSmartSources": true
+			},
+			"name": "Search_1 copy 5"
+		},
+		"ds_k6kh6PSO_ds_5QRAp04M": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=cosmic_accesslog CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  Event_Type IN ($Event_Type_token|s$)  \n| table _time, Patient_ID, Staff_ID, CosmicUI\n| convert timeformat=\"%Y-%m-%d %H:%M:%S\" ctime(_time) as Tidpunkt\n| rename Staff_ID as \"Vårdanställd ID\", Patient_ID as \"Patient ID\", CosmicUI as Händelsetyp\n| table Tidpunkt, \"Vårdanställd ID\", \"Patient ID\", Händelsetyp",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_2 copy 3"
+		},
+		"ds_sCJo4tH5": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype IN (\"cosmic_accesslog\", \"cosmic_activitylog\") WorkingUnit_Name IN ($WorkingUnit_token|s$) Patient_ID IN ($Patient_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_ID IN ($Staff_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by CareProvider_Name\n| fields CareProvider_Name\n\n"
+			},
+			"name": "Search_3"
+		},
+		"ds_DIhBmpwa": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=\"cosmic_accesslog\" CareProvider_Name IN ($CareProvider_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by Patient_ID\n| fields Patient_ID",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_4"
+		},
+		"ds_1Usybbc3": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=\"cosmic_accesslog\" CareProvider_Name IN ($CareProvider_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Patient_ID IN ($Patient_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by Staff_ID\n| fields Staff_ID",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_5"
+		},
+		"ds_o4hs5QXX": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=cosmic_accesslog CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) Staff_ID IN ($Staff_token|s$)  Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by WorkingUnit_Name\n| fields WorkingUnit_Name\n| sort WorkingUnit_ID",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_1"
+		},
+		"ds_EsKNosgb_ds_k6kh6PSO_ds_5QRAp04M": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=avvikelser CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$) Severity IN ($Severity_token|s$)  \n| timechart count by Severity",
+				"queryParameters": {
+					"earliest": "$global_time.earliest$",
+					"latest": "$global_time.latest$"
+				}
+			},
+			"name": "Search_2 copy 4"
+		},
+		"ds_1cmdUBnT": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=cosmic_accesslog CareProvider_Name IN ($CareProvider_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Patient_ID IN ($Patient_token|s$) Staff_ID IN ($Staff_token|s$) Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by Patient_Name\n| fields - count",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_2"
+		},
+		"ds_HV3NxBDX_ds_WPrdsA0f_ds_5QRAp04M": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=cosmic_accesslog CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$) Staff_Name IN ($Staff_Name_token|s$)   \n| stats values(WorkingUnit_Name) as WorkingUnit_Name values(CareProvider_Name) as CareProvider_Name count by Staff_ID, Staff_SSN, Staff_Name, Staff_Employment_Start_Date, Staff_Employment_Termination_Date, Staff_City, Staff_Region, Staff_ZipCode, Staff_Address\n| eval Staff_Employment_Termination_Date = if(Staff_Employment_Termination_Date==\"null\", \"N/A\", Staff_Employment_Termination_Date)\n| fields - count\n| join type=left Staff_ID\n    [ search index = avvikelser CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$) Staff_Name IN ($Staff_Name_token|s$)   \n    | stats values(Detection_Name) as Detection_Name sum(Risk_Score) as Risk_Score count by Staff_ID\n    | fields Staff_ID, Detection_Name, Risk_Score, count]\n| sort - Risk_Score, count, Staff_ID\n| eval count = if(isnull(count), \"0\", count)\n| eval Risk_Score = if(isnull(Risk_Score), \"0\", Risk_Score)\n| eval Risk_Score = tonumber(Risk_Score)\n| table Staff_ID, Staff_SSN, Staff_Name, Staff_Employment_Start_Date, Staff_Employment_Termination_Date, Staff_City, Staff_Region, Staff_ZipCode, Staff_Address, CareProvider_Name, WorkingUnit_Name, count, Detection_Name, Risk_Score\n| rename Staff_City as Stad, Staff_Name as Namn, Staff_Region as Stadsdel, Staff_SSN as \"Person- nummer\", Staff_ZipCode as \"Post- nummer\", Staff_Address as Adress, Staff_Employment_Start_Date as \"Anställnings- start\", Staff_Employment_Termination_Date as \"Anställnings- stopp\", WorkingUnit_Name as Vårdenhet, Staff_ID as \"ID\", CareProvider_Name as Vårdgivare, count as \"Antal avvikelser\", Risk_Score As \"Total riskpoäng\", Detection_Name as \"Avvikelse- typer\"\n\n\n\n",
+				"queryParameters": {}
+			},
+			"name": "Search_2 copy 5"
+		},
+		"ds_8CSYZS7b": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=larm_patient_integritet Patient_ID IN ($Patient_token|s$) Patient_SSN IN ($Patient_SSN_token|s$) Staff_ID IN ($Staff_token|s$) Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by Severity\n| fields Severity"
+			},
+			"name": "Search_6"
+		},
+		"ds_XMWKUU3L": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=\"cosmic_accesslog\" CareProvider_Name IN ($CareProvider_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Patient_ID IN ($Patient_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_ID IN ($Staff_token|s$)  \n| stats count by Staff_Name\n| fields Staff_Name"
+			},
+			"name": "Search_7"
+		},
+		"ds_ZiVnhX7g": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=avvikelser CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by Severity\n",
+				"queryParameters": {
+					"earliest": "0",
+					"latest": ""
+				}
+			},
+			"name": "Search_8"
+		},
+		"ds_vgJswWrY": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=journal sourcetype=cosmic_accesslog CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by Event_Type\n| fields - count"
+			},
+			"name": "Search_9"
+		},
+		"ds_kiUcnsbO": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=avvikelser CareProvider_Name IN ($CareProvider_token|s$) Patient_ID IN ($Patient_token|s$) WorkingUnit_Name IN ($WorkingUnit_token|s$) Staff_ID IN ($Staff_token|s$) Patient_Name IN ($Patient_Name_token|s$)  Staff_Name IN ($Staff_Name_token|s$)  \n| stats count by Severity\n| fields - count"
+			},
+			"name": "Search_10"
+		}
+	},
+	"defaults": {
+		"dataSources": {
+			"ds.search": {
+				"options": {
+					"queryParameters": {
+						"latest": "$global_time.latest$",
+						"earliest": "$global_time.earliest$"
+					}
+				}
+			}
+		}
+	},
+	"inputs": {
+		"input_global_trp": {
+			"type": "input.timerange",
+			"options": {
+				"token": "global_time",
+				"defaultValue": "0,"
+			},
+			"title": "Välj tidsfönster:"
+		},
+		"input_2VxJT6ms": {
+			"options": {
+				"items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+				"defaultValue": [
+					"*"
+				],
+				"token": "CareProvider_token"
+			},
+			"title": "Välj vårdgivare (namn):",
+			"type": "input.multiselect",
+			"dataSources": {
+				"primary": "ds_sCJo4tH5"
+			},
+			"context": {
+				"formattedConfig": {
+					"number": {
+						"prefix": ""
+					}
+				},
+				"formattedStatics": ">statics | formatByType(formattedConfig)",
+				"statics": [
+					[
+						"Alla vårdgivare"
+					],
+					[
+						"*"
+					]
+				],
+				"label": ">primary | seriesByName(\"CareProvider_Name\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+				"value": ">primary | seriesByName(\"CareProvider_Name\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+			}
+		},
+		"input_bvvLSEdz": {
+			"options": {
+				"items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+				"defaultValue": [
+					"*"
+				],
+				"token": "Staff_token"
+			},
+			"title": "Välj vårdanställd (ID):",
+			"type": "input.multiselect",
+			"dataSources": {
+				"primary": "ds_1Usybbc3"
+			},
+			"context": {
+				"formattedConfig": {
+					"number": {
+						"prefix": ""
+					}
+				},
+				"formattedStatics": ">statics | formatByType(formattedConfig)",
+				"statics": [
+					[
+						"Alla vårdanställda"
+					],
+					[
+						"*"
+					]
+				],
+				"label": ">primary | seriesByName(\"Staff_ID\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+				"value": ">primary | seriesByName(\"Staff_ID\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+			}
+		},
+		"input_IgnDQdx4": {
+			"options": {
+				"items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+				"defaultValue": [
+					"*"
+				],
+				"token": "Patient_token"
+			},
+			"title": "Välj patient (ID):",
+			"type": "input.multiselect",
+			"dataSources": {
+				"primary": "ds_DIhBmpwa"
+			},
+			"context": {
+				"formattedConfig": {
+					"number": {
+						"prefix": ""
+					}
+				},
+				"formattedStatics": ">statics | formatByType(formattedConfig)",
+				"statics": [
+					[
+						"Alla patienter"
+					],
+					[
+						"*"
+					]
+				],
+				"label": ">primary | seriesByName(\"Patient_ID\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+				"value": ">primary | seriesByName(\"Patient_ID\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+			}
+		},
+		"input_eESB8D4v": {
+			"options": {
+				"items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+				"defaultValue": [
+					"*"
+				],
+				"token": "WorkingUnit_token"
+			},
+			"title": "Välj vårdenhet (namn):",
+			"type": "input.multiselect",
+			"dataSources": {
+				"primary": "ds_o4hs5QXX"
+			},
+			"context": {
+				"formattedConfig": {
+					"number": {
+						"prefix": ""
+					}
+				},
+				"formattedStatics": ">statics | formatByType(formattedConfig)",
+				"statics": [
+					[
+						"Alla vårdenheter"
+					],
+					[
+						"*"
+					]
+				],
+				"label": ">primary | seriesByName(\"WorkingUnit_Name\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+				"value": ">primary | seriesByName(\"WorkingUnit_Name\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+			}
+		},
+		"input_K3aSMTCD": {
+			"options": {
+				"items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+				"defaultValue": [
+					"*"
+				],
+				"token": "Patient_Name_token"
+			},
+			"title": "Välj patient (namn):",
+			"type": "input.multiselect",
+			"dataSources": {
+				"primary": "ds_1cmdUBnT"
+			},
+			"context": {
+				"formattedConfig": {
+					"number": {
+						"prefix": ""
+					}
+				},
+				"formattedStatics": ">statics | formatByType(formattedConfig)",
+				"statics": [
+					[
+						"Alla patienter"
+					],
+					[
+						"*"
+					]
+				],
+				"label": ">primary | seriesByName(\"Patient_Name\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+				"value": ">primary | seriesByName(\"Patient_Name\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+			}
+		},
+		"input_dLjASBVR": {
+			"options": {
+				"items": ">frame(label, value) | prepend(formattedStatics) | objects()",
+				"defaultValue": [
+					"*"
+				],
+				"token": "Staff_Name_token"
+			},
+			"title": "Välj vårdanställd (namn):",
+			"type": "input.multiselect",
+			"dataSources": {
+				"primary": "ds_XMWKUU3L"
+			},
+			"context": {
+				"formattedConfig": {
+					"number": {
+						"prefix": ""
+					}
+				},
+				"formattedStatics": ">statics | formatByType(formattedConfig)",
+				"statics": [
+					[
+						"Alla vårdanställda"
+					],
+					[
+						"*"
+					]
+				],
+				"label": ">primary | seriesByName(\"Staff_Name\") | renameSeries(\"label\") | formatByType(formattedConfig)",
+				"value": ">primary | seriesByName(\"Staff_Name\") | renameSeries(\"value\") | formatByType(formattedConfig)"
+			}
+		},
+		"input_B7s8l8Dw": {
+			"options": {
+				"items": [
+					{
+						"label": "Alla händelsetyper",
+						"value": "*"
+					}
+				],
+				"defaultValue": [
+					"*"
+				],
+				"token": "Event_Type_token"
+			},
+			"title": "",
+			"type": "input.multiselect",
+			"dataSources": {
+				"primary": "ds_vgJswWrY"
+			},
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			}
+		},
+		"input_QobCzQUO": {
+			"options": {
+				"items": [
+					{
+						"label": "Alla allvarlighetsgrader",
+						"value": "*"
+					}
+				],
+				"defaultValue": [
+					"*"
+				],
+				"token": "Severity_token"
+			},
+			"title": "",
+			"type": "input.multiselect",
+			"dataSources": {
+				"primary": "ds_kiUcnsbO"
+			},
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			}
+		}
+	},
+	"layout": {
+		"options": {},
+		"globalInputs": [
+			"input_global_trp",
+			"input_2VxJT6ms",
+			"input_eESB8D4v",
+			"input_bvvLSEdz",
+			"input_dLjASBVR",
+			"input_IgnDQdx4",
+			"input_K3aSMTCD"
+		],
+		"tabs": {
+			"items": [
+				{
+					"layoutId": "layout_TBPdc7g4",
+					"label": "Översikt"
+				}
+			]
+		},
+		"layoutDefinitions": {
+			"layout_TBPdc7g4": {
+				"type": "absolute",
+				"structure": [
+					{
+						"item": "viz_AGtdND8o",
+						"type": "block",
+						"position": {
+							"x": -50,
+							"y": 590,
+							"w": 1980,
+							"h": 490
+						}
+					},
+					{
+						"item": "viz_6DqHHVFJ",
+						"type": "block",
+						"position": {
+							"x": 1130,
+							"y": 820,
+							"w": 400,
+							"h": 110
+						}
+					},
+					{
+						"item": "viz_JZID6AH3",
+						"type": "block",
+						"position": {
+							"x": 800,
+							"y": 710,
+							"w": 1090,
+							"h": 340
+						}
+					},
+					{
+						"item": "viz_5Jx1q8ai",
+						"type": "block",
+						"position": {
+							"x": 980,
+							"y": 300,
+							"w": 430,
+							"h": 240
+						}
+					},
+					{
+						"item": "viz_JkByK2pN",
+						"type": "block",
+						"position": {
+							"x": 520,
+							"y": 300,
+							"w": 430,
+							"h": 250
+						}
+					},
+					{
+						"item": "viz_Kg1cg4ud",
+						"type": "block",
+						"position": {
+							"x": 60,
+							"y": 300,
+							"w": 430,
+							"h": 250
+						}
+					},
+					{
+						"item": "viz_UT0VEM3K",
+						"type": "block",
+						"position": {
+							"x": -20,
+							"y": -140,
+							"w": 1960,
+							"h": 270
+						}
+					},
+					{
+						"item": "viz_d12yaMCa",
+						"type": "block",
+						"position": {
+							"x": 220,
+							"y": 370,
+							"w": 200,
+							"h": 180
+						}
+					},
+					{
+						"item": "viz_3L8Cpm5D",
+						"type": "block",
+						"position": {
+							"x": 220,
+							"y": 330,
+							"w": 270,
+							"h": 40
+						}
+					},
+					{
+						"item": "viz_1IYxF8KY",
+						"type": "block",
+						"position": {
+							"x": 1100,
+							"y": 370,
+							"w": 160,
+							"h": 180
+						}
+					},
+					{
+						"item": "viz_DyFBAOhy",
+						"type": "block",
+						"position": {
+							"x": 690,
+							"y": 370,
+							"w": 160,
+							"h": 180
+						}
+					},
+					{
+						"item": "viz_MMbTJF8a",
+						"type": "block",
+						"position": {
+							"x": 60,
+							"y": -100,
+							"w": 350,
+							"h": 330
+						}
+					},
+					{
+						"item": "viz_y9kfMMRu",
+						"type": "block",
+						"position": {
+							"x": 60,
+							"y": 160,
+							"w": 1000,
+							"h": 120
+						}
+					},
+					{
+						"item": "viz_vgQySpxq",
+						"type": "block",
+						"position": {
+							"x": 690,
+							"y": 330,
+							"w": 260,
+							"h": 70
+						}
+					},
+					{
+						"item": "viz_tdckiLOZ",
+						"type": "block",
+						"position": {
+							"x": 1100,
+							"y": 330,
+							"w": 310,
+							"h": 70
+						}
+					},
+					{
+						"item": "viz_9MXEAhlu",
+						"type": "block",
+						"position": {
+							"x": 690,
+							"y": 360,
+							"w": 240,
+							"h": 70
+						}
+					},
+					{
+						"item": "viz_WexXXZ6d",
+						"type": "block",
+						"position": {
+							"x": 220,
+							"y": 360,
+							"w": 250,
+							"h": 70
+						}
+					},
+					{
+						"item": "viz_e7S0lQey",
+						"type": "block",
+						"position": {
+							"x": 1100,
+							"y": 360,
+							"w": 270,
+							"h": 40
+						}
+					},
+					{
+						"item": "viz_aInOQjz2",
+						"type": "block",
+						"position": {
+							"x": 1440,
+							"y": 300,
+							"w": 430,
+							"h": 240
+						}
+					},
+					{
+						"item": "viz_j2hOWIFW",
+						"type": "block",
+						"position": {
+							"x": 1560,
+							"y": 370,
+							"w": 160,
+							"h": 180
+						}
+					},
+					{
+						"item": "viz_7HmcOuX5",
+						"type": "block",
+						"position": {
+							"x": 1560,
+							"y": 330,
+							"w": 310,
+							"h": 70
+						}
+					},
+					{
+						"item": "viz_AHnjVzdu",
+						"type": "block",
+						"position": {
+							"x": 1560,
+							"y": 360,
+							"w": 250,
+							"h": 70
+						}
+					},
+					{
+						"item": "viz_wWqvzoZY",
+						"type": "block",
+						"position": {
+							"x": 1450,
+							"y": 410,
+							"w": 150,
+							"h": 100
+						}
+					},
+					{
+						"item": "viz_s1d2gCOK",
+						"type": "block",
+						"position": {
+							"x": 990,
+							"y": 410,
+							"w": 150,
+							"h": 100
+						}
+					},
+					{
+						"item": "viz_d3jiioT4",
+						"type": "block",
+						"position": {
+							"x": 90,
+							"y": 420,
+							"w": 110,
+							"h": 80
+						}
+					},
+					{
+						"item": "viz_R3aBsfRh",
+						"type": "block",
+						"position": {
+							"x": 70,
+							"y": 610,
+							"w": 140,
+							"h": 40
+						}
+					},
+					{
+						"item": "viz_KCjimPZo",
+						"type": "block",
+						"position": {
+							"x": 70,
+							"y": 720,
+							"w": 700,
+							"h": 340
+						}
+					},
+					{
+						"item": "viz_mVBcJvrP",
+						"type": "block",
+						"position": {
+							"x": 70,
+							"y": 640,
+							"w": 690,
+							"h": 30
+						}
+					},
+					{
+						"item": "viz_tWplw52q",
+						"type": "block",
+						"position": {
+							"x": 570,
+							"y": 415,
+							"w": 140,
+							"h": 90
+						}
+					},
+					{
+						"item": "viz_YdshQqE0",
+						"type": "block",
+						"position": {
+							"x": 800,
+							"y": 610,
+							"w": 140,
+							"h": 40
+						}
+					},
+					{
+						"item": "viz_pCMTGTDt",
+						"type": "block",
+						"position": {
+							"x": 800,
+							"y": 640,
+							"w": 490,
+							"h": 30
+						}
+					},
+					{
+						"item": "viz_GSq39loa",
+						"type": "block",
+						"position": {
+							"x": 1320,
+							"y": 630,
+							"w": 570,
+							"h": 70
+						}
+					},
+					{
+						"item": "input_B7s8l8Dw",
+						"type": "input",
+						"position": {
+							"x": 70,
+							"y": 640,
+							"w": 260,
+							"h": 82
+						}
+					},
+					{
+						"item": "input_QobCzQUO",
+						"type": "input",
+						"position": {
+							"x": 800,
+							"y": 640,
+							"w": 260,
+							"h": 82
+						}
+					}
+				],
+				"options": {
+					"backgroundColor": "#E9F3F8",
+					"width": 1920,
+					"display": "fit-to-width",
+					"height": 1080
+				}
+			}
+		}
+	},
+	"description": "Denna arbetsyta är framtagen för att tillhandahålla en översiktsbild av patient integritet hos Region Stockholm",
+	"title": "Översikt"
+}
+    ]]></definition>
+    <meta type="hiddenElements"><![CDATA[
+{
+	"hideEdit": false,
+	"hideOpenInSearch": false,
+	"hideExport": false
+}
+    ]]></meta>
+</dashboard>

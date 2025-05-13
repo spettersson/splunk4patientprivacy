@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<view template="patient-privacy-app:/templates/IncidentHantering.html" type="html">
+	<label>Incidenthantering</label>
+</view>

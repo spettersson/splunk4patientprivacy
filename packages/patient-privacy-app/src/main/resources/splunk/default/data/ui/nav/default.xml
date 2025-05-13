@@ -1,0 +1,5 @@
+<nav>
+  <view name="patient_privacy" default="true"/>
+  <view name="IncidentHantering"/>
+  
+</nav>
