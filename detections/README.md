@@ -11,5 +11,4 @@ A list of out-of-box detections available is presented below.
 8. Excessive Hours with Activity
 9. Cosmic Access Restriction Override
 10. Cosmic Role Change
-11. Excessive Role Changes Made
 
